@@ -39,8 +39,8 @@ public class ConnectionPool {
         try {
 
             Class.forName(driver);
-            availableConnection = new ArrayBlockingQueue<Connection>(poolSize);
-            usedConnection = new ArrayBlockingQueue<Connection>(poolSize);
+            availableConnection = new ArrayBlockingQueue<>(poolSize);
+            usedConnection = new ArrayBlockingQueue<>(poolSize);
 
             for (int i = 0; i < poolSize; i++) {
                 Connection connection = DriverManager.getConnection(url, user, password);
@@ -58,28 +58,19 @@ public class ConnectionPool {
     public Connection takeConnection() throws ConnectionPoolException {
 
         Connection connection;
+
         checkForPoolExistence();
 
         try {
             connection = availableConnection.take();
             usedConnection.add(connection);
         } catch (InterruptedException e) {
-            throw new ConnectionPoolException("Exception during connectionpool taking!");
+            throw new ConnectionPoolException("Exception during taking the connection!");
         }
 
         return connection;
     }
 
-
-    public void releaseConnection(Connection connection) throws ConnectionPoolException {
-
-        checkForPoolExistence();
-
-        if(usedConnection.contains(connection)){
-            usedConnection.remove(connection);
-            availableConnection.add(connection);
-        }
-    }
 
     public void closeAllConnections() throws ConnectionPoolException {
 
@@ -107,7 +98,7 @@ public class ConnectionPool {
     private void checkForPoolExistence() throws ConnectionPoolException {
         PoolExistenceValidation poolExistenceValidation = new PoolExistenceValidation();
 
-        if(!poolExistenceValidation.doesPoolExist(availableConnection) || !poolExistenceValidation.doesPoolExist(usedConnection))
+        if(!poolExistenceValidation.doesPoolExist(availableConnection))
             throw new ConnectionPoolException("Pool haven`t been initialized!!");
     }
 

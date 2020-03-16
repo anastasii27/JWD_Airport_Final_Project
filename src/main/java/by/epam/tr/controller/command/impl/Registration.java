@@ -14,9 +14,9 @@ public class Registration implements Command{
     @Override
     public String execute(HttpServletRequest request) {
 
-        UserService  service = ServiceFactory.getInstance().getUserDAO();
+        UserService service = ServiceFactory.getInstance().getUserDAO();
         String result;
-        String page = null;
+        String page;
 
         try {
             result = service.registration(new User(request.getParameter(RequestParameterName.LOGIN), request.getParameter(RequestParameterName.PASSWORD)));
@@ -24,9 +24,8 @@ public class Registration implements Command{
             page = JSPPageName.RESULT_PAGE;
 
         } catch (ServiceException e) {
-            e.printStackTrace();
+            page = JSPPageName.ERROR_PAGE;
         }
         return page;
     }
-
 }

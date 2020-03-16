@@ -13,30 +13,30 @@ public class UserServiceImpl implements UserService {
     private final static String ANSWER1 = "This user is already exist";
     private final static String ANSWER2 = "You are successfully registered";
     private final static String ANSWER3 = "Something goes wrong!Registration is failed";
-
+    private final static String ANSWER4 = "You are singed in";
+    private final static String ANSWER5 = "Wrong login or password! Try again";
 
     @Override
-    public boolean singIn(String login, String password) throws ServiceException {
+    public String singIn(String login, String password) throws ServiceException {
 
         UserDAO  dao = DAOFactory.getInstance().getUserDAO();
         ArrayList <String> usersLogin;
         ArrayList <String> usersPassword;
-        String user;
 
         try {
+
           usersLogin = dao.getUserInfo("login");
           usersPassword =  dao.getUserInfo("password");
 
-          for (int i=0;i<usersLogin.size();i++){
-             user =  usersLogin.get(i)+ " "+ usersPassword.get(i);
-             if(user.equals(login+ " "+ password))
-                  return true;
+         if(userExistenceValidation(usersLogin,  usersPassword, login, password)){
+                  return ANSWER4;
           }
+
         } catch (DAOException e) {
             throw new ServiceException("Exception during sing in!");
         }
 
-        return false;
+        return ANSWER5;
     }
 
     @Override
@@ -57,4 +57,19 @@ public class UserServiceImpl implements UserService {
 
         return ANSWER3;
     }
+
+    private static  boolean userExistenceValidation(ArrayList usersLogin, ArrayList usersPassword, String login, String password){
+
+        String user;
+
+        for (int i=0;i<usersLogin.size();i++) {
+            user = usersLogin.get(i) + " " + usersPassword.get(i);
+            if (user.equals(login + " " + password)){
+                return true;
+            }
+        }
+
+        return false;
+    }
+
 }

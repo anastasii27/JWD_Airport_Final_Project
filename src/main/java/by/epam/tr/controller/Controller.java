@@ -2,7 +2,6 @@ package by.epam.tr.controller;
 
 import by.epam.tr.controller.command.Command;
 import by.epam.tr.controller.command.CommandProvider;
-
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -17,19 +16,29 @@ public class Controller extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-       
-
         req.setCharacterEncoding("utf-8");
         resp.setContentType("text/html");
 
         String [] commandName = req.getParameterValues("log");
         Command command = CommandProvider.getInstance().getCommand(commandName[0]);
         RequestDispatcher requestDispatcher =req.getRequestDispatcher(command.execute(req));
-        requestDispatcher.forward(req, resp);
+
+        if(requestDispatcher!= null){
+            requestDispatcher.forward(req, resp);
+        }else {
+            errorMessage(resp);
+        }
+
     }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
     }
+
+    private void errorMessage(HttpServletResponse response) throws IOException {
+        response.setContentType("text/html");
+        response.getWriter().println("ERROR!");
+    }
+
 }
