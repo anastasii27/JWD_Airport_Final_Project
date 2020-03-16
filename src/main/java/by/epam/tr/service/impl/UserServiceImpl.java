@@ -15,6 +15,7 @@ public class UserServiceImpl implements UserService {
     private final static String ANSWER3 = "Something goes wrong!Registration is failed";
     private final static String ANSWER4 = "You are singed in";
     private final static String ANSWER5 = "Wrong login or password! Try again";
+    private final static String ANSWER6 = "You have sent an empty form! Try again";
 
     @Override
     public String singIn(String login, String password) throws ServiceException {
@@ -23,8 +24,10 @@ public class UserServiceImpl implements UserService {
         ArrayList <String> usersLogin;
         ArrayList <String> usersPassword;
 
-        try {
+        if(emptyFormValidation(login, password))
+            return ANSWER6;
 
+        try {
           usersLogin = dao.getUserInfo("login");
           usersPassword =  dao.getUserInfo("password");
 
@@ -43,6 +46,9 @@ public class UserServiceImpl implements UserService {
     public String registration(User user) throws ServiceException {
 
         UserDAO dao = DAOFactory.getInstance().getUserDAO();
+
+        if(emptyFormValidation(user.getLogin(), user.getPassword()))
+            return ANSWER6;
 
         try {
             if(dao.getUserInfo("login").contains(user.getLogin())){
@@ -72,4 +78,11 @@ public class UserServiceImpl implements UserService {
         return false;
     }
 
+    private static boolean emptyFormValidation(String login, String password){
+
+        if(login.length()==0 || password.length()==0)
+            return true;
+
+        return false;
+    }
 }
