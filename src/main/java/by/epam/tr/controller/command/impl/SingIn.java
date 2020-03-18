@@ -10,6 +10,8 @@ import javax.servlet.http.HttpServletRequest;
 
 public class SingIn implements Command {
 
+    private final static String RESULT = "singed in";
+
     @Override
     public String execute(HttpServletRequest request) {
 
@@ -17,8 +19,16 @@ public class SingIn implements Command {
         String result;
         String page;
 
+        String login = request.getParameter(RequestParameterName.LOGIN);
+        String password = request.getParameter(RequestParameterName.PASSWORD);
+
         try {
-            result = service.singIn(request.getParameter(RequestParameterName.LOGIN), request.getParameter(RequestParameterName.PASSWORD));
+
+            result = service.singIn(login, password);
+
+            if(result.equals(RESULT))
+                return JSPPageName.HOME_PAGE;
+
             request.setAttribute(RequestParameterName.RESULT_INFO, result);
             page = JSPPageName.RESULT_PAGE;
 

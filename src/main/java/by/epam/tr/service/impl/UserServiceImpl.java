@@ -13,7 +13,7 @@ public class UserServiceImpl implements UserService {
     private final static String ANSWER1 = "This user is already exist";
     private final static String ANSWER2 = "You are successfully registered";
     private final static String ANSWER3 = "Something goes wrong!Registration is failed";
-    private final static String ANSWER4 = "You are singed in";
+    private final static String ANSWER4 = "singed in";
     private final static String ANSWER5 = "Wrong login or password! Try again";
     private final static String ANSWER6 = "You have sent an empty form! Try again";
 
