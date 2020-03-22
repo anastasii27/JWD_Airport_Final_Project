@@ -15,7 +15,6 @@ public final class CommandProvider {
         commands.put(CommandName.SING_IN, new SingIn());
         commands.put(CommandName.REGISTER, new Registration());
         commands.put(CommandName.NO_SUCH_COMMAND, new NoSuchCommand());
-
     }
 
     public Command getCommand(String name){

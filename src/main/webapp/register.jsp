@@ -2,19 +2,22 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-        <title>Data Input</title>
+        <title>Registration</title>
     </head>
     <body>
         <form action="mmm" method="post">
-            <input type="hidden" name="action" value="sing_in"/>
+            <input type="hidden" name="action" value="register"/>
+            <h3>Регистрация</h3>
+            <p>Имя
+                <input type="text" name="user_name" value="" />
+            </p>
             <p>Логин
                 <input type="text" name="login" value="" />
             </p>
             <p>Пароль
                 <input type="text" name="password" value="" />
             </p>
-            <input type="submit" value="Войти"/> <br/>
-            <a href="register.jsp">Создать аккаунт</a>
+            <input type="submit" value="Зарегистрироваться"/> <br/>
         </form>
     </body>
 </html>

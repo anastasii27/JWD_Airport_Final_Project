@@ -7,4 +7,5 @@ import java.util.ArrayList;
 public interface UserDAO {
     boolean addNewUser(User user) throws DAOException;
     ArrayList<String> getUserInfo(String info) throws DAOException;
+    boolean singIn(String login, String password) throws DAOException;
 }
