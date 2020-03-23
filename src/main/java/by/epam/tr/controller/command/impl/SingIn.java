@@ -10,6 +10,8 @@ import javax.servlet.http.HttpServletRequest;
 
 public class SingIn implements Command {
 
+    private final static String RESULT = "true";
+
     @Override
     public String execute(HttpServletRequest request) {
 
@@ -21,10 +23,15 @@ public class SingIn implements Command {
         String password = request.getParameter(RequestParameterName.PASSWORD);
 
         try {
-
             result = service.singIn(login, password);
-            request.setAttribute(RequestParameterName.RESULT_INFO, result);
-            page = JSPPageName.RESULT_PAGE;
+
+            if(result.equals(RESULT)){
+                request.setAttribute(RequestParameterName.RESULT_INFO, result);
+                page = JSPPageName.HOME_PAGE;
+            }else {
+                request.setAttribute(RequestParameterName.RESULT_INFO, result);
+                page = JSPPageName.RESULT_PAGE;
+            }
 
         } catch (ServiceException e) {
             page = JSPPageName.ERROR_PAGE;

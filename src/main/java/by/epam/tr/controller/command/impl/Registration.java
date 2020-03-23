@@ -32,7 +32,6 @@ public class Registration implements Command{
             page = JSPPageName.RESULT_PAGE;
 
         } catch (ServiceException e) {
-
             page = JSPPageName.ERROR_PAGE;
         }
         return page;

@@ -24,7 +24,6 @@ public class UserDAOImpl implements UserDAO {
 
         try {
             pool = ConnectionPool.getInstance();
-            pool.poolInitialization();
             connection = pool.takeConnection();
             ps =  connection.prepareStatement(INSERT);
             ps.setString(1,user.getName());
@@ -40,10 +39,8 @@ public class UserDAOImpl implements UserDAO {
         }finally {
             if(ps != null)
                 closeStatement(ps);
-            if(connection!= null)
-                closeConnection(connection);
-            if(pool != null)
-                closePool(pool);
+
+           pool.releaseConnection(connection);
         }
 
         return flag;
@@ -53,13 +50,12 @@ public class UserDAOImpl implements UserDAO {
     public ArrayList<String> getUserInfo(String info) throws DAOException {
 
         ConnectionPool pool = null;
-            Connection connection = null;
-            PreparedStatement ps = null;
-            ArrayList <String> users = new ArrayList<>();
+        Connection connection = null;
+        PreparedStatement ps = null;
+        ArrayList <String> users = new ArrayList<>();
 
             try {
                 pool = ConnectionPool.getInstance();
-                pool.poolInitialization();
                 connection = pool.takeConnection();
                 ps =  connection.prepareStatement(SELECT);
 
@@ -73,14 +69,15 @@ public class UserDAOImpl implements UserDAO {
             throw new DAOException("Exception during pool initializing!");
         } catch (SQLException e) {
             throw new DAOException("Exception during select operation!");
-        }finally {
-            if(ps != null)
-                closeStatement(ps);
-            if(connection!= null)
-                closeConnection(connection);
-            if(pool != null)
-                closePool(pool);
-        }
+        }finally{
+                if(ps != null){
+                    closeStatement(ps);
+                }
+
+                if (pool != null) {
+                    pool.releaseConnection(connection);
+                }
+            }
 
         return users;
     }
@@ -91,11 +88,9 @@ public class UserDAOImpl implements UserDAO {
         ConnectionPool pool = null;
         Connection connection = null;
         PreparedStatement ps = null;
-        ArrayList <String> users = new ArrayList<>();
 
         try {
             pool = ConnectionPool.getInstance();
-            pool.poolInitialization();
             connection = pool.takeConnection();
             ps =  connection.prepareStatement(SELECT1);
 
@@ -107,17 +102,19 @@ public class UserDAOImpl implements UserDAO {
             if(!rs.next())
                 return false;
 
+
         } catch (ConnectionPoolException e) {
             throw new DAOException("Exception during pool initializing!");
         } catch (SQLException e) {
             throw new DAOException("Exception during select operation!");
         }finally {
-            if(ps != null)
+            if(ps != null){
                 closeStatement(ps);
-            if(connection!= null)
-                closeConnection(connection);
-            if(pool != null)
-                closePool(pool);
+            }
+
+            if (pool != null) {
+                pool.releaseConnection(connection);
+            }
         }
 
         return true;
@@ -130,22 +127,4 @@ public class UserDAOImpl implements UserDAO {
             throw new DAOException("Exception during statement closing");
         }
     }
-
-    private static void closeConnection(Connection connection) throws DAOException {
-
-        try {
-            connection.close();
-        } catch (SQLException e) {
-            throw new DAOException("Exception during connection closing");
-        }
-    }
-
-    private static void closePool( ConnectionPool pool) throws DAOException {
-        try {
-            pool.closeAllConnections();
-        } catch (ConnectionPoolException e) {
-            throw new DAOException("Exception during pool closing");
-        }
-    }
-
 }

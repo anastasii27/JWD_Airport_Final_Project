@@ -37,33 +37,31 @@ public class ConnectionPool {
     public void poolInitialization() throws ConnectionPoolException {
 
         try {
-
             Class.forName(driver);
             availableConnection = new ArrayBlockingQueue<>(poolSize);
             usedConnection = new ArrayBlockingQueue<>(poolSize);
 
             for (int i = 0; i < poolSize; i++) {
                 Connection connection = DriverManager.getConnection(url, user, password);
-                availableConnection.add(connection);
+                availableConnection.put(connection);
             }
 
         } catch (SQLException e) {
             throw new ConnectionPoolException("SQLException during pool creation!");
         } catch (ClassNotFoundException e) {
             throw new ConnectionPoolException("There is no driver!");
+        } catch (InterruptedException e) {
+            throw new ConnectionPoolException("Exception during putting element into the queue");
         }
     }
-
 
     public Connection takeConnection() throws ConnectionPoolException {
 
         Connection connection;
 
-        checkForPoolExistence();
-
         try {
-            connection = availableConnection.take();
-            usedConnection.add(connection);
+            connection = availableConnection.poll();
+            usedConnection.put(connection);
         } catch (InterruptedException e) {
             throw new ConnectionPoolException("Exception during taking the connection!");
         }
@@ -71,10 +69,13 @@ public class ConnectionPool {
         return connection;
     }
 
+    public void releaseConnection(Connection connection){
+
+        usedConnection.remove(connection);
+        availableConnection.add(connection);
+    }
 
     public void closeAllConnections() throws ConnectionPoolException {
-
-        checkForPoolExistence();
 
         try {
             closeConnectionsInPool(availableConnection);
@@ -95,11 +96,5 @@ public class ConnectionPool {
         queue.clear();
     }
 
-    private void checkForPoolExistence() throws ConnectionPoolException {
-        PoolExistenceValidation poolExistenceValidation = new PoolExistenceValidation();
-
-        if(!poolExistenceValidation.doesPoolExist(availableConnection))
-            throw new ConnectionPoolException("Pool haven`t been initialized!!");
-    }
 
 }
