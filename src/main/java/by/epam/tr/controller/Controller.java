@@ -45,7 +45,7 @@ public class Controller extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
+        doPost(req, resp);
     }
 
     private void errorMessage(HttpServletResponse response) throws IOException {
@@ -55,6 +55,7 @@ public class Controller extends HttpServlet {
 
     @Override
     public void destroy() {
+
         ConnectionPool pool = ConnectionPool.getInstance();
         try {
             pool.closeAllConnections();

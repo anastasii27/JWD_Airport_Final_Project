@@ -1,11 +1,11 @@
-package by.epam.tr.service.impl;
+package by.epam.tr.service;
 
+import by.epam.tr.bean.Flight;
 import by.epam.tr.bean.User;
 import by.epam.tr.dao.DAOException;
 import by.epam.tr.dao.DAOFactory;
 import by.epam.tr.dao.UserDAO;
-import by.epam.tr.service.ServiceException;
-import by.epam.tr.service.UserService;
+import java.util.ArrayList;
 
 public class UserServiceImpl implements UserService {
 
@@ -59,6 +59,20 @@ public class UserServiceImpl implements UserService {
         }
 
         return ANSWER3;
+    }
+
+    @Override
+    public ArrayList<Flight> flightsInfo() throws ServiceException {
+
+        UserDAO dao = DAOFactory.getInstance().getUserDAO();
+        ArrayList<Flight> flight;
+
+        try {
+            flight = dao.getFlightInfo();
+        } catch (DAOException e) {
+            throw new ServiceException("Exception during getting flight info!");
+        }
+        return flight;
     }
 
     private static boolean emptyFormValidation(String name, String login, String password){

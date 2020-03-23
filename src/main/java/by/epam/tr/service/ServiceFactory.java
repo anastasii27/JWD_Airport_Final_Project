@@ -1,7 +1,5 @@
 package by.epam.tr.service;
 
-import by.epam.tr.service.impl.UserServiceImpl;
-
 public class ServiceFactory{
 
     private static final ServiceFactory instance = new ServiceFactory();

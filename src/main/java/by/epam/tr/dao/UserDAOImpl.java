@@ -1,8 +1,7 @@
-package by.epam.tr.dao.impl;
+package by.epam.tr.dao;
 
+import by.epam.tr.bean.Flight;
 import by.epam.tr.bean.User;
-import by.epam.tr.dao.DAOException;
-import by.epam.tr.dao.UserDAO;
 import by.epam.tr.dao.connectionpool.ConnectionPool;
 import by.epam.tr.dao.connectionpool.ConnectionPoolException;
 import java.sql.*;
@@ -13,6 +12,7 @@ public class UserDAOImpl implements UserDAO {
     private final static String INSERT = "INSERT INTO task3.users (user_name,login, password) VALUES(?,?,?)";
     private final static String SELECT = "SELECT user_name ,login, password FROM task3.users";
     private final static String SELECT1 = "SELECT user_name FROM task3.users WHERE login = ? AND password = ?";
+    private final static String SELECT2 = "SELECT departure_city, arrival_city, flight_name, departure_time  FROM task3.flight;";
 
     @Override
     public boolean addNewUser(User user) throws DAOException {
@@ -33,7 +33,7 @@ public class UserDAOImpl implements UserDAO {
             flag = true;
 
         } catch (ConnectionPoolException e) {
-            throw new DAOException("Exception during pool initializing!");
+            throw new DAOException("Exception during taking connection!");
         } catch (SQLException e) {
             throw new DAOException("Exception during inserting operation");
         }finally {
@@ -66,7 +66,7 @@ public class UserDAOImpl implements UserDAO {
             }
 
         } catch (ConnectionPoolException e) {
-            throw new DAOException("Exception during pool initializing!");
+            throw new DAOException("Exception during taking connection!");
         } catch (SQLException e) {
             throw new DAOException("Exception during select operation!");
         }finally{
@@ -104,7 +104,7 @@ public class UserDAOImpl implements UserDAO {
 
 
         } catch (ConnectionPoolException e) {
-            throw new DAOException("Exception during pool initializing!");
+            throw new DAOException("Exception during taking connection!");
         } catch (SQLException e) {
             throw new DAOException("Exception during select operation!");
         }finally {
@@ -118,6 +118,42 @@ public class UserDAOImpl implements UserDAO {
         }
 
         return true;
+    }
+
+    @Override
+    public ArrayList <Flight> getFlightInfo() throws DAOException {
+
+        ConnectionPool pool = null;
+        Connection connection = null;
+        PreparedStatement ps = null;
+        ArrayList <Flight> flight = new ArrayList<>();
+
+        try {
+            pool = ConnectionPool.getInstance();
+            connection = pool.takeConnection();
+            ps =  connection.prepareStatement(SELECT2);
+
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()){
+                flight.add(new Flight(rs.getString("departure_city"), rs.getString("arrival_city"), rs.getString("flight_name"), rs.getString("departure_time")));
+            }
+
+        } catch (ConnectionPoolException e) {
+            throw new DAOException("Exception during taking connection!");
+        } catch (SQLException e) {
+            throw new DAOException("Exception during select operation!");
+        }finally{
+            if(ps != null){
+                closeStatement(ps);
+            }
+
+            if (pool != null) {
+                pool.releaseConnection(connection);
+            }
+        }
+
+        return flight;
     }
 
     private static void closeStatement(PreparedStatement ps) throws DAOException  {
