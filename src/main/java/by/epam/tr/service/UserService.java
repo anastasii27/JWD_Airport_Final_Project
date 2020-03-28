@@ -7,5 +7,4 @@ import java.util.ArrayList;
 public interface UserService {
     String singIn(String login, String password) throws ServiceException;
     String registration(User user) throws ServiceException;
-    ArrayList<Flight> flightsInfo() throws ServiceException;
 }

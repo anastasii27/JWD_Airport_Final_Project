@@ -14,17 +14,6 @@ import java.io.IOException;
 public class Controller extends HttpServlet {
 
     @Override
-    public void init(){
-
-        ConnectionPool pool = ConnectionPool.getInstance();
-        try {
-            pool.poolInitialization();
-        } catch (ConnectionPoolException e) {
-           //
-        }
-    }
-
-    @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
         req.setCharacterEncoding("utf-8");
@@ -53,14 +42,4 @@ public class Controller extends HttpServlet {
         response.getWriter().println("ERROR!");
     }
 
-    @Override
-    public void destroy() {
-
-        ConnectionPool pool = ConnectionPool.getInstance();
-        try {
-            pool.closeAllConnections();
-        } catch (ConnectionPoolException e) {
-            //
-        }
-    }
 }

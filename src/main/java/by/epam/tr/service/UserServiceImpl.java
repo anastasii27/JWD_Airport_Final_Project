@@ -1,11 +1,9 @@
 package by.epam.tr.service;
 
-import by.epam.tr.bean.Flight;
 import by.epam.tr.bean.User;
 import by.epam.tr.dao.DAOException;
 import by.epam.tr.dao.DAOFactory;
 import by.epam.tr.dao.UserDAO;
-import java.util.ArrayList;
 
 public class UserServiceImpl implements UserService {
 
@@ -26,7 +24,6 @@ public class UserServiceImpl implements UserService {
         }
 
         try {
-
             if(dao.singIn(login, password)){
                 return ANSWER4;
             }
@@ -48,7 +45,7 @@ public class UserServiceImpl implements UserService {
         }
 
         try {
-            if(dao.getUserInfo("login").contains(user.getLogin())){
+            if(doesUserExist(user)){
                 return ANSWER1;
             }else if(dao.addNewUser(user)){
                 return ANSWER2;
@@ -61,20 +58,32 @@ public class UserServiceImpl implements UserService {
         return ANSWER3;
     }
 
-    @Override
-    public ArrayList<Flight> flightsInfo() throws ServiceException {
+//    @Override
+//    public ArrayList<Flight> flightsInfo() throws ServiceException {
+//
+//        UserDAO dao = DAOFactory.getInstance().getUserDAO();
+//        ArrayList<Flight> flight;
+//
+//        try {
+//            flight = dao.getFlightInfo();
+//        } catch (DAOException e) {
+//            throw new ServiceException("Exception during getting flight info!");
+//        }
+//        return flight;
+//    }
+
+    private boolean doesUserExist(User user) throws DAOException {
 
         UserDAO dao = DAOFactory.getInstance().getUserDAO();
-        ArrayList<Flight> flight;
 
-        try {
-            flight = dao.getFlightInfo();
-        } catch (DAOException e) {
-            throw new ServiceException("Exception during getting flight info!");
+        for (User user1:dao.getUsersInfo()) {
+            if(user.getLogin().equals(user1.getLogin())){
+                return true;
+            }
         }
-        return flight;
-    }
 
+        return false;
+    }
     private static boolean emptyFormValidation(String name, String login, String password){
 
         if(name.length()== 0|| login.length()==0 || password.length()==0){

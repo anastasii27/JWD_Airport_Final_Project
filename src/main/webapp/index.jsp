@@ -11,7 +11,7 @@
                 <input type="text" name="login" value="" />
             </p>
             <p>Пароль
-                <input type="text" name="password" value="" />
+                <input type="text" name="user_password" value="" />
             </p>
             <input type="submit" value="Войти"/> <br/>
             <a href="register.jsp">Создать аккаунт</a>

@@ -17,17 +17,26 @@ public class Registration implements Command{
         UserService service = ServiceFactory.getInstance().getUserDAO();
         String result;
         String page;
-        String name;
+
+        String role;
         String login;
         String password;
+        String name;
+        String surname;
+        String email;
+        int career_start_year;
 
-        name = request.getParameter(RequestParameterName.NAME);
+        role = request.getParameter(RequestParameterName.ROLE);
         login = request.getParameter(RequestParameterName.LOGIN);
         password = request.getParameter(RequestParameterName.PASSWORD);
+        name = request.getParameter(RequestParameterName.NAME);
+        surname = request.getParameter(RequestParameterName.SURNAME);
+        email = request.getParameter(RequestParameterName.EMAIL);
+        career_start_year = Integer.parseInt(request.getParameter(RequestParameterName.CAREER_START_YEAR));
 
         try {
 
-            result = service.registration(new User(name, login, password));
+            result = service.registration(new User(role,login, password,name, surname, email, career_start_year ));
             request.setAttribute(RequestParameterName.RESULT_INFO, result);
             page = JSPPageName.RESULT_PAGE;
 
