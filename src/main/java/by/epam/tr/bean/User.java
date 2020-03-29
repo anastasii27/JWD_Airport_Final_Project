@@ -24,6 +24,15 @@ public class User implements Serializable{
         this.email = email;
         this.career_start_year = career_start_year;
     }
+    public User(String role, String login, String name, String surname, String email, int career_start_year){
+
+        this.role = role;
+        this.login = login;
+        this.name = name;
+        this.surname = surname;
+        this.email = email;
+        this.career_start_year = career_start_year;
+    }
 
     public String getRole() {
         return role;

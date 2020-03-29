@@ -2,8 +2,6 @@ package by.epam.tr.controller;
 
 import by.epam.tr.controller.command.Command;
 import by.epam.tr.controller.command.CommandProvider;
-import by.epam.tr.dao.connectionpool.ConnectionPool;
-import by.epam.tr.dao.connectionpool.ConnectionPoolException;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;

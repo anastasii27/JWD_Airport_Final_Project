@@ -10,4 +10,6 @@ public class RequestParameterName {
     public static final String EMAIL = "email";
     public static final String CAREER_START_YEAR = "career_start_year";
     public static final String RESULT_INFO = "result";
+    public static final String USER_INFO = "user";
+    public static final String GROUP = "group";
 }

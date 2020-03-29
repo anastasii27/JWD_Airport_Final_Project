@@ -1,19 +1,18 @@
 package by.epam.tr.dao;
 
+import by.epam.tr.bean.Group;
 import by.epam.tr.bean.User;
 import by.epam.tr.dao.connectionpool.ConnectionPool;
 import by.epam.tr.dao.connectionpool.ConnectionPoolException;
-
-import javax.jws.soap.SOAPBinding;
 import java.sql.*;
 import java.util.ArrayList;
 
 public class UserDAOImpl implements UserDAO {
 
-    private final static String INSERT =  "INSERT INTO airport.users (role_id, login, user_password, user_name, surname, email, career_start_year) VALUES((SELECT id FROM airport.roles WHERE title = ?),?,?,?,?,?,?);";
-    private final static String SELECT =  "SELECT title as user_role ,login ,user_name, surname, email, career_start_year FROM airport.users JOIN airport.roles ON roles.id = users.role_id;";
-    private final static String SELECT1 = "SELECT user_name FROM airport.users WHERE login = ? AND user_password = ?";
-   // private final static String SELECT2 = "SELECT departure_city, arrival_city, flight_name, departure_time  FROM task3.flight;";
+    private final static String INSERT =  "INSERT INTO airport.users (`role-id`, login, `password`, `name`, surname, email, `career-start-year`) VALUES((SELECT id FROM airport.roles WHERE title = ?),?,?,?,?,?,?);";
+    private final static String SELECT_USER_INFO =  "SELECT title as `user-role` ,login ,`name`, surname, email, `career-start-year` FROM airport.users JOIN airport.roles ON roles.id = users.`role-id`;";
+    private final static String SELECT_FOR_SING_IN = "SELECT `name` FROM airport.users WHERE login = ? AND `password`= ?";
+    private final static String SELECT_USER_GROUPS = " SELECT `short-name`, `date-of-creating` FROM `flight-teams-m2m-users` JOIN users ON users.id =  `flight-teams-m2m-users`.`user-id` JOIN `flight-teams` ON `flight-teams-m2m-users`.`flight-team-id` = `flight-teams`.id WHERE users.login = ?;";
 
     @Override
     public boolean addNewUser(User user) throws DAOException {
@@ -61,14 +60,15 @@ public class UserDAOImpl implements UserDAO {
 
             try {
                 pool = ConnectionPool.getInstance();
+                pool.poolInitialization();///////////////////////////////////////////
                 connection = pool.takeConnection();
-                ps =  connection.prepareStatement(SELECT);
+                ps =  connection.prepareStatement(SELECT_USER_INFO);
 
                 ResultSet rs = ps.executeQuery();
 
             while (rs.next()){
-                users.add(new User(rs.getString("user_role"), rs.getString("login"), null, rs.getString("user_name"),rs.getString("surname"),
-                        rs.getString("email"), rs.getInt("career_start_year")));
+                users.add(new User(rs.getString("user-role"), rs.getString("login"),rs.getString("name"),rs.getString("surname"),
+                        rs.getString("email"), rs.getInt("career-start-year")));
             }
 
         } catch (ConnectionPoolException e) {
@@ -98,7 +98,7 @@ public class UserDAOImpl implements UserDAO {
         try {
             pool = ConnectionPool.getInstance();
             connection = pool.takeConnection();
-            ps =  connection.prepareStatement(SELECT1);
+            ps =  connection.prepareStatement(SELECT_FOR_SING_IN);
 
             ps.setString(1, login);
             ps.setString(2,password);
@@ -126,41 +126,49 @@ public class UserDAOImpl implements UserDAO {
         return true;
     }
 
-//    @Override
-//    public ArrayList <Flight> getFlightInfo() throws DAOException {
-//
-//        ConnectionPool pool = null;
-//        Connection connection = null;
-//        PreparedStatement ps = null;
-//        ArrayList <Flight> flight = new ArrayList<>();
-//
-//        try {
-//            pool = ConnectionPool.getInstance();
-//            pool.poolInitialization();
-//            connection = pool.takeConnection();
-//            ps =  connection.prepareStatement(SELECT2);
-//
-//            ResultSet rs = ps.executeQuery();
-//
-//            while (rs.next()){
-//                flight.add(new Flight(rs.getString("departure_city"), rs.getString("arrival_city"), rs.getString("flight_name"), rs.getString("departure_time")));
-//            }
-//
-//        } catch (ConnectionPoolException e) {
-//            throw new DAOException("Exception during taking connection!");
-//        } catch (SQLException e) {
-//            throw new DAOException("Exception during select operation!");
-//        }finally{
-//            if(ps != null){
-//                closeStatement(ps);
-//            }
-//            if (pool != null) {
-//                pool.releaseConnection(connection);
-//            }
-//        }
-//
-//        return flight;
-//    }
+    @Override
+    public ArrayList<Group> getUserGroups(String login) throws DAOException {
+
+        ConnectionPool pool = null;
+        Connection connection = null;
+        PreparedStatement ps = null;
+        ArrayList <Group> groups = new ArrayList<>();
+
+        try {
+            pool = ConnectionPool.getInstance();
+            connection = pool.takeConnection();
+            ps =  connection.prepareStatement(SELECT_USER_GROUPS);
+            ps.setString(1,login);
+
+            ResultSet rs = ps.executeQuery();
+
+
+            while (rs.next()){
+                groups.add(new Group(rs.getString("short-name"), rs.getString("date-of-creating")));
+            }
+
+
+        } catch (ConnectionPoolException e) {
+            throw new DAOException("Exception during taking connection!");
+        } catch (SQLException e) {
+            throw new DAOException("Exception during select operation!");
+        }finally{
+            if(ps != null){
+                closeStatement(ps);
+            }
+
+            if (pool != null) {
+                pool.releaseConnection(connection);
+            }
+        }
+
+        return groups;
+    }
+
+    @Override
+    public ArrayList<String> getUserFlights(String login) {
+        return null;
+    }
 
     private static void closeStatement(PreparedStatement ps) throws DAOException  {
         try {

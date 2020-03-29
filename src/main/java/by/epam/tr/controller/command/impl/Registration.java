@@ -45,4 +45,5 @@ public class Registration implements Command{
         }
         return page;
     }
+
 }

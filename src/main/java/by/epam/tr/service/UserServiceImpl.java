@@ -1,9 +1,11 @@
 package by.epam.tr.service;
 
+import by.epam.tr.bean.Group;
 import by.epam.tr.bean.User;
 import by.epam.tr.dao.DAOException;
 import by.epam.tr.dao.DAOFactory;
 import by.epam.tr.dao.UserDAO;
+import java.util.ArrayList;
 
 public class UserServiceImpl implements UserService {
 
@@ -58,19 +60,54 @@ public class UserServiceImpl implements UserService {
         return ANSWER3;
     }
 
-//    @Override
-//    public ArrayList<Flight> flightsInfo() throws ServiceException {
-//
-//        UserDAO dao = DAOFactory.getInstance().getUserDAO();
-//        ArrayList<Flight> flight;
-//
-//        try {
-//            flight = dao.getFlightInfo();
-//        } catch (DAOException e) {
-//            throw new ServiceException("Exception during getting flight info!");
-//        }
-//        return flight;
-//    }
+    @Override
+    public ArrayList<Group> getUserGroups(String login) throws ServiceException {
+
+        UserDAO dao = DAOFactory.getInstance().getUserDAO();
+        ArrayList <Group> groups;
+
+        try {
+            groups = dao.getUserGroups(login);
+
+            if(groups.size()==0){
+                return null;
+            }
+        } catch (DAOException e) {
+            throw new ServiceException("Exception during users group getting!");
+        }
+        return groups;
+    }
+
+    @Override
+    public int getUserInfo(String login) throws ServiceException {
+
+        int index;
+
+        try {
+
+            index = findUserIndexInList(login);
+
+        } catch (DAOException e) {
+            throw new ServiceException("Exception during getting users info!");
+        }
+        return index;
+    }
+
+    @Override
+    public ArrayList<User> getAllUsersInfo() throws ServiceException {
+
+        UserDAO dao = DAOFactory.getInstance().getUserDAO();
+        ArrayList <User> users;
+
+        try {
+
+            users = dao.getUsersInfo();
+
+        } catch (DAOException e) {
+            throw new ServiceException("Exception during all users getting");
+        }
+        return users;
+    }
 
     private boolean doesUserExist(User user) throws DAOException {
 
@@ -84,6 +121,21 @@ public class UserServiceImpl implements UserService {
 
         return false;
     }
+
+    private int findUserIndexInList(String login) throws DAOException {
+
+        UserDAO dao = DAOFactory.getInstance().getUserDAO();
+
+        for (User user1:dao.getUsersInfo()) {
+
+            if (login.equals(user1.getLogin())) {
+                return dao.getUsersInfo().indexOf(user1);
+            }
+        }
+
+        return -1;
+    }
+
     private static boolean emptyFormValidation(String name, String login, String password){
 
         if(name.length()== 0|| login.length()==0 || password.length()==0){
