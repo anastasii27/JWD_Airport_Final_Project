@@ -6,7 +6,6 @@ public class User implements Serializable{
 
     private String role;
     private String login;
-    private String password;
     private String name;
     private String surname;
     private String email;
@@ -14,20 +13,9 @@ public class User implements Serializable{
 
     public User(){}
 
-    public User(String role, String login, String password, String name, String surname, String email, int career_start_year){
+    public User(String role,String name, String surname, String email, int career_start_year){
 
         this.role = role;
-        this.login = login;
-        this.password = password;
-        this.name = name;
-        this.surname = surname;
-        this.email = email;
-        this.career_start_year = career_start_year;
-    }
-    public User(String role, String login, String name, String surname, String email, int career_start_year){
-
-        this.role = role;
-        this.login = login;
         this.name = name;
         this.surname = surname;
         this.email = email;
@@ -48,14 +36,6 @@ public class User implements Serializable{
 
     public void setLogin(String login) {
         this.login = login;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 
     public String getName() {
@@ -93,13 +73,13 @@ public class User implements Serializable{
 
     @Override
     public String toString() {
-        return getClass().getName() +" [role = " + role + " login = " + login + " password =  " + password + " name = "+ name + " surname = "+
+        return getClass().getName() +" [role = " + role + " login = " + login + " name = "+ name + " surname = "+
                 surname +" email = "+ email+ " career start year = " + career_start_year + "]";
     }
 
     @Override
     public int hashCode() {
-        return (((role==null)?0:role.hashCode())+((password==null)?0:password.hashCode())+ ((login==null)?0:login.hashCode())
+        return (((role==null)?0:role.hashCode())+ ((login==null)?0:login.hashCode())
                 + ((name==null)?0:name.hashCode())+ ((surname==null)?0:surname.hashCode())+ ((email==null)?0:email.hashCode())+ 31*career_start_year);
     }
 
@@ -125,14 +105,6 @@ public class User implements Serializable{
                 return false;
             }
         }else if(!login.equals(other.login)){
-            return false;
-        }
-
-        if (password == null) {
-            if(other.password!= null){
-                return false;
-            }
-        }else if(!password.equals(other.password)){
             return false;
         }
 

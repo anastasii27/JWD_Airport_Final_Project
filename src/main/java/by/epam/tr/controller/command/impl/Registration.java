@@ -1,21 +1,28 @@
 package by.epam.tr.controller.command.impl;
 
 import by.epam.tr.bean.User;
-import by.epam.tr.controller.JSPPageName;
-import by.epam.tr.controller.RequestParameterName;
+import by.epam.tr.controller.constant_parameter.JSPPageName;
+import by.epam.tr.controller.constant_parameter.RequestParameterName;
 import by.epam.tr.controller.command.Command;
 import by.epam.tr.service.ServiceException;
 import by.epam.tr.service.ServiceFactory;
 import by.epam.tr.service.UserService;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import java.io.IOException;
 
 public class Registration implements Command{
 
+    private final static String ANSWER1 ="You are successfully registered";
+    private final static String ANSWER2 ="This user is already exist";
+
     @Override
-    public String execute(HttpServletRequest request) {
+    public void execute(HttpServletRequest request, HttpServletResponse response) {
 
         UserService service = ServiceFactory.getInstance().getUserDAO();
-        String result;
+        HttpSession session = request.getSession(true);
+        boolean result;
         String page;
 
         String role;
@@ -36,14 +43,20 @@ public class Registration implements Command{
 
         try {
 
-            result = service.registration(new User(role,login, password,name, surname, email, career_start_year ));
-            request.setAttribute(RequestParameterName.RESULT_INFO, result);
+            result = service.registration(new User(role,name, surname, email, career_start_year), login, password);
+
+            if(result){
+                session.setAttribute(RequestParameterName.RESULT_INFO, ANSWER1);
+            }else{
+                session.setAttribute(RequestParameterName.RESULT_INFO, ANSWER2);
+            }
+
             page = JSPPageName.RESULT_PAGE;
 
-        } catch (ServiceException e) {
-            page = JSPPageName.ERROR_PAGE;
-        }
-        return page;
-    }
+            response.sendRedirect(page);
 
+        } catch (ServiceException| IOException e) {
+           errorPage(response);
+        }
+    }
 }

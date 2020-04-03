@@ -1,6 +1,8 @@
-package by.epam.tr.controller;
+package by.epam.tr.controller.constant_parameter;
 
-public class RequestParameterName {
+public final class RequestParameterName {
+
+    private RequestParameterName(){}
 
     public static final String ROLE = "user_role";
     public static final String LOGIN = "login";

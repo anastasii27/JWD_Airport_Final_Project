@@ -1,8 +1,6 @@
 package by.epam.tr.controller.command;
 
-import by.epam.tr.controller.command.impl.NoSuchCommand;
-import by.epam.tr.controller.command.impl.Registration;
-import by.epam.tr.controller.command.impl.SingIn;
+import by.epam.tr.controller.command.impl.*;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -12,9 +10,11 @@ public final class CommandProvider {
     private  final Map <CommandName, Command> commands = new HashMap<>();
 
     public CommandProvider(){
-        commands.put(CommandName.SING_IN, new SingIn());
+        commands.put(CommandName.SIGN_IN, new SignIn());
         commands.put(CommandName.REGISTER, new Registration());
         commands.put(CommandName.NO_SUCH_COMMAND, new NoSuchCommand());
+        commands.put(CommandName.SIGN_OUT, new SignOut());
+        commands.put(CommandName.CHANGE_LANGUAGE, new ChangeLanguage());
     }
 
     public Command getCommand(String name){

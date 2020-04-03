@@ -1,7 +1,7 @@
 package by.epam.tr.controller.command;
 
 public enum CommandName {
-    SING_IN, REGISTER, NO_SUCH_COMMAND
+    SIGN_IN, REGISTER, NO_SUCH_COMMAND, SIGN_OUT, CHANGE_LANGUAGE
 }
 
 
