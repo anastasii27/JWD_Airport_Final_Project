@@ -16,14 +16,14 @@ public class Registration implements Command{
 
     private final static String ANSWER1 ="You are successfully registered";
     private final static String ANSWER2 ="This user is already exist";
+    private final static String ANSWER3 ="Check the entered information!";
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) {
 
         UserService service = ServiceFactory.getInstance().getUserDAO();
         HttpSession session = request.getSession(true);
-        boolean result;
-        String page;
+        int result;
 
         String role;
         String login;
@@ -31,7 +31,7 @@ public class Registration implements Command{
         String name;
         String surname;
         String email;
-        int career_start_year;
+        String careerStartYear;
 
         role = request.getParameter(RequestParameterName.ROLE);
         login = request.getParameter(RequestParameterName.LOGIN);
@@ -39,21 +39,23 @@ public class Registration implements Command{
         name = request.getParameter(RequestParameterName.NAME);
         surname = request.getParameter(RequestParameterName.SURNAME);
         email = request.getParameter(RequestParameterName.EMAIL);
-        career_start_year = Integer.parseInt(request.getParameter(RequestParameterName.CAREER_START_YEAR));
+        careerStartYear = request.getParameter(RequestParameterName.CAREER_START_YEAR);
 
         try {
 
-            result = service.registration(new User(role,name, surname, email, career_start_year), login, password);
+            result = service.registration(new User(role,name, surname, email, careerStartYear), login, password);
 
-            if(result){
+            if(result == 1){
                 session.setAttribute(RequestParameterName.RESULT_INFO, ANSWER1);
-            }else{
+            }
+            if (result == 0){
                 session.setAttribute(RequestParameterName.RESULT_INFO, ANSWER2);
             }
+            if(result ==  -1){
+                session.setAttribute(RequestParameterName.RESULT_INFO, ANSWER3);
+            }
 
-            page = JSPPageName.RESULT_PAGE;
-
-            response.sendRedirect(page);
+            response.sendRedirect(JSPPageName.RESULT_PAGE);
 
         } catch (ServiceException| IOException e) {
            errorPage(response);

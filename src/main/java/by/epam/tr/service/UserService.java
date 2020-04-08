@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 public interface UserService {
     User singIn(String login, String password) throws ServiceException;
-    boolean registration(User user, String login, String password) throws ServiceException;
+    int registration(User user, String login, String password) throws ServiceException;
     ArrayList<Group> userGroups(String login) throws ServiceException;
     ArrayList<User> allUsersInfo() throws ServiceException;
 }

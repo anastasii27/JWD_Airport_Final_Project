@@ -14,6 +14,7 @@ public class UserDAOImpl implements UserDAO {
     private final static String SELECT_FOR_SING_IN = "SELECT title  AS `role` , `name`, surname, email, `career-start-year` FROM users JOIN roles ON users.`role-id` = roles.id WHERE login = ? AND `password`=?;  ";
     private final static String SELECT_USER_GROUPS = " SELECT `short-name`, `date-of-creating` FROM `flight-teams-m2m-users` JOIN users ON users.id =  `flight-teams-m2m-users`.`user-id` JOIN `flight-teams` ON `flight-teams-m2m-users`.`flight-team-id` = `flight-teams`.id WHERE users.login = ?;";
     private final static String CHECK_USER_EXISTENCE = "SELECT `name` FROM users WHERE login = ?";
+
     @Override
     public boolean addNewUser(User user, String login, String password) throws DAOException {
 
@@ -33,7 +34,7 @@ public class UserDAOImpl implements UserDAO {
             ps.setString(4,user.getName());
             ps.setString(5,user.getSurname());
             ps.setString(6,user.getEmail());
-            ps.setInt(7,user.getCareer_start_year());
+            ps.setString(7, user.getCareerStartYear());
 
             ps.executeUpdate();
             flag = true;
@@ -77,7 +78,7 @@ public class UserDAOImpl implements UserDAO {
                 return null;
             }
 
-            user =  new User(rs.getString("role"),rs.getString("name"), rs.getString("surname"), rs.getString("email"),rs.getInt("career-start-year"));
+            user =  new User(rs.getString("role"),rs.getString("name"), rs.getString("surname"), rs.getString("email"),rs.getString("career-start-year"));
 
 
         } catch (ConnectionPoolException e) {
@@ -116,7 +117,7 @@ public class UserDAOImpl implements UserDAO {
 
             while (rs.next()){
                 users.add(new User(rs.getString("user-role"),rs.getString("name"),rs.getString("surname"),
-                        rs.getString("email"), rs.getInt("career-start-year")));
+                        rs.getString("email"), rs.getString("career-start-year")));
             }
 
         } catch (ConnectionPoolException e) {

@@ -5,6 +5,8 @@ import by.epam.tr.bean.User;
 import by.epam.tr.dao.DAOException;
 import by.epam.tr.dao.DAOFactory;
 import by.epam.tr.dao.UserDAO;
+import by.epam.tr.service.validation.UserValidation;
+import by.epam.tr.service.validation.ValidationFactory;
 import java.util.ArrayList;
 
 public class UserServiceImpl implements UserService {
@@ -27,26 +29,28 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean registration(User user, String login, String password) throws ServiceException {
+    public int registration(User user, String login, String password) throws ServiceException {
 
         UserDAO dao = DAOFactory.getInstance().getUserDAO();
+        UserValidation userValidation = ValidationFactory.getInstance().getUserValidation();
 
+        if(!userValidation.check(user, login, password)) {
+            return -1;
+        }
         try {
 
             if(dao.doesUserExist(login)){
-
-                return false;
+                return 0;
 
             }else if(dao.addNewUser(user, login, password)){
-
-                return true;
+                return 1;
             }
 
         } catch (DAOException e) {
             throw new ServiceException("Exception during registration!");
         }
 
-        return false;
+        return -1;
     }
 
     @Override

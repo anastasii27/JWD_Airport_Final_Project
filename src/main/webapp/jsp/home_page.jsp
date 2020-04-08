@@ -17,7 +17,6 @@
         <fmt:message bundle="${loc}" key="local.table.group" var="group_table" />
         <fmt:message bundle="${loc}" key="local.exit_button" var="exit_table" />
 
-
         <title>Home page</title>
     </head>
     <body>
@@ -36,11 +35,11 @@
 
 
         <jsp:useBean id="user" scope="session" class="by.epam.tr.bean.User"/>
-        <p>${name_label}: <jsp:getProperty property="name" name="user"/></p>
-        <p>${surname_label}: <jsp:getProperty property="surname" name="user"/></p>
-        <p>Email: <jsp:getProperty property="email" name="user"/></p>
-        <p>${role_label}: <jsp:getProperty property="role" name="user"/></p>
-        <p>${start_label}: <jsp:getProperty property="career_start_year" name="user"/></p>
+        <p>${name_label}: <c:out value= "${sessionScope.user.name}" /></p>
+        <p>${surname_label}: <c:out value= "${sessionScope.user.surname}" /></p>
+        <p>Email: <c:out value= "${sessionScope.user.email}" /></p>
+        <p>${role_label}: <c:out value= "${sessionScope.user.role}" /></p>
+        <p>${start_label}: <c:out value= "${sessionScope.user.careerStartYear}" /></p>
 
 
 <%--    <h3>Вылеты:</h3>--%>
