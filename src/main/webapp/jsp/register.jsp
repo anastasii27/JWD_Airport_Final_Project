@@ -22,13 +22,13 @@
     </head>
     <body>
 
-        <form action="../mmm" method="post">
+        <form action="../mmm" method="get">
             <input type="hidden" name="action" value="change_language" />
             <input type="hidden" name="local" value="ru" />
             <input type="submit" value="${ru_button}" /><br />
         </form>
 
-        <form action="../mmm" method="post">
+        <form action="../mmm" method="get">
             <input type="hidden" name="action" value="change_language"/>
             <input type="hidden" name="local" value="en" />
             <input type="submit" value="${en_button}" /><br />
@@ -62,5 +62,6 @@
         </form>
 
         <c:set var = "url" scope = "session" value = "${pageContext.request.requestURL}"/>
+
     </body>
 </html>

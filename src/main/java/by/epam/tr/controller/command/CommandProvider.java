@@ -9,12 +9,13 @@ public final class CommandProvider {
     private static final CommandProvider instance =  new CommandProvider();
     private  final Map <CommandName, Command> commands = new HashMap<>();
 
-    public CommandProvider(){
+    private CommandProvider(){
         commands.put(CommandName.SIGN_IN, new SignIn());
         commands.put(CommandName.REGISTER, new Registration());
         commands.put(CommandName.NO_SUCH_COMMAND, new NoSuchCommand());
         commands.put(CommandName.SIGN_OUT, new SignOut());
         commands.put(CommandName.CHANGE_LANGUAGE, new ChangeLanguage());
+        commands.put(CommandName.SHOW_REGISTER_PAGE, new ShowRegisterPage());
     }
 
     public Command getCommand(String name){

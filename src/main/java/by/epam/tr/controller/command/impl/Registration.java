@@ -2,6 +2,7 @@ package by.epam.tr.controller.command.impl;
 
 import by.epam.tr.bean.User;
 import by.epam.tr.controller.constant_parameter.JSPPageName;
+import by.epam.tr.controller.constant_parameter.RegistrationAnswer;
 import by.epam.tr.controller.constant_parameter.RequestParameterName;
 import by.epam.tr.controller.command.Command;
 import by.epam.tr.service.ServiceException;
@@ -14,17 +15,14 @@ import java.io.IOException;
 
 public class Registration implements Command{
 
-    private final static String ANSWER1 ="You are successfully registered";
-    private final static String ANSWER2 ="This user is already exist";
-    private final static String ANSWER3 ="Check the entered information!";
-
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) {
 
         UserService service = ServiceFactory.getInstance().getUserDAO();
         HttpSession session = request.getSession(true);
-        int result;
+        RegistrationAnswer answer = RegistrationAnswer.getInstance();
 
+        int result;
         String role;
         String login;
         String password;
@@ -45,16 +43,7 @@ public class Registration implements Command{
 
             result = service.registration(new User(role,name, surname, email, careerStartYear), login, password);
 
-            if(result == 1){
-                session.setAttribute(RequestParameterName.RESULT_INFO, ANSWER1);
-            }
-            if (result == 0){
-                session.setAttribute(RequestParameterName.RESULT_INFO, ANSWER2);
-            }
-            if(result ==  -1){
-                session.setAttribute(RequestParameterName.RESULT_INFO, ANSWER3);
-            }
-
+            session.setAttribute(RequestParameterName.RESULT_INFO, answer.getAnswer(result));
             response.sendRedirect(JSPPageName.RESULT_PAGE);
 
         } catch (ServiceException| IOException e) {

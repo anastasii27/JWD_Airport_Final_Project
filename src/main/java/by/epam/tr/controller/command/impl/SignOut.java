@@ -22,6 +22,6 @@ public class SignOut implements Command{
             errorPage( response );
         }
 
-
     }
+
 }

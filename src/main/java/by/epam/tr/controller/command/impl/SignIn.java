@@ -3,6 +3,7 @@ package by.epam.tr.controller.command.impl;
 import by.epam.tr.bean.Group;
 import by.epam.tr.bean.User;
 import by.epam.tr.controller.constant_parameter.JSPPageName;
+import by.epam.tr.controller.constant_parameter.PageByRole;
 import by.epam.tr.controller.constant_parameter.RequestParameterName;
 import by.epam.tr.controller.command.Command;
 import by.epam.tr.service.ServiceException;
@@ -24,7 +25,7 @@ public class SignIn implements Command {
     public void execute(HttpServletRequest request, HttpServletResponse response) {
 
         UserService service = ServiceFactory.getInstance().getUserDAO();
-        String page;
+        PageByRole page = PageByRole.getInstance();
         ArrayList<Group> group;
         User user;
 
@@ -44,15 +45,12 @@ public class SignIn implements Command {
                     session.setAttribute(RequestParameterName.GROUP, group);
                     session.setAttribute(RequestParameterName.USER_INFO, user);
 
-                    page = JSPPageName.HOME_PAGE;
-
-                    response.sendRedirect(page);
+                    response.sendRedirect(page.getPage(user.getRole()));
 
                 }else {
 
                     request.setAttribute(RequestParameterName.RESULT_INFO, ANSWER);
-                    page = JSPPageName.RESULT_PAGE;
-                    RequestDispatcher requestDispatcher = request.getRequestDispatcher(page);
+                    RequestDispatcher requestDispatcher = request.getRequestDispatcher(JSPPageName.RESULT_PAGE);
 
                     if(requestDispatcher!= null){
                         requestDispatcher.forward(request, response);
