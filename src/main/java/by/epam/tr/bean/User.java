@@ -8,7 +8,7 @@ public class User implements Serializable{
     private String name;
     private String surname;
     private String email;
-    String careerStartYear;
+    private String careerStartYear;
 
     public User(){}
 
@@ -19,6 +19,7 @@ public class User implements Serializable{
         this.surname = surname;
         this.email = email;
         this.careerStartYear = careerStartYear;
+
     }
 
     public String getRole() {

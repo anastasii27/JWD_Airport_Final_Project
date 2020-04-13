@@ -1,10 +1,14 @@
 package by.epam.tr.service;
 
+import by.epam.tr.service.impl.FlightServiceImpl;
+import by.epam.tr.service.impl.UserServiceImpl;
+
 public class ServiceFactory{
 
     private static final ServiceFactory instance = new ServiceFactory();
 
-    private final UserService  userServiceImpl = new UserServiceImpl();
+    private final UserService  userService = new UserServiceImpl();
+    private final FlightService flightService = new FlightServiceImpl();
 
     private ServiceFactory(){}
 
@@ -13,6 +17,10 @@ public class ServiceFactory{
     }
 
     public UserService getUserDAO(){
-        return userServiceImpl;
+        return userService;
+    }
+
+    public FlightService getFlightService(){
+        return flightService;
     }
 }

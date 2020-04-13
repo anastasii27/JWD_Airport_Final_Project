@@ -14,4 +14,5 @@ public final class RequestParameterName {
     public static final String RESULT_INFO = "result";
     public static final String USER_INFO = "user";
     public static final String GROUP = "group";
+    public static final String FLIGHT = "flight";
 }

@@ -1,11 +1,13 @@
 package by.epam.tr.controller.command.impl;
 
+import by.epam.tr.bean.Flight;
 import by.epam.tr.bean.Group;
 import by.epam.tr.bean.User;
 import by.epam.tr.controller.constant_parameter.JSPPageName;
 import by.epam.tr.controller.constant_parameter.PageByRole;
 import by.epam.tr.controller.constant_parameter.RequestParameterName;
 import by.epam.tr.controller.command.Command;
+import by.epam.tr.service.FlightService;
 import by.epam.tr.service.ServiceException;
 import by.epam.tr.service.ServiceFactory;
 import by.epam.tr.service.UserService;
@@ -24,9 +26,11 @@ public class SignIn implements Command {
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) {
 
-        UserService service = ServiceFactory.getInstance().getUserDAO();
+        UserService userService = ServiceFactory.getInstance().getUserDAO();
+        FlightService flightService = ServiceFactory.getInstance().getFlightService();
         PageByRole page = PageByRole.getInstance();
         ArrayList<Group> group;
+        ArrayList<Flight> flight;
         User user;
 
         HttpSession session = request.getSession(true);
@@ -36,14 +40,16 @@ public class SignIn implements Command {
 
         try {
 
-            user = service.singIn(login, password);
+            user = userService.singIn(login, password);
+            flight = flightService.userFlightsList(login);
 
                 if(user != null){
 
-                    group = service.userGroups(login);
+                    group = userService.userGroups(login);
 
                     session.setAttribute(RequestParameterName.GROUP, group);
                     session.setAttribute(RequestParameterName.USER_INFO, user);
+                    session.setAttribute(RequestParameterName.FLIGHT, flight);
 
                     response.sendRedirect(page.getPage(user.getRole()));
 

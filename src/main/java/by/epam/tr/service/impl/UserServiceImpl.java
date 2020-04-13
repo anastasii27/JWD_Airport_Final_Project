@@ -1,10 +1,12 @@
-package by.epam.tr.service;
+package by.epam.tr.service.impl;
 
 import by.epam.tr.bean.Group;
 import by.epam.tr.bean.User;
 import by.epam.tr.dao.DAOException;
 import by.epam.tr.dao.DAOFactory;
 import by.epam.tr.dao.UserDAO;
+import by.epam.tr.service.ServiceException;
+import by.epam.tr.service.UserService;
 import by.epam.tr.service.validation.UserValidation;
 import by.epam.tr.service.validation.ValidationFactory;
 import java.util.ArrayList;
