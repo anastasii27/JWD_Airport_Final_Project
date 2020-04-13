@@ -33,8 +33,6 @@
             <input type="submit" value="${en_button}" /><br />
         </form>
 
-
-<%--        <jsp:useBean id="user" scope="session" class="by.epam.tr.bean.User"/>--%>
         <p>${name_label}: <c:out value= "${sessionScope.user.name}" /></p>
         <p>${surname_label}: <c:out value= "${sessionScope.user.surname}" /></p>
         <p>Email: <c:out value= "${sessionScope.user.email}" /></p>

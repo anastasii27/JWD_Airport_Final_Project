@@ -1,10 +1,14 @@
 package by.epam.tr.dao;
 
+import by.epam.tr.dao.impl.FlightDAOImpl;
+import by.epam.tr.dao.impl.UserDAOImpl;
+
 public final class DAOFactory {
 
     private static final DAOFactory instance = new DAOFactory();
 
     private final UserDAO userDao = new UserDAOImpl();
+    private final FlightDAO flightDAO = new FlightDAOImpl();
 
     private DAOFactory(){}
 
@@ -14,5 +18,9 @@ public final class DAOFactory {
 
     public UserDAO getUserDAO() {
         return userDao;
+    }
+
+    public FlightDAO getFlightDAO(){
+        return flightDAO;
     }
 }

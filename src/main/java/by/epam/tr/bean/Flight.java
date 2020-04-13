@@ -4,60 +4,140 @@ import java.io.Serializable;
 
 public class Flight implements Serializable {
 
-    private String departure_city;
-    private String arrival_city;
-    private String flight_name;
-    private String departure_time;
+    private String planeModel;
+    private String departureDate;
+    private String departureTime;
+    private String destinationDate;
+    private String destinationTime;
+    private String destinationAirport;
+    private String destinationCity;
+    private String destinationCountry;
+    private String departureAirport;
+    private String departureCity;
+    private String departureCountry;
 
-    public Flight(String departure_city, String arrival_city, String flight_name, String departure_time) {
+    public Flight(){}
 
-        this.departure_city = departure_city;
-        this.arrival_city = arrival_city;
-        this.flight_name = flight_name;
-        this.departure_time = departure_time;
+    public Flight(String planeModel, String departureDate, String departureTime, String destinationDate, String destinationTime, String destinationAirport,
+                  String destinationCity, String destinationCountry, String departureAirport, String departureCity, String departureCountry) {
+
+        this.planeModel = planeModel;
+        this.departureDate = departureDate;
+        this.departureTime = departureTime;
+        this.destinationDate = destinationDate;
+        this.destinationTime = destinationTime;
+        this.destinationAirport = destinationAirport;
+        this.destinationCity = destinationCity;
+        this.destinationCountry = destinationCountry;
+        this.departureAirport = departureAirport;
+        this.departureCity = departureCity;
+        this.departureCountry = departureCountry;
     }
 
-    public String getDeparture_city() {
-        return departure_city;
+    public String getPlaneModel() {
+        return planeModel;
     }
 
-    public void setDeparture_city(String departure_city) {
-        this.departure_city = departure_city;
+    public void setPlaneModel(String planeModel) {
+        this.planeModel = planeModel;
     }
 
-    public String getArrival_city() {
-        return arrival_city;
+    public String getDepartureDate() {
+        return departureDate;
     }
 
-    public void setArrival_city(String arrival_city) {
-        this.arrival_city = arrival_city;
+    public void setDepartureDate(String departureDate) {
+        this.departureDate = departureDate;
     }
 
-    public String getFlight_name() {
-        return flight_name;
+    public String getDepartureTime() {
+        return departureTime;
     }
 
-    public void setFlight_name(String flight_name) {
-        this.flight_name = flight_name;
+    public void setDepartureTime(String departureTime) {
+        this.departureTime = departureTime;
     }
 
-    public String getDeparture_time() {
-        return departure_time;
+    public String getDestinationDate() {
+        return destinationDate;
     }
 
-    public void setDeparture_time(String departure_time) {
-        this.departure_time = departure_time;
+    public void setDestinationDate(String destinationDate) {
+        this.destinationDate = destinationDate;
+    }
+
+    public String getDestinationTime() {
+        return destinationTime;
+    }
+
+    public void setDestinationTime(String destinationTime) {
+        this.destinationTime = destinationTime;
+    }
+
+    public String getDestinationAirport() {
+        return destinationAirport;
+    }
+
+    public void setDestinationAirport(String destinationAirport) {
+        this.destinationAirport = destinationAirport;
+    }
+
+    public String getDestinationCity() {
+        return destinationCity;
+    }
+
+    public void setDestinationCity(String destinationCity) {
+        this.destinationCity = destinationCity;
+    }
+
+    public String getDestinationCountry() {
+        return destinationCountry;
+    }
+
+    public void setDestinationCountry(String destinationCountry) {
+        this.destinationCountry = destinationCountry;
+    }
+
+    public String getDepartureAirport() {
+        return departureAirport;
+    }
+
+    public void setDepartureAirport(String departureAirport) {
+        this.departureAirport = departureAirport;
+    }
+
+    public String getDepartureCity() {
+        return departureCity;
+    }
+
+    public void setDepartureCity(String departureCity) {
+        this.departureCity = departureCity;
+    }
+
+    public String getDepartureCountry() {
+        return departureCountry;
+    }
+
+    public void setDepartureCountry(String departureCountry) {
+        this.departureCountry = departureCountry;
     }
 
     @Override
     public String toString() {
-        return getClass().getName() +"departure_city" + departure_city + "arrival_city" + arrival_city + "flight_name" + flight_name+ "departure_time"+ departure_time;
+        return getClass().getName()+ " [planeModel = " + planeModel + " departureDate = " + departureDate + " departureTime = " + departureTime  +
+                " destinationDate = " + destinationDate  + " destinationTime = " + destinationTime + " destinationAirport = " + destinationAirport +
+                " destinationCity = " + destinationCity + " destinationCountry = " + destinationCountry +  " departureAirport = " + departureAirport +
+                " departureCity = " + departureCity + " departureCountry = " + departureCountry;
     }
 
     @Override
     public int hashCode() {
-        return (((departure_city==null)?0:departure_city.hashCode())+ ((arrival_city ==null)?0:arrival_city .hashCode())+ ((flight_name==null)?0:flight_name.hashCode())
-                + ((departure_time==null)?0:departure_time.hashCode()));
+        return (((planeModel==null)?0:planeModel.hashCode())+ ((departureDate==null)?0:departureDate.hashCode())+
+                ((departureTime==null)?0:departureTime.hashCode()) + ((destinationDate==null)?0:destinationDate.hashCode())+
+                ((destinationTime==null)?0:destinationTime.hashCode())+ ((destinationAirport==null)?0:destinationAirport.hashCode())+
+                ((destinationCity==null)?0:destinationCity.hashCode())+ ((destinationCountry==null)?0:destinationCountry.hashCode())+
+                ((departureAirport==null)?0:departureAirport.hashCode())+ ((departureCity==null)?0:departureCity.hashCode())+
+                ((departureCountry==null)?0:departureCountry.hashCode()));
     }
 
     @Override
@@ -68,30 +148,95 @@ public class Flight implements Serializable {
             return false;
         Flight other = (Flight) obj;
 
-        if (departure_city == null) {
-            if(other.departure_city!= null)
+        if (planeModel == null) {
+            if(other.planeModel!= null){
                 return false;
-        }else if(!departure_city.equals(other.departure_city))
+            }
+        }else if(!planeModel.equals(other.planeModel)){
             return false;
+        }
 
-        if (arrival_city == null) {
-            if(other.arrival_city!= null)
+        if ( departureDate == null) {
+            if(other. departureDate!= null){
                 return false;
-        }else if(!arrival_city.equals(other.arrival_city))
+            }
+        }else if(! departureDate.equals(other. departureDate)){
             return false;
+        }
 
-        if (flight_name == null) {
-            if(other.flight_name!= null)
+        if (departureTime == null) {
+            if(other.departureTime!= null){
                 return false;
-        }else if(!flight_name.equals(other.flight_name))
+            }
+        }else if(!departureTime.equals(other.departureTime)) {
             return false;
+        }
 
-        if (departure_time == null) {
-            if(other.departure_time!= null)
+        if (destinationDate == null) {
+            if(other.destinationDate!= null){
                 return false;
-        }else if(!departure_time.equals(other.departure_time))
+            }
+        }else if(!destinationDate.equals(other.destinationDate)){
             return false;
+        }
+
+        if (destinationTime == null) {
+            if(other.destinationTime!= null){
+                return false;
+            }
+        }else if(!destinationTime.equals(other.destinationTime)){
+            return false;
+        }
+
+        if ( destinationAirport == null) {
+            if(other. destinationAirport!= null){
+                return false;
+            }
+        }else if(! destinationAirport.equals(other. destinationAirport)){
+            return false;
+        }
+
+        if (destinationCity == null) {
+            if(other.destinationCity!= null){
+                return false;
+            }
+        }else if(!destinationCity.equals(other.destinationCity)) {
+            return false;
+        }
+
+        if (destinationCountry == null) {
+            if(other.destinationCountry!= null){
+                return false;
+            }
+        }else if(!destinationCountry.equals(other.destinationCountry)){
+            return false;
+        }
+
+        if ( departureAirport == null) {
+            if(other. departureAirport!= null){
+                return false;
+            }
+        }else if(! departureAirport.equals(other.departureAirport)){
+            return false;
+        }
+
+        if (departureCity == null) {
+            if(other.departureCity!= null){
+                return false;
+            }
+        }else if(!departureCity.equals(other.departureCity)) {
+            return false;
+        }
+
+        if (departureCountry == null) {
+            if(other.departureCountry!= null){
+                return false;
+            }
+        }else if(!departureCountry.equals(other.departureCountry)){
+            return false;
+        }
+
+
         return true;
     }
-
 }

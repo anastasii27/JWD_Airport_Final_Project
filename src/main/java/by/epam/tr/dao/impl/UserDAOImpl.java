@@ -1,7 +1,9 @@
-package by.epam.tr.dao;
+package by.epam.tr.dao.impl;
 
 import by.epam.tr.bean.Group;
 import by.epam.tr.bean.User;
+import by.epam.tr.dao.DAOException;
+import by.epam.tr.dao.UserDAO;
 import by.epam.tr.dao.connectionpool.ConnectionPool;
 import by.epam.tr.dao.connectionpool.ConnectionPoolException;
 import java.sql.*;
