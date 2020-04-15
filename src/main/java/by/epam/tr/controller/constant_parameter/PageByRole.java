@@ -15,7 +15,7 @@ public final class PageByRole {
     private PageByRole(){
         pages.put(ADMIN, JSPPageName.ADMIN_PAGE);
         pages.put(PILOT, JSPPageName.USER_PAGE);
-        pages.put(DISPATCHER, JSPPageName.DISPATCHER_PAGE);
+        pages.put(DISPATCHER, JSPPageName.USER_PAGE);
         pages.put(STEWARDESS, JSPPageName.USER_PAGE);
     }
 

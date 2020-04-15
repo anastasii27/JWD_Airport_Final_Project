@@ -1,0 +1,21 @@
+.navbar{
+    height: 12vh;
+    background: #0f1970;
+}
+.nav-link{
+    color: beige ;
+}
+.nav-item{
+    margin-left: 1vw;
+    font-weight: normal;
+}
+.navbar-nav > .active > a,
+.navbar-nav > .active > a:hover,
+.navbar-nav > .active > a:focus {
+    color: royalblue;
+}
+.btn-md{
+    color: beige;
+    background: #0f1970;
+    border: solid 1px beige;
+}
