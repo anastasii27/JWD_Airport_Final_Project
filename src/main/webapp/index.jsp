@@ -12,6 +12,7 @@
         <fmt:message bundle="${loc}" key="local.label.menu_main_news" var="news_label" />
         <fmt:message bundle="${loc}" key="local.label.menu_main_about" var="about_label" />
         <fmt:message bundle="${loc}" key="local.label.menu_main_park" var="park_label" />
+        <fmt:message bundle="${loc}" key="local.label.menu_main_lang" var="lang_label" />
 
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
         <title>Main page</title>
@@ -34,7 +35,7 @@
                     <li class="nav-item active">
                         <a class="nav-link" href="#">Главная</a>
                     </li>
-                    <li class="nav-item active">
+                    <li class="nav-item ">
                         <a class="nav-link" href="#">${news_label}</a>
                     </li>
                     <li class="nav-item ">
@@ -48,7 +49,7 @@
                 <ul class="navbar-nav mr-3">
                     <li class="nav-item dropdown ">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Язык
+                            ${lang_label}
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                             <a class="dropdown-item" href="${pageContext.request.contextPath}/mmm?action=change_language&local=ru">${ru_button}</a>
@@ -57,9 +58,9 @@
                     </li>
                 </ul>
 
-                <form class="form-inline my-2 my-lg-0" action="../mmm" method="post">
-                    <input type="hidden" name="action" value="sign_out"/>
-                    <input class = "btn-md  my-2 my-sm-0 mr-2" type="submit" value="${login_label}"/> <br/>
+                <form class="form-inline my-2 my-lg-0" action="mmm" method="get">
+                    <input type="hidden" name="action" value="show_sign_in_page"/>
+                    <input class = "btn-md  my-2 my-sm-0 mr-2" type="submit" value="ВХОД"/> <br/>
                 </form>
 
             </div>

@@ -16,7 +16,7 @@ public class ServiceFactory{
         return instance;
     }
 
-    public UserService getUserDAO(){
+    public UserService getUserService(){
         return userService;
     }
 

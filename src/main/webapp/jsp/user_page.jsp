@@ -5,7 +5,7 @@
 <html>
     <head>
 
-        <title>Flights</title>
+        <title>${sessionScope.user.name} ${sessionScope.user.surname}</title>
 
         <fmt:setLocale value="${sessionScope.local}" />
         <fmt:setBundle basename="localization.local" var="loc" />

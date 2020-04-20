@@ -8,20 +8,19 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-public class ShowRegisterPage implements Command {
+public class ShowSignInPage implements Command {
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) {
 
-        RequestDispatcher requestDispatcher = request.getRequestDispatcher(JSPPageName.REGISTER_PAGE);
+        RequestDispatcher requestDispatcher = request.getRequestDispatcher(JSPPageName.SIGN_IN_PAGE);
 
         try {
-            if (requestDispatcher != null) {
+            if(requestDispatcher!= null){
                 requestDispatcher.forward(request, response);
             }
-        } catch (ServletException | IOException e) {
+        } catch (ServletException| IOException e) {
             errorPage(response);
         }
     }
-
 }

@@ -12,10 +12,11 @@
         <fmt:message bundle="${loc}" key="local.button.name.ru" var="ru_button" />
         <fmt:message bundle="${loc}" key="local.button.name.en" var="en_button" />
         <fmt:message bundle="${loc}" key="local.label.menu_user_my_page" var="my_page" />
-        <fmt:message bundle="${loc}" key="local.label.menu_user_flights" var="flights" />
-        <fmt:message bundle="${loc}" key="local.label.menu_user_empl_" var="empl" />
-        <fmt:message bundle="${loc}" key="local.label.menu_user_crew" var="crew" />
-        <fmt:message bundle="${loc}" key="local.label.menu_admin_park" var="park" />
+        <fmt:message bundle="${loc}" key="local.label.menu_user_flights" var="flights_label" />
+        <fmt:message bundle="${loc}" key="local.label.menu_user_empl" var="empl_label" />
+        <fmt:message bundle="${loc}" key="local.label.menu_user_crew" var="crew_label" />
+        <fmt:message bundle="${loc}" key="local.label.menu_main_park" var="park_label" />
+        <fmt:message bundle="${loc}" key="local.label.menu_main_lang" var="lang_label" />
         <fmt:message bundle="${loc}" key="local.exit_button" var="exit_table" />
 
         <link rel="stylesheet" href="../css/header.css"/>
@@ -41,10 +42,10 @@
                                 <a class="nav-link" href="#">${my_page}</a>
                             </li>
                             <li class="nav-item ">
-                                <a class="nav-link" href="#">${flights}</a>
+                                <a class="nav-link" href="#">${flights_label}</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="#">${empl}</a>
+                                <a class="nav-link" href="#">${empl_label}</a>
                             </li>
                         </c:when>
                         <c:when test = "${role.equals('dispatcher')}">
@@ -52,24 +53,24 @@
                                 <a class="nav-link" href="#">${my_page}</a>
                             </li>
                             <li class="nav-item ">
-                                <a class="nav-link" href="#">${flights}</a>
+                                <a class="nav-link" href="#">${flights_label}</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="#">${empl}</a>
+                                <a class="nav-link" href="#">${empl_label}</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="#">${crew}</a>
+                                <a class="nav-link" href="#">${crew_label}</a>
                             </li>
                         </c:when>
                         <c:when test = "${role.equals('admin')}">
                             <li class="nav-item active">
-                                <a class="nav-link" href="#">${flights}</a>
+                                <a class="nav-link" href="#">${flights_label}</a>
                             </li>
                             <li class="nav-item ">
-                                <a class="nav-link" href="#">${empl}</a>
+                                <a class="nav-link" href="#">${empl_label}</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="#">${park}</a>
+                                <a class="nav-link" href="#">${park_label}</a>
                             </li>
                         </c:when>
                     </c:choose>
@@ -79,7 +80,7 @@
                 <ul class="navbar-nav mr-3">
                     <li class="nav-item dropdown ">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Язык
+                            ${lang_label}
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                             <a class="dropdown-item" href="${pageContext.request.contextPath}/mmm?action=change_language&local=ru">${ru_button}</a>
@@ -88,7 +89,7 @@
                     </li>
                 </ul>
 
-                <form class="form-inline my-2 my-lg-0" action="../mmm" method="post">
+                <form class="form-inline my-2 my-lg-0" action="../mmm" method="get">
                     <input type="hidden" name="action" value="sign_out"/>
                     <input class = "btn-md  my-2 my-sm-0 mr-2" type="submit" value="${exit_table}"/> <br/>
                 </form>

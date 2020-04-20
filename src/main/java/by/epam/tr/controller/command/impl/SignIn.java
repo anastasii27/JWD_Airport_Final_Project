@@ -26,7 +26,7 @@ public class SignIn implements Command {
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) {
 
-        UserService userService = ServiceFactory.getInstance().getUserDAO();
+        UserService userService = ServiceFactory.getInstance().getUserService();
         FlightService flightService = ServiceFactory.getInstance().getFlightService();
         PageByRole page = PageByRole.getInstance();
         ArrayList<Group> group;

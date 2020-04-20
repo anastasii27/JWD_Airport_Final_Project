@@ -18,7 +18,7 @@ public class Registration implements Command{
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) {
 
-        UserService service = ServiceFactory.getInstance().getUserDAO();
+        UserService service = ServiceFactory.getInstance().getUserService();
         HttpSession session = request.getSession(true);
         RegistrationAnswer answer = RegistrationAnswer.getInstance();
 
