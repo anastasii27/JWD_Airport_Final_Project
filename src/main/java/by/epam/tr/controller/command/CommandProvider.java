@@ -17,6 +17,7 @@ public final class CommandProvider {
         commands.put(CommandName.CHANGE_LANGUAGE, new ChangeLanguage());
         commands.put(CommandName.SHOW_REGISTER_PAGE, new ShowRegisterPage());
         commands.put(CommandName.SHOW_SIGN_IN_PAGE, new ShowSignInPage());
+        commands.put(CommandName.SHOW_USER_PAGE, new ShowUserPage());
     }
 
     public Command getCommand(String name){

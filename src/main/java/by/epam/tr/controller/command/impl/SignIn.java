@@ -28,7 +28,6 @@ public class SignIn implements Command {
 
         UserService userService = ServiceFactory.getInstance().getUserService();
         FlightService flightService = ServiceFactory.getInstance().getFlightService();
-        PageByRole page = PageByRole.getInstance();
         ArrayList<Group> group;
         ArrayList<Flight> flight;
         User user;
@@ -51,7 +50,7 @@ public class SignIn implements Command {
                     session.setAttribute(RequestParameterName.USER_INFO, user);
                     session.setAttribute(RequestParameterName.FLIGHT, flight);
 
-                    response.sendRedirect(page.getPage(user.getRole()));
+                    response.sendRedirect(request.getContextPath() + "/mmm?action=show_user_page");
 
                 }else {
 

@@ -81,7 +81,9 @@
             </table>
         </c:if>
 
-        <c:set var = "url" scope = "session" value = "${pageContext.request.requestURL}"/>
+<%--        <c:set var = "url" scope = "session" value = "${pageContext.request.requestURL}"/>--%>
+
+        <c:set var = "url" scope = "session" value = "${pageContext.request.contextPath}/mmm?action=show_user_page"/>
 
     </body>
 </html>

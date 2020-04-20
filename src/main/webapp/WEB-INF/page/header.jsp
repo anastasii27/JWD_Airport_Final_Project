@@ -19,7 +19,7 @@
         <fmt:message bundle="${loc}" key="local.label.menu_main_lang" var="lang_label" />
         <fmt:message bundle="${loc}" key="local.exit_button" var="exit_table" />
 
-        <link rel="stylesheet" href="../css/header.css"/>
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/css/header.css"/>
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
         <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
@@ -89,7 +89,7 @@
                     </li>
                 </ul>
 
-                <form class="form-inline my-2 my-lg-0" action="../mmm" method="get">
+                <form class="form-inline my-2 my-lg-0" action="mmm" method="get">
                     <input type="hidden" name="action" value="sign_out"/>
                     <input class = "btn-md  my-2 my-sm-0 mr-2" type="submit" value="${exit_table}"/> <br/>
                 </form>
