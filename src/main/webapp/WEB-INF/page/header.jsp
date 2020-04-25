@@ -39,7 +39,7 @@
                     <c:choose>
                         <c:when test = "${role.equals('pilot') || role.equals('stewardess')}">
                             <li class="nav-item active">
-                                <a class="nav-link" href="#">${my_page}</a>
+                                <a class="nav-link" href="${pageContext.request.contextPath}/mmm?action=show_user_page">${my_page}</a>
                             </li>
                             <li class="nav-item ">
                                 <a class="nav-link" href="#">${flights_label}</a>
@@ -77,40 +77,23 @@
 
                 </ul>
 
-<%--                <ul class="navbar-nav mr-3">--%>
-<%--                    <li class="nav-item dropdown ">--%>
-<%--                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">--%>
-<%--                            ${lang_label}--%>
-<%--                        </a>--%>
-<%--                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">--%>
-<%--                            <a class="dropdown-item" href="${pageContext.request.contextPath}/mmm?action=change_language&local=ru">${ru_button}</a>--%>
-<%--                            <a class="dropdown-item" href="${pageContext.request.contextPath}/mmm?action=change_language&local=en">${en_button}</a>--%>
+                <form class = "lang my-2 mr-1" action="mmm" method="get">
+                    <input type="hidden" name="action" value="change_language" />
+                    <input type="hidden" name="local" value="ru" />
+                    <input class = "btn-md  my-2 my-sm-0 mr-2"  type="submit" value="${ru_button}" /><br />
+                </form>
 
-<%--                            --%>
-<%--                        </div>--%>
-<%--                    </li>--%>
+                <form class = "lang my-2 mr-4" action="mmm" method="get">
+                    <input type="hidden" name="action" value="change_language"/>
+                    <input type="hidden" name="local" value="en" />
+                    <input class = "btn-md  my-2 my-sm-0 mr-2"  type="submit" value="${en_button}" /><br />
+                </form>
 
-
-                    <form class = "lang" action="mmm" method="get">
-                        <input type="hidden" name="action" value="change_language" />
-                        <input type="hidden" name="local" value="ru" />
-<%--                        <input type="hidden" name="url" value="${pageContext.request.contextPath}/mmm?action=show_sign_in_page" />--%>
-                        <input type="submit" value="${ru_button}" /><br />
-                    </form>
-
-                    <form class = "lang" action="mmm" method="get">
-                        <input type="hidden" name="action" value="change_language"/>
-                        <input type="hidden" name="local" value="en" />
-<%--                        <input type="hidden" name="url" value="${pageContext.request.contextPath}/mmm?action=show_sign_in_page" />--%>
-                        <input type="submit" value="${en_button}" /><br />
-                    </form>
-                </ul>
 
                 <form class="form-inline my-2 my-lg-0" action="mmm" method="get">
                     <input type="hidden" name="action" value="sign_out"/>
                     <input class = "btn-md  my-2 my-sm-0 mr-2" type="submit" value="${exit_table}"/> <br/>
                 </form>
-
             </div>
         </nav>
     </body>

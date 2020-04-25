@@ -14,7 +14,7 @@
 .navbar-nav > .active > a:focus {
     color: royalblue;
 }
-.btn-md{
+.btn-md {
     color: beige;
     background: #0f1970;
     border: solid 1px beige;

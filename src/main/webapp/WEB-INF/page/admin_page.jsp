@@ -1,9 +1,11 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
-<head>
-    <title>Title</title>
-</head>
-<body>
-admin
-</body>
+    <head>
+        <title>Admin</title>
+    </head>
+    <body>
+
+    <jsp:include page="header.jsp"/>
+    admin
+    </body>
 </html>

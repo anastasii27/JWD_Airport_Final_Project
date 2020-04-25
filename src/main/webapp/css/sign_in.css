@@ -1,0 +1,34 @@
+.form{
+    height: 35vh;
+    width: 25vw;
+    margin-top: 15vh;
+    margin-left: 37vw;
+    border: 1px solid;
+    border-radius: 10px;
+}
+
+.form-group{
+    padding-left: 4vw;
+}
+
+.log{
+    padding-top: 3vh;
+}
+
+.in{
+    display: inline-block;
+}
+
+.create{
+    padding-top: 1vh;
+}
+
+.last{
+    padding-left: 4vw;
+    padding-top: 3vh;
+}
+
+.label{
+    padding-left: 10vw;
+    padding-top: 2vh;
+}
