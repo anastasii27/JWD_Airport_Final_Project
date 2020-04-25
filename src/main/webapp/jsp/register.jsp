@@ -25,12 +25,14 @@
         <form action="mmm" method="get">
             <input type="hidden" name="action" value="change_language" />
             <input type="hidden" name="local" value="ru" />
+            <input type="hidden" name="url" value="${pageContext.request.contextPath}/mmm?action=show_register_page" />
             <input type="submit" value="${ru_button}" /><br />
         </form>
 
         <form action="mmm" method="get">
             <input type="hidden" name="action" value="change_language"/>
             <input type="hidden" name="local" value="en" />
+            <input type="hidden" name="url" value="${pageContext.request.contextPath}/mmm?action=show_register_page" />
             <input type="submit" value="${en_button}" /><br />
         </form>
 
@@ -58,10 +60,11 @@
             <p>${role_label}
             <input type="text" name="user_role" value="pilot" required/>
             </p>
+
             <input type="submit" value="${register_button}"/> <br/>
         </form>
 
-      <c:set var = "url" scope = "session" value = "${pageContext.request.contextPath}/mmm?action=show_register_page"/>
+<%--      <c:set var = "url" scope = "session" value = "${pageContext.request.contextPath}/mmm?action=show_register_page"/>--%>
 
     </body>
 </html>

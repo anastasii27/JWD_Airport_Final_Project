@@ -66,7 +66,7 @@
             </div>
         </nav>
 
-        <c:set var = "url" scope = "session" value = "${pageContext.request.requestURL}"/>
+<%--        <c:set var = "url" scope = "session" value = "${pageContext.request.requestURL}"/>--%>
 
     </body>
 </html>

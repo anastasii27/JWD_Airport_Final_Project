@@ -10,7 +10,11 @@ public class ChangeLanguage implements Command {
     public void execute(HttpServletRequest request, HttpServletResponse response) {
 
         try {
-            String url = request.getSession(true).getAttribute("url").toString();
+            //String url = request.getSession().getAttribute("url").toString();
+
+            String url = request.getParameter("url");
+
+            System.out.println(url);
 
             request.getSession(true).setAttribute("local", request.getParameter("local"));
             response.sendRedirect(url);

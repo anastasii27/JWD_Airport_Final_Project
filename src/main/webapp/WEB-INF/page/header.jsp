@@ -77,16 +77,33 @@
 
                 </ul>
 
-                <ul class="navbar-nav mr-3">
-                    <li class="nav-item dropdown ">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            ${lang_label}
-                        </a>
-                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item" href="${pageContext.request.contextPath}/mmm?action=change_language&local=ru">${ru_button}</a>
-                            <a class="dropdown-item" href="${pageContext.request.contextPath}/mmm?action=change_language&local=en">${en_button}</a>
-                        </div>
-                    </li>
+<%--                <ul class="navbar-nav mr-3">--%>
+<%--                    <li class="nav-item dropdown ">--%>
+<%--                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">--%>
+<%--                            ${lang_label}--%>
+<%--                        </a>--%>
+<%--                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">--%>
+<%--                            <a class="dropdown-item" href="${pageContext.request.contextPath}/mmm?action=change_language&local=ru">${ru_button}</a>--%>
+<%--                            <a class="dropdown-item" href="${pageContext.request.contextPath}/mmm?action=change_language&local=en">${en_button}</a>--%>
+
+<%--                            --%>
+<%--                        </div>--%>
+<%--                    </li>--%>
+
+
+                    <form class = "lang" action="mmm" method="get">
+                        <input type="hidden" name="action" value="change_language" />
+                        <input type="hidden" name="local" value="ru" />
+<%--                        <input type="hidden" name="url" value="${pageContext.request.contextPath}/mmm?action=show_sign_in_page" />--%>
+                        <input type="submit" value="${ru_button}" /><br />
+                    </form>
+
+                    <form class = "lang" action="mmm" method="get">
+                        <input type="hidden" name="action" value="change_language"/>
+                        <input type="hidden" name="local" value="en" />
+<%--                        <input type="hidden" name="url" value="${pageContext.request.contextPath}/mmm?action=show_sign_in_page" />--%>
+                        <input type="submit" value="${en_button}" /><br />
+                    </form>
                 </ul>
 
                 <form class="form-inline my-2 my-lg-0" action="mmm" method="get">

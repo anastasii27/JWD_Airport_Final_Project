@@ -15,9 +15,9 @@ public final class CommandProvider {
         commands.put(CommandName.NO_SUCH_COMMAND, new NoSuchCommand());
         commands.put(CommandName.SIGN_OUT, new SignOut());
         commands.put(CommandName.CHANGE_LANGUAGE, new ChangeLanguage());
-        commands.put(CommandName.SHOW_REGISTER_PAGE, new ShowRegisterPage());
-        commands.put(CommandName.SHOW_SIGN_IN_PAGE, new ShowSignInPage());
-        commands.put(CommandName.SHOW_USER_PAGE, new ShowUserPage());
+        commands.put(CommandName.SHOW_REGISTER_PAGE, new RegisterPage());
+        commands.put(CommandName.SHOW_SIGN_IN_PAGE, new SignInPage());
+        commands.put(CommandName.SHOW_USER_PAGE, new UserPage());
     }
 
     public Command getCommand(String name){
