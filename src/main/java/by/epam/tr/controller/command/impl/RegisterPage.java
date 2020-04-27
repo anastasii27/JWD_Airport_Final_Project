@@ -13,8 +13,6 @@ public class RegisterPage implements Command {
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) {
 
-        request.getSession().setAttribute("url", request.getContextPath()+"/mmm?action=show_register_page");
-
         RequestDispatcher requestDispatcher = request.getRequestDispatcher(JSPPageName.REGISTER_PAGE);
 
         try {
@@ -25,5 +23,4 @@ public class RegisterPage implements Command {
             errorPage(response);
         }
     }
-
 }

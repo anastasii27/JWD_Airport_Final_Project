@@ -16,6 +16,10 @@ public class UserDAOImpl implements UserDAO {
     private final static String SELECT_FOR_SING_IN = "SELECT title  AS `role` , `name`, surname, email, `career-start-year` FROM users JOIN roles ON users.`role-id` = roles.id WHERE login = ? AND `password`=?;  ";
     private final static String SELECT_USER_GROUPS = " SELECT `short-name`, `date-of-creating` FROM `flight-teams-m2m-users` JOIN users ON users.id =  `flight-teams-m2m-users`.`user-id` JOIN `flight-teams` ON `flight-teams-m2m-users`.`flight-team-id` = `flight-teams`.id WHERE users.login = ?;";
     private final static String CHECK_USER_EXISTENCE = "SELECT `name` FROM users WHERE login = ?";
+    private final static String SELECT_USER_BY_GROUP = "SELECT `name`, `surname`, title FROM `flight-teams-m2m-users`\n"+
+                                                        "JOIN users ON `flight-teams-m2m-users`.`user-id` = users.id \n"+
+                                                        "JOIN roles ON roles.id  = (SELECT `role-id` FROM users WHERE users.id = `flight-teams-m2m-users`.`user-id` )\n"+
+                                                        "WHERE `flight-teams-m2m-users`.`flight-team-id` = (SELECT id FROM `flight-teams` WHERE `short-name` = ? );";
 
     @Override
     public boolean addNewUser(User user, String login, String password) throws DAOException {
@@ -241,6 +245,51 @@ public class UserDAOImpl implements UserDAO {
         return true;
     }
 
+    @Override
+    public ArrayList<User> userByGroup(String groupName) throws DAOException {
+
+        ConnectionPool pool = null;
+        Connection connection = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        ArrayList <User> users = new ArrayList<>();
+
+        try {
+
+            pool = ConnectionPool.getInstance();
+            pool.poolInitialization();
+            connection = pool.takeConnection();
+            ps =  connection.prepareStatement(SELECT_USER_BY_GROUP);
+
+            ps.setString(1, groupName);
+
+            rs = ps.executeQuery();
+
+            while (rs.next()) {
+                users.add(new User(rs.getString("name"), rs.getString("surname"), rs.getString("title")));
+            }
+
+        } catch (ConnectionPoolException e) {
+            throw new DAOException("Exception during taking connection!");
+        } catch (SQLException e) {
+            throw new DAOException("Exception during select operation!");
+        }finally{
+
+            if(rs !=  null){
+                closeResultSet(rs);
+            }
+
+            if(ps != null){
+                closeStatement(ps);
+            }
+
+            if (pool != null) {
+                pool.releaseConnection(connection);
+            }
+        }
+        return users;
+    }
+
     private void closeStatement(Statement st) {
 
         try {
@@ -258,5 +307,6 @@ public class UserDAOImpl implements UserDAO {
             //log
         }
     }
+
 }
 

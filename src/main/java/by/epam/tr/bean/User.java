@@ -19,8 +19,15 @@ public class User implements Serializable{
         this.surname = surname;
         this.email = email;
         this.careerStartYear = careerStartYear;
-
     }
+
+    public User(String role,String name, String surname){
+
+        this.role = role;
+        this.name = name;
+        this.surname = surname;
+    }
+
 
     public String getRole() {
         return role;

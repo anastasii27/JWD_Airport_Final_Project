@@ -13,8 +13,6 @@ public class SignInPage implements Command {
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) {
 
-        request.getSession().setAttribute("url", request.getContextPath()+"/mmm?action=show_sign_in_page");
-
         RequestDispatcher requestDispatcher = request.getRequestDispatcher(JSPPageName.SIGN_IN_PAGE);
 
         try {

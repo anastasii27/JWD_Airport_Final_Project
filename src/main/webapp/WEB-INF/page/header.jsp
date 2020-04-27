@@ -11,13 +11,13 @@
         <fmt:setBundle basename="localization.local" var="loc" />
         <fmt:message bundle="${loc}" key="local.button.name.ru" var="ru_button" />
         <fmt:message bundle="${loc}" key="local.button.name.en" var="en_button" />
+        <fmt:message bundle="${loc}" key="local.exit_button" var="exit_button" />
         <fmt:message bundle="${loc}" key="local.label.menu_user_my_page" var="my_page" />
         <fmt:message bundle="${loc}" key="local.label.menu_user_flights" var="flights_label" />
         <fmt:message bundle="${loc}" key="local.label.menu_user_empl" var="empl_label" />
         <fmt:message bundle="${loc}" key="local.label.menu_user_crew" var="crew_label" />
         <fmt:message bundle="${loc}" key="local.label.menu_main_park" var="park_label" />
         <fmt:message bundle="${loc}" key="local.label.menu_main_lang" var="lang_label" />
-        <fmt:message bundle="${loc}" key="local.exit_button" var="exit_table" />
 
         <link rel="stylesheet" href="${pageContext.request.contextPath}/css/header.css"/>
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
@@ -42,7 +42,7 @@
                                 <a class="nav-link" href="${pageContext.request.contextPath}/mmm?action=show_user_page">${my_page}</a>
                             </li>
                             <li class="nav-item ">
-                                <a class="nav-link" href="#">${flights_label}</a>
+                                <a class="nav-link" href="${pageContext.request.contextPath}/mmm?action=show_flights_page">${flights_label}</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="#">${empl_label}</a>
@@ -92,7 +92,7 @@
 
                 <form class="form-inline my-2 my-lg-0" action="mmm" method="get">
                     <input type="hidden" name="action" value="sign_out"/>
-                    <input class = "btn-md  my-2 my-sm-0 mr-2" type="submit" value="${exit_table}"/> <br/>
+                    <input class = "btn-md  my-2 my-sm-0 mr-2" type="submit" value="${exit_button}"/> <br/>
                 </form>
             </div>
         </nav>

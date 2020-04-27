@@ -15,6 +15,9 @@ public class Flight implements Serializable {
     private String departureAirport;
     private String departureCity;
     private String departureCountry;
+    private String groupName;
+    private String destinationAirportShortName;
+    private String departureAirportShortName;
 
     public Flight(){}
 
@@ -32,6 +35,26 @@ public class Flight implements Serializable {
         this.departureAirport = departureAirport;
         this.departureCity = departureCity;
         this.departureCountry = departureCountry;
+    }
+
+    public Flight(String planeModel, String departureDate, String departureTime, String destinationDate, String destinationTime, String destinationAirport,
+                  String destinationCity, String destinationCountry, String departureAirport, String departureCity, String departureCountry, String groupName,
+                  String destinationAirportShortName, String departureAirportShortName) {
+
+        this.planeModel = planeModel;
+        this.departureDate = departureDate;
+        this.departureTime = departureTime;
+        this.destinationDate = destinationDate;
+        this.destinationTime = destinationTime;
+        this.destinationAirport = destinationAirport;
+        this.destinationCity = destinationCity;
+        this.destinationCountry = destinationCountry;
+        this.departureAirport = departureAirport;
+        this.departureCity = departureCity;
+        this.departureCountry = departureCountry;
+        this.groupName= groupName;
+        this.destinationAirportShortName = destinationAirportShortName;
+        this.departureAirportShortName = departureAirportShortName;
     }
 
     public String getPlaneModel() {
@@ -122,12 +145,37 @@ public class Flight implements Serializable {
         this.departureCountry = departureCountry;
     }
 
+    public String getGroupName() {
+        return groupName;
+    }
+
+    public void setGroupName(String groupName) {
+        this.groupName = groupName;
+    }
+
+    public String getDestinationAirportShortName() {
+        return destinationAirportShortName;
+    }
+
+    public void setDestinationAirportShortName(String destinationAirportShortName) {
+        this.destinationAirportShortName = destinationAirportShortName;
+    }
+
+    public String getDepartureAirportShortName() {
+        return departureAirportShortName;
+    }
+
+    public void setDepartureAirportShortName(String departureAirportShortName) {
+        this.departureAirportShortName = departureAirportShortName;
+    }
+
     @Override
     public String toString() {
         return getClass().getName()+ " [planeModel = " + planeModel + " departureDate = " + departureDate + " departureTime = " + departureTime  +
                 " destinationDate = " + destinationDate  + " destinationTime = " + destinationTime + " destinationAirport = " + destinationAirport +
                 " destinationCity = " + destinationCity + " destinationCountry = " + destinationCountry +  " departureAirport = " + departureAirport +
-                " departureCity = " + departureCity + " departureCountry = " + departureCountry;
+                " departureCity = " + departureCity + " departureCountry = " + departureCountry  + " groupName= " + groupName+
+                " departureAirportShortName = " + departureAirportShortName  + " destinationAirportShortName= " + destinationAirportShortName;
     }
 
     @Override
@@ -137,7 +185,8 @@ public class Flight implements Serializable {
                 ((destinationTime==null)?0:destinationTime.hashCode())+ ((destinationAirport==null)?0:destinationAirport.hashCode())+
                 ((destinationCity==null)?0:destinationCity.hashCode())+ ((destinationCountry==null)?0:destinationCountry.hashCode())+
                 ((departureAirport==null)?0:departureAirport.hashCode())+ ((departureCity==null)?0:departureCity.hashCode())+
-                ((departureCountry==null)?0:departureCountry.hashCode()));
+                ((departureCountry==null)?0:departureCountry.hashCode())+ ((groupName == null)?0:groupName.hashCode())+
+                ((departureAirportShortName==null)?0:departureAirportShortName.hashCode())+ ((destinationAirportShortName == null)?0:destinationAirportShortName.hashCode()));
     }
 
     @Override
@@ -236,6 +285,29 @@ public class Flight implements Serializable {
             return false;
         }
 
+        if (groupName == null) {
+            if(other.groupName!= null){
+                return false;
+            }
+        }else if(!groupName.equals(other.groupName)) {
+            return false;
+        }
+
+        if (departureAirportShortName == null) {
+            if(other.departureAirportShortName!= null){
+                return false;
+            }
+        }else if(!departureAirportShortName.equals(other.departureAirportShortName)) {
+            return false;
+        }
+
+        if (destinationAirportShortName == null) {
+            if(other.destinationAirportShortName!= null){
+                return false;
+            }
+        }else if(!destinationAirportShortName.equals(other.destinationAirportShortName)) {
+            return false;
+        }
 
         return true;
     }

@@ -6,13 +6,16 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 public class ChangeLanguage implements Command {
+
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) {
+
+        String url;
 
         try {
             //String url = request.getSession().getAttribute("url").toString();
 
-            String url = request.getParameter("url");
+            url = request.getParameter("url");
 
             request.getSession(true).setAttribute("local", request.getParameter("local"));
             response.sendRedirect(url);

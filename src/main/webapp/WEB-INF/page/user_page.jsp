@@ -28,9 +28,8 @@
         <fmt:message bundle="${loc}" key="local.label.dep_country" var="dep_country_label" />
         <fmt:message bundle="${loc}" key="local.label.flight_tab_header" var="f_tab_label" />
         <fmt:message bundle="${loc}" key="local.label.groups_tab_header" var="g_tab_label" />
-        <fmt:message bundle="${loc}" key="local.table.creating_date" var="data_table" />
-        <fmt:message bundle="${loc}" key="local.table.group" var="group_table" />
-        <fmt:message bundle="${loc}" key="local.exit_button" var="exit_table" />
+        <fmt:message bundle="${loc}" key="local.label.creating_date" var="data_label" />
+        <fmt:message bundle="${loc}" key="local.label.group_name" var="group_label" />
 
 
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
@@ -85,7 +84,7 @@
         <c:if test = "${role.equals('pilot') || role.equals('stewardess')}">
             <h3>${g_tab_label}: </h3>
             <table class ="table" border="2">
-                <tr><th>${group_table} </th><th>${data_table}</th></tr>
+                <tr><th>${group_label} </th><th>${data_label}</th></tr>
                 <c:forEach items="${group}" var="group_item">
                     <tr>
                         <td>${group_item.name}</td>

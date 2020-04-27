@@ -24,6 +24,20 @@ public class FlightDAOImpl implements FlightDAO {
                                                 "join countries as cnt2 on  cnt2.id = c2.`country-id`"+
                                                 "where `user-id` = (select id from users where login = ?);";
 
+
+    private final static String ALL_FLIGHTS =   "SELECT model,`short-name`, `departure-date`, `destination-date`, `departure-time`, `destination-time`, \n" +
+                                                "a1.`name` AS `destination-airport`, c1.`name` AS `destination-city` , cnt1.`name` AS `destination-country`,  a1.`name-abbreviation` AS `dest-airport-short-name`,\n" +
+                                                "a2.`name` AS `departure-airport`, c2.`name` AS `departure-city`, cnt2.`name` AS `departure-country`, a2.`name-abbreviation` AS `dep-airport-short-name`\n" +
+                                                "FROM airport.flights\n" +
+                                                "JOIN airport.`planes-characteristic` ON (SELECT `planes-characteristic-id` FROM planes WHERE planes.id = `plane-id` ) = `planes-characteristic`.id\n" +
+                                                "JOIN airport.`flight-teams` ON flights.`flight-team-id` = `flight-teams`.id\n" +
+                                                "JOIN airports AS a1 ON  a1.id = flights.`destination-airport-id` \n" +
+                                                "JOIN cities AS c1 ON c1.id = (SELECT  `city-id` FROM airports WHERE airports.`name` = a1.`name`)\n" +
+                                                "JOIN countries AS cnt1 ON cnt1.id = c1.`country-id`\n" +
+                                                "JOIN airports AS a2 ON \ta2.id = flights.`departure-airport-id` \n" +
+                                                "JOIN cities AS c2 ON c2.id = (SELECT  `city-id` FROM airports WHERE airports.`name` = a2.`name`)\n" +
+                                                "JOIN countries AS cnt2 on  cnt2.id = c2.`country-id`;";
+
     @Override
     public ArrayList<Flight> userFlightsList(String login) throws DAOException {
 
@@ -36,7 +50,6 @@ public class FlightDAOImpl implements FlightDAO {
         try {
 
             pool = ConnectionPool.getInstance();
-            pool.poolInitialization();
             connection = pool.takeConnection();
             ps =  connection.prepareStatement(USER_FLIGHT);
 
@@ -49,7 +62,6 @@ public class FlightDAOImpl implements FlightDAO {
                         rs.getString("destination-time"), rs.getString("destination-airport"), rs.getString("destination-city"), rs.getString("destination-country"),
                         rs.getString("departure-airport"), rs.getString("departure-city"), rs.getString("departure-country")));
             }
-
 
         } catch (ConnectionPoolException e) {
             throw new DAOException("Exception during taking connection!");
@@ -74,8 +86,49 @@ public class FlightDAOImpl implements FlightDAO {
     }
 
     @Override
-    public ArrayList<Flight> allFlightsList() {
-        return null;
+    public ArrayList<Flight> allFlightsList() throws DAOException {
+
+        ConnectionPool pool = null;
+        Connection connection = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        ArrayList <Flight> flights = new ArrayList<>();
+
+        try {
+
+            pool = ConnectionPool.getInstance();
+            connection = pool.takeConnection();
+            ps =  connection.prepareStatement(ALL_FLIGHTS);
+
+            rs = ps.executeQuery();
+
+            while (rs.next()){
+                flights.add(new Flight(rs.getString("model"), rs.getString("departure-date"), rs.getString("departure-time"), rs.getString("destination-date"),
+                        rs.getString("destination-time"), rs.getString("destination-airport"), rs.getString("destination-city"), rs.getString("destination-country"),
+                        rs.getString("departure-airport"), rs.getString("departure-city"), rs.getString("departure-country"), rs.getString("short-name"),
+                        rs.getString("dest-airport-short-name"), rs.getString("dep-airport-short-name")));
+            }
+
+        } catch (ConnectionPoolException e) {
+            throw new DAOException("Exception during taking connection!");
+        } catch (SQLException e) {
+            throw new DAOException("Exception during flight selecting!");
+        }finally{
+
+            if(rs !=  null){
+                closeResultSet(rs);
+            }
+
+            if(ps != null){
+                closeStatement(ps);
+            }
+
+            if (pool != null) {
+                pool.releaseConnection(connection);
+            }
+        }
+
+        return flights;
     }
 
 
@@ -96,6 +149,5 @@ public class FlightDAOImpl implements FlightDAO {
             //log
         }
     }
-
 
 }

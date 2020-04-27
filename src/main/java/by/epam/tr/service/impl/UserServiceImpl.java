@@ -67,25 +67,29 @@ public class UserServiceImpl implements UserService {
             if(groups.size()==0){
                 return null;
             }
+
         } catch (DAOException e) {
             throw new ServiceException("Exception during users group getting!");
         }
         return groups;
     }
 
-
     @Override
-    public ArrayList<User> allUsersInfo() throws ServiceException {
+    public ArrayList<User> userByGroup(String groupName) throws ServiceException {
 
         UserDAO dao = DAOFactory.getInstance().getUserDAO();
         ArrayList <User> users;
 
         try {
 
-            users = dao.allUsersInfo();
+            users = dao.userByGroup(groupName);
+
+            if(users.size()==0){
+                return null;
+            }
 
         } catch (DAOException e) {
-            throw new ServiceException("Exception during all users getting");
+            throw new ServiceException("Exception during users getting!");
         }
         return users;
     }

@@ -12,6 +12,7 @@ public class SignOut implements Command{
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) {
 
+        //delete invalidate
         HttpSession session = request.getSession(false);
 
         session.invalidate();
@@ -23,5 +24,4 @@ public class SignOut implements Command{
         }
 
     }
-
 }

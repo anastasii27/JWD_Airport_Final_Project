@@ -22,6 +22,7 @@ import java.util.ArrayList;
 public class SignIn implements Command {
 
     private final static String ANSWER = "There is no such a user";
+    private final static String PATH = "/mmm?action=show_user_page";
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) {
@@ -31,11 +32,13 @@ public class SignIn implements Command {
         ArrayList<Group> group;
         ArrayList<Flight> flight;
         User user;
+        String login;
+        String password;
 
         HttpSession session = request.getSession(true);
 
-        String login = request.getParameter(RequestParameterName.LOGIN);
-        String password = request.getParameter(RequestParameterName.PASSWORD);
+        login = request.getParameter(RequestParameterName.LOGIN);
+        password = request.getParameter(RequestParameterName.PASSWORD);
 
         try {
 
@@ -50,10 +53,11 @@ public class SignIn implements Command {
                     session.setAttribute(RequestParameterName.USER_INFO, user);
                     session.setAttribute(RequestParameterName.FLIGHT, flight);
 
-                    response.sendRedirect(request.getContextPath() + "/mmm?action=show_user_page");
+                    response.sendRedirect(request.getContextPath() + PATH);
 
                 }else {
 
+                    //delete result page
                     request.setAttribute(RequestParameterName.RESULT_INFO, ANSWER);
                     RequestDispatcher requestDispatcher = request.getRequestDispatcher(JSPPageName.RESULT_PAGE);
 
