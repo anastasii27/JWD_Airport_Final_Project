@@ -21,11 +21,11 @@ public class User implements Serializable{
         this.careerStartYear = careerStartYear;
     }
 
-    public User(String role,String name, String surname){
+    public User(String name, String surname, String role){
 
-        this.role = role;
         this.name = name;
         this.surname = surname;
+        this.role = role;
     }
 
 

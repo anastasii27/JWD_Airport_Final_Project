@@ -307,6 +307,5 @@ public class UserDAOImpl implements UserDAO {
             //log
         }
     }
-
 }
 

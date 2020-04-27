@@ -37,7 +37,7 @@
 
                     <c:set var = "role" scope = "session" value = "${user.role}"/>
                     <c:choose>
-                        <c:when test = "${role.equals('pilot') || role.equals('stewardess')}">
+                        <c:when test = "${role eq 'pilot' || role eq 'stewardess'}">
                             <li class="nav-item active">
                                 <a class="nav-link" href="${pageContext.request.contextPath}/mmm?action=show_user_page">${my_page}</a>
                             </li>
@@ -48,7 +48,7 @@
                                 <a class="nav-link" href="#">${empl_label}</a>
                             </li>
                         </c:when>
-                        <c:when test = "${role.equals('dispatcher')}">
+                        <c:when test = "${role eq 'dispatcher'}">
                             <li class="nav-item active">
                                 <a class="nav-link" href="#">${my_page}</a>
                             </li>
@@ -62,7 +62,7 @@
                                 <a class="nav-link" href="#">${crew_label}</a>
                             </li>
                         </c:when>
-                        <c:when test = "${role.equals('admin')}">
+                        <c:when test = "${role eq 'admin'}">
                             <li class="nav-item active">
                                 <a class="nav-link" href="#">${flights_label}</a>
                             </li>

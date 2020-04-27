@@ -7,14 +7,13 @@ import by.epam.tr.controller.constant_parameter.RequestParameterName;
 import by.epam.tr.service.ServiceException;
 import by.epam.tr.service.ServiceFactory;
 import by.epam.tr.service.UserService;
-import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 import java.util.ArrayList;
 
 public class FlightInformation implements Command {
+
+    private static final String ANSWER = "No users";
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) {
@@ -22,20 +21,23 @@ public class FlightInformation implements Command {
         UserService userService = ServiceFactory.getInstance().getUserService();
         ArrayList<User> users;
         String groupName;
-        RequestDispatcher requestDispatcher = request.getRequestDispatcher(JSPPageName.FLIGHTS_INFO);
 
         groupName = request.getParameter(RequestParameterName.GROUP);
 
         try {
+
             users = userService.userByGroup(groupName);
 
-            request.setAttribute(RequestParameterName.GROUP, users);
-
-            if (requestDispatcher != null) {
-                requestDispatcher.forward(request, response);
+            if(users != null){
+                request.setAttribute(RequestParameterName.GROUP, users);
+            }
+            else {
+                request.setAttribute(RequestParameterName.RESULT_INFO, ANSWER);
             }
 
-        } catch (ServletException | IOException | ServiceException e) {
+            forwardTo(request, response, JSPPageName.FLIGHTS_INFO);
+
+        } catch (ServiceException  e) {
             errorPage(response);
         }
     }

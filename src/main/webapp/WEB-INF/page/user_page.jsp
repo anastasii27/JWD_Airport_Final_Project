@@ -81,7 +81,7 @@
         </table>
 
         <c:set var = "role" scope = "session" value = "${user.role}"/>
-        <c:if test = "${role.equals('pilot') || role.equals('stewardess')}">
+        <c:if test = "${role eq 'pilot' || role eq 'stewardess'}">
             <h3>${g_tab_label}: </h3>
             <table class ="table" border="2">
                 <tr><th>${group_label} </th><th>${data_label}</th></tr>

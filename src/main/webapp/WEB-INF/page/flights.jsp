@@ -26,20 +26,27 @@
     </head>
     <body>
         <jsp:include page="header.jsp"/>
-        <table class ="table" border="2">
-            <tr>
-                <th>${dep_time_label}</th> <th>${dep_city_label}</th>
-                <th>${dest_time_label}</th><th>${dest_city_label}</th><th>${plane_label}</th>
-            </tr>
-            <c:forEach items="${requestScope.flight}" var="flight_item">
-                <tr onclick="document.location.href= '${pageContext.request.contextPath}/mmm?action=show_flight_info&group=${flight_item.groupName}'">
-                    <td>${flight_item.departureTime}</td>
-                    <td>${flight_item.departureCity}(${flight_item.departureAirportShortName})</td>
-                    <td>${flight_item.destinationTime}</td>
-                    <td>${flight_item.destinationCity}(${flight_item.destinationAirportShortName})</td>
-                    <td>${flight_item.planeModel}</td>
+
+        <c:if test="${requestScope.result ne null}">
+            <c:out value="${requestScope.result}"/>
+        </c:if>
+
+        <c:if test="${requestScope.result eq null}">
+            <table class ="table" border="2">
+                <tr>
+                    <th>${dep_time_label}</th> <th>${dep_city_label}</th>
+                    <th>${dest_time_label}</th><th>${dest_city_label}</th><th>${plane_label}</th>
                 </tr>
-            </c:forEach>
-        </table>
+                <c:forEach items="${requestScope.flight}" var="flight_item">
+                    <tr onclick="document.location.href= '${pageContext.request.contextPath}/mmm?action=show_flight_info&group=${flight_item.groupName}'">
+                        <td>${flight_item.departureTime}</td>
+                        <td>${flight_item.departureCity}(${flight_item.departureAirportShortName})</td>
+                        <td>${flight_item.destinationTime}</td>
+                        <td>${flight_item.destinationCity}(${flight_item.destinationAirportShortName})</td>
+                        <td>${flight_item.planeModel}</td>
+                    </tr>
+                </c:forEach>
+            </table>
+        </c:if>
     </body>
 </html>
