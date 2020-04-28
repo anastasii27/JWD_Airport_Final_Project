@@ -30,6 +30,7 @@
         <fmt:message bundle="${loc}" key="local.label.groups_tab_header" var="g_tab_label" />
         <fmt:message bundle="${loc}" key="local.label.creating_date" var="data_label" />
         <fmt:message bundle="${loc}" key="local.label.group_name" var="group_label" />
+        <fmt:message bundle="${loc}" key="local.label.flight" var="flight_label" />
 
 
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
@@ -59,23 +60,17 @@
         <h3>${f_tab_label}: </h3>
         <table class ="table" border="2">
             <tr>
-                <th>${plane_label}</th><th>${dep_date_label}</th><th>${dep_time_label}</th><th>${dest_date_label}</th>
-                <th>${dest_time_label}</th><th>${dest_airport_label}</th><th>${dest_city_label}</th><th>${dest_country_label}</th>
-                <th>${dep_airport_label}</th><th>${dep_city_label}</th><th>${dep_country_label}</th>
+                <th>${flight_label}</th><th>${dep_time_label}</th> <th>${dep_city_label}</th>
+                <th>${dest_time_label}</th><th>${dest_city_label}</th><th>${plane_label}</th>
             </tr>
-            <c:forEach items="${flight}" var="flight_item">
-                <tr>
-                    <td>${flight_item.planeModel}</td>
-                    <td>${flight_item.departureDate}</td>
+            <c:forEach items="${sessionScope.flight}" var="flight_item">
+                <tr onclick="document.location.href= '${pageContext.request.contextPath}/mmm?action=show_flight_info&group=${flight_item.groupName}&flightNumber=${flight_item.flightNumber}'">
+                    <td>${flight_item.flightNumber}</td>
                     <td>${flight_item.departureTime}</td>
-                    <td>${flight_item.destinationDate}</td>
+                    <td>${flight_item.departureCity}(${flight_item.departureAirportShortName})</td>
                     <td>${flight_item.destinationTime}</td>
-                    <td>${flight_item.destinationAirport}</td>
-                    <td>${flight_item.destinationCity}</td>
-                    <td>${flight_item.destinationCountry}</td>
-                    <td>${flight_item.departureAirport}</td>
-                    <td>${flight_item.departureCity}</td>
-                    <td>${flight_item.departureCountry}</td>
+                    <td>${flight_item.destinationCity}(${flight_item.destinationAirportShortName})</td>
+                    <td>${flight_item.planeModel}</td>
                 </tr>
             </c:forEach>
         </table>

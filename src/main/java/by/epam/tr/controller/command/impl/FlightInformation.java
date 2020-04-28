@@ -13,7 +13,7 @@ import java.util.ArrayList;
 
 public class FlightInformation implements Command {
 
-    private static final String ANSWER = "No users";
+    private static final String ANSWER = "No information";
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) {
@@ -21,15 +21,18 @@ public class FlightInformation implements Command {
         UserService userService = ServiceFactory.getInstance().getUserService();
         ArrayList<User> users;
         String groupName;
+        String flightNumber;
 
         groupName = request.getParameter(RequestParameterName.GROUP);
+        flightNumber = request.getParameter(RequestParameterName.FLIGHT_NUMBER);
 
         try {
 
             users = userService.userByGroup(groupName);
 
             if(users != null){
-                request.setAttribute(RequestParameterName.GROUP, users);
+                request.setAttribute(RequestParameterName.GROUP, groupName);
+                request.setAttribute(RequestParameterName.USERS_LIST, users);
             }
             else {
                 request.setAttribute(RequestParameterName.RESULT_INFO, ANSWER);

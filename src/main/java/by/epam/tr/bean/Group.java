@@ -31,7 +31,7 @@ public class Group implements Serializable {
 
     @Override
     public String toString() {
-        return getClass().getName()+ " [name = " + name + " dateOfCreating = " + dateOfCreating + "]";
+        return getClass().getName()+ " [name = " + name + " dateOfCreating = " + dateOfCreating + " ]";
     }
 
     @Override

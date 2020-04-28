@@ -10,24 +10,23 @@ import java.util.ArrayList;
 
 public class FlightDAOImpl implements FlightDAO {
 
-    private final static String USER_FLIGHT =   "select model, `departure-date`, `departure-time`, `destination-date`, `destination-time`,  "+
-                                                "a1.`name` as `destination-airport`, c1.`name` as `destination-city` , cnt1.`name` as `destination-country`,  a2.`name` as `departure-airport`, "+
-                                                "c2.`name` as `departure-city`, cnt2.`name` as `departure-country`from flights "+
-                                                "join `planes-characteristic` on (select `planes-characteristic-id` from planes where planes.id = `plane-id` ) = `planes-characteristic`.id "+
-                                                "join `flight-teams` on flights.`flight-team-id` = `flight-teams`.id "+
-                                                "join `flight-teams-m2m-users` on   `flight-teams-m2m-users`.`flight-team-id` = `flight-teams`.id "+
-                                                "join airports as a1 on  a1.id = flights.`destination-airport-id` "+
-                                                "join cities as c1 on c1.id = (select  `city-id` from airports where airports.`name` = a1.`name`)"+
-                                                "join countries as cnt1 on cnt1.id = c1.`country-id`"+
-                                                "join airports as a2 on 	a2.id = flights.`departure-airport-id` "+
-                                                "join cities as c2 on c2.id = (select  `city-id` from airports where airports.`name` = a2.`name`) "+
-                                                "join countries as cnt2 on  cnt2.id = c2.`country-id`"+
-                                                "where `user-id` = (select id from users where login = ?);";
+    private final static String USER_FLIGHT =   "SELECT model, `short-name`, `departure-date`, `departure-time`, `destination-date`, `destination-time`, \n" +
+                                                "c1.`name` AS `destination-city` , a1.`name-abbreviation` AS `dest-airport-short-name`,\n" +
+                                                "c2.`name` AS `departure-city`, a2.`name-abbreviation` AS `dep-airport-short-name`, `flight-number` \n" +
+                                                "FROM flights\n" +
+                                                "JOIN `planes-characteristic` ON (SELECT `planes-characteristic-id` FROM planes WHERE planes.id = `plane-id` ) = `planes-characteristic`.id\n" +
+                                                "JOIN `flight-teams` ON  flights.`flight-team-id` = `flight-teams`.id\n" +
+                                                "JOIN `flight-teams-m2m-users` ON   `flight-teams-m2m-users`.`flight-team-id` = `flight-teams`.id \n" +
+                                                "JOIN airports AS a1 ON  a1.id = flights.`destination-airport-id`\n" +
+                                                "JOIN cities AS c1 ON  c1.id = (SELECT `city-id` FROM airports WHERE airports.`name` = a1.`name`)\n" +
+                                                "JOIN airports AS a2 ON a2.id = flights.`departure-airport-id`\n" +
+                                                "JOIN cities AS c2 ON  c2.id = (SELECT `city-id` FROM airports WHERE airports.`name` = a2.`name`)\n" +
+                                                "where `user-id` = (SELECT id FROM users WHERE login = ?);\n";
 
 
     private final static String ALL_FLIGHTS =   "SELECT model,`short-name`, `departure-date`, `destination-date`, `departure-time`, `destination-time`, \n" +
-                                                "a1.`name` AS `destination-airport`, c1.`name` AS `destination-city` , cnt1.`name` AS `destination-country`,  a1.`name-abbreviation` AS `dest-airport-short-name`,\n" +
-                                                "a2.`name` AS `departure-airport`, c2.`name` AS `departure-city`, cnt2.`name` AS `departure-country`, a2.`name-abbreviation` AS `dep-airport-short-name`\n" +
+                                                "c1.`name` AS `destination-city`,  a1.`name-abbreviation` AS `dest-airport-short-name`,\n" +
+                                                "c2.`name` AS `departure-city`, a2.`name-abbreviation` AS `dep-airport-short-name`,`flight-number`\n" +
                                                 "FROM airport.flights\n" +
                                                 "JOIN airport.`planes-characteristic` ON (SELECT `planes-characteristic-id` FROM planes WHERE planes.id = `plane-id` ) = `planes-characteristic`.id\n" +
                                                 "JOIN airport.`flight-teams` ON flights.`flight-team-id` = `flight-teams`.id\n" +
@@ -38,6 +37,17 @@ public class FlightDAOImpl implements FlightDAO {
                                                 "JOIN cities AS c2 ON c2.id = (SELECT  `city-id` FROM airports WHERE airports.`name` = a2.`name`)\n" +
                                                 "JOIN countries AS cnt2 on  cnt2.id = c2.`country-id`;";
 
+    private final static String FLIGHT_INFO =   "SELECT `destination-date`, `destination-time`, a2.`name` AS `departure-airport`, c2.`name` AS `departure-city`, cnt2.`name` AS `departure-country`,  a2.`name-abbreviation` AS `dep-airport-short-name`, \n" +
+                                                "`departure-date`, `departure-time`, a1.`name` AS `destination-airport`, c1.`name` AS `destination-city` , cnt1.`name` AS `destination-country`, a1.`name-abbreviation` AS `dest-airport-short-name`\n" +
+                                                "FROM flights\n" +
+                                                "JOIN `planes-characteristic` ON (SELECT `planes-characteristic-id` FROM planes WHERE planes.id = `plane-id` ) = `planes-characteristic`.id\n" +
+                                                "JOIN airports AS a1 ON  a1.id = flights.`destination-airport-id`\n" +
+                                                "JOIN cities AS c1 ON c1.id = (SELECT `city-id` FROM airports WHERE airports.`name` = a1.`name`)\n" +
+                                                "JOIN countries AS cnt1 ON cnt1.id = c1.`country-id`\n" +
+                                                "JOIN airports AS a2 ON \ta2.id = flights.`departure-airport-id`\n" +
+                                                "JOIN cities AS c2 ON c2.id = (SELECT `city-id` FROM airports WHERE airports.`name` = a2.`name`)\n" +
+                                                "JOIN countries AS cnt2 ON cnt2.id = c2.`country-id`\n" +
+                                                "WHERE `flight-number` = ? AND `departure-time` = ?;\n";
     @Override
     public ArrayList<Flight> userFlightsList(String login) throws DAOException {
 
@@ -50,6 +60,7 @@ public class FlightDAOImpl implements FlightDAO {
         try {
 
             pool = ConnectionPool.getInstance();
+            pool.poolInitialization();
             connection = pool.takeConnection();
             ps =  connection.prepareStatement(USER_FLIGHT);
 
@@ -59,8 +70,8 @@ public class FlightDAOImpl implements FlightDAO {
 
             while (rs.next()){
                 flights.add(new Flight(rs.getString("model"), rs.getString("departure-date"), rs.getString("departure-time"), rs.getString("destination-date"),
-                        rs.getString("destination-time"), rs.getString("destination-airport"), rs.getString("destination-city"), rs.getString("destination-country"),
-                        rs.getString("departure-airport"), rs.getString("departure-city"), rs.getString("departure-country")));
+                        rs.getString("destination-time"),  rs.getString("destination-city"), rs.getString("departure-city"), rs.getString("short-name"),
+                        rs.getString("dest-airport-short-name"), rs.getString("dep-airport-short-name"), rs.getString("flight-number")));
             }
 
         } catch (ConnectionPoolException e) {
@@ -95,8 +106,8 @@ public class FlightDAOImpl implements FlightDAO {
         ArrayList <Flight> flights = new ArrayList<>();
 
         try {
-
             pool = ConnectionPool.getInstance();
+            pool.poolInitialization();
             connection = pool.takeConnection();
             ps =  connection.prepareStatement(ALL_FLIGHTS);
 
@@ -104,9 +115,8 @@ public class FlightDAOImpl implements FlightDAO {
 
             while (rs.next()){
                 flights.add(new Flight(rs.getString("model"), rs.getString("departure-date"), rs.getString("departure-time"), rs.getString("destination-date"),
-                        rs.getString("destination-time"), rs.getString("destination-airport"), rs.getString("destination-city"), rs.getString("destination-country"),
-                        rs.getString("departure-airport"), rs.getString("departure-city"), rs.getString("departure-country"), rs.getString("short-name"),
-                        rs.getString("dest-airport-short-name"), rs.getString("dep-airport-short-name")));
+                        rs.getString("destination-time"),  rs.getString("destination-city"), rs.getString("departure-city"), rs.getString("short-name"),
+                        rs.getString("dest-airport-short-name"), rs.getString("dep-airport-short-name"), rs.getString("flight-number")));
             }
 
         } catch (ConnectionPoolException e) {
@@ -131,6 +141,10 @@ public class FlightDAOImpl implements FlightDAO {
         return flights;
     }
 
+    @Override
+    public Flight flightInfo(String flightNumber, String departureDate) {
+        return null;
+    }
 
     private void closeStatement(Statement st) {
 
@@ -149,5 +163,4 @@ public class FlightDAOImpl implements FlightDAO {
             //log
         }
     }
-
 }

@@ -18,42 +18,41 @@ public class Flight implements Serializable {
     private String groupName;
     private String destinationAirportShortName;
     private String departureAirportShortName;
+    private String flightNumber;
 
     public Flight(){}
 
-    public Flight(String planeModel, String departureDate, String departureTime, String destinationDate, String destinationTime, String destinationAirport,
-                  String destinationCity, String destinationCountry, String departureAirport, String departureCity, String departureCountry) {
+    public Flight(String planeModel, String departureDate, String departureTime, String destinationDate, String destinationTime,
+                  String destinationCity, String departureCity, String groupName, String destinationAirportShortName, String departureAirportShortName,
+                  String flightNumber) {
 
         this.planeModel = planeModel;
         this.departureDate = departureDate;
         this.departureTime = departureTime;
         this.destinationDate = destinationDate;
         this.destinationTime = destinationTime;
-        this.destinationAirport = destinationAirport;
         this.destinationCity = destinationCity;
-        this.destinationCountry = destinationCountry;
-        this.departureAirport = departureAirport;
         this.departureCity = departureCity;
-        this.departureCountry = departureCountry;
-    }
-
-    public Flight(String planeModel, String departureDate, String departureTime, String destinationDate, String destinationTime, String destinationAirport,
-                  String destinationCity, String destinationCountry, String departureAirport, String departureCity, String departureCountry, String groupName,
-                  String destinationAirportShortName, String departureAirportShortName) {
-
-        this.planeModel = planeModel;
-        this.departureDate = departureDate;
-        this.departureTime = departureTime;
-        this.destinationDate = destinationDate;
-        this.destinationTime = destinationTime;
-        this.destinationAirport = destinationAirport;
-        this.destinationCity = destinationCity;
-        this.destinationCountry = destinationCountry;
-        this.departureAirport = departureAirport;
-        this.departureCity = departureCity;
-        this.departureCountry = departureCountry;
         this.groupName= groupName;
         this.destinationAirportShortName = destinationAirportShortName;
+        this.departureAirportShortName = departureAirportShortName;
+        this.flightNumber = flightNumber;
+    }
+
+    public Flight( String destinationDate, String destinationTime, String destinationAirport,String destinationCity, String destinationCountry,String destinationAirportShortName,
+                   String departureDate, String departureTime, String departureAirport, String departureCity, String departureCountry,String departureAirportShortName) {
+
+        this.destinationDate = destinationDate;
+        this.destinationTime = destinationTime;
+        this.destinationAirport = destinationAirport;
+        this.destinationCity = destinationCity;
+        this.destinationCountry = destinationCountry;
+        this.destinationAirportShortName = destinationAirportShortName;
+        this.departureDate = departureDate;
+        this.departureTime = departureTime;
+        this.departureAirport = departureAirport;
+        this.departureCity = departureCity;
+        this.departureCountry = departureCountry;
         this.departureAirportShortName = departureAirportShortName;
     }
 
@@ -169,13 +168,22 @@ public class Flight implements Serializable {
         this.departureAirportShortName = departureAirportShortName;
     }
 
+    public String getFlightNumber() {
+        return flightNumber;
+    }
+
+    public void setFlightNumber(String flightNumber) {
+        this.flightNumber = flightNumber;
+    }
+
     @Override
     public String toString() {
         return getClass().getName()+ " [planeModel = " + planeModel + " departureDate = " + departureDate + " departureTime = " + departureTime  +
                 " destinationDate = " + destinationDate  + " destinationTime = " + destinationTime + " destinationAirport = " + destinationAirport +
                 " destinationCity = " + destinationCity + " destinationCountry = " + destinationCountry +  " departureAirport = " + departureAirport +
                 " departureCity = " + departureCity + " departureCountry = " + departureCountry  + " groupName= " + groupName+
-                " departureAirportShortName = " + departureAirportShortName  + " destinationAirportShortName= " + destinationAirportShortName;
+                " departureAirportShortName = " + departureAirportShortName  + " destinationAirportShortName= " + destinationAirportShortName+
+                " flightNumber = " + flightNumber + " ]";
     }
 
     @Override
@@ -186,7 +194,8 @@ public class Flight implements Serializable {
                 ((destinationCity==null)?0:destinationCity.hashCode())+ ((destinationCountry==null)?0:destinationCountry.hashCode())+
                 ((departureAirport==null)?0:departureAirport.hashCode())+ ((departureCity==null)?0:departureCity.hashCode())+
                 ((departureCountry==null)?0:departureCountry.hashCode())+ ((groupName == null)?0:groupName.hashCode())+
-                ((departureAirportShortName==null)?0:departureAirportShortName.hashCode())+ ((destinationAirportShortName == null)?0:destinationAirportShortName.hashCode()));
+                ((departureAirportShortName==null)?0:departureAirportShortName.hashCode())+ ((destinationAirportShortName == null)?0:destinationAirportShortName.hashCode())+
+                ((flightNumber==null)?0:flightNumber.hashCode()));
     }
 
     @Override
@@ -306,6 +315,14 @@ public class Flight implements Serializable {
                 return false;
             }
         }else if(!destinationAirportShortName.equals(other.destinationAirportShortName)) {
+            return false;
+        }
+
+        if (flightNumber == null) {
+            if(other.flightNumber!= null){
+                return false;
+            }
+        }else if(!flightNumber.equals(other.flightNumber)) {
             return false;
         }
 

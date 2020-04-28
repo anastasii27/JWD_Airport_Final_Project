@@ -73,7 +73,7 @@ public class User implements Serializable{
     @Override
     public String toString() {
         return getClass().getName() +" [role = " + role + " name = "+ name + " surname = "+
-                surname +" email = "+ email+ " career start year = " + careerStartYear + "]";
+                surname +" email = "+ email+ " career start year = " + careerStartYear + " ]";
     }
 
     @Override

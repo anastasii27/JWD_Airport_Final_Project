@@ -11,7 +11,7 @@
 
         <fmt:setLocale value="${sessionScope.local}" />
         <fmt:setBundle basename="localization.local" var="loc" />
-        <fmt:message bundle="${loc}" key="local.label.sign_in" var="sign_in_label" />
+        <fmt:message bundle="${loc}" key="local.enter_button" var="sign_in_label" />
         <fmt:message bundle="${loc}" key="local.label.login" var="login_label" />
         <fmt:message bundle="${loc}" key="local.label.password" var="password_label" />
         <fmt:message bundle="${loc}" key="local.enter_button" var="enter_button" />
