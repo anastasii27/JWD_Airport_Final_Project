@@ -16,16 +16,10 @@
         <fmt:message bundle="${loc}" key="local.label.start_year" var="start_label" />
         <fmt:message bundle="${loc}" key="local.label.role" var="role_label" />
         <fmt:message bundle="${loc}" key="local.label.plane" var="plane_label" />
-        <fmt:message bundle="${loc}" key="local.label.dep_date" var="dep_date_label" />
         <fmt:message bundle="${loc}" key="local.label.dep_time" var="dep_time_label" />
-        <fmt:message bundle="${loc}" key="local.label.dest_date" var="dest_date_label" />
         <fmt:message bundle="${loc}" key="local.label.dest_time" var="dest_time_label" />
-        <fmt:message bundle="${loc}" key="local.label.dest_airport" var="dest_airport_label" />
         <fmt:message bundle="${loc}" key="local.label.dest_city" var="dest_city_label" />
-        <fmt:message bundle="${loc}" key="local.label.dest_country" var="dest_country_label" />
-        <fmt:message bundle="${loc}" key="local.label.dep_airport" var="dep_airport_label" />
         <fmt:message bundle="${loc}" key="local.label.dep_city" var="dep_city_label" />
-        <fmt:message bundle="${loc}" key="local.label.dep_country" var="dep_country_label" />
         <fmt:message bundle="${loc}" key="local.label.flight_tab_header" var="f_tab_label" />
         <fmt:message bundle="${loc}" key="local.label.groups_tab_header" var="g_tab_label" />
         <fmt:message bundle="${loc}" key="local.label.creating_date" var="data_label" />

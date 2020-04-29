@@ -92,7 +92,7 @@ public class UserDAOImpl implements UserDAO {
         } catch (ConnectionPoolException e) {
             throw new DAOException("Exception during taking connection!");
         } catch (SQLException e) {
-            throw new DAOException("Exception during select operation!");
+            throw new DAOException("Exception during sign in operation!");
         }finally {
 
             if(rs !=  null){
@@ -136,7 +136,7 @@ public class UserDAOImpl implements UserDAO {
         } catch (ConnectionPoolException e) {
             throw new DAOException("Exception during taking connection!");
         } catch (SQLException e) {
-            throw new DAOException("Exception during select operation!");
+            throw new DAOException("Exception during user info selecting operation!");
         }finally{
 
             if(rs !=  null){
@@ -182,7 +182,7 @@ public class UserDAOImpl implements UserDAO {
         } catch (ConnectionPoolException e) {
             throw new DAOException("Exception during taking connection!");
         } catch (SQLException e) {
-            throw new DAOException("Exception during select operation!");
+            throw new DAOException("Exception during user group selecting operation!");
         }finally{
 
             if(rs !=  null){
@@ -226,7 +226,7 @@ public class UserDAOImpl implements UserDAO {
         } catch (ConnectionPoolException e) {
             throw new DAOException("Exception during taking connection!");
         } catch (SQLException e) {
-            throw new DAOException("Exception during select operation!");
+            throw new DAOException("Exception during user existence operation!");
         }finally {
 
             if(rs !=  null){
@@ -257,7 +257,6 @@ public class UserDAOImpl implements UserDAO {
         try {
 
             pool = ConnectionPool.getInstance();
-            pool.poolInitialization();
             connection = pool.takeConnection();
             ps =  connection.prepareStatement(SELECT_USER_BY_GROUP);
 
@@ -272,7 +271,7 @@ public class UserDAOImpl implements UserDAO {
         } catch (ConnectionPoolException e) {
             throw new DAOException("Exception during taking connection!");
         } catch (SQLException e) {
-            throw new DAOException("Exception during select operation!");
+            throw new DAOException("Exception during finding user by group operation!");
         }finally{
 
             if(rs !=  null){

@@ -11,9 +11,7 @@
         <fmt:message bundle="${loc}" key="local.label.plane" var="plane_label" />
         <fmt:message bundle="${loc}" key="local.label.dep_time" var="dep_time_label" />
         <fmt:message bundle="${loc}" key="local.label.dest_time" var="dest_time_label" />
-        <fmt:message bundle="${loc}" key="local.label.dest_airport" var="dest_airport_label" />
         <fmt:message bundle="${loc}" key="local.label.dest_city" var="dest_city_label" />
-        <fmt:message bundle="${loc}" key="local.label.dep_airport" var="dep_airport_label" />
         <fmt:message bundle="${loc}" key="local.label.dep_city" var="dep_city_label" />
         <fmt:message bundle="${loc}" key="local.label.flight_tab_header" var="f_tab_label" />
         <fmt:message bundle="${loc}" key="local.label.flight" var="flight_label" />
@@ -47,7 +45,7 @@
                     <th>${dest_time_label}</th><th>${dest_city_label}</th><th>${plane_label}</th>
                 </tr>
                 <c:forEach items="${requestScope.flight}" var="flight_item">
-                    <tr onclick="document.location.href= '${pageContext.request.contextPath}/mmm?action=show_flight_info&group=${flight_item.groupName}&flightNumber=${flight_item.flightNumber}'">
+                    <tr onclick="document.location.href= '${pageContext.request.contextPath}/mmm?action=show_flight_info&group=${flight_item.groupName}&flight_number=${flight_item.flightNumber}&departure_date=${flight_item.departureDate}'">
                         <td>${flight_item.flightNumber}</td>
                         <td>${flight_item.departureTime}</td>
                         <td>${flight_item.departureCity}(${flight_item.departureAirportShortName})</td>

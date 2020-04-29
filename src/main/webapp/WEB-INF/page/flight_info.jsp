@@ -11,6 +11,14 @@
         <fmt:setBundle basename="localization.local" var="loc" />
         <fmt:message bundle="${loc}" key="local.label.pilot" var="pilot_label" />
         <fmt:message bundle="${loc}" key="local.label.steward" var="steward_label" />
+        <fmt:message bundle="${loc}" key="local.label.flight" var="flight_label" />
+        <fmt:message bundle="${loc}" key="local.label.flight_info.date" var="date_label" />
+        <fmt:message bundle="${loc}" key="local.label.flight_info.time" var="time_label" />
+        <fmt:message bundle="${loc}" key="local.label.flight_info.country" var="country_label" />
+        <fmt:message bundle="${loc}" key="local.label.flight_info.city" var="city_label" />
+        <fmt:message bundle="${loc}" key="local.label.flight_info.airport" var="airport_label" />
+        <fmt:message bundle="${loc}" key="local.label.flight_info.arrivals" var="arrivals_label" />
+        <fmt:message bundle="${loc}" key="local.label.flight_info.departures" var="departures_label" />
 
         <link rel="stylesheet" href="${pageContext.request.contextPath}/css/header.css"/>
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
@@ -21,7 +29,7 @@
         <script>
             $(document).ready(function () {
                 $('.lang').on('click', function (){
-                    $('.lang').append('<input type="hidden" name="url" value="${pageContext.request.contextPath}/mmm?action=show_flight_info&group=${requestScope.group}"/>');
+                    $('.lang').append('<input type="hidden" name="url" value="${pageContext.request.contextPath}/mmm?action=show_flight_info&group=${requestScope.group}&flight_number=${requestScope.flight_number}&departure_date=${requestScope.departure_date}"/>');
                 });
             });
         </script>
@@ -59,30 +67,34 @@
                     </c:if>
             </div>
             <div class = 'col-md-4 container'>
+                <div class = "row">
+                    <h2>${flight_label}</h2>
+                    <c:out value=" ${requestScope.flight_number}"/>
+                </div>
                 <div>
-                    <h2>Вылеты</h2>
-                    <c:if test="${requestScope.result ne null}">
-                        <c:out value="${requestScope.result}"/>
+                    <h2>${departures_label}</h2>
+                    <c:if test="${requestScope.result1 ne null}">
+                        <c:out value="${requestScope.result1}"/>
                     </c:if>
-                    <c:if test="${requestScope.result eq null}">
-                        <p>Время <c:out value="${requestScope.departureTime}"/></p>
-                        <p>Дата <c:out value="${requestScope.flight.departureDate}"/></p>
-                        <p>Страна <c:out value="${requestScope.flight.departureCountry}"/></p>
-                        <p>Город <c:out value="${requestScope.flight.departureCity}"/></p>
-                        <p>Аэропорт <c:out value="${requestScope.flight.departureAirport}"/></p>
+                    <c:if test="${requestScope.result1 eq null}">
+                        <p>${time_label}: <c:out value="${requestScope.flight.departureTime}"/></p>
+                        <p>${date_label}: <c:out value="${requestScope.flight.departureDate}"/></p>
+                        <p>${country_label}: <c:out value="${requestScope.flight.departureCountry}"/></p>
+                        <p>${city_label}: <c:out value="${requestScope.flight.departureCity}"/></p>
+                        <p>${airport_label}: <c:out value="${requestScope.flight.departureAirport} (${requestScope.flight.departureAirportShortName})"/></p>
                     </c:if>
                 </div>
                 <div>
-                    <h2>Прилеты</h2>
-                    <c:if test="${requestScope.result ne null}">
-                        <c:out value="${requestScope.result}"/>
+                    <h2>${arrivals_label}</h2>
+                    <c:if test="${requestScope.result1 ne null}">
+                        <c:out value="${requestScope.result1}"/>
                     </c:if>
-                    <c:if test="${requestScope.result eq null}">
-                        <p>Время <c:out value="${requestScope.flight.destinationTime}"/></p>
-                        <p>Дата  <c:out value="${requestScope.flight.destinationDate}"/></p>
-                        <p>Страна<c:out value="${requestScope.flight.destinationCountry}"/></p>
-                        <p>Город <c:out value="${requestScope.flight.destinationCity}"/></p>
-                        <p>Аэропорт <c:out value="${requestScope.flight.destinationAirport}"/></p>
+                    <c:if test="${requestScope.result1 eq null}">
+                        <p>${time_label}: <c:out value="${requestScope.flight.destinationTime}"/></p>
+                        <p>${date_label}:  <c:out value="${requestScope.flight.destinationDate}"/></p>
+                        <p>${country_label}: <c:out value="${requestScope.flight.destinationCountry}"/></p>
+                        <p>${city_label}: <c:out value="${requestScope.flight.destinationCity}"/></p>
+                        <p>${airport_label}: <c:out value="${requestScope.flight.destinationAirport} (${requestScope.flight.destinationAirportShortName})"/></p>
                     </c:if>
                 </div>
             </div>

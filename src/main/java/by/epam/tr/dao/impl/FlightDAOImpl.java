@@ -21,7 +21,7 @@ public class FlightDAOImpl implements FlightDAO {
                                                 "JOIN cities AS c1 ON  c1.id = (SELECT `city-id` FROM airports WHERE airports.`name` = a1.`name`)\n" +
                                                 "JOIN airports AS a2 ON a2.id = flights.`departure-airport-id`\n" +
                                                 "JOIN cities AS c2 ON  c2.id = (SELECT `city-id` FROM airports WHERE airports.`name` = a2.`name`)\n" +
-                                                "where `user-id` = (SELECT id FROM users WHERE login = ?);\n";
+                                                "WHERE `user-id` = (SELECT id FROM users WHERE login = ?);\n";
 
 
     private final static String ALL_FLIGHTS =   "SELECT model,`short-name`, `departure-date`, `destination-date`, `departure-time`, `destination-time`, \n" +
@@ -47,7 +47,7 @@ public class FlightDAOImpl implements FlightDAO {
                                                 "JOIN airports AS a2 ON \ta2.id = flights.`departure-airport-id`\n" +
                                                 "JOIN cities AS c2 ON c2.id = (SELECT `city-id` FROM airports WHERE airports.`name` = a2.`name`)\n" +
                                                 "JOIN countries AS cnt2 ON cnt2.id = c2.`country-id`\n" +
-                                                "WHERE `flight-number` = ? AND `departure-time` = ?;\n";
+                                                "WHERE `flight-number` = ? AND `departure-date` = ?;\n";
     @Override
     public ArrayList<Flight> userFlightsList(String login) throws DAOException {
 
@@ -60,7 +60,6 @@ public class FlightDAOImpl implements FlightDAO {
         try {
 
             pool = ConnectionPool.getInstance();
-            pool.poolInitialization();
             connection = pool.takeConnection();
             ps =  connection.prepareStatement(USER_FLIGHT);
 
@@ -107,7 +106,6 @@ public class FlightDAOImpl implements FlightDAO {
 
         try {
             pool = ConnectionPool.getInstance();
-            pool.poolInitialization();
             connection = pool.takeConnection();
             ps =  connection.prepareStatement(ALL_FLIGHTS);
 
@@ -142,8 +140,54 @@ public class FlightDAOImpl implements FlightDAO {
     }
 
     @Override
-    public Flight flightInfo(String flightNumber, String departureDate) {
-        return null;
+    public Flight flightInfo(String flightNumber, String departureDate) throws DAOException {
+
+        ConnectionPool pool = null;
+        Connection connection = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        Flight flight;
+
+        try {
+            pool = ConnectionPool.getInstance();
+            pool.poolInitialization();
+            connection = pool.takeConnection();
+            ps =  connection.prepareStatement(FLIGHT_INFO);
+
+            ps.setString(1,flightNumber);
+            ps.setString(2,departureDate);
+
+            rs = ps.executeQuery();
+
+            if(!rs.next()){
+                return null;
+            }
+
+            flight = new Flight(rs.getString("destination-date"), rs.getString("destination-time"), rs.getString("destination-airport"), rs.getString("destination-city"),
+                            rs.getString("destination-country"),  rs.getString("dest-airport-short-name"),rs.getString("departure-date"), rs.getString("departure-time"),
+                            rs.getString("departure-airport"), rs.getString("departure-city"),rs.getString("departure-country"),  rs.getString("dep-airport-short-name") );
+
+
+        } catch (ConnectionPoolException e) {
+            throw new DAOException("Exception during taking connection!");
+        } catch (SQLException e) {
+            throw new DAOException("Exception during flight info selecting!");
+        }finally{
+
+            if(rs !=  null){
+                closeResultSet(rs);
+            }
+
+            if(ps != null){
+                closeStatement(ps);
+            }
+
+            if (pool != null) {
+                pool.releaseConnection(connection);
+            }
+        }
+
+        return flight;
     }
 
     private void closeStatement(Statement st) {
@@ -163,4 +207,5 @@ public class FlightDAOImpl implements FlightDAO {
             //log
         }
     }
+
 }

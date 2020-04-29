@@ -25,7 +25,7 @@ public class FlightServiceImpl implements FlightService {
             }
 
         } catch (DAOException e) {
-            throw new ServiceException("Exception during getting users flight");
+            throw new ServiceException("Exception during getting users flights");
         }
 
         return flights;
@@ -46,10 +46,27 @@ public class FlightServiceImpl implements FlightService {
             }
 
         } catch (DAOException e) {
-            throw new ServiceException("Exception during getting users flight");
+            throw new ServiceException("Exception during getting all flights");
         }
 
         return flights;
+    }
+
+    @Override
+    public Flight flightInfo(String flightNumber, String departureDate) throws ServiceException {
+
+        FlightDAO dao = DAOFactory.getInstance().getFlightDAO();
+        Flight flight;
+
+        try {
+
+            flight =  dao.flightInfo(flightNumber,  departureDate);
+
+        } catch (DAOException e) {
+            throw new ServiceException("Exception during getting flight info");
+        }
+
+        return flight;
     }
 
 }

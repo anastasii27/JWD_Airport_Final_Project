@@ -12,9 +12,11 @@ public final class RequestParameterName {
     public static final String EMAIL = "email";
     public static final String CAREER_START_YEAR = "career_start_year";
     public static final String RESULT_INFO = "result";
+    public static final String RESULT_INFO1 = "result1";
     public static final String USER_INFO = "user";
     public static final String GROUP = "group";
     public static final String FLIGHT = "flight";
     public static final String USERS_LIST = "users";
     public static final String FLIGHT_NUMBER = "flight_number";
+    public static final String DEPARTURE_DATE = "departure_date";
 }
