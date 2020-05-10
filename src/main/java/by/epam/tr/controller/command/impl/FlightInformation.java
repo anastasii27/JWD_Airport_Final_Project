@@ -44,7 +44,6 @@ public class FlightInformation implements Command {
                 request.setAttribute(RequestParameterName.RESULT_INFO, ANSWER);
             }
 
-
             if (flight != null){
                 request.setAttribute(RequestParameterName.FLIGHT, flight);
             }else {

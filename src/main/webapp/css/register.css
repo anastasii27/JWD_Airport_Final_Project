@@ -1,0 +1,43 @@
+body {
+    background-image: url('../img/register_sky.jpg');
+    background-size: cover;
+    background-repeat:  no-repeat;
+}
+
+.lang{
+    margin-left: 90vw;
+}
+
+.btn-md {
+    color: black;
+    background: ghostwhite;
+    border: solid 1px black;
+}
+
+.reg{
+    margin-left: 15vw;
+    margin-top: 2vh;
+}
+
+.form{
+    height: 77vh;
+    margin-top: 5vh;
+    margin-left: 29vw;
+    border: 1px solid;
+    border-radius: 10px;
+    background: ghostwhite;
+    opacity: 0.95;
+}
+
+.form-row{
+    padding-left: 6vw;
+}
+
+.button{
+    margin-left: 23vw;
+    margin-top: 2vh;
+}
+
+.btn-primary{
+    width: 11vw;
+}

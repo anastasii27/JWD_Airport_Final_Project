@@ -1,16 +1,24 @@
 body{
-    height: 100%;
-    width: 100%;
-    /*background-image: url('../image/sign_in.jpg');*/
-    background-repeat: no-repeat;
+    background-image: url('../img/sign_in_sky.jpg');
     background-size: cover;
+    background-repeat:  no-repeat;
+}
+
+.btn-md {
+    color: black;
+    background: white;
+    border: solid 1px black;
+}
+
+.lang{
+    margin-left: 90vw;
 }
 
 .form{
     height: 35vh;
     width: 25vw;
     margin-top: 15vh;
-    margin-left: 37vw;
+    margin-left: 36vw;
     border: 1px solid;
     border-radius: 10px;
     background: ghostwhite;
@@ -26,6 +34,7 @@ body{
 
 .in{
     display: inline-block;
+    padding-left: 2vw;
 }
 
 .create{
@@ -36,8 +45,13 @@ body{
     padding-left: 4vw;
     padding-top: 3vh;
 }
+
 .label{
     padding-left: 10vw;
     padding-top: 2vh;
+}
+
+.btn-primary{
+    width: 5vw;
 }
 

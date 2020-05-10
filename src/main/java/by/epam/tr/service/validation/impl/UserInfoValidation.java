@@ -20,12 +20,12 @@ public class UserInfoValidation extends UserValidation{
         if(! textCheck(name) || ! textCheck(surname)){
             return false;
         }
+
         if(! numberCheck(careerStartYear)){
             return false;
         }
 
-       return checkNext(user, login, password);
+        return checkNext(user, login, password);
 
     }
-
 }

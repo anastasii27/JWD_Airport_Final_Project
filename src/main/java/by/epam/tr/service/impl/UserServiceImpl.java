@@ -39,6 +39,7 @@ public class UserServiceImpl implements UserService {
         if(!userValidation.check(user, login, password)) {
             return -1;
         }
+
         try {
 
             if(dao.doesUserExist(login)){

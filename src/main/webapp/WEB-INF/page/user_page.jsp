@@ -58,7 +58,7 @@
                 <th>${dest_time_label}</th><th>${dest_city_label}</th><th>${plane_label}</th>
             </tr>
             <c:forEach items="${sessionScope.flight}" var="flight_item">
-                <tr onclick="document.location.href= '${pageContext.request.contextPath}/mmm?action=show_flight_info&group=${flight_item.groupName}&flightNumber=${flight_item.flightNumber}'">
+                <tr onclick="document.location.href= '${pageContext.request.contextPath}/mmm?action=show_flight_info&group=${flight_item.groupName}&flight_number=${flight_item.flightNumber}&departure_date=${flight_item.departureDate}'">
                     <td>${flight_item.flightNumber}</td>
                     <td>${flight_item.departureTime}</td>
                     <td>${flight_item.departureCity}(${flight_item.departureAirportShortName})</td>
