@@ -22,6 +22,8 @@ body{
     border: 1px solid;
     border-radius: 10px;
     background: ghostwhite;
+    position: relative;
+
 }
 
 .form-group{
@@ -43,7 +45,7 @@ body{
 
 .last{
     padding-left: 4vw;
-    padding-top: 3vh;
+    padding-top: 2vh;
 }
 
 .label{
@@ -55,3 +57,11 @@ body{
     width: 5vw;
 }
 
+.button{
+    margin-left: -0.2vw;
+}
+
+#sign_in input.error, #sign_in select.error {
+    background: #a6c5ff;
+    border: 1px solid #0f1970;
+}

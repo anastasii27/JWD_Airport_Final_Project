@@ -20,8 +20,8 @@ body {
 }
 
 .form{
-    height: 77vh;
-    margin-top: 5vh;
+    height: 81vh;
+    margin-top: 4vh;
     margin-left: 29vw;
     border: 1px solid;
     border-radius: 10px;
@@ -31,13 +31,35 @@ body {
 
 .form-row{
     padding-left: 6vw;
+    margin-top: 1px;
 }
 
 .button{
-    margin-left: 23vw;
-    margin-top: 2vh;
+    margin-left: 2.5vw;
+    margin-top: 3vh;
 }
 
 .btn-primary{
     width: 11vw;
+}
+
+p{
+    font-size: 10pt;
+    color: darkslategray;
+    font-weight: lighter;
+}
+
+#sign_up label.error {
+    font-size: 0.8em;
+    color: #0f1970;
+    font-weight: lighter;
+}
+
+#sign_up input.error, #sign_up select.error {
+    background: #a6c5ff;
+    border: 1px solid #0f1970;
+}
+
+input[class^="form"]{
+    font-size: 15px;
 }

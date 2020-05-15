@@ -19,13 +19,28 @@
         <fmt:message bundle="${loc}" key="local.button.name.ru" var="ru_button" />
         <fmt:message bundle="${loc}" key="local.button.name.en" var="en_button" />
 
-
         <link rel="stylesheet" href="${pageContext.request.contextPath}/css/sign_in.css"/>
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
         <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.1/dist/jquery.validate.min.js"></script>
 
+        <script>
+            $(document).ready(function () {
+
+                $('#sign_in').validate({
+                    rules:{
+                        login: 'required',
+                        user_password: 'required'
+                    },
+                    messages:{
+                        login: null,
+                        user_password: null
+                    }
+                });
+            });
+        </script>
     </head>
     <body>
         <nav class="navbar navbar-expand-lg">
@@ -53,22 +68,21 @@
         <div class="form">
             <h4 class = "label">${sign_in_label}</h4>
 
-            <form action="mmm" method="post">
+            <form id="sign_in" action="mmm" method="post">
                 <input type="hidden" name="action" value="sign_in"/>
                 <div class="form-group log row">
-                    <label for="inputEmail3" class="col-sm-2 col-form-label">${login_label}</label>
-                    <div class="col-sm-8 ml-2">
-                        <input type="text" name="login" class="form-control" id="inputEmail3" placeholder="${login_label}" required>
+                    <label for="inputLogin" class="col-sm-2 col-form-label">${login_label}</label>
+                    <div class="col-sm-8 ml-3">
+                        <input type="text" name="login" class="form-control" id="inputLogin"/>
                     </div>
                 </div>
 
-                <div class="form-group row">
-                    <label for="inputPassword3" class="col-sm-2 col-form-label">${password_label}</label>
-                    <div class="col-sm-8 ml-2">
-                        <input type="password" name="user_password"  class="form-control" id="inputPassword3" placeholder="${password_label}" required>
+                <div class="form-group pas row">
+                    <label for="inputPassword" class="col-sm-2 col-form-label">${password_label}</label>
+                    <div class="col-sm-8 ml-3">
+                        <input type="password" name="user_password"  class="form-control" id="inputPassword"/>
                     </div>
                 </div>
-
                 <div class="form-group row last ">
                     <div class="col-sm-7 in create">
                         <a href="${pageContext.request.contextPath}/mmm?action=show_register_page">${create_account_label}</a>
