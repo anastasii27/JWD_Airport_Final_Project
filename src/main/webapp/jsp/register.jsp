@@ -23,133 +23,18 @@
         <fmt:message bundle="${loc}" key="local.form.info_1" var="login_info" />
         <fmt:message bundle="${loc}" key="local.form.info_2" var="password_info" />
         <fmt:message bundle="${loc}" key="local.register_button" var="register_button" />
-        <fmt:message bundle="${loc}" key="local.form.error.empty.role" var="empty_position" />
-        <fmt:message bundle="${loc}" key="local.form.error.empty.val" var="empty_val" />
-        <fmt:message bundle="${loc}" key="local.form.error.illegal.email" var="illegal_email" />
-        <fmt:message bundle="${loc}" key="local.form.error.illegal.number" var="illegal_number" />
-        <fmt:message bundle="${loc}" key="local.form.error.illegal.login_len" var="illegal_login_len" />
-        <fmt:message bundle="${loc}" key="local.form.error.illegal.password_len" var="illegal_password_len" />
-        <fmt:message bundle="${loc}" key="local.form.error.illegal.conf" var="illegal_conf" />
-        <fmt:message bundle="${loc}" key="local.form.error.illegal.pattern" var="illegal_pattern" />
-        <fmt:message bundle="${loc}" key="local.form.error.illegal.number_letter_pattern" var="illegal_n_l_pattern" />
-
+        <fmt:message bundle="${loc}" key="local.js.lang" var="lang" />
 
         <link rel="stylesheet" href="${pageContext.request.contextPath}/css/register.css"/>
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-        <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+        <script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.1/dist/jquery.validate.min.js"></script>
-
-        <script>
-            $(document).ready(function () {
-
-                $.validator.addMethod('user_name1', function(value) {
-                    return value.match(new RegExp("^" + "[A-Za-z]+" + "$"));
-                });
-
-                $.validator.addMethod('surname1', function(value) {
-                    return value.match(new RegExp("^" + "[A-Za-z]+" + "$"));
-                });
-
-                $.validator.addMethod('login1', function(value) {
-                    return value.match(new RegExp("^" + "[A-Za-z0-9]+" + "$"));
-                });
-
-                $.validator.addMethod('password1', function(value) {
-                    return value.match(new RegExp("^" + "[A-Za-z0-9]+" + "$"));
-                });
-
-
-               $('#sign_up').validate({
-                   rules:{
-                       user_name: {
-                           required: true,
-                           user_name1: true
-                       },
-                       surname: {
-                           required: true,
-                           surname1: true
-                       },
-                       email:{
-                           required: true,
-                           email: true
-                       },
-                       user_role: 'required',
-                       career_start_year:{
-                           required: true,
-                           number: true
-                       },
-                       login:{
-                           required: true,
-                           rangelength: [4,15],
-                           login1: true
-                       },
-                       user_password:{
-                           required: true,
-                           rangelength: [6,15],
-                           password1: true
-                       },
-                       confirm_password:{
-                           required: true,
-                           equalTo: '#inputPassword2'
-                       }
-                   },
-                   messages:{
-                       user_name:{
-                           required: '${empty_val}',
-                           user_name1: '${illegal_pattern}'
-                       },
-                       surname:{
-                           required: '${empty_val}',
-                           surname1: '${illegal_pattern}'
-                       },
-                       email:{
-                           required: '${empty_val}',
-                           email: '${illegal_email}'
-                       },
-                       user_role: '${empty_position}',
-                       career_start_year:{
-                           required: '${empty_val}',
-                           number: '${illegal_number}'
-                       },
-                       login:{
-                           required: '${empty_val}',
-                           rangelength: '${illegal_login_len}',
-                           login1: '${illegal_n_l_pattern}'
-                       },
-                       user_password:{
-                           required: '${empty_val}',
-                           rangelength: '${illegal_password_len}',
-                           password1: '${illegal_n_l_pattern}'
-                       },
-                       confirm_password:{
-                           required: null,
-                           equalTo: '${illegal_conf}'
-                       }
-                   },
-
-                   errorPlacement: function(error, element){
-
-                       let id= element.attr("id");
-
-                       if(id=='inputPassword1' || id=='inputStart'|| id =="inputRole"){
-                           $(element).after(error);
-                       }else{
-                           $('label[for="'+ id +'"]').append(error);
-                       }
-                   }
-               });
-
-                $('#submit').on('click',function (){
-                    $('p').hide();
-                });
-
-            });
-        </script>
+        <script src="${pageContext.request.contextPath}/design/js/validation.js"></script>
 
     </head>
-    <body>
+    <body lang="${lang}">
         <nav class="navbar navbar-expand-lg">
             <div class="collapse navbar-collapse lang">
                 <form class="my-2 mr-1" action="mmm" method="get">
@@ -194,7 +79,7 @@
                     <div class="form-group col-md-5">
                         <label for="inputRole">${role_label} </label>
                         <select  name= "user_role" id="inputRole" class="form-control">
-                            <option selected> </option>
+                            <option selected></option>
                             <option>Pilot</option>
                         </select>
                     </div>
