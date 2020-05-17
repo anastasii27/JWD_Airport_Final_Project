@@ -39,7 +39,7 @@ public class SignIn implements Command {
 
         try {
 
-            user = userService.singIn(login, password);
+            user = userService.signIn(login, password);
 
                 if(user != null){
 

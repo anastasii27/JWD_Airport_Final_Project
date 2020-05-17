@@ -11,6 +11,5 @@ public class RegisterPage implements Command {
     public void execute(HttpServletRequest request, HttpServletResponse response) {
 
         forwardTo(request,response,JSPPageName.REGISTER_PAGE);
-
     }
 }

@@ -150,4 +150,15 @@ $(document).ready(function () {
             }
         }
     });
+
+    $('#sign_in').validate({
+        rules:{
+            login: 'required',
+            user_password: 'required'
+        },
+        messages:{
+            login: null,
+            user_password: null
+        }
+    });
 });

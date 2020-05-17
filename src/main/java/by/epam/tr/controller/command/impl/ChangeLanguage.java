@@ -17,8 +17,6 @@ public class ChangeLanguage implements Command {
 
             url = request.getParameter("url");
 
-            System.out.println(request.getParameter("local"));
-
             request.getSession(true).setAttribute("local", request.getParameter("local"));
             response.sendRedirect(url);
 

@@ -7,24 +7,23 @@ import by.epam.tr.dao.DAOFactory;
 import by.epam.tr.dao.UserDAO;
 import by.epam.tr.service.ServiceException;
 import by.epam.tr.service.UserService;
-import by.epam.tr.service.validation.UserValidation;
 import by.epam.tr.service.validation.ValidationFactory;
+import by.epam.tr.service.validation.Validator;
 import java.util.ArrayList;
 
 public class UserServiceImpl implements UserService {
 
     @Override
-    public User singIn(String login, String password) throws ServiceException {
+    public User signIn(String login, String password) throws ServiceException {//null
 
         UserDAO  dao = DAOFactory.getInstance().getUserDAO();
         User user;
 
         try {
-
             user = dao.singIn(login,password);
 
         } catch (DAOException e) {
-            throw new ServiceException("Exception during singing in!");
+            throw new ServiceException("Exception during signing in!");
         }
 
         return user;
@@ -34,7 +33,7 @@ public class UserServiceImpl implements UserService {
     public int registration(User user, String login, String password) throws ServiceException {
 
         UserDAO dao = DAOFactory.getInstance().getUserDAO();
-        UserValidation userValidation = ValidationFactory.getInstance().getUserValidation();
+        Validator userValidation = ValidationFactory.getInstance().getUserValidation();
 
         if(!userValidation.check(user, login, password)) {
             return -1;
