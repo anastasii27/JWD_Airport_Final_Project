@@ -25,5 +25,8 @@ public class UserPage implements Command {
             forwardTo(request,response,JSPPageName.RESULT_PAGE);
         }
 
+
+
+
     }
 }
