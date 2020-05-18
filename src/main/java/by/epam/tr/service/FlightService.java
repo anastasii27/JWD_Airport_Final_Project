@@ -4,6 +4,7 @@ import by.epam.tr.bean.Flight;
 import java.util.ArrayList;
 
 public interface FlightService {
+
     ArrayList<Flight> userFlightsList(String login) throws ServiceException;
     ArrayList <Flight> allFlightsList() throws ServiceException;
     Flight flightInfo(String flightNumber, String departureDate) throws ServiceException;

@@ -1,6 +1,5 @@
 package by.epam.tr.service.impl;
 
-import by.epam.tr.bean.Group;
 import by.epam.tr.bean.User;
 import by.epam.tr.dao.DAOException;
 import by.epam.tr.dao.DAOFactory;
@@ -53,25 +52,6 @@ public class UserServiceImpl implements UserService {
         }
 
         return -1;
-    }
-
-    @Override
-    public ArrayList<Group> userGroups(String login) throws ServiceException {
-
-        UserDAO dao = DAOFactory.getInstance().getUserDAO();
-        ArrayList <Group> groups;
-
-        try {
-            groups = dao.userGroups(login);
-
-            if(groups.size()==0){
-                return null;
-            }
-
-        } catch (DAOException e) {
-            throw new ServiceException("Exception during users group getting!");
-        }
-        return groups;
     }
 
     @Override

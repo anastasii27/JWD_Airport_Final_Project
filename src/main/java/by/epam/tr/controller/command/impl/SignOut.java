@@ -16,6 +16,7 @@ public class SignOut implements Command{
         HttpSession session = request.getSession(false);
 
         if(session != null) {
+
             session.removeAttribute(RequestParameterName.GROUP);
             session.removeAttribute(RequestParameterName.USER_INFO);
             session.removeAttribute(RequestParameterName.FLIGHT);

@@ -1,7 +1,6 @@
 package by.epam.tr.controller.command;
 
 import by.epam.tr.controller.constant_parameter.JSPPageName;
-
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;

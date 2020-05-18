@@ -10,7 +10,7 @@ import java.util.ArrayList;
 
 public class FlightDAOImpl implements FlightDAO {
 
-    private final static String USER_FLIGHT =   "SELECT model, `short-name`, `departure-date`, `departure-time`, `destination-date`, `destination-time`, \n" +
+    private final static String USER_FLIGHT =   "SELECT `status`, model, `short-name`, `departure-date`, `departure-time`, `destination-date`, `destination-time`, \n" +
                                                 "c1.`name` AS `destination-city` , a1.`name-abbreviation` AS `dest-airport-short-name`,\n" +
                                                 "c2.`name` AS `departure-city`, a2.`name-abbreviation` AS `dep-airport-short-name`, `flight-number` \n" +
                                                 "FROM flights\n" +
@@ -24,7 +24,7 @@ public class FlightDAOImpl implements FlightDAO {
                                                 "WHERE `user-id` = (SELECT id FROM users WHERE login = ?);\n";
 
 
-    private final static String ALL_FLIGHTS =   "SELECT model,`short-name`, `departure-date`, `destination-date`, `departure-time`, `destination-time`, \n" +
+    private final static String ALL_FLIGHTS =   "SELECT `status`, model,`short-name`, `departure-date`, `destination-date`, `departure-time`, `destination-time`, \n" +
                                                 "c1.`name` AS `destination-city`,  a1.`name-abbreviation` AS `dest-airport-short-name`,\n" +
                                                 "c2.`name` AS `departure-city`, a2.`name-abbreviation` AS `dep-airport-short-name`,`flight-number`\n" +
                                                 "FROM airport.flights\n" +
@@ -37,7 +37,7 @@ public class FlightDAOImpl implements FlightDAO {
                                                 "JOIN cities AS c2 ON c2.id = (SELECT  `city-id` FROM airports WHERE airports.`name` = a2.`name`)\n" +
                                                 "JOIN countries AS cnt2 on  cnt2.id = c2.`country-id`;";
 
-    private final static String FLIGHT_INFO =   "SELECT `destination-date`, `destination-time`, a2.`name` AS `departure-airport`, c2.`name` AS `departure-city`, cnt2.`name` AS `departure-country`,  a2.`name-abbreviation` AS `dep-airport-short-name`, \n" +
+    private final static String FLIGHT_INFO =   "SELECT `status`,`destination-date`, `destination-time`, a2.`name` AS `departure-airport`, c2.`name` AS `departure-city`, cnt2.`name` AS `departure-country`,  a2.`name-abbreviation` AS `dep-airport-short-name`, \n" +
                                                 "`departure-date`, `departure-time`, a1.`name` AS `destination-airport`, c1.`name` AS `destination-city` , cnt1.`name` AS `destination-country`, a1.`name-abbreviation` AS `dest-airport-short-name`\n" +
                                                 "FROM flights\n" +
                                                 "JOIN `planes-characteristic` ON (SELECT `planes-characteristic-id` FROM planes WHERE planes.id = `plane-id` ) = `planes-characteristic`.id\n" +
@@ -68,8 +68,8 @@ public class FlightDAOImpl implements FlightDAO {
             rs = ps.executeQuery();
 
             while (rs.next()){
-                flights.add(new Flight(rs.getString("model"), rs.getString("departure-date"), rs.getString("departure-time"), rs.getString("destination-date"),
-                        rs.getString("destination-time"),  rs.getString("destination-city"), rs.getString("departure-city"), rs.getString("short-name"),
+                flights.add(new Flight(rs.getString("status"), rs.getString("model"), rs.getDate("departure-date").toLocalDate(), rs.getTime("departure-time").toLocalTime(), rs.getDate("destination-date").toLocalDate(),
+                        rs.getTime("destination-time").toLocalTime(),  rs.getString("destination-city"), rs.getString("departure-city"), rs.getString("short-name"),
                         rs.getString("dest-airport-short-name"), rs.getString("dep-airport-short-name"), rs.getString("flight-number")));
             }
 
@@ -112,8 +112,8 @@ public class FlightDAOImpl implements FlightDAO {
             rs = ps.executeQuery();
 
             while (rs.next()){
-                flights.add(new Flight(rs.getString("model"), rs.getString("departure-date"), rs.getString("departure-time"), rs.getString("destination-date"),
-                        rs.getString("destination-time"),  rs.getString("destination-city"), rs.getString("departure-city"), rs.getString("short-name"),
+                flights.add(new Flight(rs.getString("status"), rs.getString("model"), rs.getDate("departure-date").toLocalDate(), rs.getTime("departure-time").toLocalTime(), rs.getDate("destination-date").toLocalDate(),
+                        rs.getTime("destination-time").toLocalTime(),  rs.getString("destination-city"), rs.getString("departure-city"), rs.getString("short-name"),
                         rs.getString("dest-airport-short-name"), rs.getString("dep-airport-short-name"), rs.getString("flight-number")));
             }
 
@@ -150,7 +150,6 @@ public class FlightDAOImpl implements FlightDAO {
 
         try {
             pool = ConnectionPool.getInstance();
-            pool.poolInitialization();
             connection = pool.takeConnection();
             ps =  connection.prepareStatement(FLIGHT_INFO);
 
@@ -163,8 +162,8 @@ public class FlightDAOImpl implements FlightDAO {
                 return null;
             }
 
-            flight = new Flight(rs.getString("destination-date"), rs.getString("destination-time"), rs.getString("destination-airport"), rs.getString("destination-city"),
-                            rs.getString("destination-country"),  rs.getString("dest-airport-short-name"),rs.getString("departure-date"), rs.getString("departure-time"),
+            flight = new Flight(rs.getString("status"),rs.getDate("destination-date").toLocalDate(), rs.getTime("destination-time").toLocalTime(), rs.getString("destination-airport"), rs.getString("destination-city"),
+                            rs.getString("destination-country"),  rs.getString("dest-airport-short-name"),rs.getDate("departure-date").toLocalDate(), rs.getTime("departure-time").toLocalTime(),
                             rs.getString("departure-airport"), rs.getString("departure-city"),rs.getString("departure-country"),  rs.getString("dep-airport-short-name") );
 
 
@@ -207,5 +206,4 @@ public class FlightDAOImpl implements FlightDAO {
             //log
         }
     }
-
 }

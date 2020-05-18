@@ -18,6 +18,7 @@
         <fmt:message bundle="${loc}" key="local.label.menu_user_crew" var="crew_label" />
         <fmt:message bundle="${loc}" key="local.label.menu_main_park" var="park_label" />
         <fmt:message bundle="${loc}" key="local.label.menu_main_lang" var="lang_label" />
+        <fmt:message bundle="${loc}" key="local.label.menu_user_my_flights" var="my_fl_label" />
 
         <link rel="stylesheet" href="${pageContext.request.contextPath}/design/css/header.css"/>
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
@@ -40,6 +41,9 @@
                         <c:when test = "${role eq 'pilot' || role eq 'stewardess'}">
                             <li class="nav-item active">
                                 <a class="nav-link" href="${pageContext.request.contextPath}/mmm?action=show_user_page">${my_page}</a>
+                            </li>
+                            <li class="nav-item ">
+                                <a class="nav-link" href="${pageContext.request.contextPath}/mmm?action=show_my_flights_page">${my_fl_label}</a>
                             </li>
                             <li class="nav-item ">
                                 <a class="nav-link" href="${pageContext.request.contextPath}/mmm?action=show_flights_page">${flights_label}</a>

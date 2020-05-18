@@ -6,10 +6,8 @@ import by.epam.tr.bean.User;
 import by.epam.tr.controller.constant_parameter.JSPPageName;
 import by.epam.tr.controller.constant_parameter.RequestParameterName;
 import by.epam.tr.controller.command.Command;
-import by.epam.tr.service.FlightService;
-import by.epam.tr.service.ServiceException;
-import by.epam.tr.service.ServiceFactory;
-import by.epam.tr.service.UserService;
+import by.epam.tr.service.*;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -26,6 +24,7 @@ public class SignIn implements Command {
 
         UserService userService = ServiceFactory.getInstance().getUserService();
         FlightService flightService = ServiceFactory.getInstance().getFlightService();
+        GroupService groupService = ServiceFactory.getInstance().getGroupService();
         ArrayList<Group> group;
         ArrayList<Flight> flight;
         User user;
@@ -44,7 +43,7 @@ public class SignIn implements Command {
                 if(user != null){
 
                     flight = flightService.userFlightsList(login);
-                    group = userService.userGroups(login);
+                    group = groupService.userGroups(login);
 
                     session.setAttribute(RequestParameterName.GROUP, group);
                     session.setAttribute(RequestParameterName.USER_INFO, user);
@@ -53,7 +52,7 @@ public class SignIn implements Command {
                     response.sendRedirect(request.getContextPath() + PATH);
 
                 }else {
-                    //delete result page
+
                     request.setAttribute(RequestParameterName.RESULT_INFO, ANSWER);
                     forwardTo(request,response, JSPPageName.RESULT_PAGE);
                 }

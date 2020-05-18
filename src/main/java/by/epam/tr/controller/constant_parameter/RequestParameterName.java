@@ -19,4 +19,5 @@ public final class RequestParameterName {
     public static final String USERS_LIST = "users";
     public static final String FLIGHT_NUMBER = "flight_number";
     public static final String DEPARTURE_DATE = "departure_date";
+    public static final String STATUS = "status";
 }

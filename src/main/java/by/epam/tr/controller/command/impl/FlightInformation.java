@@ -50,7 +50,6 @@ public class FlightInformation implements Command {
                 request.setAttribute(RequestParameterName.RESULT_INFO1, ANSWER);
             }
 
-
             request.setAttribute(RequestParameterName.GROUP, groupName);
             request.setAttribute(RequestParameterName.FLIGHT_NUMBER, flightNumber);
             request.setAttribute(RequestParameterName.DEPARTURE_DATE, departureDate);

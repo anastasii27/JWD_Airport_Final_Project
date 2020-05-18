@@ -1,17 +1,19 @@
 package by.epam.tr.bean;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 
 public class Group implements Serializable {
 
     private String name;
-    private String dateOfCreating;
+    private LocalDate dateOfCreating;
 
-    public Group(String name, String dateOfCreating) {
+    public Group(){}
+
+    public Group(String name, LocalDate dateOfCreating) {
         this.name = name;
         this.dateOfCreating = dateOfCreating;
     }
-    public Group(){}
 
     public String getName() {
         return name;
@@ -21,11 +23,11 @@ public class Group implements Serializable {
         this.name = name;
     }
 
-    public String getDateOfCreating() {
+    public LocalDate getDateOfCreating() {
         return dateOfCreating;
     }
 
-    public void setDateOfCreating(String dateOfCreating) {
+    public void setDateOfCreating(LocalDate dateOfCreating) {
         this.dateOfCreating = dateOfCreating;
     }
 
@@ -38,7 +40,6 @@ public class Group implements Serializable {
     public int hashCode() {
         return (((name==null)?0:name.hashCode())+((dateOfCreating==null)?0:dateOfCreating.hashCode()));
     }
-
 
     @Override
     public boolean equals(Object obj) {

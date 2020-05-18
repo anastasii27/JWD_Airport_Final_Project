@@ -1,14 +1,17 @@
 package by.epam.tr.bean;
 
 import java.io.Serializable;
+import java.time.LocalDate;
+import java.time.LocalTime;
 
 public class Flight implements Serializable {
 
+    private String status;
     private String planeModel;
-    private String departureDate;
-    private String departureTime;
-    private String destinationDate;
-    private String destinationTime;
+    private LocalDate departureDate;
+    private LocalTime departureTime;
+    private LocalDate destinationDate;
+    private LocalTime destinationTime;
     private String destinationAirport;
     private String destinationCity;
     private String destinationCountry;
@@ -22,10 +25,11 @@ public class Flight implements Serializable {
 
     public Flight(){}
 
-    public Flight(String planeModel, String departureDate, String departureTime, String destinationDate, String destinationTime,
+    public Flight(String status, String planeModel, LocalDate departureDate, LocalTime departureTime, LocalDate destinationDate, LocalTime destinationTime,
                   String destinationCity, String departureCity, String groupName, String destinationAirportShortName, String departureAirportShortName,
                   String flightNumber) {
 
+        this.status = status;
         this.planeModel = planeModel;
         this.departureDate = departureDate;
         this.departureTime = departureTime;
@@ -39,9 +43,10 @@ public class Flight implements Serializable {
         this.flightNumber = flightNumber;
     }
 
-    public Flight( String destinationDate, String destinationTime, String destinationAirport,String destinationCity, String destinationCountry,String destinationAirportShortName,
-                   String departureDate, String departureTime, String departureAirport, String departureCity, String departureCountry,String departureAirportShortName) {
+    public Flight( String status, LocalDate destinationDate, LocalTime destinationTime, String destinationAirport,String destinationCity, String destinationCountry,String destinationAirportShortName,
+                   LocalDate departureDate, LocalTime departureTime, String departureAirport, String departureCity, String departureCountry,String departureAirportShortName) {
 
+        this.status = status;
         this.destinationDate = destinationDate;
         this.destinationTime = destinationTime;
         this.destinationAirport = destinationAirport;
@@ -56,6 +61,14 @@ public class Flight implements Serializable {
         this.departureAirportShortName = departureAirportShortName;
     }
 
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
     public String getPlaneModel() {
         return planeModel;
     }
@@ -64,35 +77,35 @@ public class Flight implements Serializable {
         this.planeModel = planeModel;
     }
 
-    public String getDepartureDate() {
+    public LocalDate getDepartureDate() {
         return departureDate;
     }
 
-    public void setDepartureDate(String departureDate) {
+    public void setDepartureDate(LocalDate departureDate) {
         this.departureDate = departureDate;
     }
 
-    public String getDepartureTime() {
+    public LocalTime getDepartureTime() {
         return departureTime;
     }
 
-    public void setDepartureTime(String departureTime) {
+    public void setDepartureTime(LocalTime departureTime) {
         this.departureTime = departureTime;
     }
 
-    public String getDestinationDate() {
+    public LocalDate getDestinationDate() {
         return destinationDate;
     }
 
-    public void setDestinationDate(String destinationDate) {
+    public void setDestinationDate(LocalDate destinationDate) {
         this.destinationDate = destinationDate;
     }
 
-    public String getDestinationTime() {
+    public LocalTime getDestinationTime() {
         return destinationTime;
     }
 
-    public void setDestinationTime(String destinationTime) {
+    public void setDestinationTime(LocalTime destinationTime) {
         this.destinationTime = destinationTime;
     }
 
@@ -178,7 +191,7 @@ public class Flight implements Serializable {
 
     @Override
     public String toString() {
-        return getClass().getName()+ " [planeModel = " + planeModel + " departureDate = " + departureDate + " departureTime = " + departureTime  +
+        return getClass().getName()+ " [ status = "+ status +" planeModel = " + planeModel + " departureDate = " + departureDate + " departureTime = " + departureTime  +
                 " destinationDate = " + destinationDate  + " destinationTime = " + destinationTime + " destinationAirport = " + destinationAirport +
                 " destinationCity = " + destinationCity + " destinationCountry = " + destinationCountry +  " departureAirport = " + departureAirport +
                 " departureCity = " + departureCity + " departureCountry = " + departureCountry  + " groupName= " + groupName+
@@ -188,7 +201,7 @@ public class Flight implements Serializable {
 
     @Override
     public int hashCode() {
-        return (((planeModel==null)?0:planeModel.hashCode())+ ((departureDate==null)?0:departureDate.hashCode())+
+        return ( ((status==null)?0:status.hashCode())+((planeModel==null)?0:planeModel.hashCode())+ ((departureDate==null)?0:departureDate.hashCode())+
                 ((departureTime==null)?0:departureTime.hashCode()) + ((destinationDate==null)?0:destinationDate.hashCode())+
                 ((destinationTime==null)?0:destinationTime.hashCode())+ ((destinationAirport==null)?0:destinationAirport.hashCode())+
                 ((destinationCity==null)?0:destinationCity.hashCode())+ ((destinationCountry==null)?0:destinationCountry.hashCode())+
@@ -200,11 +213,20 @@ public class Flight implements Serializable {
 
     @Override
     public boolean equals(Object obj) {
+
         if (this == obj)
             return true;
         if (obj == null || getClass() != obj.getClass())
             return false;
         Flight other = (Flight) obj;
+
+        if (status == null) {
+            if(other.status!= null){
+                return false;
+            }
+        }else if(!status.equals(other.status)){
+            return false;
+        }
 
         if (planeModel == null) {
             if(other.planeModel!= null){

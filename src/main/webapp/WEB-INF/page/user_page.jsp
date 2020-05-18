@@ -15,17 +15,9 @@
         <fmt:message bundle="${loc}" key="local.label.surname" var="surname_label" />
         <fmt:message bundle="${loc}" key="local.label.start_year" var="start_label" />
         <fmt:message bundle="${loc}" key="local.label.role" var="role_label" />
-        <fmt:message bundle="${loc}" key="local.label.plane" var="plane_label" />
-        <fmt:message bundle="${loc}" key="local.label.dep_time" var="dep_time_label" />
-        <fmt:message bundle="${loc}" key="local.label.dest_time" var="dest_time_label" />
-        <fmt:message bundle="${loc}" key="local.label.dest_city" var="dest_city_label" />
-        <fmt:message bundle="${loc}" key="local.label.dep_city" var="dep_city_label" />
-        <fmt:message bundle="${loc}" key="local.label.flight_tab_header" var="f_tab_label" />
         <fmt:message bundle="${loc}" key="local.label.groups_tab_header" var="g_tab_label" />
         <fmt:message bundle="${loc}" key="local.label.creating_date" var="data_label" />
         <fmt:message bundle="${loc}" key="local.label.group_name" var="group_label" />
-        <fmt:message bundle="${loc}" key="local.label.flight" var="flight_label" />
-
 
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
         <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
@@ -50,24 +42,6 @@
         <p>Email: <c:out value= "${sessionScope.user.email}" /></p>
         <p>${role_label}: <c:out value= "${sessionScope.user.role}" /></p>
         <p>${start_label}: <c:out value= "${sessionScope.user.careerStartYear}" /></p>
-
-        <h3>${f_tab_label}: </h3>
-        <table class ="table" border="2">
-            <tr>
-                <th>${flight_label}</th><th>${dep_time_label}</th> <th>${dep_city_label}</th>
-                <th>${dest_time_label}</th><th>${dest_city_label}</th><th>${plane_label}</th>
-            </tr>
-            <c:forEach items="${sessionScope.flight}" var="flight_item">
-                <tr onclick="document.location.href= '${pageContext.request.contextPath}/mmm?action=show_flight_info&group=${flight_item.groupName}&flight_number=${flight_item.flightNumber}&departure_date=${flight_item.departureDate}'">
-                    <td>${flight_item.flightNumber}</td>
-                    <td>${flight_item.departureTime}</td>
-                    <td>${flight_item.departureCity}(${flight_item.departureAirportShortName})</td>
-                    <td>${flight_item.destinationTime}</td>
-                    <td>${flight_item.destinationCity}(${flight_item.destinationAirportShortName})</td>
-                    <td>${flight_item.planeModel}</td>
-                </tr>
-            </c:forEach>
-        </table>
 
         <c:set var = "role" scope = "session" value = "${user.role}"/>
         <c:if test = "${role eq 'pilot' || role eq 'stewardess'}">
