@@ -1,4 +1,4 @@
-package by.epam.tr.controller;
+package by.epam.tr.controller.filter;
 
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;

@@ -13,7 +13,8 @@ public class ChangeLanguage implements Command {
         String url;
 
         try {
-            //String url = request.getSession().getAttribute("url").toString();
+
+//           url = request.getSession(true).getAttribute("url").toString();
 
             url = request.getParameter("url");
 

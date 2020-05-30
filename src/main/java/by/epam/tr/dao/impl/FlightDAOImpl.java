@@ -6,6 +6,7 @@ import by.epam.tr.dao.FlightDAO;
 import by.epam.tr.dao.connectionpool.ConnectionPool;
 import by.epam.tr.dao.connectionpool.ConnectionPoolException;
 import java.sql.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class FlightDAOImpl implements FlightDAO {
@@ -21,7 +22,7 @@ public class FlightDAOImpl implements FlightDAO {
                                                 "JOIN cities AS c1 ON  c1.id = (SELECT `city-id` FROM airports WHERE airports.`name` = a1.`name`)\n" +
                                                 "JOIN airports AS a2 ON a2.id = flights.`departure-airport-id`\n" +
                                                 "JOIN cities AS c2 ON  c2.id = (SELECT `city-id` FROM airports WHERE airports.`name` = a2.`name`)\n" +
-                                                "WHERE `user-id` = (SELECT id FROM users WHERE login = ?);\n";
+                                                "WHERE `user-id` = (SELECT id FROM users WHERE surname = ? AND email=?)  AND `departure-date` = ?;\n";
 
 
     private final static String ALL_FLIGHTS =   "SELECT `status`, model,`short-name`, `departure-date`, `destination-date`, `departure-time`, `destination-time`, \n" +
@@ -48,22 +49,27 @@ public class FlightDAOImpl implements FlightDAO {
                                                 "JOIN cities AS c2 ON c2.id = (SELECT `city-id` FROM airports WHERE airports.`name` = a2.`name`)\n" +
                                                 "JOIN countries AS cnt2 ON cnt2.id = c2.`country-id`\n" +
                                                 "WHERE `flight-number` = ? AND `departure-date` = ?;\n";
+
     @Override
-    public ArrayList<Flight> userFlightsList(String login) throws DAOException {
+    public ArrayList<Flight> userFlightsList(String surname, String email, LocalDate departureDate) throws DAOException {
 
         ConnectionPool pool = null;
         Connection connection = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
         ArrayList <Flight> flights = new ArrayList<>();
+        Date date = Date.valueOf(departureDate);
 
         try {
 
             pool = ConnectionPool.getInstance();
+            pool.poolInitialization();
             connection = pool.takeConnection();
             ps =  connection.prepareStatement(USER_FLIGHT);
 
-            ps.setString(1,login);
+            ps.setString(1,surname);
+            ps.setString(2,email);
+            ps.setDate(3, date);
 
             rs = ps.executeQuery();
 

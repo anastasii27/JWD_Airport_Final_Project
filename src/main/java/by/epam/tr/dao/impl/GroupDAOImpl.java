@@ -10,7 +10,8 @@ import java.util.ArrayList;
 
 public class GroupDAOImpl implements GroupDAO {
 
-    private final static String SELECT_USER_GROUPS = " SELECT `short-name`, `date-of-creating` FROM `flight-teams-m2m-users` JOIN users ON users.id =  `flight-teams-m2m-users`.`user-id` JOIN `flight-teams` ON `flight-teams-m2m-users`.`flight-team-id` = `flight-teams`.id WHERE users.login = ?;";
+    private final static String SELECT_USER_GROUPS =  "SELECT `short-name`, `date-of-creating` FROM `flight-teams-m2m-users` JOIN users ON users.id =  `flight-teams-m2m-users`.`user-id` " +
+                                                      "JOIN `flight-teams` ON `flight-teams-m2m-users`.`flight-team-id` = `flight-teams`.id WHERE users.login = ?;";
 
     @Override
     public ArrayList<Group> userGroups(String login) throws DAOException {

@@ -6,19 +6,20 @@ import by.epam.tr.dao.DAOFactory;
 import by.epam.tr.dao.FlightDAO;
 import by.epam.tr.service.FlightService;
 import by.epam.tr.service.ServiceException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class FlightServiceImpl implements FlightService {
 
     @Override
-    public ArrayList<Flight> userFlightsList(String login) throws ServiceException {//сделать ответ если null
+    public ArrayList<Flight> userFlightsList(String surname, String email, LocalDate departureDate) throws ServiceException {
 
         FlightDAO dao = DAOFactory.getInstance().getFlightDAO();
         ArrayList<Flight> flights;
 
         try {
 
-            flights = dao.userFlightsList(login);
+            flights = dao.userFlightsList(surname, email, departureDate);
 
             if(flights.size() == 0){
                 return null;

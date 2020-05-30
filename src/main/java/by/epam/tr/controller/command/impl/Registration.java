@@ -43,7 +43,7 @@ public class Registration implements Command{
 
             result = service.registration(new User(role,name, surname, email, careerStartYear), login, password);
 
-            session.setAttribute(RequestParameterName.RESULT_INFO, answer.getAnswer(result));
+            session.setAttribute(RequestParameterName.RESULT_INFO, answer.getAnswer(result));//убрать
             response.sendRedirect(JSPPageName.RESULT_PAGE);
 
         } catch (ServiceException| IOException e) {

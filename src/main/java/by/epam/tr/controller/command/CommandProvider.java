@@ -20,7 +20,7 @@ public final class CommandProvider {
         commands.put(CommandName.SHOW_USER_PAGE, new UserPage());
         commands.put(CommandName.SHOW_FLIGHTS_PAGE, new FlightsPage());
         commands.put(CommandName.SHOW_FLIGHT_INFO, new FlightInformation());
-        commands.put(CommandName.SHOW_MY_FLIGHTS_PAGE, new MyFlightsPage());
+        commands.put(CommandName.SHOW_MY_FLIGHTS, new MyFlightsPage());
     }
 
     public Command getCommand(String name){
@@ -40,4 +40,5 @@ public final class CommandProvider {
     public static CommandProvider getInstance(){
         return instance;
     }
+
 }

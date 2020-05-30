@@ -19,9 +19,7 @@ public class SignOut implements Command{
 
             session.removeAttribute(RequestParameterName.GROUP);
             session.removeAttribute(RequestParameterName.USER_INFO);
-            session.removeAttribute(RequestParameterName.FLIGHT);
         }
-
         try {
             response.sendRedirect(JSPPageName.START_PAGE);
         } catch (IOException e) {

@@ -1,13 +1,11 @@
 package by.epam.tr.controller.command.impl;
 
-import by.epam.tr.bean.Flight;
 import by.epam.tr.bean.Group;
 import by.epam.tr.bean.User;
 import by.epam.tr.controller.constant_parameter.JSPPageName;
 import by.epam.tr.controller.constant_parameter.RequestParameterName;
 import by.epam.tr.controller.command.Command;
 import by.epam.tr.service.*;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -23,15 +21,12 @@ public class SignIn implements Command {
     public void execute(HttpServletRequest request, HttpServletResponse response) {
 
         UserService userService = ServiceFactory.getInstance().getUserService();
-        FlightService flightService = ServiceFactory.getInstance().getFlightService();
         GroupService groupService = ServiceFactory.getInstance().getGroupService();
+        HttpSession session = request.getSession(true);
         ArrayList<Group> group;
-        ArrayList<Flight> flight;
         User user;
         String login;
         String password;
-
-        HttpSession session = request.getSession(true);
 
         login = request.getParameter(RequestParameterName.LOGIN);
         password = request.getParameter(RequestParameterName.PASSWORD);
@@ -42,12 +37,10 @@ public class SignIn implements Command {
 
                 if(user != null){
 
-                    flight = flightService.userFlightsList(login);
                     group = groupService.userGroups(login);
 
                     session.setAttribute(RequestParameterName.GROUP, group);
                     session.setAttribute(RequestParameterName.USER_INFO, user);
-                    session.setAttribute(RequestParameterName.FLIGHT, flight);
 
                     response.sendRedirect(request.getContextPath() + PATH);
 

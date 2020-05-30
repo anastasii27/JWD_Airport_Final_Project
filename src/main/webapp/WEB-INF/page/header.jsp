@@ -37,13 +37,15 @@
                 <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
 
                     <c:set var = "role" scope = "session" value = "${user.role}"/>
+                    <jsp:useBean id="now" class="java.util.Date"/>
+                    <fmt:formatDate type="time" value="${now}" pattern="yyyy-MM-dd" var="depDate"/>
                     <c:choose>
                         <c:when test = "${role eq 'pilot' || role eq 'stewardess'}">
                             <li class="nav-item active">
                                 <a class="nav-link" href="${pageContext.request.contextPath}/mmm?action=show_user_page">${my_page}</a>
                             </li>
                             <li class="nav-item ">
-                                <a class="nav-link" href="${pageContext.request.contextPath}/mmm?action=show_my_flights_page">${my_fl_label}</a>
+                                <a class="nav-link" href="${pageContext.request.contextPath}/mmm?action=show_my_flights&departure_date=${depDate}">${my_fl_label}</a>
                             </li>
                             <li class="nav-item ">
                                 <a class="nav-link" href="${pageContext.request.contextPath}/mmm?action=show_flights_page">${flights_label}</a>

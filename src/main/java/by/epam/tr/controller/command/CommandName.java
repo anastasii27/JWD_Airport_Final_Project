@@ -1,8 +1,28 @@
 package by.epam.tr.controller.command;
 
 public enum CommandName {
-    SIGN_IN, REGISTER, NO_SUCH_COMMAND, SIGN_OUT, CHANGE_LANGUAGE, SHOW_REGISTER_PAGE, SHOW_SIGN_IN_PAGE, SHOW_USER_PAGE, SHOW_FLIGHTS_PAGE,
-    SHOW_FLIGHT_INFO, SHOW_MY_FLIGHTS_PAGE
+
+    SIGN_IN ("all"),
+    REGISTER ("all"),
+    NO_SUCH_COMMAND ("all"),
+    SIGN_OUT("authorized"),
+    CHANGE_LANGUAGE ("all"),
+    SHOW_REGISTER_PAGE ("all"),
+    SHOW_SIGN_IN_PAGE ("all"),
+    SHOW_USER_PAGE ("authorized"),
+    SHOW_FLIGHTS_PAGE ("authorized"),
+    SHOW_FLIGHT_INFO("authorized"),
+    SHOW_MY_FLIGHTS("authorized");
+
+    private final String accessType;
+
+    private CommandName(String accessType){
+        this.accessType = accessType;
+    }
+
+    public String getAccessType() {
+        return accessType;
+    }
 }
 
 
