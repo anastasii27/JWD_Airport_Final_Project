@@ -1,4 +1,4 @@
-$(document).ready(function () {
+$(document).ready(function ($) {
 
     let lang = $('body').attr('lang');
 
@@ -161,4 +161,47 @@ $(document).ready(function () {
             user_password: null
         }
     });
+
+
+
+    //flights
+
+    $.validator.addMethod('pattern_date', function(value) {
+        return value.match(new RegExp("^" + "\\d{4}-\\d{2}-\\d{2}" + "$"));
+    }, function () {
+        return '';
+    });
+
+    $.validator.addMethod('legal_date', function(value) {
+
+        let enteredDate = new Date(value);
+
+        return enteredDate >= getMinDate(11) ;
+    }, function () {
+        return '';
+    });
+
+    $('#calendar').validate({
+        rules:{
+            departure_date:{
+                required: true,
+                pattern_date: true,
+                legal_date: true
+            }
+        },
+
+        messages:{
+            departure_date:{
+                required:''
+            }
+        }
+    });
+
+    function getMinDate(days){
+        let date = new Date();
+
+        date.setDate(date.getDate() - days);
+        return date;
+    }
+
 });

@@ -17,6 +17,7 @@
         <fmt:message bundle="${loc}" key="local.label.status" var="status_label" />
         <fmt:message bundle="${loc}" key="local.js.lang" var="lang" />
 
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/design/css/my_flights.css"/>
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
         <link href="${pageContext.request.contextPath}/design/css/datepicker.min.css" rel="stylesheet" type="text/css">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
@@ -26,35 +27,15 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.13.0/moment.min.js"></script>
         <script src="${pageContext.request.contextPath}/design/js/i18n/datepicker.en.js" charset="UTF-8"></script>
         <script src="${pageContext.request.contextPath}/design/js/i18n/datepicker.ru.js" charset="UTF-8"></script>
+        <script src="${pageContext.request.contextPath}/design/js/full-js.js" charset="UTF-8"></script>
+        <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.2/dist/jquery.validate.min.js"></script>
+        <script src="${pageContext.request.contextPath}/design/js/validation.js" charset="UTF-8"></script>
 
         <script>
             $(document).ready(function ($) {
-
                 $('.lang').on('click', function (){
                     $('.lang').append('<input type="hidden" name="url" value="${pageContext.request.contextPath}/mmm?action=show_my_flights&departure_date=${requestScope.departure_date}"/>');
                 });
-
-                let maxDate = new Date();
-                maxDate.setDate(maxDate.getDay()+14);
-                $('.datepicker-here').datepicker({
-                    dateFormat: "yyyy-mm-dd",
-                    firstDay:1,
-                    minDate: getMinDate(10),
-                    maxDate: getMaxDate(30)
-                });
-
-                function getMaxDate(days) {
-                    var date = new Date();
-                    date.setDate(date.getDate() + days);
-                    return date;
-                }
-
-                function getMinDate(days){
-                    var date = new Date();
-                    date.setDate(date.getDate() - days);
-                    return date;
-                }
-                // $('.datepicker-here').data('datepicker');
             });
         </script>
 
@@ -63,11 +44,11 @@
 
         <jsp:include page="header.jsp"/>
 
-        <form action="mmm" method="get">
+        <form action="mmm" method="get" id="calendar">
             <input type="hidden" name="action" value="show_my_flights"/>
             <label for="piker"></label>
             <input type='text' name="departure_date" id= "piker" class="datepicker-here"
-                   data-language="${lang}"/>
+                   data-language="${lang}" value = "${requestScope.departure_date}"/>
             <input type="submit" value="Send"/>
         </form>
 
