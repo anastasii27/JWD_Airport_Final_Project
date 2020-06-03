@@ -9,6 +9,7 @@ import by.epam.tr.service.ServiceException;
 import by.epam.tr.service.ServiceFactory;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class FlightsPage implements Command {
@@ -20,15 +21,21 @@ public class FlightsPage implements Command {
 
         FlightService flightService = ServiceFactory.getInstance().getFlightService();
         ArrayList<Flight> flight;
+        String date;
+        LocalDate departureDate;
+
+        date = request.getParameter(RequestParameterName.DEPARTURE_DATE);
+        departureDate = LocalDate.parse(date);
 
         try {
 
-            flight = flightService.allFlightsList();
+            flight = flightService.allFlightsList(departureDate);
 
             if(flight != null){
                 request.setAttribute(RequestParameterName.FLIGHT, flight);
             }else {
                 request.setAttribute(RequestParameterName.RESULT_INFO, ANSWER);
+                request.setAttribute(RequestParameterName.DEPARTURE_DATE, departureDate);
             }
 
             forwardTo(request,response, JSPPageName.FLIGHTS_PAGE);

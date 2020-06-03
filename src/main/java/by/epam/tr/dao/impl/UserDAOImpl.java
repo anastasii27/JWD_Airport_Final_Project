@@ -163,6 +163,7 @@ public class UserDAOImpl implements UserDAO {
 
         try {
             pool = ConnectionPool.getInstance();
+            pool.poolInitialization();
             connection = pool.takeConnection();
             ps =  connection.prepareStatement(CHECK_USER_EXISTENCE);
 

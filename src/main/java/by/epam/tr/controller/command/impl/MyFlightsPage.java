@@ -26,12 +26,7 @@ public class MyFlightsPage implements Command {
         String date;
         LocalDate departureDate;
 
-        if(user==null){
-            errorPage(response);
-        }
-
         date = request.getParameter(RequestParameterName.DEPARTURE_DATE);
-        System.out.println(date);
         departureDate = LocalDate.parse(date);
 
         try {

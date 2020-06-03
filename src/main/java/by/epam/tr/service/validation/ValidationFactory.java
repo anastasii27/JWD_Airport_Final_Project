@@ -1,14 +1,18 @@
 package by.epam.tr.service.validation;
 
-import by.epam.tr.service.validation.impl.PlaneValidation;
-import by.epam.tr.service.validation.impl.UserValidation;
+import by.epam.tr.service.validation.type.DateValidation;
+import by.epam.tr.service.validation.type.LoginValidation;
+import by.epam.tr.service.validation.type.PasswordValidation;
+import by.epam.tr.service.validation.type.UserValidation;
 
 public class ValidationFactory {
 
     private static final ValidationFactory instance = new ValidationFactory();
 
     private final Validator userValidation = new UserValidation();
-    private final Validator planeValidation = new PlaneValidation();
+    private final Validator dateValidation = new DateValidation();
+    private final Validator loginValidation = new LoginValidation();
+    private final Validator passwordValidation = new PasswordValidation();
 
     private ValidationFactory(){}
 
@@ -20,7 +24,15 @@ public class ValidationFactory {
         return userValidation;
     }
 
-    public Validator getPlaneValidation(){
-        return planeValidation;
+    public Validator getDateValidation() {
+        return dateValidation;
+    }
+
+    public Validator getLoginValidation() {
+        return loginValidation;
+    }
+
+    public Validator getPasswordValidation() {
+        return passwordValidation;
     }
 }

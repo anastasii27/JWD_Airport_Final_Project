@@ -4,21 +4,20 @@ $(document).ready(function ($) {
         dateFormat: 'yyyy-mm-dd',
         firstDay: 1,
         minDate: getMinDate(10),
-        maxDate: getMaxDate(30)
+        maxDate: getMaxDate(25)
     });
-
-    function getMaxDate(days) {
-        let date = new Date();
-
-        date.setDate(date.getDate() + days);
-        return date;
-    }
-
-    function getMinDate(days) {
-        let date = new Date();
-
-        date.setDate(date.getDate() - days);
-        return date;
-    }
-
 });
+
+function getMaxDate(days) {
+    let date = new Date();
+
+    date.setDate(date.getDate() + days);
+    return date;
+}
+
+function getMinDate(days) {
+    let date = new Date();
+
+    date.setDate(date.getDate() - days);
+    return date;
+}

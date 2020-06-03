@@ -38,6 +38,7 @@ public class AuthenticationFilter implements Filter {
 //        }else {
 //            filterChain.doFilter(servletRequest, servletResponse);
 //        }
+
         filterChain.doFilter(servletRequest, servletResponse);
 
     }

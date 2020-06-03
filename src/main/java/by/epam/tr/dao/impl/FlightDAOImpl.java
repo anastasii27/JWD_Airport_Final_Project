@@ -36,7 +36,8 @@ public class FlightDAOImpl implements FlightDAO {
                                                 "JOIN countries AS cnt1 ON cnt1.id = c1.`country-id`\n" +
                                                 "JOIN airports AS a2 ON \ta2.id = flights.`departure-airport-id` \n" +
                                                 "JOIN cities AS c2 ON c2.id = (SELECT  `city-id` FROM airports WHERE airports.`name` = a2.`name`)\n" +
-                                                "JOIN countries AS cnt2 on  cnt2.id = c2.`country-id`;";
+                                                "JOIN countries AS cnt2 on  cnt2.id = c2.`country-id`" +
+                                                "WHERE `departure-date` = ? ;";
 
     private final static String FLIGHT_INFO =   "SELECT `status`,`destination-date`, `destination-time`, a2.`name` AS `departure-airport`, c2.`name` AS `departure-city`, cnt2.`name` AS `departure-country`,  a2.`name-abbreviation` AS `dep-airport-short-name`, \n" +
                                                 "`departure-date`, `departure-time`, a1.`name` AS `destination-airport`, c1.`name` AS `destination-city` , cnt1.`name` AS `destination-country`, a1.`name-abbreviation` AS `dest-airport-short-name`\n" +
@@ -63,7 +64,6 @@ public class FlightDAOImpl implements FlightDAO {
         try {
 
             pool = ConnectionPool.getInstance();
-            pool.poolInitialization();
             connection = pool.takeConnection();
             ps =  connection.prepareStatement(USER_FLIGHT);
 
@@ -102,18 +102,21 @@ public class FlightDAOImpl implements FlightDAO {
     }
 
     @Override
-    public ArrayList<Flight> allFlightsList() throws DAOException {
+    public ArrayList<Flight> allFlightsList(LocalDate departureDate) throws DAOException {
 
         ConnectionPool pool = null;
         Connection connection = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
         ArrayList <Flight> flights = new ArrayList<>();
+        Date date = Date.valueOf(departureDate);
 
         try {
             pool = ConnectionPool.getInstance();
             connection = pool.takeConnection();
             ps =  connection.prepareStatement(ALL_FLIGHTS);
+
+            ps.setDate(1,date);
 
             rs = ps.executeQuery();
 

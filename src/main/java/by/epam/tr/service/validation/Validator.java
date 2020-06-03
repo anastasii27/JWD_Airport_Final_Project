@@ -1,90 +1,57 @@
 package by.epam.tr.service.validation;
 
-import by.epam.tr.bean.User;
+import java.time.LocalDate;
 
-public abstract class Validator{
+public abstract class Validator {
 
-    private static final String TEXT_PATTERN ="[а-яА-Яa-zA-Z]+";
-    private static final String NUMBER_PATTERN ="\\d+";
-    private static final String NO_SIGN_PATTERN ="\\w+";
-    private static final String EMAIL_PATTERN ="[\\w+[-.]*\\w+]+@[a-z]+[.][a-z]{2,3}";
+    public abstract boolean validate(Object object);
 
-    public abstract boolean check(User user, String login, String password);
+    public static boolean checkWithPattern(String pattern,String...value) {
 
-    public boolean textCheck(String value) {
+        for (String s : value) {
 
-        if(value==null){
-            return false;
+            if (!s.trim().matches(pattern)) {
+                return false;
+            }
         }
-
-        if(value.trim().matches(TEXT_PATTERN)){
-            return true;
-        }
-        return false;
+        return true;
     }
 
+    public  boolean lengthCheck(int minLen, int maxLen, String value){
 
-    public boolean numberCheck(String value) {
-
-        if(value==null){
+        if(!(value.length()>= minLen && value.length()<=maxLen)){
             return false;
         }
 
-        if(value.trim().matches(NUMBER_PATTERN)){
-            return true;
-        }
-        return false;
+        return true;
     }
 
+    public boolean nullCheck(Object...objects){
 
-    public boolean noSignCheck(String value) {
+       for(Object obj: objects){
 
-        if(value==null){
-            return false;
-        }
-
-        if(value.trim().matches(NO_SIGN_PATTERN)){
-            return true;
-        }
-        return false;
+           if(obj == null){
+               return false;
+           }
+       }
+        return true;
     }
 
-    public boolean emailCheck(String value) {
+    public static boolean dateRangeCheck(int minusFromToday, int plusToToday, LocalDate date){
 
-        if(value==null){
+        LocalDate today = LocalDate.now();
+        LocalDate minDateOfRange = today.minusDays(minusFromToday);
+        LocalDate maxDateOfRange = today.plusDays(plusToToday);
+
+        if(date.isAfter(maxDateOfRange)){
             return false;
         }
 
-        if(value.trim().matches(EMAIL_PATTERN)){
-            return true;
-        }
-        return false;
-    }
-
-
-    public boolean lenCheck(int beginning, int end, String value){
-
-        if(value==null){
+        if(date.isBefore(minDateOfRange)){
             return false;
         }
 
-        if(value.length()>= beginning && value.length()<=end){
-            return true;
-        }
-
-        return false;
-    }
-
-    public boolean lenCheck(String value){
-
-        if(value==null){
-            return false;
-        }
-
-        if(value.length() != 0){
-            return true;
-        }
-
-        return false;
+        return true;
     }
 }
+

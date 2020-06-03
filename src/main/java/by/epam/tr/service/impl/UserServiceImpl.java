@@ -32,9 +32,8 @@ public class UserServiceImpl implements UserService {
     public int registration(User user, String login, String password) throws ServiceException {
 
         UserDAO dao = DAOFactory.getInstance().getUserDAO();
-        Validator userValidation = ValidationFactory.getInstance().getUserValidation();
 
-        if(!userValidation.check(user, login, password)) {
+        if(!registrationValidation(user, login, password)) {
             return -1;
         }
 
@@ -73,4 +72,30 @@ public class UserServiceImpl implements UserService {
         }
         return users;
     }
+
+
+    private boolean registrationValidation(User user, String login, String password){
+
+        Validator userValidation = ValidationFactory.getInstance().getUserValidation();
+        Validator loginValidation = ValidationFactory.getInstance().getLoginValidation();
+        Validator passwordValidation = ValidationFactory.getInstance().getPasswordValidation();
+
+        if(! userValidation.validate(user)){
+            return false;
+        }
+
+        if(! loginValidation.validate(login)){
+            return false;
+        }
+
+        if( ! passwordValidation.validate(password)){
+            return false;
+        }
+
+        return true;
+    }
+
+//    public static void main(String[] args) throws ServiceException {
+//        System.out.println(new UserServiceImpl().registration(new User("pilot", "jj", "kd", "kdkd@mail.ru", "1"), "djdl", "kdkkkk"));
+//    }
 }

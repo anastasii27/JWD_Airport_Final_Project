@@ -48,7 +48,7 @@
                                 <a class="nav-link" href="${pageContext.request.contextPath}/mmm?action=show_my_flights&departure_date=${depDate}">${my_fl_label}</a>
                             </li>
                             <li class="nav-item ">
-                                <a class="nav-link" href="${pageContext.request.contextPath}/mmm?action=show_flights_page">${flights_label}</a>
+                                <a class="nav-link" href="${pageContext.request.contextPath}/mmm?action=show_flights_page&departure_date=${depDate}">${flights_label}</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="#">${empl_label}</a>

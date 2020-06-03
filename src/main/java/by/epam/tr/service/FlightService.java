@@ -7,6 +7,6 @@ import java.util.ArrayList;
 public interface FlightService {
 
     ArrayList<Flight> userFlightsList(String surname, String email, LocalDate departureDate) throws ServiceException;
-    ArrayList <Flight> allFlightsList() throws ServiceException;
+    ArrayList <Flight> allFlightsList(LocalDate departureDate) throws ServiceException;
     Flight flightInfo(String flightNumber, String departureDate) throws ServiceException;
 }

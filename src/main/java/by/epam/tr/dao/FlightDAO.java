@@ -7,6 +7,6 @@ import java.util.ArrayList;
 public interface FlightDAO {
 
     ArrayList<Flight> userFlightsList(String surname, String email, LocalDate departureDate) throws DAOException;
-    ArrayList<Flight> allFlightsList() throws DAOException;
+    ArrayList<Flight> allFlightsList(LocalDate departureDate) throws DAOException;
     Flight flightInfo(String flightNumber, String departureDate) throws DAOException;
 }

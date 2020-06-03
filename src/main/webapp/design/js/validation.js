@@ -162,9 +162,7 @@ $(document).ready(function ($) {
         }
     });
 
-
-
-    //flights
+    //flight
 
     $.validator.addMethod('pattern_date', function(value) {
         return value.match(new RegExp("^" + "\\d{4}-\\d{2}-\\d{2}" + "$"));
@@ -196,12 +194,5 @@ $(document).ready(function ($) {
             }
         }
     });
-
-    function getMinDate(days){
-        let date = new Date();
-
-        date.setDate(date.getDate() - days);
-        return date;
-    }
 
 });
