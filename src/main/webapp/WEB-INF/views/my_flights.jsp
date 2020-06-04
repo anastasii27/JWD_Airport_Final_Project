@@ -32,9 +32,9 @@
         <script src="${pageContext.request.contextPath}/design/js/validation.js" charset="UTF-8"></script>
 
         <script>
-            $(document).ready(function ($) {
+            $(document).ready(function () {
                 $('.lang').on('click', function (){
-                    $('.lang').append('<input type="hidden" name="url" value="${pageContext.request.contextPath}/mmm?action=show_my_flights&departure_date=${requestScope.departure_date}"/>');
+                    $('.lang').append('<input impl="hidden" name="url" value="${pageContext.request.contextPath}/mmm?action=show_flights_page&departure_date=${requestScope.departure_date}"/>').hide();
                 });
             });
         </script>
@@ -62,7 +62,7 @@
                     <th>${status_label}</th>
                 </tr>
                 <c:forEach items="${requestScope.flight}" var="flight_item">
-                    <tr onclick="document.location.href= '${pageContext.request.contextPath}/mmm?action=show_flight_info&group=${flight_item.groupName}&flight_number=${flight_item.flightNumber}&departure_date=${flight_item.departureDate}'">
+                    <tr onclick="document.location.href= '${pageContext.request.contextPath}/mmm?action=show_flight_info&crew=${flight_item.crewName}&flight_number=${flight_item.flightNumber}&departure_date=${flight_item.departureDate}'">
                         <td>${flight_item.flightNumber}</td>
                         <td>${flight_item.departureTime}</td>
                         <td>${flight_item.departureCity}(${flight_item.departureAirportShortName})</td>

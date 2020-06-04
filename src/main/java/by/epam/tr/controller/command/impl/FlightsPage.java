@@ -35,8 +35,9 @@ public class FlightsPage implements Command {
                 request.setAttribute(RequestParameterName.FLIGHT, flight);
             }else {
                 request.setAttribute(RequestParameterName.RESULT_INFO, ANSWER);
-                request.setAttribute(RequestParameterName.DEPARTURE_DATE, departureDate);
             }
+
+            request.setAttribute(RequestParameterName.DEPARTURE_DATE, departureDate);
 
             forwardTo(request,response, JSPPageName.FLIGHTS_PAGE);
 

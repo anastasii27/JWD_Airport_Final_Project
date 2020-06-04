@@ -1,4 +1,4 @@
-package by.epam.tr.service.validation.type;
+package by.epam.tr.service.validation.impl;
 
 import by.epam.tr.bean.User;
 import by.epam.tr.service.validation.ValidationPattern;
@@ -19,7 +19,6 @@ public class UserValidation extends Validator {
         String surname = user.getSurname();
         String email = user.getEmail();
         String careerStartYear = user.getCareerStartYear();
-
 
         if(!nullCheck(name, surname, email, careerStartYear)){
             return false;

@@ -28,7 +28,7 @@
         <script>
             $(document).ready(function () {
                 $('.lang').on('click', function (){
-                    $('.lang').append('<input type="hidden" name="url" value="${pageContext.request.contextPath}/"/>');
+                    $('.lang').append('<input impl="hidden" name="url" value="${pageContext.request.contextPath}/"/>');
                 });
             });
         </script>

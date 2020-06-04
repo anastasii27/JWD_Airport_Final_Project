@@ -10,9 +10,8 @@ public class Group implements Serializable {
 
     public Group(){}
 
-    public Group(String name, LocalDate dateOfCreating) {
+    public Group(String name) {
         this.name = name;
-        this.dateOfCreating = dateOfCreating;
     }
 
     public String getName() {

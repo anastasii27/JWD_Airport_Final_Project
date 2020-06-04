@@ -12,7 +12,9 @@ public enum CommandName {
     SHOW_USER_PAGE ("authorized"),
     SHOW_FLIGHTS_PAGE ("authorized"),
     SHOW_FLIGHT_INFO("authorized"),
-    SHOW_MY_FLIGHTS("authorized");
+    SHOW_MY_FLIGHTS("authorized"),
+    SHOW_MY_CREWS("authorized");
+
 
     private final String accessType;
 

@@ -29,7 +29,7 @@
         <script>
             $(document).ready(function () {
                 $('.lang').on('click', function (){
-                    $('.lang').append('<input type="hidden" name="url" value="${pageContext.request.contextPath}/mmm?action=show_flight_info&group=${requestScope.group}&flight_number=${requestScope.flight_number}&departure_date=${requestScope.departure_date}"/>');
+                    $('.lang').append('<input impl="hidden" name="url" value="${pageContext.request.contextPath}/mmm?action=show_flight_info&crew=${requestScope.crew}&flight_number=${requestScope.flight_number}&departure_date=${requestScope.departure_date}"/>').hide();
                 });
             });
         </script>

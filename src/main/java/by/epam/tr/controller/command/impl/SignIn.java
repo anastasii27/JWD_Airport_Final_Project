@@ -21,9 +21,7 @@ public class SignIn implements Command {
     public void execute(HttpServletRequest request, HttpServletResponse response) {
 
         UserService userService = ServiceFactory.getInstance().getUserService();
-        GroupService groupService = ServiceFactory.getInstance().getGroupService();
         HttpSession session = request.getSession(true);
-        ArrayList<Group> group;
         User user;
         String login;
         String password;
@@ -37,13 +35,9 @@ public class SignIn implements Command {
 
                 if(user != null){
 
-                    group = groupService.userGroups(login);
-
-                    session.setAttribute(RequestParameterName.GROUP, group);
                     session.setAttribute(RequestParameterName.USER_INFO, user);
 
                     response.sendRedirect(request.getContextPath() + PATH);
-
                 }else {
 
                     request.setAttribute(RequestParameterName.RESULT_INFO, ANSWER);

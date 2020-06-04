@@ -28,7 +28,7 @@ public class FlightInformation implements Command {
         String flightNumber;
         String departureDate;
 
-        groupName = request.getParameter(RequestParameterName.GROUP);
+        groupName = request.getParameter(RequestParameterName.CREW);
         flightNumber = request.getParameter(RequestParameterName.FLIGHT_NUMBER);
         departureDate = request.getParameter(RequestParameterName.DEPARTURE_DATE);
 
@@ -50,7 +50,7 @@ public class FlightInformation implements Command {
                 request.setAttribute(RequestParameterName.RESULT_INFO1, ANSWER);
             }
 
-            request.setAttribute(RequestParameterName.GROUP, groupName);
+            request.setAttribute(RequestParameterName.CREW, groupName);
             request.setAttribute(RequestParameterName.FLIGHT_NUMBER, flightNumber);
             request.setAttribute(RequestParameterName.DEPARTURE_DATE, departureDate);
 

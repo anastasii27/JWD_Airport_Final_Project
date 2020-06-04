@@ -17,7 +17,7 @@ public class SignOut implements Command{
 
         if(session != null) {
 
-            session.removeAttribute(RequestParameterName.GROUP);
+            session.removeAttribute(RequestParameterName.CREW);
             session.removeAttribute(RequestParameterName.USER_INFO);
         }
         try {

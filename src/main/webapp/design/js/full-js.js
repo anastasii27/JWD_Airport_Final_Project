@@ -4,7 +4,7 @@ $(document).ready(function ($) {
         dateFormat: 'yyyy-mm-dd',
         firstDay: 1,
         minDate: getMinDate(10),
-        maxDate: getMaxDate(25)
+        maxDate: getMaxDate(31)
     });
 });
 

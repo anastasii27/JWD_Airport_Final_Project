@@ -18,7 +18,7 @@ public class Flight implements Serializable {
     private String departureAirport;
     private String departureCity;
     private String departureCountry;
-    private String groupName;
+    private String crewName;
     private String destinationAirportShortName;
     private String departureAirportShortName;
     private String flightNumber;
@@ -26,7 +26,7 @@ public class Flight implements Serializable {
     public Flight(){}
 
     public Flight(String status, String planeModel, LocalDate departureDate, LocalTime departureTime, LocalDate destinationDate, LocalTime destinationTime,
-                  String destinationCity, String departureCity, String groupName, String destinationAirportShortName, String departureAirportShortName,
+                  String destinationCity, String departureCity, String crewName, String destinationAirportShortName, String departureAirportShortName,
                   String flightNumber) {
 
         this.status = status;
@@ -37,7 +37,7 @@ public class Flight implements Serializable {
         this.destinationTime = destinationTime;
         this.destinationCity = destinationCity;
         this.departureCity = departureCity;
-        this.groupName= groupName;
+        this.crewName= crewName;
         this.destinationAirportShortName = destinationAirportShortName;
         this.departureAirportShortName = departureAirportShortName;
         this.flightNumber = flightNumber;
@@ -157,12 +157,12 @@ public class Flight implements Serializable {
         this.departureCountry = departureCountry;
     }
 
-    public String getGroupName() {
-        return groupName;
+    public String getcrewName() {
+        return crewName;
     }
 
-    public void setGroupName(String groupName) {
-        this.groupName = groupName;
+    public void setcrewName(String crewName) {
+        this.crewName = crewName;
     }
 
     public String getDestinationAirportShortName() {
@@ -194,7 +194,7 @@ public class Flight implements Serializable {
         return getClass().getName()+ " [ status = "+ status +" planeModel = " + planeModel + " departureDate = " + departureDate + " departureTime = " + departureTime  +
                 " destinationDate = " + destinationDate  + " destinationTime = " + destinationTime + " destinationAirport = " + destinationAirport +
                 " destinationCity = " + destinationCity + " destinationCountry = " + destinationCountry +  " departureAirport = " + departureAirport +
-                " departureCity = " + departureCity + " departureCountry = " + departureCountry  + " groupName= " + groupName+
+                " departureCity = " + departureCity + " departureCountry = " + departureCountry  + " crewName= " + crewName+
                 " departureAirportShortName = " + departureAirportShortName  + " destinationAirportShortName= " + destinationAirportShortName+
                 " flightNumber = " + flightNumber + " ]";
     }
@@ -206,7 +206,7 @@ public class Flight implements Serializable {
                 ((destinationTime==null)?0:destinationTime.hashCode())+ ((destinationAirport==null)?0:destinationAirport.hashCode())+
                 ((destinationCity==null)?0:destinationCity.hashCode())+ ((destinationCountry==null)?0:destinationCountry.hashCode())+
                 ((departureAirport==null)?0:departureAirport.hashCode())+ ((departureCity==null)?0:departureCity.hashCode())+
-                ((departureCountry==null)?0:departureCountry.hashCode())+ ((groupName == null)?0:groupName.hashCode())+
+                ((departureCountry==null)?0:departureCountry.hashCode())+ ((crewName == null)?0:crewName.hashCode())+
                 ((departureAirportShortName==null)?0:departureAirportShortName.hashCode())+ ((destinationAirportShortName == null)?0:destinationAirportShortName.hashCode())+
                 ((flightNumber==null)?0:flightNumber.hashCode()));
     }
@@ -316,11 +316,11 @@ public class Flight implements Serializable {
             return false;
         }
 
-        if (groupName == null) {
-            if(other.groupName!= null){
+        if (crewName == null) {
+            if(other.crewName!= null){
                 return false;
             }
-        }else if(!groupName.equals(other.groupName)) {
+        }else if(!crewName.equals(other.crewName)) {
             return false;
         }
 

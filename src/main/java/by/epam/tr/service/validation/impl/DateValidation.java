@@ -1,4 +1,4 @@
-package by.epam.tr.service.validation.type;
+package by.epam.tr.service.validation.impl;
 
 import by.epam.tr.service.validation.Validator;
 import java.time.LocalDate;
@@ -6,7 +6,7 @@ import java.time.LocalDate;
 public class DateValidation extends Validator {
 
     private final static int MIN_DAY = 10;
-    private final static int MAX_DAY = 25;
+    private final static int MAX_DAY = 30;
 
     @Override
     public boolean validate(Object object) {

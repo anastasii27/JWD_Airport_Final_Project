@@ -15,5 +15,6 @@ public final class JSPPageName {
     public static final String FLIGHTS_PAGE = "WEB-INF/views/all_flights.jsp";
     public static final String FLIGHTS_INFO = "WEB-INF/views/flight_info.jsp";
     public static final String MY_FLIGHTS_PAGE = "WEB-INF/views/my_flights.jsp";
+    public static final String MY_CREWS_PAGE = "WEB-INF/views/my_crews.jsp";
 
 }

@@ -1,7 +1,7 @@
 package by.epam.tr.service;
 
+import by.epam.tr.service.impl.CrewServiceImpl;
 import by.epam.tr.service.impl.FlightServiceImpl;
-import by.epam.tr.service.impl.GroupServiceImpl;
 import by.epam.tr.service.impl.UserServiceImpl;
 
 public class ServiceFactory{
@@ -10,7 +10,7 @@ public class ServiceFactory{
 
     private final UserService  userService = new UserServiceImpl();
     private final FlightService flightService = new FlightServiceImpl();
-    private final GroupService groupService = new GroupServiceImpl();
+    private final CrewService crewService = new CrewServiceImpl();
 
     private ServiceFactory(){}
 
@@ -26,7 +26,7 @@ public class ServiceFactory{
         return flightService;
     }
 
-    public GroupService getGroupService(){
-        return groupService;
+    public CrewService getCrewService(){
+        return crewService;
     }
 }

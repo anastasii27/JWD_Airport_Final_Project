@@ -1,9 +1,9 @@
 package by.epam.tr.service.validation;
 
-import by.epam.tr.service.validation.type.DateValidation;
-import by.epam.tr.service.validation.type.LoginValidation;
-import by.epam.tr.service.validation.type.PasswordValidation;
-import by.epam.tr.service.validation.type.UserValidation;
+import by.epam.tr.service.validation.impl.DateValidation;
+import by.epam.tr.service.validation.impl.LoginValidation;
+import by.epam.tr.service.validation.impl.PasswordValidation;
+import by.epam.tr.service.validation.impl.UserValidation;
 
 public class ValidationFactory {
 
