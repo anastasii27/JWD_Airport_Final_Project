@@ -1,6 +1,7 @@
 package by.epam.tr.controller.command.impl;
 
 import by.epam.tr.bean.Flight;
+import by.epam.tr.bean.User;
 import by.epam.tr.controller.command.Command;
 import by.epam.tr.controller.constant_parameter.JSPPageName;
 import by.epam.tr.controller.constant_parameter.RequestParameterName;
@@ -12,24 +13,30 @@ import javax.servlet.http.HttpServletResponse;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
-public class FlightsPage implements Command {
+public class MyFlights implements Command {
 
-    private static final String ANSWER = "No flights";
+    private static final String ANSWER = "Sorry, no flights were found";
 
     @Override
-    public void execute(HttpServletRequest request, HttpServletResponse response){
+    public void execute(HttpServletRequest request, HttpServletResponse response) {
 
         FlightService flightService = ServiceFactory.getInstance().getFlightService();
+        User user  = (User) request.getSession().getAttribute("user");
         ArrayList<Flight> flight;
         String date;
         LocalDate departureDate;
+        String surname;
+        String email;
+
+        surname = user.getSurname();
+        email = user.getEmail();
 
         date = request.getParameter(RequestParameterName.DEPARTURE_DATE);
         departureDate = LocalDate.parse(date);
 
         try {
 
-            flight = flightService.allFlightsList(departureDate);
+            flight = flightService.userFlightsList(surname, email, departureDate);
 
             if(flight != null){
                 request.setAttribute(RequestParameterName.FLIGHT, flight);
@@ -38,8 +45,7 @@ public class FlightsPage implements Command {
             }
 
             request.setAttribute(RequestParameterName.DEPARTURE_DATE, departureDate);
-
-            forwardTo(request,response, JSPPageName.FLIGHTS_PAGE);
+            forwardTo(request,response, JSPPageName.MY_FLIGHTS_PAGE);
 
         } catch (ServiceException e) {
             errorPage(response);

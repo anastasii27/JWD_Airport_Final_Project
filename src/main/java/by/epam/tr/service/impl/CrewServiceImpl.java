@@ -23,7 +23,7 @@ public class CrewServiceImpl implements CrewService {
             crewName = dao.userCrewForNearestFlight(surname, email, lastDayOgRange);
 
         } catch (DAOException e) {
-            throw new ServiceException("Exception during user`s group getting!");
+            throw new ServiceException("Exception during user`s crew getting!");
         }
         return crewName;
     }
