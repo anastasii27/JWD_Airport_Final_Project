@@ -1,7 +1,5 @@
 package by.epam.tr.service.validation;
 
-import java.time.LocalDate;
-
 public abstract class Validator {
 
     public abstract boolean validate(Object object);
@@ -37,21 +35,5 @@ public abstract class Validator {
         return true;
     }
 
-    public static boolean dateRangeCheck(int minusFromToday, int plusToToday, LocalDate date){
-
-        LocalDate today = LocalDate.now();
-        LocalDate minDateOfRange = today.minusDays(minusFromToday);
-        LocalDate maxDateOfRange = today.plusDays(plusToToday);
-
-        if(date.isAfter(maxDateOfRange)){
-            return false;
-        }
-
-        if(date.isBefore(minDateOfRange)){
-            return false;
-        }
-
-        return true;
-    }
 }
 

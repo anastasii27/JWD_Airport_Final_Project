@@ -18,15 +18,32 @@ public class Flight implements Serializable {
     private String departureAirport;
     private String departureCity;
     private String departureCountry;
-    private String crewName;
     private String destinationAirportShortName;
     private String departureAirportShortName;
     private String flightNumber;
 
     public Flight(){}
 
+    public Flight(LocalDate departureDate, LocalTime departureTime, String destinationCity, String flightNumber) {
+        this.departureDate = departureDate;
+        this.departureTime = departureTime;
+        this.destinationCity = destinationCity;
+        this.flightNumber = flightNumber;
+    }
+
+    public Flight(String status, String planeModel, LocalDate departureDate, LocalTime departureTime, String destinationCity,
+                  String destinationAirportShortName, String flightNumber) {
+        this.status = status;
+        this.planeModel = planeModel;
+        this.departureDate = departureDate;
+        this.departureTime = departureTime;
+        this.destinationCity = destinationCity;
+        this.destinationAirportShortName = destinationAirportShortName;
+        this.flightNumber = flightNumber;
+    }
+
     public Flight(String status, String planeModel, LocalDate departureDate, LocalTime departureTime, LocalDate destinationDate, LocalTime destinationTime,
-                  String destinationCity, String departureCity, String crewName, String destinationAirportShortName, String departureAirportShortName,
+                  String destinationCity, String departureCity, String destinationAirportShortName, String departureAirportShortName,
                   String flightNumber) {
 
         this.status = status;
@@ -37,7 +54,6 @@ public class Flight implements Serializable {
         this.destinationTime = destinationTime;
         this.destinationCity = destinationCity;
         this.departureCity = departureCity;
-        this.crewName= crewName;
         this.destinationAirportShortName = destinationAirportShortName;
         this.departureAirportShortName = departureAirportShortName;
         this.flightNumber = flightNumber;
@@ -157,14 +173,6 @@ public class Flight implements Serializable {
         this.departureCountry = departureCountry;
     }
 
-    public String getcrewName() {
-        return crewName;
-    }
-
-    public void setcrewName(String crewName) {
-        this.crewName = crewName;
-    }
-
     public String getDestinationAirportShortName() {
         return destinationAirportShortName;
     }
@@ -194,7 +202,7 @@ public class Flight implements Serializable {
         return getClass().getName()+ " [ status = "+ status +" planeModel = " + planeModel + " departureDate = " + departureDate + " departureTime = " + departureTime  +
                 " destinationDate = " + destinationDate  + " destinationTime = " + destinationTime + " destinationAirport = " + destinationAirport +
                 " destinationCity = " + destinationCity + " destinationCountry = " + destinationCountry +  " departureAirport = " + departureAirport +
-                " departureCity = " + departureCity + " departureCountry = " + departureCountry  + " crewName= " + crewName+
+                " departureCity = " + departureCity + " departureCountry = " + departureCountry  +
                 " departureAirportShortName = " + departureAirportShortName  + " destinationAirportShortName= " + destinationAirportShortName+
                 " flightNumber = " + flightNumber + " ]";
     }
@@ -206,7 +214,7 @@ public class Flight implements Serializable {
                 ((destinationTime==null)?0:destinationTime.hashCode())+ ((destinationAirport==null)?0:destinationAirport.hashCode())+
                 ((destinationCity==null)?0:destinationCity.hashCode())+ ((destinationCountry==null)?0:destinationCountry.hashCode())+
                 ((departureAirport==null)?0:departureAirport.hashCode())+ ((departureCity==null)?0:departureCity.hashCode())+
-                ((departureCountry==null)?0:departureCountry.hashCode())+ ((crewName == null)?0:crewName.hashCode())+
+                ((departureCountry==null)?0:departureCountry.hashCode())+
                 ((departureAirportShortName==null)?0:departureAirportShortName.hashCode())+ ((destinationAirportShortName == null)?0:destinationAirportShortName.hashCode())+
                 ((flightNumber==null)?0:flightNumber.hashCode()));
     }
@@ -313,14 +321,6 @@ public class Flight implements Serializable {
                 return false;
             }
         }else if(!departureCountry.equals(other.departureCountry)){
-            return false;
-        }
-
-        if (crewName == null) {
-            if(other.crewName!= null){
-                return false;
-            }
-        }else if(!crewName.equals(other.crewName)) {
             return false;
         }
 

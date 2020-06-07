@@ -23,4 +23,21 @@ public class DateValidation extends Validator {
 
         return true;
     }
+
+    private boolean dateRangeCheck(int minusFromToday, int plusToToday, LocalDate date){
+
+        LocalDate today = LocalDate.now();
+        LocalDate minDateOfRange = today.minusDays(minusFromToday);
+        LocalDate maxDateOfRange = today.plusDays(plusToToday);
+
+        if(date.isAfter(maxDateOfRange)){
+            return false;
+        }
+
+        if(date.isBefore(minDateOfRange)){
+            return false;
+        }
+
+        return true;
+    }
 }

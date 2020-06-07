@@ -2,11 +2,12 @@ package by.epam.tr.dao;
 
 import by.epam.tr.bean.Flight;
 import java.time.LocalDate;
-import java.util.ArrayList;
+import java.util.List;
 
 public interface FlightDAO {
 
-    ArrayList<Flight> userFlightsList(String surname, String email, LocalDate departureDate) throws DAOException;
-    ArrayList<Flight> allFlightsList(LocalDate departureDate) throws DAOException;
+    List<Flight> userFlightsList(String surname, String email, LocalDate departureDate) throws DAOException;
+    List<Flight> allFlightsList(LocalDate departureDate, String airportName, String type) throws DAOException;
     Flight flightInfo(String flightNumber, String departureDate) throws DAOException;
+    List<Flight> nearestUserFlights(String surname, String email, LocalDate lastDayOfRange) throws DAOException;
 }

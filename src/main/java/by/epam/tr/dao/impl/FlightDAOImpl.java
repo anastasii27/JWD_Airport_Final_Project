@@ -1,6 +1,7 @@
 package by.epam.tr.dao.impl;
 
 import by.epam.tr.bean.Flight;
+import by.epam.tr.dao.CloseOperation;
 import by.epam.tr.dao.DAOException;
 import by.epam.tr.dao.FlightDAO;
 import by.epam.tr.dao.connectionpool.ConnectionPool;
@@ -8,10 +9,14 @@ import by.epam.tr.dao.connectionpool.ConnectionPoolException;
 import java.sql.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
 
-public class FlightDAOImpl implements FlightDAO {
+public class FlightDAOImpl extends CloseOperation implements FlightDAO {
 
-    private final static String USER_FLIGHT =   "SELECT `status`, model, `short-name`, `departure-date`, `departure-time`, `destination-date`, `destination-time`, \n" +
+    private final static String ARRIVAL = "arrival";
+    private final static String DEPARTURE = "departure";
+
+    private final static String SELECT_USER_FLIGHT =   "SELECT `status`, model, `departure-date`, `departure-time`, `destination-date`, `destination-time`, \n" +
                                                 "c1.`name` AS `destination-city` , a1.`name-abbreviation` AS `dest-airport-short-name`,\n" +
                                                 "c2.`name` AS `departure-city`, a2.`name-abbreviation` AS `dep-airport-short-name`, `flight-number` \n" +
                                                 "FROM flights\n" +
@@ -25,24 +30,27 @@ public class FlightDAOImpl implements FlightDAO {
                                                 "WHERE `user-id` = (SELECT id FROM users WHERE surname = ? AND email=?)  AND `departure-date` = ?;\n";
 
 
-    private final static String ALL_FLIGHTS =   "SELECT `status`, model,`short-name`, `departure-date`, `destination-date`, `departure-time`, `destination-time`, \n" +
-                                                "c1.`name` AS `destination-city`,  a1.`name-abbreviation` AS `dest-airport-short-name`,\n" +
-                                                "c2.`name` AS `departure-city`, a2.`name-abbreviation` AS `dep-airport-short-name`,`flight-number`\n" +
-                                                "FROM airport.flights\n" +
-                                                "JOIN airport.`planes-characteristic` ON (SELECT `planes-characteristic-id` FROM planes WHERE planes.id = `plane-id` ) = `planes-characteristic`.id\n" +
-                                                "JOIN airport.`flight-teams` ON flights.`flight-team-id` = `flight-teams`.id\n" +
-                                                "JOIN airports AS a1 ON  a1.id = flights.`destination-airport-id` \n" +
-                                                "JOIN cities AS c1 ON c1.id = (SELECT  `city-id` FROM airports WHERE airports.`name` = a1.`name`)\n" +
-                                                "JOIN countries AS cnt1 ON cnt1.id = c1.`country-id`\n" +
-                                                "JOIN airports AS a2 ON \ta2.id = flights.`departure-airport-id` \n" +
-                                                "JOIN cities AS c2 ON c2.id = (SELECT  `city-id` FROM airports WHERE airports.`name` = a2.`name`)\n" +
-                                                "JOIN countries AS cnt2 on  cnt2.id = c2.`country-id`" +
-                                                "WHERE `departure-date` = ? ;";
+    private final static String SELECT_AIRPORT_DEPARTURE = "SELECT `flight-number`, `departure-date` AS `date`, `departure-time` AS `time`, a1.`name` AS `airport`,\n" +
+                                                "cities.`name` AS `city`, a1.`name-abbreviation` AS `airport-short-name`, model, `status`\n" +
+                                                "FROM flights\n" +
+                                                "JOIN airports AS a1 ON  a1.id = flights.`destination-airport-id`\n" +
+                                                "JOIN cities ON cities.id = (SELECT `city-id` FROM airports WHERE airports.`name` = a1.`name`)\n" +
+                                                "JOIN `planes-characteristic` ON (SELECT `planes-characteristic-id` FROM planes WHERE planes.id = `plane-id` ) = `planes-characteristic`.id\n" +
+                                                "JOIN airports AS a2 ON a2.id = flights.`departure-airport-id`\n" +
+                                                "WHERE `departure-date` = ? AND a2.`name-abbreviation` = ?;";
 
-    private final static String FLIGHT_INFO =   "SELECT `status`,`destination-date`, `destination-time`, a2.`name` AS `departure-airport`, c2.`name` AS `departure-city`, cnt2.`name` AS `departure-country`,  a2.`name-abbreviation` AS `dep-airport-short-name`, \n" +
+    private final static String SELECT_AIRPORT_ARRIVAL = "SELECT `flight-number`, `destination-date` AS `date`, `destination-time` AS `time`,cities.`name` AS `city`,\n" +
+                                                "a2.`name-abbreviation` AS `airport-short-name`, model, `status`\n" +
+                                                "FROM flights\n" +
+                                                "JOIN airports AS a2 ON \ta2.id = flights.`departure-airport-id`\n" +
+                                                "JOIN cities ON cities.id = (SELECT `city-id` FROM airports WHERE airports.`name` = a2.`name`)\n" +
+                                                "JOIN airports AS a1 ON  a1.id = flights.`destination-airport-id`\n" +
+                                                "JOIN `planes-characteristic` ON (SELECT `planes-characteristic-id` FROM planes WHERE planes.id = `plane-id` ) = `planes-characteristic`.id\n" +
+                                                "WHERE `destination-date` = ? AND a1.`name-abbreviation` = ?;";
+
+    private final static String SELECT_FLIGHT_INFO =   "SELECT `status`,`destination-date`, `destination-time`, a2.`name` AS `departure-airport`, c2.`name` AS `departure-city`, cnt2.`name` AS `departure-country`,  a2.`name-abbreviation` AS `dep-airport-short-name`, \n" +
                                                 "`departure-date`, `departure-time`, a1.`name` AS `destination-airport`, c1.`name` AS `destination-city` , cnt1.`name` AS `destination-country`, a1.`name-abbreviation` AS `dest-airport-short-name`\n" +
                                                 "FROM flights\n" +
-                                                "JOIN `planes-characteristic` ON (SELECT `planes-characteristic-id` FROM planes WHERE planes.id = `plane-id` ) = `planes-characteristic`.id\n" +
                                                 "JOIN airports AS a1 ON  a1.id = flights.`destination-airport-id`\n" +
                                                 "JOIN cities AS c1 ON c1.id = (SELECT `city-id` FROM airports WHERE airports.`name` = a1.`name`)\n" +
                                                 "JOIN countries AS cnt1 ON cnt1.id = c1.`country-id`\n" +
@@ -51,21 +59,28 @@ public class FlightDAOImpl implements FlightDAO {
                                                 "JOIN countries AS cnt2 ON cnt2.id = c2.`country-id`\n" +
                                                 "WHERE `flight-number` = ? AND `departure-date` = ?;\n";
 
-    @Override
-    public ArrayList<Flight> userFlightsList(String surname, String email, LocalDate departureDate) throws DAOException {
+    private final static String SELECT_NEAREST_FLIGHTS =  "SELECT `departure-date`, `departure-time`, `flight-number`,cities.`name` AS 'destination-city' FROM flights \n" +
+                                                "JOIN airports AS a1 ON  a1.id = flights.`destination-airport-id`\n" +
+                                                "JOIN cities  ON cities.id = (SELECT `city-id` FROM airports WHERE airports.`name` = a1.`name`)\n" +
+                                                "JOIN `flight-teams` ON  flights.`flight-team-id` = `flight-teams`.id\n" +
+                                                "JOIN `flight-teams-m2m-users` ON   `flight-teams-m2m-users`.`flight-team-id` = `flight-teams`.id \n" +
+                                                "WHERE `user-id` = (SELECT id FROM users WHERE surname = ? AND email=?) AND `departure-date` BETWEEN  current_date() AND ? LIMIT 3\n";
 
-        ConnectionPool pool = null;
+    private ConnectionPool pool = ConnectionPool.getInstance();
+
+    @Override
+    public List<Flight> userFlightsList(String surname, String email, LocalDate departureDate) throws DAOException {
+
         Connection connection = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
-        ArrayList <Flight> flights = new ArrayList<>();
+        List <Flight> flights = new ArrayList<>();
         Date date = Date.valueOf(departureDate);
 
         try {
 
-            pool = ConnectionPool.getInstance();
             connection = pool.takeConnection();
-            ps =  connection.prepareStatement(USER_FLIGHT);
+            ps =  connection.prepareStatement(SELECT_USER_FLIGHT);
 
             ps.setString(1,surname);
             ps.setString(2,email);
@@ -74,9 +89,11 @@ public class FlightDAOImpl implements FlightDAO {
             rs = ps.executeQuery();
 
             while (rs.next()){
-                flights.add(new Flight(rs.getString("status"), rs.getString("model"), rs.getDate("departure-date").toLocalDate(), rs.getTime("departure-time").toLocalTime(), rs.getDate("destination-date").toLocalDate(),
-                        rs.getTime("destination-time").toLocalTime(),  rs.getString("destination-city"), rs.getString("departure-city"), rs.getString("short-name"),
-                        rs.getString("dest-airport-short-name"), rs.getString("dep-airport-short-name"), rs.getString("flight-number")));
+                flights.add(new Flight(rs.getString("status"), rs.getString("model"), rs.getDate("departure-date").toLocalDate(),
+                        rs.getTime("departure-time").toLocalTime(), rs.getDate("destination-date").toLocalDate(),
+                        rs.getTime("destination-time").toLocalTime(), rs.getString("destination-city"),
+                        rs.getString("departure-city"), rs.getString("dest-airport-short-name"),
+                        rs.getString("dep-airport-short-name"), rs.getString("flight-number")));
             }
 
         } catch (ConnectionPoolException e) {
@@ -84,65 +101,50 @@ public class FlightDAOImpl implements FlightDAO {
         } catch (SQLException e) {
             throw new DAOException("Exception during flight selecting!");
         }finally{
-
-            if(rs !=  null){
-                closeResultSet(rs);
-            }
-
-            if(ps != null){
-                closeStatement(ps);
-            }
-
-            if (pool != null) {
-                pool.releaseConnection(connection);
-            }
+            closeAll(rs, ps, pool, connection);
         }
 
         return flights;
     }
 
     @Override
-    public ArrayList<Flight> allFlightsList(LocalDate departureDate) throws DAOException {
+    public List<Flight> allFlightsList(LocalDate departureDate, String airportShortName, String type) throws DAOException {
 
-        ConnectionPool pool = null;
         Connection connection = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
-        ArrayList <Flight> flights = new ArrayList<>();
+        List <Flight> flights = new ArrayList<>();
         Date date = Date.valueOf(departureDate);
+        String query;
 
         try {
-            pool = ConnectionPool.getInstance();
             connection = pool.takeConnection();
-            ps =  connection.prepareStatement(ALL_FLIGHTS);
 
-            ps.setDate(1,date);
+            query = dbQueryByFlightType(type);
 
-            rs = ps.executeQuery();
+            if(query!=null) {
 
-            while (rs.next()){
-                flights.add(new Flight(rs.getString("status"), rs.getString("model"), rs.getDate("departure-date").toLocalDate(), rs.getTime("departure-time").toLocalTime(), rs.getDate("destination-date").toLocalDate(),
-                        rs.getTime("destination-time").toLocalTime(),  rs.getString("destination-city"), rs.getString("departure-city"), rs.getString("short-name"),
-                        rs.getString("dest-airport-short-name"), rs.getString("dep-airport-short-name"), rs.getString("flight-number")));
+                ps = connection.prepareStatement(query);
+
+                ps.setDate(1, date);
+                ps.setString(2, airportShortName);
+
+                rs = ps.executeQuery();
+
+                while (rs.next()) {
+                    flights.add(new Flight(rs.getString("status"), rs.getString("model"),
+                            rs.getDate("date").toLocalDate(), rs.getTime("time").toLocalTime(),
+                            rs.getString("city"), rs.getString("airport-short-name"),
+                            rs.getString("flight-number")));
+                }
             }
-
         } catch (ConnectionPoolException e) {
             throw new DAOException("Exception during taking connection!");
         } catch (SQLException e) {
+            e.printStackTrace();
             throw new DAOException("Exception during flight selecting!");
         }finally{
-
-            if(rs !=  null){
-                closeResultSet(rs);
-            }
-
-            if(ps != null){
-                closeStatement(ps);
-            }
-
-            if (pool != null) {
-                pool.releaseConnection(connection);
-            }
+            closeAll(rs, ps, pool, connection);
         }
 
         return flights;
@@ -151,16 +153,14 @@ public class FlightDAOImpl implements FlightDAO {
     @Override
     public Flight flightInfo(String flightNumber, String departureDate) throws DAOException {
 
-        ConnectionPool pool = null;
         Connection connection = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
         Flight flight;
 
         try {
-            pool = ConnectionPool.getInstance();
             connection = pool.takeConnection();
-            ps =  connection.prepareStatement(FLIGHT_INFO);
+            ps =  connection.prepareStatement(SELECT_FLIGHT_INFO);
 
             ps.setString(1,flightNumber);
             ps.setString(2,departureDate);
@@ -171,9 +171,12 @@ public class FlightDAOImpl implements FlightDAO {
                 return null;
             }
 
-            flight = new Flight(rs.getString("status"),rs.getDate("destination-date").toLocalDate(), rs.getTime("destination-time").toLocalTime(), rs.getString("destination-airport"), rs.getString("destination-city"),
-                            rs.getString("destination-country"),  rs.getString("dest-airport-short-name"),rs.getDate("departure-date").toLocalDate(), rs.getTime("departure-time").toLocalTime(),
-                            rs.getString("departure-airport"), rs.getString("departure-city"),rs.getString("departure-country"),  rs.getString("dep-airport-short-name") );
+            flight = new Flight(rs.getString("status"),rs.getDate("destination-date").toLocalDate(),
+                    rs.getTime("destination-time").toLocalTime(), rs.getString("destination-airport"),
+                    rs.getString("destination-city"), rs.getString("destination-country"),
+                    rs.getString("dest-airport-short-name"),rs.getDate("departure-date").toLocalDate(),
+                    rs.getTime("departure-time").toLocalTime(), rs.getString("departure-airport"),
+                    rs.getString("departure-city"),rs.getString("departure-country"), rs.getString("dep-airport-short-name") );
 
 
         } catch (ConnectionPoolException e) {
@@ -181,38 +184,64 @@ public class FlightDAOImpl implements FlightDAO {
         } catch (SQLException e) {
             throw new DAOException("Exception during flight info selecting!");
         }finally{
-
-            if(rs !=  null){
-                closeResultSet(rs);
-            }
-
-            if(ps != null){
-                closeStatement(ps);
-            }
-
-            if (pool != null) {
-                pool.releaseConnection(connection);
-            }
+            closeAll(rs, ps, pool, connection);
         }
 
         return flight;
     }
 
-    private void closeStatement(Statement st) {
+    @Override
+    public List<Flight> nearestUserFlights(String surname, String email, LocalDate lastDayOfRange) throws DAOException {
+
+        Connection connection = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        List <Flight> flights = new ArrayList<>();
+        Date date = Date.valueOf(lastDayOfRange);
 
         try {
-            st.close();
+
+            connection = pool.takeConnection();
+            ps =  connection.prepareStatement(SELECT_NEAREST_FLIGHTS);
+
+            ps.setString(1,surname);
+            ps.setString(2,email);
+            ps.setDate(3,date);
+
+            rs = ps.executeQuery();
+
+            while (rs.next()){
+               flights.add(new Flight(rs.getDate("departure-date").toLocalDate(), rs.getTime("departure-time").toLocalTime(),
+                       rs.getString("destination-city"),rs.getString("flight-number")));
+            }
+
+        } catch (ConnectionPoolException e) {
+            throw new DAOException("Exception during taking connection!");
         } catch (SQLException e) {
-            //log
+            e.printStackTrace();
+            throw new DAOException("Exception during flight selecting!");
+        }finally{
+            closeAll(rs, ps, pool, connection);
         }
+
+        return flights;
+
     }
 
-    private void closeResultSet(ResultSet rs){
+    private String dbQueryByFlightType(String flightsType){//заменить
 
-        try {
-            rs.close();
-        } catch (SQLException e) {
-            //log
+        if(flightsType.equals(ARRIVAL)){
+            return SELECT_AIRPORT_ARRIVAL;
         }
+
+        if(flightsType.equals(DEPARTURE)){
+            return SELECT_AIRPORT_DEPARTURE;
+        }
+
+        return null;
     }
+
+//    public static void main(String[] args) throws DAOException {
+//        System.out.println(new FlightDAOImpl().allFlightsList(LocalDate.of(2020, 5,18), "NAME", "departure"));
+//    }
 }

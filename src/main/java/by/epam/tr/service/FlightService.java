@@ -2,11 +2,12 @@ package by.epam.tr.service;
 
 import by.epam.tr.bean.Flight;
 import java.time.LocalDate;
-import java.util.ArrayList;
+import java.util.List;
 
 public interface FlightService {
 
-    ArrayList<Flight> userFlightsList(String surname, String email, LocalDate departureDate) throws ServiceException;
-    ArrayList <Flight> allFlightsList(LocalDate departureDate) throws ServiceException;
+    List<Flight> userFlightsList(String surname, String email, LocalDate departureDate) throws ServiceException;
+    List <Flight> allFlightsList(LocalDate departureDate, String airportName, String type) throws ServiceException;
     Flight flightInfo(String flightNumber, String departureDate) throws ServiceException;
+    List<Flight> nearestUserFlights(String surname, String email) throws ServiceException;
 }

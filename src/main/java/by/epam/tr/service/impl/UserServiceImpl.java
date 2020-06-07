@@ -8,14 +8,15 @@ import by.epam.tr.service.ServiceException;
 import by.epam.tr.service.UserService;
 import by.epam.tr.service.validation.ValidationFactory;
 import by.epam.tr.service.validation.Validator;
-import java.util.ArrayList;
+import java.util.List;
 
 public class UserServiceImpl implements UserService {
+
+    private UserDAO  dao = DAOFactory.getInstance().getUserDAO();
 
     @Override
     public User signIn(String login, String password) throws ServiceException {//null
 
-        UserDAO  dao = DAOFactory.getInstance().getUserDAO();
         User user;
 
         try {
@@ -30,8 +31,6 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public int registration(User user, String login, String password) throws ServiceException {
-
-        UserDAO dao = DAOFactory.getInstance().getUserDAO();
 
         if(!registrationValidation(user, login, password)) {
             return -1;
@@ -54,10 +53,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public ArrayList<User> userByGroup(String groupName) throws ServiceException {
+    public List<User> userByGroup(String groupName) throws ServiceException {
 
-        UserDAO dao = DAOFactory.getInstance().getUserDAO();
-        ArrayList <User> users;
+        List <User> users;
 
         try {
 

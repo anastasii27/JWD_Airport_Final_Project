@@ -1,6 +1,5 @@
 package by.epam.tr.controller.command.impl;
 
-import by.epam.tr.bean.Group;
 import by.epam.tr.bean.User;
 import by.epam.tr.controller.constant_parameter.JSPPageName;
 import by.epam.tr.controller.constant_parameter.RequestParameterName;
@@ -10,7 +9,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.util.ArrayList;
 
 public class SignIn implements Command {
 
@@ -35,8 +33,7 @@ public class SignIn implements Command {
 
                 if(user != null){
 
-                    session.setAttribute(RequestParameterName.USER_INFO, user);
-
+                    session.setAttribute(RequestParameterName.USER, user);
                     response.sendRedirect(request.getContextPath() + PATH);
                 }else {
 

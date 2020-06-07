@@ -9,7 +9,7 @@
         <fmt:setBundle basename="localization.local" var="loc" />
         <fmt:message bundle="${loc}" key="local.button.name.ru" var="ru_button" />
         <fmt:message bundle="${loc}" key="local.button.name.en" var="en_button" />
-        <fmt:message bundle="${loc}" key="local.label.menu_main_news" var="news_label" />
+        <fmt:message bundle="${loc}" key="local.label.menu_main_arr_and_dep" var="arr_dep_label" />
         <fmt:message bundle="${loc}" key="local.label.menu_main_about" var="about_label" />
         <fmt:message bundle="${loc}" key="local.label.menu_main_park" var="park_label" />
         <fmt:message bundle="${loc}" key="local.label.menu_main_lang" var="lang_label" />
@@ -47,7 +47,7 @@
                         <a class="nav-link" href="#">${main_label}</a>
                     </li>
                     <li class="nav-item ">
-                        <a class="nav-link" href="#">${news_label}</a>
+                        <a class="nav-link" href="#">${arr_dep_label}</a>
                     </li>
                     <li class="nav-item ">
                         <a class="nav-link" href="#">${about_label}</a>

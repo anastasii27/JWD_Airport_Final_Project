@@ -11,7 +11,7 @@ import by.epam.tr.service.ServiceFactory;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.time.LocalDate;
-import java.util.ArrayList;
+import java.util.List;
 
 public class MyFlights implements Command {
 
@@ -22,7 +22,7 @@ public class MyFlights implements Command {
 
         FlightService flightService = ServiceFactory.getInstance().getFlightService();
         User user  = (User) request.getSession().getAttribute("user");
-        ArrayList<Flight> flight;
+        List<Flight> flight;
         String date;
         LocalDate departureDate;
         String surname;

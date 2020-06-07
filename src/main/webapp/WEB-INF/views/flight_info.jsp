@@ -29,7 +29,7 @@
         <script>
             $(document).ready(function () {
                 $('.lang').on('click', function (){
-                    $('.lang').append('<input impl="hidden" name="url" value="${pageContext.request.contextPath}/mmm?action=show_flight_info&crew=${requestScope.crew}&flight_number=${requestScope.flight_number}&departure_date=${requestScope.departure_date}"/>').hide();
+                    $('.lang').append('<input impl="hidden" name="url" value="${pageContext.request.contextPath}/mmm?action=show_flight_info&flight_number=${requestScope.flight_number}&departure_date=${requestScope.departure_date}"/>').hide();
                 });
             });
         </script>
@@ -38,34 +38,6 @@
     <body>
         <jsp:include page="header.jsp"/>
         <div class="row">
-            <div class = 'col-md-4'>
-                <h2>${pilot_label}</h2>
-                    <c:if test="${requestScope.result ne null}">
-                        <c:out value="${requestScope.result}"/>
-                    </c:if>
-                    <c:if test="${requestScope.result eq null}">
-                        <c:forEach items="${requestScope.users}" var="user">
-                            <c:set var = "role" scope = "request" value = "${user.role}"/>
-                                <c:if test="${role eq 'pilot'}">
-                                    <c:out value="${user.name} ${user.surname}"/>
-                                </c:if>
-                        </c:forEach>
-                    </c:if>
-            </div>
-            <div class = 'col-md-4'>
-                <h2>${steward_label}</h2>
-                    <c:if test="${requestScope.result ne null}">
-                        <c:out value="${requestScope.result}"/>
-                    </c:if>
-                    <c:if test="${requestScope.result eq null}">
-                        <c:forEach items="${requestScope.users}" var="user">
-                            <c:set var = "role" scope = "request" value = "${user.role}"/>
-                                <c:if test="${role eq 'stewardess'}">
-                                    <c:out value="${user.name} ${user.surname}"/><br/>
-                                </c:if>
-                        </c:forEach>
-                    </c:if>
-            </div>
             <div class = 'col-md-4 container'>
                 <div class = "row">
                     <h2>${flight_label}</h2>
