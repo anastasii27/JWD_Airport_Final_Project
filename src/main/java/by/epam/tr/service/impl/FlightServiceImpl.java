@@ -42,10 +42,10 @@ public class FlightServiceImpl implements FlightService {
     @Override
     public List<Flight> allFlightsList(LocalDate departureDate, String airportShortName, String type) throws ServiceException {
 
-        Validator flightTypeValidation = ValidationFactory.getInstance().getFlightTypeValidation();
+        Validator nullValidation = ValidationFactory.getInstance().getNullValidation();
         List<Flight> flights;
 
-        if(!flightTypeValidation.validate(type) && !dateValidation(departureDate)){
+        if(!dateValidation(departureDate) && !nullValidation.validate(type)){
             return null;
         }
 

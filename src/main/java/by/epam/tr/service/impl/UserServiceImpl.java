@@ -92,8 +92,4 @@ public class UserServiceImpl implements UserService {
 
         return true;
     }
-
-//    public static void main(String[] args) throws ServiceException {
-//        System.out.println(new UserServiceImpl().registration(new User("pilot", "jj", "kd", "kdkd@mail.ru", "1"), "djdl", "kdkkkk"));
-//    }
 }

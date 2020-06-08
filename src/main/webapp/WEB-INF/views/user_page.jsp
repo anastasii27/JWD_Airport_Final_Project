@@ -15,6 +15,11 @@
         <fmt:message bundle="${loc}" key="local.label.surname" var="surname_label" />
         <fmt:message bundle="${loc}" key="local.label.start_year" var="start_label" />
         <fmt:message bundle="${loc}" key="local.label.role" var="role_label" />
+        <fmt:message bundle="${loc}" key="local.label.flight" var="flight_label" />
+        <fmt:message bundle="${loc}" key="local.label.dest_city" var="dest_label" />
+        <fmt:message bundle="${loc}" key="local.label.dep_time" var="dep_time_label" />
+        <fmt:message bundle="${loc}" key="local.label.flight_info.date" var="date_label" />
+        <fmt:message bundle="${loc}" key="local.label.nearest_flight" var="near_flight_label" />
 
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
         <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
@@ -40,9 +45,9 @@
         <p>${role_label}: <c:out value= "${sessionScope.user.role}" /></p>
         <p>${start_label}: <c:out value= "${sessionScope.user.careerStartYear}" /></p>
 
-        <h3>Ближайшие рейсы</h3>
+        <h3>${near_flight_label}</h3>
         <table class ="table" border="2">
-            <tr><th>НОМЕР РЕЙСА </th><th>ДАТА</th><th>КУДА</th><th> ВРЕМЯ</th></tr>
+            <tr><th>${flight_label}</th><th>${date_label}</th><th>${dest_label}</th><th>${dep_time_label}</th></tr>
                 <c:forEach items="${flight}" var="flight_item">
                     <tr onclick="document.location.href= '${pageContext.request.contextPath}/mmm?action=show_flight_info&flight_number=${flight_item.flightNumber}&departure_date=${flight_item.departureDate}'">
                         <td>${flight_item.flightNumber}</td>

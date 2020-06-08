@@ -39,7 +39,7 @@ public class FlightDAOImpl extends CloseOperation implements FlightDAO {
                                                 "JOIN airports AS a2 ON a2.id = flights.`departure-airport-id`\n" +
                                                 "WHERE `departure-date` = ? AND a2.`name-abbreviation` = ?;";
 
-    private final static String SELECT_AIRPORT_ARRIVAL = "SELECT `flight-number`, `destination-date` AS `date`, `destination-time` AS `time`,cities.`name` AS `city`,\n" +
+    private final static String SELECT_AIRPORT_ARRIVAL = "SELECT `flight-number`, `departure-date` AS `date`, `destination-time` AS `time`,cities.`name` AS `city`,\n" +
                                                 "a2.`name-abbreviation` AS `airport-short-name`, model, `status`\n" +
                                                 "FROM flights\n" +
                                                 "JOIN airports AS a2 ON \ta2.id = flights.`departure-airport-id`\n" +
@@ -118,7 +118,6 @@ public class FlightDAOImpl extends CloseOperation implements FlightDAO {
         String query;
 
         try {
-            pool.poolInitialization();
             connection = pool.takeConnection();
             query = dbQueryByFlightType(type);
 
@@ -240,8 +239,4 @@ public class FlightDAOImpl extends CloseOperation implements FlightDAO {
 
         return null;
     }
-
-//    public static void main(String[] args) throws DAOException {
-//        System.out.println(new FlightDAOImpl().allFlightsList(LocalDate.of(2020, 5,18), "NAME", "departure"));
-//    }
 }

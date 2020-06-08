@@ -2,7 +2,7 @@ package by.epam.tr.service.validation;
 
 public abstract class Validator {
 
-    public abstract boolean validate(Object object);
+    public abstract boolean validate(Object...object);
 
     public static boolean checkWithPattern(String pattern,String...value) {
 

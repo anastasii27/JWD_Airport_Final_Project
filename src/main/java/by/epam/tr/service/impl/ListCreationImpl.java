@@ -9,10 +9,11 @@ import java.util.List;
 
 public class ListCreationImpl implements ListCreationService {
 
+    ListCreationDAO listCreationDAO = DAOFactory.getInstance().getListCreationDAO();
+
     @Override
     public List<String> createCityWithAirportList() throws ServiceException {
 
-        ListCreationDAO listCreationDAO = DAOFactory.getInstance().getListCreationDAO();
         List <String> citiesWithAirports;
 
         try {
@@ -24,5 +25,21 @@ public class ListCreationImpl implements ListCreationService {
         }
 
         return citiesWithAirports;
+    }
+
+    @Override
+    public List<String> createRolesList() throws ServiceException {
+
+        List <String> roles;
+
+        try {
+
+            roles = listCreationDAO.createRolesList();
+
+        } catch (DAOException e) {
+            throw new ServiceException("Exception during city with airport list creation");
+        }
+
+        return roles;
     }
 }

@@ -7,13 +7,14 @@
 <fmt:setBundle basename="localization.local" var="loc" />
 <fmt:message bundle="${loc}" key="local.label.flight_info.arrivals" var="arr_button" />
 <fmt:message bundle="${loc}" key="local.label.flight_info.departures" var="dep_button" />
+<fmt:message bundle="${loc}" key="local.send_button" var="send_button" />
 
 <form action="mmm" method="get" id="calendar">
     <input type="hidden" name="action" value="show_flights"/>
     <input type="hidden" name="from" value="${requestScope.from}"/>
     <label for="piker"></label>
     <select  name= "city" id="input_city">
-        <option> </option>
+            <option selected></option>
         <c:forEach var="city" items="${city_with_airport}">
             <option>${city}</option>
         </c:forEach>
@@ -24,5 +25,5 @@
     <input type="radio" id="arrival_type" name="type" value="departure" checked>
     <label for="departure_type">${arr_button}</label>
     <input type="radio" id="departure_type" name="type" value="arrival">
-    <input type="submit" value="Send"/>
+    <input type="submit" value="${send_button}"/>
 </form>

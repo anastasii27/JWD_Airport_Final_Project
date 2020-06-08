@@ -79,8 +79,10 @@
                     <div class="form-group col-md-5">
                         <label for="inputRole">${role_label} </label>
                         <select  name= "user_role" id="inputRole" class="form-control">
-                            <option selected></option>
-                            <option>Pilot</option>
+                                <option selected></option>
+                            <c:forEach var="role" items="${user_role}">
+                                <option>${role}</option>
+                            </c:forEach>
                         </select>
                     </div>
                     <div class="form-group col-md-5">

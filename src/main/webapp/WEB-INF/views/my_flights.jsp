@@ -15,6 +15,7 @@
         <fmt:message bundle="${loc}" key="local.label.status" var="status_label" />
         <fmt:message bundle="${loc}" key="local.js.lang" var="lang" />
         <fmt:message bundle="${loc}" key="local.label.menu_user_my_flights" var="my_flights_label" />
+        <fmt:message bundle="${loc}" key="local.send_button" var="send_button" />
 
         <title>${my_flights_label}</title>
 
@@ -50,7 +51,7 @@
             <label for="piker"></label>
             <input type='text' name="departure_date" id= "piker" class="datepicker-here"
                    data-language="${lang}" value = "${requestScope.departure_date}"/>
-            <input type="submit" value="Send"/>
+            <input type="submit" value="${send_button}"/>
         </form>
 
         <c:set var = "result" value = "${requestScope.result}"/>
@@ -58,16 +59,15 @@
 
             <table class ="table" border="2">
                 <tr>
-                    <th>${flight_label}</th><th>${dep_time_label}</th> <th>${dep_city_label}</th>
-                    <th>${dest_time_label}</th><th>${dest_city_label}</th><th>${plane_label}</th>
-                    <th>${status_label}</th>
+                    <th>${flight_label}</th><th>${dep_time_label}</th>
+                    <th>${dep_city_label}</th><th>${dest_city_label}</th>
+                    <th>${plane_label}</th><th>${status_label}</th>
                 </tr>
                 <c:forEach items="${requestScope.flight}" var="flight_item">
                     <tr onclick="document.location.href= '${pageContext.request.contextPath}/mmm?action=show_flight_info&flight_number=${flight_item.flightNumber}&departure_date=${flight_item.departureDate}'">
                         <td>${flight_item.flightNumber}</td>
                         <td>${flight_item.departureTime}</td>
                         <td>${flight_item.departureCity}(${flight_item.departureAirportShortName})</td>
-                        <td>${flight_item.destinationTime}</td>
                         <td>${flight_item.destinationCity}(${flight_item.destinationAirportShortName})</td>
                         <td>${flight_item.planeModel}</td>
                         <td>${flight_item.status}</td>

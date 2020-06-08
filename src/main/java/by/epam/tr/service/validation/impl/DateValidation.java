@@ -9,18 +9,22 @@ public class DateValidation extends Validator {
     private final static int MAX_DAY = 30;
 
     @Override
-    public boolean validate(Object object) {
+    public boolean validate(Object...object) {
 
-        LocalDate date = (LocalDate) object;
+        LocalDate date;
 
-        if (!nullCheck(date)) {
-            return false;
+        for (Object obj : object) {
+
+            date = (LocalDate) obj;
+
+            if (!nullCheck(date)) {
+                return false;
+            }
+
+            if (!dateRangeCheck(MIN_DAY, MAX_DAY, date)) {
+                return false;
+            }
         }
-
-        if(!dateRangeCheck(MIN_DAY, MAX_DAY, date)){
-            return false;
-        }
-
         return true;
     }
 

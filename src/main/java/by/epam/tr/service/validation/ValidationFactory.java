@@ -10,7 +10,7 @@ public class ValidationFactory {
     private final Validator dateValidation = new DateValidation();
     private final Validator loginValidation = new LoginValidation();
     private final Validator passwordValidation = new PasswordValidation();
-    private final Validator typeValidation = new FlightTypeValidation();
+    private final Validator nullValidation = new NullValidation();
 
     private ValidationFactory(){}
 
@@ -34,7 +34,7 @@ public class ValidationFactory {
         return passwordValidation;
     }
 
-    public Validator getFlightTypeValidation() {
-        return typeValidation;
+    public Validator getNullValidation() {
+        return nullValidation;
     }
 }

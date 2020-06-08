@@ -9,20 +9,25 @@ public class PasswordValidation extends Validator {
     private final static int MAX_LEN = 15;
 
     @Override
-    public boolean validate(Object object) {
+    public boolean validate(Object...object) {
 
-        String password = (String) object;
+        String password;
 
-        if (!nullCheck(password)) {
-            return false;
-        }
+        for (Object obj : object) {
 
-        if (!checkWithPattern(ValidationPattern.NO_SIGN_PATTERN, password)) {
-            return false;
-        }
+            password = (String) obj;
 
-        if(!lengthCheck(MIN_LEN,MAX_LEN, password)){
-            return false;
+            if (!nullCheck(password)) {
+                return false;
+            }
+
+            if (!checkWithPattern(ValidationPattern.NO_SIGN_PATTERN, password)) {
+                return false;
+            }
+
+            if (!lengthCheck(MIN_LEN, MAX_LEN, password)) {
+                return false;
+            }
         }
 
         return true;

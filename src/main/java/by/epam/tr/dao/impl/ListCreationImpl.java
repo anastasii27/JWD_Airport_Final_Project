@@ -14,6 +14,8 @@ public class ListCreationImpl extends CloseOperation implements ListCreationDAO 
     private static final String SELECT_CITY_WITH_AIRPORT = "SELECT cities.`name`,`name-abbreviation` FROM airport.airports\n" +
                                                     "JOIN cities ON cities.id = airports.`city-id`;";
 
+    private static final String SELECT_USERS_ROLES = "SELECT title from airport.roles";
+
     private ConnectionPool pool = ConnectionPool.getInstance();
 
     @Override
@@ -25,7 +27,6 @@ public class ListCreationImpl extends CloseOperation implements ListCreationDAO 
         List <String> citiesWithAirports = new ArrayList<>();
 
         try {
-            pool.poolInitialization();
             connection = pool.takeConnection();
             st = connection.createStatement();
 
@@ -38,10 +39,39 @@ public class ListCreationImpl extends CloseOperation implements ListCreationDAO 
         } catch (ConnectionPoolException e) {
             throw new DAOException("Exception during taking connection!");
         } catch (SQLException e) {
-            throw new DAOException("Exception during finding user by group operation!");
+            throw new DAOException("Exception during creating city with airports list!");
         }finally{
             closeAll(rs, st, pool, connection);
         }
         return citiesWithAirports;
+    }
+
+    @Override
+    public List<String> createRolesList() throws DAOException {
+
+        Connection connection = null;
+        Statement st = null;
+        ResultSet rs = null;
+        List <String> roles = new ArrayList<>();
+
+        try {
+            connection = pool.takeConnection();
+            st = connection.createStatement();
+
+            rs = st.executeQuery(SELECT_USERS_ROLES);
+
+            while (rs.next()) {
+                roles.add(rs.getString("title"));
+            }
+
+        } catch (ConnectionPoolException e) {
+            throw new DAOException("Exception during taking connection!");
+        } catch (SQLException e) {
+            throw new DAOException("Exception during creating city roles list!");
+        }finally{
+            closeAll(rs, st, pool, connection);
+        }
+
+        return roles;
     }
 }
