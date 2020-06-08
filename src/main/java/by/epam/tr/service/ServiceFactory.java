@@ -2,6 +2,7 @@ package by.epam.tr.service;
 
 import by.epam.tr.service.impl.CrewServiceImpl;
 import by.epam.tr.service.impl.FlightServiceImpl;
+import by.epam.tr.service.impl.ListCreationImpl;
 import by.epam.tr.service.impl.UserServiceImpl;
 
 public class ServiceFactory{
@@ -11,6 +12,7 @@ public class ServiceFactory{
     private final UserService  userService = new UserServiceImpl();
     private final FlightService flightService = new FlightServiceImpl();
     private final CrewService crewService = new CrewServiceImpl();
+    private final ListCreationService listCreationService = new ListCreationImpl();
 
     private ServiceFactory(){}
 
@@ -28,5 +30,9 @@ public class ServiceFactory{
 
     public CrewService getCrewService(){
         return crewService;
+    }
+
+    public ListCreationService getListCreationService() {
+        return listCreationService;
     }
 }

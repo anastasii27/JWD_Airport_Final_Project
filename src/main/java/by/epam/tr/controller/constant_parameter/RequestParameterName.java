@@ -22,4 +22,6 @@ public final class RequestParameterName {
     public static final String STATUS = "status";
     public static final String CITY = "city";
     public static final String FLIGHT_TYPE = "type";
+    public static final String CITY_WITH_AIRPORT = "city_with_airport";
+    public static final String FROM = "from";
 }

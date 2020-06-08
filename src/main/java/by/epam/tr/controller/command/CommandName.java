@@ -2,17 +2,17 @@ package by.epam.tr.controller.command;
 
 public enum CommandName {
 
-    SIGN_IN ("all"),
-    REGISTER ("all"),
-    NO_SUCH_COMMAND ("all"),
+    SIGN_IN ("common"),
+    REGISTER ("common"),
+    NO_SUCH_COMMAND ("common"),
     SIGN_OUT("authorized"),
-    CHANGE_LANGUAGE ("all"),
-    SHOW_REGISTER_PAGE ("all"),
-    SHOW_SIGN_IN_PAGE ("all"),
+    CHANGE_LANGUAGE ("common"),
+    SHOW_REGISTER_PAGE ("common"),
+    SHOW_SIGN_IN_PAGE ("common"),
     SHOW_USER_PAGE ("authorized"),
-    SHOW_FLIGHTS_PAGE ("authorized"),
-    SHOW_FLIGHTS("authorized"),
-    SHOW_FLIGHT_INFO("authorized"),
+    SHOW_FLIGHT_SEARCH_PAGE ("both"),
+    SHOW_FLIGHTS("both"),
+    SHOW_FLIGHT_INFO("common"),
     SHOW_MY_FLIGHTS("authorized");
 
     private final String accessType;

@@ -14,7 +14,7 @@ public class AuthorizationFilter implements Filter {
 
     private static final String ACTION = "action";
     private static final String USER = "user";
-    private static final String ACCESS_TYPE = "authorized";
+    private static final String ACCESS_TYPE_AUTHORIZED = "authorized";
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
@@ -37,7 +37,7 @@ public class AuthorizationFilter implements Filter {
             commandName =  CommandName.valueOf(action.toUpperCase());
             accessType = commandName.getAccessType();
 
-            if(user == null && accessType.equals(ACCESS_TYPE)){
+            if(user == null && accessType.equals(ACCESS_TYPE_AUTHORIZED)){
                 req.getRequestDispatcher("/"+JSPPageName.SIGN_IN_PAGE).forward(req, resp);
             }
         }

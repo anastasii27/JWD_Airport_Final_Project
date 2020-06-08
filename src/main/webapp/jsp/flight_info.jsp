@@ -3,9 +3,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page isELIgnored ="false" %>
 <html>
-
     <head>
-        <title>Flight information</title>
 
         <fmt:setLocale value="${sessionScope.local}" />
         <fmt:setBundle basename="localization.local" var="loc" />
@@ -19,6 +17,9 @@
         <fmt:message bundle="${loc}" key="local.label.flight_info.airport" var="airport_label" />
         <fmt:message bundle="${loc}" key="local.label.flight_info.arrivals" var="arrivals_label" />
         <fmt:message bundle="${loc}" key="local.label.flight_info.departures" var="departures_label" />
+        <fmt:message bundle="${loc}" key="local.label.title.flight_info" var="flight_info_label" />
+
+        <title>${flight_info_label}</title>
 
         <link rel="stylesheet" href="${pageContext.request.contextPath}/design/css/header.css"/>
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
@@ -36,7 +37,7 @@
 
     </head>
     <body>
-        <jsp:include page="header.jsp"/>
+        <jsp:include page="../WEB-INF/views/header.jsp"/>
         <div class="row">
             <div class = 'col-md-4 container'>
                 <div class = "row">

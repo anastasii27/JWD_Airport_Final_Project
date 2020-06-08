@@ -7,8 +7,6 @@
 <html>
     <head>
 
-        <title>Sign in</title>
-
         <fmt:setLocale value="${sessionScope.local}" />
         <fmt:setBundle basename="localization.local" var="loc" />
         <fmt:message bundle="${loc}" key="local.enter_button" var="sign_in_label" />
@@ -18,6 +16,9 @@
         <fmt:message bundle="${loc}" key="local.label.create_account" var="create_account_label" />
         <fmt:message bundle="${loc}" key="local.button.name.ru" var="ru_button" />
         <fmt:message bundle="${loc}" key="local.button.name.en" var="en_button" />
+        <fmt:message bundle="${loc}" key="local.label.title.sign_in" var="sign_in" />
+
+        <title>${sign_in}</title>
 
         <link rel="stylesheet" href="${pageContext.request.contextPath}/design/css/sign_in.css"/>
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">

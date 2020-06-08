@@ -4,8 +4,6 @@
 <%@ page isELIgnored ="false" %>
 <html>
     <head>
-        <title>My flights</title>
-
         <fmt:setLocale value="${sessionScope.local}" />
         <fmt:setBundle basename="localization.local" var="loc" />
         <fmt:message bundle="${loc}" key="local.label.plane" var="plane_label" />
@@ -16,8 +14,11 @@
         <fmt:message bundle="${loc}" key="local.label.flight" var="flight_label" />
         <fmt:message bundle="${loc}" key="local.label.status" var="status_label" />
         <fmt:message bundle="${loc}" key="local.js.lang" var="lang" />
+        <fmt:message bundle="${loc}" key="local.label.menu_user_my_flights" var="my_flights_label" />
 
-        <link rel="stylesheet" href="${pageContext.request.contextPath}/design/css/my_flights.css"/>
+        <title>${my_flights_label}</title>
+
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/design/css/flight_search_form.css"/>
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
         <link href="${pageContext.request.contextPath}/design/css/datepicker.min.css" rel="stylesheet" type="text/css">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>

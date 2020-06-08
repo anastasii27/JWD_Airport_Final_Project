@@ -18,7 +18,7 @@ public final class CommandProvider {
         commands.put(CommandName.SHOW_REGISTER_PAGE, new RegisterPage());
         commands.put(CommandName.SHOW_SIGN_IN_PAGE, new SignInPage());
         commands.put(CommandName.SHOW_USER_PAGE, new UserPage());
-        commands.put(CommandName.SHOW_FLIGHTS_PAGE, new AirportFlightPage());
+        commands.put(CommandName.SHOW_FLIGHT_SEARCH_PAGE, new AirportFlightPage());
         commands.put(CommandName.SHOW_FLIGHTS, new AirportFlight());
         commands.put(CommandName.SHOW_FLIGHT_INFO, new FlightInformation());
         commands.put(CommandName.SHOW_MY_FLIGHTS, new MyFlights());

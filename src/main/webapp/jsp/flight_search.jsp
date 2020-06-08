@@ -4,9 +4,14 @@
 <%@ page isELIgnored ="false" %>
 <html>
     <head>
-        <title>Flights</title>
 
-        <link rel="stylesheet" href="${pageContext.request.contextPath}/design/css/my_flights.css"/>
+        <fmt:setLocale value="${sessionScope.local}" />
+        <fmt:setBundle basename="localization.local" var="loc" />
+        <fmt:message bundle="${loc}" key="local.label.menu_main_arr_and_dep" var="arr_dep_label" />
+
+        <title>${arr_dep_label}</title>
+
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/design/css/flight_search_form.css"/>
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
         <link href="${pageContext.request.contextPath}/design/css/datepicker.min.css" rel="stylesheet" type="text/css">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
@@ -23,7 +28,7 @@
         <script>
             $(document).ready(function () {
                 $('.lang').on('click', function (){
-                    $('.lang').append('<input impl="hidden" name="url" value="${pageContext.request.contextPath}/mmm?action=show_flights_page&departure_date=${requestScope.departure_date}"/>').hide();
+                    $('.lang').append('<input impl="hidden" name="url" value="${pageContext.request.contextPath}/mmm?action=show_flight_search_page&from=${requestScope.from}"/>').hide();
                 });
             });
         </script>
@@ -31,21 +36,14 @@
     </head>
     <body>
 
-        <jsp:include page="../WEB-INF/views/header.jsp"/>
+        <c:if test="${requestScope.from eq 'main'}">
+            <jsp:include page="parts/header.jsp"/>
+        </c:if>
 
-        <form action="mmm" method="get" id="calendar">
-            <input type="hidden" name="action" value="show_flights"/>
-            <label for="piker"></label>
-            <select  name= "city" id="input_city">
-                <option selected></option>
-                <option>Moscow(airp name)</option>
-                <option>Paris(airp name 2)</option>
-            </select>
-            <input type='text' name="departure_date" id= "piker" class="datepicker-here"
-                   data-language="${lang}" value = "${requestScope.departure_date}"/>
-            <input type="submit" value="Send"/>
-        </form>
+        <c:if test="${requestScope.from eq 'user'}">
+            <jsp:include page="../WEB-INF/views/header.jsp"/>
+        </c:if>
 
-
+        <jsp:include page="parts/departures_arrivals_form.jsp"/>
     </body>
 </html>

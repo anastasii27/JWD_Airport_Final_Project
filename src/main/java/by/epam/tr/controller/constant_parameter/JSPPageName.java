@@ -12,9 +12,8 @@ public final class JSPPageName {
     public static final String ADMIN_PAGE = "WEB-INF/views/admin_page.jsp";
     public static final String SIGN_IN_PAGE = "jsp/sign_in.jsp";
     public static final String REGISTER_PAGE = "jsp/register.jsp";
-    public static final String FLIGHTS_PAGE = "jsp/all_flights.jsp";
-    public static final String FLIGHTS_INFO = "WEB-INF/views/flight_info.jsp";
+    public static final String FLIGHTS_SEARCH_PAGE = "jsp/flight_search.jsp";
+    public static final String FLIGHTS_INFO = "jsp/flight_info.jsp";
     public static final String MY_FLIGHTS_PAGE = "WEB-INF/views/my_flights.jsp";
-    public static final String DEPARTURES_ARRIVALS = "WEB-INF/views/arrival_departure_page.jsp";
-
+    public static final String DEPARTURES_ARRIVALS = "jsp/departures_arrivals.jsp";
 }

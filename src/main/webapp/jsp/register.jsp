@@ -5,9 +5,6 @@
 <html>
     <head>
 
-        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-        <title>Registration</title>
-
         <fmt:setLocale value="${sessionScope.local}" />
         <fmt:setBundle basename="localization.local" var="loc" />
         <fmt:message bundle="${loc}" key="local.button.name.ru" var="ru_button" />
@@ -24,6 +21,9 @@
         <fmt:message bundle="${loc}" key="local.form.info_2" var="password_info" />
         <fmt:message bundle="${loc}" key="local.register_button" var="register_button" />
         <fmt:message bundle="${loc}" key="local.js.lang" var="lang" />
+        <fmt:message bundle="${loc}" key="local.label.title.registration" var="register_label" />
+
+        <title>${register_label}</title>
 
         <link rel="stylesheet" href="${pageContext.request.contextPath}/design/css/register.css"/>
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">

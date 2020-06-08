@@ -26,5 +26,4 @@ public final class PageByRole {
     public static PageByRole getInstance(){
         return  instance;
     }
-
 }
