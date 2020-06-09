@@ -13,7 +13,8 @@ public final class JSPPageName {
     public static final String SIGN_IN_PAGE = "jsp/sign_in.jsp";
     public static final String REGISTER_PAGE = "jsp/register.jsp";
     public static final String FLIGHTS_SEARCH_PAGE = "jsp/flight_search.jsp";
-    public static final String FLIGHTS_INFO = "jsp/flight_info.jsp";
+    public static final String FLIGHTS_INFO_PAGE = "jsp/flight_info.jsp";
     public static final String MY_FLIGHTS_PAGE = "WEB-INF/views/my_flights.jsp";
-    public static final String DEPARTURES_ARRIVALS = "jsp/departures_arrivals.jsp";
+    public static final String DEPARTURES_ARRIVALS_PAGE = "jsp/departures_arrivals.jsp";
+    public static final String CREWS_PAGE = "WEB-INF/views/crews.jsp";
 }

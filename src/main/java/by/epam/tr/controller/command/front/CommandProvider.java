@@ -1,6 +1,7 @@
-package by.epam.tr.controller.command;
+package by.epam.tr.controller.command.front;
 
-import by.epam.tr.controller.command.impl.*;
+import by.epam.tr.controller.command.Command;
+import by.epam.tr.controller.command.front.impl.*;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -22,6 +23,7 @@ public final class CommandProvider {
         commands.put(CommandName.SHOW_FLIGHTS, new AirportFlight());
         commands.put(CommandName.SHOW_FLIGHT_INFO, new FlightInformation());
         commands.put(CommandName.SHOW_MY_FLIGHTS, new MyFlights());
+        commands.put(CommandName.SHOW_CREW_PAGE, new CrewPage());
     }
 
     public Command getCommand(String name){

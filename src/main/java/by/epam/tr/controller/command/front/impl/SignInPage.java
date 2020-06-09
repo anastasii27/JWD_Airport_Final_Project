@@ -1,13 +1,15 @@
-package by.epam.tr.controller.command.impl;
+package by.epam.tr.controller.command.front.impl;
 
 import by.epam.tr.controller.command.Command;
+import by.epam.tr.controller.constant_parameter.JSPPageName;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-public class NoSuchCommand implements Command {
+public class SignInPage implements Command {
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) {
-        errorPage(response);
+
+       forwardTo(request,response, JSPPageName.SIGN_IN_PAGE);
     }
 }

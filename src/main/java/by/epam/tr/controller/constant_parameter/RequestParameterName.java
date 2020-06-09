@@ -4,6 +4,8 @@ public final class RequestParameterName {
 
     private RequestParameterName(){}
 
+    public static final String ACTION = "action";
+    public static final String COMMAND = "command";
     public static final String ROLE = "user_role";
     public static final String LOGIN = "login";
     public static final String PASSWORD = "user_password";
@@ -24,4 +26,5 @@ public final class RequestParameterName {
     public static final String FLIGHT_TYPE = "type";
     public static final String CITY_WITH_AIRPORT = "city_with_airport";
     public static final String FROM = "from";
+    public static final String CREW_NAME = "crew_name";
 }

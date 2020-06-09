@@ -7,8 +7,6 @@ import by.epam.tr.dao.UserDAO;
 import by.epam.tr.dao.connectionpool.ConnectionPool;
 import by.epam.tr.dao.connectionpool.ConnectionPoolException;
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
 
 public class UserDAOImpl extends CloseOperation implements UserDAO {
 
@@ -16,10 +14,6 @@ public class UserDAOImpl extends CloseOperation implements UserDAO {
     //private final static String SELECT_USER_INFO =  "SELECT title AS `user-role` ,login ,`name`, surname, email, `career-start-year` FROM airport.users JOIN airport.roles ON roles.id = users.`role-id`;";
     private final static String SELECT_FOR_SING_IN = "SELECT title  AS `role` , `name`, surname, email, `career-start-year` FROM users JOIN roles ON users.`role-id` = roles.id WHERE login = ? AND `password`=?;  ";
     private final static String CHECK_USER_EXISTENCE = "SELECT `name` FROM users WHERE login = ?";
-    private final static String SELECT_USER_BY_GROUP = "SELECT `name`, `surname`, title FROM `flight-teams-m2m-users`\n"+
-                                                        "JOIN users ON `flight-teams-m2m-users`.`user-id` = users.id \n"+
-                                                        "JOIN roles ON roles.id  = (SELECT `role-id` FROM users WHERE users.id = `flight-teams-m2m-users`.`user-id` )\n"+
-                                                        "WHERE `flight-teams-m2m-users`.`flight-team-id` = (SELECT id FROM `flight-teams` WHERE `short-name` = ? );";
 
     private ConnectionPool pool = ConnectionPool.getInstance();
 
@@ -172,36 +166,6 @@ public class UserDAOImpl extends CloseOperation implements UserDAO {
         }
 
         return true;
-    }
-
-    @Override
-    public List<User> userByGroup(String groupName) throws DAOException {
-
-        Connection connection = null;
-        PreparedStatement ps = null;
-        ResultSet rs = null;
-        List <User> users = new ArrayList<>();
-
-        try {
-            connection = pool.takeConnection();
-            ps =  connection.prepareStatement(SELECT_USER_BY_GROUP);
-
-            ps.setString(1, groupName);
-
-            rs = ps.executeQuery();
-
-            while (rs.next()) {
-                users.add(new User(rs.getString("name"), rs.getString("surname"), rs.getString("title")));
-            }
-
-        } catch (ConnectionPoolException e) {
-            throw new DAOException("Exception during taking connection!");
-        } catch (SQLException e) {
-            throw new DAOException("Exception during finding user by group operation!");
-        }finally{
-            closeAll(rs, ps, pool, connection);
-        }
-        return users;
     }
 }
 

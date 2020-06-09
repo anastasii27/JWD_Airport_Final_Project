@@ -1,4 +1,4 @@
-package by.epam.tr.controller.command.impl;
+package by.epam.tr.controller.command.front.impl;
 
 import by.epam.tr.bean.Flight;
 import by.epam.tr.controller.command.Command;
@@ -38,7 +38,7 @@ public class FlightInformation implements Command {
             request.setAttribute(RequestParameterName.FLIGHT_NUMBER, flightNumber);
             request.setAttribute(RequestParameterName.DEPARTURE_DATE, departureDate);
 
-            forwardTo(request, response, JSPPageName.FLIGHTS_INFO);
+            forwardTo(request, response, JSPPageName.FLIGHTS_INFO_PAGE);
 
         } catch (ServiceException  e) {
             errorPage(response);

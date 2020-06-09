@@ -1,6 +1,9 @@
 package by.epam.tr.service;
 
+import by.epam.tr.bean.User;
+import java.util.List;
+
 public interface CrewService {
 
-    String userCrewForNearestFlight(String surname, String email) throws ServiceException;
+    List<User> crewMembers(String crewName) throws ServiceException;
 }

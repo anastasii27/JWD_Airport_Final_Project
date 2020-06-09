@@ -37,9 +37,25 @@ public class ListCreationImpl implements ListCreationService {
             roles = listCreationDAO.createRolesList();
 
         } catch (DAOException e) {
-            throw new ServiceException("Exception during city with airport list creation");
+            throw new ServiceException("Exception during roles list creation");
         }
 
         return roles;
+    }
+
+    @Override
+    public List<String> createCrewsList() throws ServiceException {
+
+        List <String> crews;
+
+        try {
+
+            crews = listCreationDAO.createCrewsList();
+
+        } catch (DAOException e) {
+            throw new ServiceException("Exception during crews list creation");
+        }
+
+        return crews;
     }
 }

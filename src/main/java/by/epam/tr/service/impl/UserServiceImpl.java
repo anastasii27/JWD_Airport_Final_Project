@@ -52,24 +52,24 @@ public class UserServiceImpl implements UserService {
         return -1;
     }
 
-    @Override
-    public List<User> userByGroup(String groupName) throws ServiceException {
-
-        List <User> users;
-
-        try {
-
-            users = dao.userByGroup(groupName);
-
-            if(users.size()==0){
-                return null;
-            }
-
-        } catch (DAOException e) {
-            throw new ServiceException("Exception during users getting!");
-        }
-        return users;
-    }
+//    @Override
+//    public List<User> userByGroup(String groupName) throws ServiceException {
+//
+//        List <User> users;
+//
+//        try {
+//
+//            users = dao.userByGroup(groupName);
+//
+//            if(users.size()==0){
+//                return null;
+//            }
+//
+//        } catch (DAOException e) {
+//            throw new ServiceException("Exception during users getting!");
+//        }
+//        return users;
+//    }
 
 
     private boolean registrationValidation(User user, String login, String password){

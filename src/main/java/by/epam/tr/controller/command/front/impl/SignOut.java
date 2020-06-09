@@ -1,4 +1,4 @@
-package by.epam.tr.controller.command.impl;
+package by.epam.tr.controller.command.front.impl;
 
 import by.epam.tr.controller.constant_parameter.JSPPageName;
 import by.epam.tr.controller.command.Command;

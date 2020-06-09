@@ -21,10 +21,7 @@
         <fmt:message bundle="${loc}" key="local.label.menu_user_my_flights" var="my_fl_label" />
 
         <link rel="stylesheet" href="${pageContext.request.contextPath}/design/css/header.css"/>
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-        <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
-        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+        <script src="${pageContext.request.contextPath}/design/js/full-js.js" charset="UTF-8"></script>
 
     </head>
     <body>
@@ -34,14 +31,14 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+                <ul class="navbar-nav mr-auto mt-2 mt-lg-0" id="menu">
 
                     <c:set var = "role" scope = "session" value = "${user.role}"/>
                     <jsp:useBean id="now" class="java.util.Date"/>
                     <fmt:formatDate type="time" value="${now}" pattern="yyyy-MM-dd" var="depDate"/>
                     <c:choose>
                         <c:when test = "${role eq 'pilot' || role eq 'stewardess'}">
-                            <li class="nav-item active">
+                            <li class="nav-item ">
                                 <a class="nav-link" href="${pageContext.request.contextPath}/mmm?action=show_user_page">${my_page}</a>
                             </li>
                             <li class="nav-item ">
@@ -52,17 +49,14 @@
                             </li>
                         </c:when>
                         <c:when test = "${role eq 'dispatcher'}">
-                            <li class="nav-item active">
+                            <li class="nav-item">
                                 <a class="nav-link" href="#">${my_page}</a>
                             </li>
                             <li class="nav-item ">
-                                <a class="nav-link" href="#">${flights_label}</a>
+                                <a class="nav-link" href="${pageContext.request.contextPath}/mmm?action=show_flight_search_page&from=user">${flights_label}</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="#">${empl_label}</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">${crew_label}</a>
+                                <a class="nav-link" href="${pageContext.request.contextPath}/mmm?action=show_crew_page">${crew_label}</a>
                             </li>
                         </c:when>
                         <c:when test = "${role eq 'admin'}">

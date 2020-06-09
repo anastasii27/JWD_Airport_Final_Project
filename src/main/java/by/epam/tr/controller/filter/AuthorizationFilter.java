@@ -1,7 +1,7 @@
 package by.epam.tr.controller.filter;
 
 import by.epam.tr.bean.User;
-import by.epam.tr.controller.command.CommandName;
+import by.epam.tr.controller.command.front.CommandName;
 import by.epam.tr.controller.constant_parameter.JSPPageName;
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;

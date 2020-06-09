@@ -1,30 +1,29 @@
 package by.epam.tr.service.impl;
 
+import by.epam.tr.bean.User;
 import by.epam.tr.dao.CrewDAO;
 import by.epam.tr.dao.DAOException;
 import by.epam.tr.dao.DAOFactory;
 import by.epam.tr.service.CrewService;
 import by.epam.tr.service.ServiceException;
-import java.time.LocalDate;
+import java.util.List;
 
 public class CrewServiceImpl implements CrewService {
 
-    private final static int MAX_DAY = 30;
+    CrewDAO dao = DAOFactory.getInstance().getCrewDAO();
 
     @Override
-    public String userCrewForNearestFlight(String surname, String email) throws ServiceException {
+    public List<User> crewMembers(String crewName) throws ServiceException {
 
-        CrewDAO dao = DAOFactory.getInstance().getCrewDAO();
-        String crewName;
-        LocalDate lastDayOgRange = LocalDate.now().plusDays(MAX_DAY);
+        List<User> crew;
 
         try {
 
-            crewName = dao.userCrewForNearestFlight(surname, email, lastDayOgRange);
-
+            crew =dao.crewMembers(crewName);
         } catch (DAOException e) {
-            throw new ServiceException("Exception during user`s crew getting!");
+            throw new ServiceException("Exception during crew members getting");
         }
-        return crewName;
+
+        return crew;
     }
 }

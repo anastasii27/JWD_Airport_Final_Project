@@ -16,6 +16,8 @@ public class ListCreationImpl extends CloseOperation implements ListCreationDAO 
 
     private static final String SELECT_USERS_ROLES = "SELECT title from airport.roles";
 
+    private static final String SELECT_CREWS = "SELECT `short-name` from airport.`flight-teams`";
+
     private ConnectionPool pool = ConnectionPool.getInstance();
 
     @Override
@@ -73,5 +75,34 @@ public class ListCreationImpl extends CloseOperation implements ListCreationDAO 
         }
 
         return roles;
+    }
+
+    @Override
+    public List<String> createCrewsList() throws DAOException {
+
+        Connection connection = null;
+        Statement st = null;
+        ResultSet rs = null;
+        List <String> crews = new ArrayList<>();
+
+        try {
+            connection = pool.takeConnection();
+            st = connection.createStatement();
+
+            rs = st.executeQuery(SELECT_CREWS);
+
+            while (rs.next()) {
+                crews.add(rs.getString("short-name"));
+            }
+
+        } catch (ConnectionPoolException e) {
+            throw new DAOException("Exception during taking connection!");
+        } catch (SQLException e) {
+            throw new DAOException("Exception during creating crews list!");
+        }finally{
+            closeAll(rs, st, pool, connection);
+        }
+
+        return crews;
     }
 }

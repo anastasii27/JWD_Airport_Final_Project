@@ -162,7 +162,7 @@ $(document).ready(function ($) {
         }
     });
 
-    //flight
+
 
     $.validator.addMethod('pattern_date', function(value) {
         return value.match(new RegExp("^" + "\\d{4}-\\d{2}-\\d{2}" + "$"));
@@ -179,12 +179,21 @@ $(document).ready(function ($) {
         return '';
     });
 
+    $.validator.addMethod('city_check', function(value) {
+        return $('select').val() != '';
+    }, function () {
+        return'';
+    });
+
     $('#calendar').validate({
         rules:{
             departure_date:{
                 required: true,
                 pattern_date: true,
                 legal_date: true
+            },
+            city: {
+                city_check: true
             }
         },
 
@@ -194,5 +203,7 @@ $(document).ready(function ($) {
             }
         }
     });
+
+
 
 });

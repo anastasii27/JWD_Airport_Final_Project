@@ -1,8 +1,9 @@
 package by.epam.tr.dao;
 
-import java.time.LocalDate;
+import by.epam.tr.bean.User;
+import java.util.List;
 
 public interface CrewDAO {
 
-    String userCrewForNearestFlight(String surname, String email, LocalDate lastDayOfRange) throws DAOException;
+    List<User> crewMembers(String crewName) throws DAOException;
 }

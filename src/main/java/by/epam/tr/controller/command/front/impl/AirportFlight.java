@@ -1,4 +1,4 @@
-package by.epam.tr.controller.command.impl;
+package by.epam.tr.controller.command.front.impl;
 
 import by.epam.tr.bean.Flight;
 import by.epam.tr.controller.command.Command;
@@ -56,7 +56,7 @@ public class AirportFlight implements Command {
             request.setAttribute(RequestParameterName.CITY_WITH_AIRPORT, citiesWithAirports);
             request.setAttribute(RequestParameterName.DEPARTURE_DATE, departureDate);
 
-            forwardTo(request,response, JSPPageName.DEPARTURES_ARRIVALS);
+            forwardTo(request,response, JSPPageName.DEPARTURES_ARRIVALS_PAGE);
 
         } catch (ServiceException e) {
             errorPage(response);

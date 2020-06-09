@@ -1,4 +1,4 @@
-package by.epam.tr.controller.command;
+package by.epam.tr.controller.command.front;
 
 public enum CommandName {
 
@@ -13,7 +13,8 @@ public enum CommandName {
     SHOW_FLIGHT_SEARCH_PAGE ("both"),
     SHOW_FLIGHTS("both"),
     SHOW_FLIGHT_INFO("common"),
-    SHOW_MY_FLIGHTS("authorized");
+    SHOW_MY_FLIGHTS("authorized"),
+    SHOW_CREW_PAGE("authorized");
 
     private final String accessType;
 
