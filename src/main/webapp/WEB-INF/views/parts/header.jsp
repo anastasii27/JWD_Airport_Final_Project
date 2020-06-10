@@ -50,7 +50,7 @@
                         </c:when>
                         <c:when test = "${role eq 'dispatcher'}">
                             <li class="nav-item">
-                                <a class="nav-link" href="#">${my_page}</a>
+                                <a class="nav-link" href="${pageContext.request.contextPath}/mmm?action=show_user_page">${my_page}</a>
                             </li>
                             <li class="nav-item ">
                                 <a class="nav-link" href="${pageContext.request.contextPath}/mmm?action=show_flight_search_page&from=user">${flights_label}</a>

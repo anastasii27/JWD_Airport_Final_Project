@@ -9,7 +9,6 @@ import com.google.gson.Gson;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.List;
 
 public class CrewMembers implements Command {
@@ -29,14 +28,11 @@ public class CrewMembers implements Command {
             crewList = crewService.crewMembers(crewName);
             crewGson = convertListIntoGSON(crewList);
 
-//            PrintWriter out = response.getWriter();
             response.setContentType("application/json");
             response.getWriter().write(crewGson);
 
-        } catch (ServiceException e) {
+        } catch (ServiceException|IOException e) {
             errorPage(response);
-        } catch (IOException e) {
-            e.printStackTrace();
         }
     }
 

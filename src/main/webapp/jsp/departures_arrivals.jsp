@@ -42,7 +42,7 @@
         </c:if>
 
         <c:if test="${requestScope.from eq 'user'}">
-            <jsp:include page="../WEB-INF/views/header.jsp"/>
+            <jsp:include page="../WEB-INF/views/parts/header.jsp"/>
         </c:if>
 
         <jsp:include page="parts/departures_arrivals_form.jsp"/>

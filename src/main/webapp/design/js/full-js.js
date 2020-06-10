@@ -15,6 +15,7 @@ $(document).ready(function ($) {
             let menu_url = $(this).find('a').attr('href');
             let menu_action = getActionFromURL(menu_url);
 
+            console.log(action + " "+ menu_action)
             if (action ==menu_action) {
                 $(this).addClass('active');
             }
@@ -42,10 +43,7 @@ function getActionFromURL(url) {
     let start = url.indexOf("=");
     let end = url.indexOf("&");
 
-    console.log(end);
-
-    if(end==-1){
-        console.log("fuv")
+    if(end===-1){
         return url.substring(start);
     }
     return url.substring(start, end);

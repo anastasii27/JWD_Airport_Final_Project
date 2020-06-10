@@ -1,6 +1,6 @@
 $(document).ready(function ($) {
 
-    $(document).on('click', 'td', function () {
+    $(document).on('click', '.crews li', function () {
         let value = $(this).text();
 
         $.get('/JWD_Task3_war/aaa',
@@ -14,20 +14,22 @@ $(document).ready(function ($) {
 
     function createMembersTable(data) {
 
+        $('#pilots_list li').remove();
+        $('#stewardess_list li').remove();
+
         let pilots = '';
         let stewardesses ='';
 
         $.each(data, function (user, userInfo) {
             if(userInfo.role == "pilot"){
-                pilots += ' '+ userInfo.name + ' ' + userInfo.surname;
+                pilots += '<li class="list-group-item">'+ userInfo.name + ' ' + userInfo.surname + '</li>';
             }
             if(userInfo.role == "stewardess"){
-                stewardesses += ' ' + userInfo.name + ' ' + userInfo.surname;
+                stewardesses += '<li class="list-group-item">'+ userInfo.name + ' ' + userInfo.surname + '</li>';
             }
         });
 
-        $('#members').html('<p>'+ pilots+'<br/>'+ stewardesses+'</p>');
+        $('#pilots_list').append(pilots);
+        $('#stewardess_list').append(stewardesses);
     }
-
-
 });

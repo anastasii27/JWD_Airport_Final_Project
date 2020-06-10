@@ -5,7 +5,7 @@
     </head>
     <body>
 
-    <jsp:include page="header.jsp"/>
+    <jsp:include page="parts/header.jsp"/>
     admin
     </body>
 </html>

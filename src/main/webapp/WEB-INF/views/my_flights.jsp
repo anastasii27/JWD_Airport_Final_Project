@@ -44,7 +44,7 @@
     </head>
     <body>
 
-        <jsp:include page="header.jsp"/>
+        <jsp:include page="parts/header.jsp"/>
 
         <form action="mmm" method="get" id="calendar">
             <input type="hidden" name="action" value="show_my_flights"/>

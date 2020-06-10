@@ -37,9 +37,9 @@
 
     </head>
     <body>
-        <jsp:include page="../WEB-INF/views/header.jsp"/>
+        <jsp:include page="../WEB-INF/views/parts/header.jsp"/>
         <div class="row">
-            <div class = 'col-md-4 container'>
+            <div class = 'col-md-4'>
                 <div class = "row">
                     <h2>${flight_label}</h2>
                     <c:out value=" ${requestScope.flight_number}"/>
