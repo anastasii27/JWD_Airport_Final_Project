@@ -1,6 +1,7 @@
 package by.epam.tr.controller.command.ajax;
 
 import by.epam.tr.controller.command.Command;
+import by.epam.tr.controller.command.ajax.impl.AirportFlight;
 import by.epam.tr.controller.command.ajax.impl.CrewMembers;
 import java.util.HashMap;
 import java.util.Map;
@@ -12,6 +13,7 @@ public final class AjaxCommandProvider {
 
     private AjaxCommandProvider(){
         commands.put(AjaxCommandName.CREW_MEMBERS, new CrewMembers());
+        commands.put(AjaxCommandName.SHOW_FLIGHTS, new AirportFlight());
     }
 
     public Command getCommand(String name){

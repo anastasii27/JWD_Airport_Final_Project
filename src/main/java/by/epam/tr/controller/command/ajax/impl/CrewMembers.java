@@ -39,8 +39,8 @@ public class CrewMembers implements Command {
     private String convertListIntoGSON(List list){
 
         Gson gson = new Gson();
-        String jsonList = gson.toJson(list);
+        String gsonList = gson.toJson(list);
 
-        return jsonList;
+        return gsonList;
     }
 }

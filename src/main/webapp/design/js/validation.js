@@ -203,7 +203,4 @@ $(document).ready(function ($) {
             }
         }
     });
-
-
-
 });

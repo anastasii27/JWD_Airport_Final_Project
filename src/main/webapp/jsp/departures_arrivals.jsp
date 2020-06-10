@@ -46,11 +46,12 @@
         </c:if>
 
         <jsp:include page="parts/departures_arrivals_form.jsp"/>
-        <c:if test="${requestScope.type eq 'arrival'}">
-            <jsp:include page="parts/arrivals_table.jsp"/>
-        </c:if>
-        <c:if test="${requestScope.type eq 'departure'}">
-            <jsp:include page="parts/departures_table.jsp"/>
-        </c:if>
+
+<%--        <c:if test="${requestScope.type eq 'arrival'}">--%>
+<%--            <jsp:include page="parts/arrivals_table.jsp"/>--%>
+<%--        </c:if>--%>
+<%--        <c:if test="${requestScope.type eq 'departure'}">--%>
+<%--            <jsp:include page="parts/departures_table.jsp"/>--%>
+<%--        </c:if>--%>
     </body>
 </html>

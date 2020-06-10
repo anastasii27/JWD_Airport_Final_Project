@@ -15,7 +15,7 @@ $(document).ready(function ($) {
     function createMembersTable(data) {
 
         $('#pilots_list li').remove();
-        $('#stewardess_list li').remove();
+        $('#steward_list li').remove();
 
         let pilots = '';
         let stewardesses ='';
@@ -30,6 +30,24 @@ $(document).ready(function ($) {
         });
 
         $('#pilots_list').append(pilots);
-        $('#stewardess_list').append(stewardesses);
+        $('#steward_list').append(stewardesses);
     }
+
+    $(document).on('click', '#submit', function () {
+
+        let from = $('input[name="from"]').val();
+        let city = $('input[name="city"]').val();
+        let type = $('input[name="type"]').val();
+        let departure_date = $('input[name="departure_date"]').val();
+
+        $.get('/JWD_Task3_war/aaa',
+            {
+                command: 'show_flights',
+                city: city,
+                departure_date: departure_date,
+                type:type,
+                from: from
+            }
+        );
+    });
 });

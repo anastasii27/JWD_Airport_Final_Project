@@ -12,10 +12,13 @@
         <fmt:message bundle="${loc}" key="local.label.flight_info.arrivals" var="arr_button" />
         <fmt:message bundle="${loc}" key="local.label.flight_info.departures" var="dep_button" />
         <fmt:message bundle="${loc}" key="local.send_button" var="send_button" />
+
+        <script src="${pageContext.request.contextPath}/design/js/ajax-request.js" charset="UTF-8"></script>
+
     </head>
     <body>
-        <form action="mmm" method="get" id="calendar">
-            <input type="hidden" name="action" value="show_flights"/>
+        <form action="aaa" method="get" id="calendar">
+            <input type="hidden" name="command" value="show_flights"/>
             <input type="hidden" name="from" value="${requestScope.from}"/>
             <label for="piker"></label>
             <select  name= "city" id="input_city">
@@ -30,7 +33,7 @@
             <input type="radio" id="arrival_type" name="type" value="departure" checked>
             <label for="departure_type">${arr_button}</label>
             <input type="radio" id="departure_type" name="type" value="arrival">
-            <input type="submit" value="${send_button}"/>
+            <input type="submit" id="submit" value="${send_button}"/>
         </form>
     </body>
 </html>
