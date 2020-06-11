@@ -28,7 +28,6 @@ public class CrewMembers implements Command {
             crewList = crewService.crewMembers(crewName);
             crewGson = convertListIntoGSON(crewList);
 
-            response.setContentType("application/json");
             response.getWriter().write(crewGson);
 
         } catch (ServiceException|IOException e) {

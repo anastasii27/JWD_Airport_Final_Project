@@ -9,6 +9,10 @@
         <fmt:setLocale value="${sessionScope.local}" />
         <fmt:setBundle basename="localization.local" var="loc" />
         <fmt:message bundle="${loc}" key="local.label.menu_main_arr_and_dep" var="arr_dep_label" />
+        <fmt:message bundle="${loc}" key="local.label.flight_info.arrivals" var="arr_button" />
+        <fmt:message bundle="${loc}" key="local.label.flight_info.departures" var="dep_button" />
+        <fmt:message bundle="${loc}" key="local.send_button" var="send_button" />
+        <fmt:message bundle="${loc}" key="local.message.no_flights" var="no_flights_mes" />
 
         <title>${arr_dep_label}</title>
 
@@ -25,11 +29,12 @@
         <script src="${pageContext.request.contextPath}/design/js/full-js.js" charset="UTF-8"></script>
         <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.2/dist/jquery.validate.min.js"></script>
         <script src="${pageContext.request.contextPath}/design/js/validation.js" charset="UTF-8"></script>
+        <script src="${pageContext.request.contextPath}/design/js/ajax-request.js" charset="UTF-8"></script>
 
         <script>
             $(document).ready(function () {
                 $('.lang').on('click', function (){
-                    $('.lang').append('<input impl="hidden" name="url" value="${pageContext.request.contextPath}/mmm?action=show_flights&city=${requestScope.city}&departure_date=${requestScope.departure_date}&type=${requestScope.type}&from=${requestScope.from}"/>').hide();
+                    $('.lang').append('<input impl="hidden" name="url" value="${pageContext.request.contextPath}/airport?action=show_departures_arrivals&from=${requestScope.from}"/>').hide();
                 });
             });
         </script>
@@ -45,13 +50,32 @@
             <jsp:include page="../WEB-INF/views/parts/header.jsp"/>
         </c:if>
 
-        <jsp:include page="parts/departures_arrivals_form.jsp"/>
-
-<%--        <c:if test="${requestScope.type eq 'arrival'}">--%>
-<%--            <jsp:include page="parts/arrivals_table.jsp"/>--%>
-<%--        </c:if>--%>
-<%--        <c:if test="${requestScope.type eq 'departure'}">--%>
-<%--            <jsp:include page="parts/departures_table.jsp"/>--%>
-<%--        </c:if>--%>
+        <form action="" method="post" id="calendar">
+            <input type="hidden" name="command" value="show_flights"/>
+            <input type="hidden" name="from" value="${requestScope.from}"/>
+            <label for="piker"></label>
+            <select  name= "city" id="input_city">
+                <option selected></option>
+                <c:forEach var="city" items="${city_with_airport}">
+                    <option>${city}</option>
+                </c:forEach>
+            </select>
+            <input type='text' name="departure_date" id= "piker" class="datepicker-here"
+                   data-language="${lang}" value = "${requestScope.departure_date}"/>
+            <label for="arrival_type">${dep_button}</label>
+            <input type="radio" id="arrival_type" name="type" value="departure" checked>
+            <label for="departure_type">${arr_button}</label>
+            <input type="radio" id="departure_type" name="type" value="arrival">
+            <input type="submit" id="submit" value="${send_button}"/>
+        </form>
+        <div class="arr_dep" id="arr_table">
+            <jsp:include page="parts/arrivals_table.jsp"/>
+        </div>
+        <div class="arr_dep" id="dep_table">
+            <jsp:include page="parts/departures_table.jsp"/>
+        </div>
+        <div id="noFlights">
+            <h3>${no_flights_mes}</h3>
+        </div>
     </body>
 </html>

@@ -30,7 +30,7 @@
         <script>
             $(document).ready(function () {
                 $('.lang').on('click', function (){
-                    $('.lang').append('<input impl="hidden" name="url" value="${pageContext.request.contextPath}/mmm?action=show_user_page"/>').hide();
+                    $('.lang').append('<input impl="hidden" name="url" value="${pageContext.request.contextPath}/airport?action=show_user_page"/>').hide();
                 });
             });
         </script>
@@ -50,7 +50,7 @@
         <table class ="table" border="2">
             <tr><th>${flight_label}</th><th>${date_label}</th><th>${dest_label}</th><th>${dep_time_label}</th></tr>
                 <c:forEach items="${flight}" var="flight_item">
-                    <tr onclick="document.location.href= '${pageContext.request.contextPath}/mmm?action=show_flight_info&flight_number=${flight_item.flightNumber}&departure_date=${flight_item.departureDate}'">
+                    <tr onclick="document.location.href= '${pageContext.request.contextPath}/airport?action=show_flight_info&flight_number=${flight_item.flightNumber}&departure_date=${flight_item.departureDate}'">
                         <td>${flight_item.flightNumber}</td>
                         <td>${flight_item.departureDate}</td>
                         <td>${flight_item.destinationCity}</td>
@@ -59,7 +59,7 @@
                 </c:forEach>
         </table>
 
-<%--        <c:set var = "url" scope = "session" value = "${pageContext.request.contextPath}/mmm?action=show_user_page"/>--%>
+<%--        <c:set var = "url" scope = "session" value = "${pageContext.request.contextPath}/airport?action=show_user_page"/>--%>
 
     </body>
 </html>

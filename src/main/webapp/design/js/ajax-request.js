@@ -3,7 +3,7 @@ $(document).ready(function ($) {
     $(document).on('click', '.crews li', function () {
         let value = $(this).text();
 
-        $.get('/JWD_Task3_war/aaa',
+        $.get('/JWD_Task3_war/ajax',
             {
                 command: 'crew_members',
                 crew_name: value
@@ -33,21 +33,55 @@ $(document).ready(function ($) {
         $('#steward_list').append(stewardesses);
     }
 
-    $(document).on('click', '#submit', function () {
+    let flightType='';
+
+    $(document).on('click', '#submit', function (e) {
+
+        e.preventDefault();
 
         let from = $('input[name="from"]').val();
-        let city = $('input[name="city"]').val();
-        let type = $('input[name="type"]').val();
+        let city = $('select[name="city"]').val();
+        flightType = $('input[name="type"]:checked').val();
         let departure_date = $('input[name="departure_date"]').val();
 
-        $.get('/JWD_Task3_war/aaa',
+        $.get('/JWD_Task3_war/ajax',
             {
                 command: 'show_flights',
                 city: city,
                 departure_date: departure_date,
-                type:type,
+                type: flightType,
                 from: from
-            }
+            },
+            createFlightsTable
         );
     });
+
+    function createFlightsTable(data) {
+
+        let tableLine = '';
+        let count =0;
+
+        $('.arr_dep').hide();
+        $('#noFlights').hide();
+        $('#arrivals tr td').remove();
+        $('#departures tr td').remove();
+
+        $.each(data, function (flight, flightInfo) {
+
+            tableLine += '<tr><td>' + flightInfo.flightNumber + '</td>'+
+                       '<td>' +flightInfo.destinationCity +'('+flightInfo.destinationAirportShortName +')' + '</td>'+
+                       '<td>' +flightInfo.planeModel + '</td>'+
+                       '<td>' +flightInfo.departureTime.hour +':' + flightInfo.departureTime.minute + '</td>'+
+                       '<td>' +flightInfo.status + '</td></tr>';
+            count++;
+        });
+
+        if(count===0){
+            $('#noFlights').show();
+        }
+        else {
+            determineTableType(flightType, tableLine);
+        }
+
+    }
 });

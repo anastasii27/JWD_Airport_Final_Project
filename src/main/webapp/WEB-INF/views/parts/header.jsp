@@ -39,24 +39,24 @@
                     <c:choose>
                         <c:when test = "${role eq 'pilot' || role eq 'stewardess'}">
                             <li class="nav-item ">
-                                <a class="nav-link" href="${pageContext.request.contextPath}/mmm?action=show_user_page">${my_page}</a>
+                                <a class="nav-link" href="${pageContext.request.contextPath}/airport?action=show_user_page">${my_page}</a>
                             </li>
                             <li class="nav-item ">
-                                <a class="nav-link" href="${pageContext.request.contextPath}/mmm?action=show_my_flights&departure_date=${depDate}">${my_fl_label}</a>
+                                <a class="nav-link" href="${pageContext.request.contextPath}/airport?action=show_my_flights&departure_date=${depDate}">${my_fl_label}</a>
                             </li>
                             <li class="nav-item ">
-                                <a class="nav-link" href="${pageContext.request.contextPath}/mmm?action=show_flight_search_page&from=user">${flights_label}</a>
+                                <a class="nav-link" href="${pageContext.request.contextPath}/airport?action=show_departures_arrivals&from=user">${flights_label}</a>
                             </li>
                         </c:when>
                         <c:when test = "${role eq 'dispatcher'}">
                             <li class="nav-item">
-                                <a class="nav-link" href="${pageContext.request.contextPath}/mmm?action=show_user_page">${my_page}</a>
+                                <a class="nav-link" href="${pageContext.request.contextPath}/airport?action=show_user_page">${my_page}</a>
                             </li>
                             <li class="nav-item ">
-                                <a class="nav-link" href="${pageContext.request.contextPath}/mmm?action=show_flight_search_page&from=user">${flights_label}</a>
+                                <a class="nav-link" href="${pageContext.request.contextPath}/airport?action=show_departures_arrivals&from=user">${flights_label}</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="${pageContext.request.contextPath}/mmm?action=show_crew_page">${crew_label}</a>
+                                <a class="nav-link" href="${pageContext.request.contextPath}/airport?action=show_crew_page">${crew_label}</a>
                             </li>
                         </c:when>
                         <c:when test = "${role eq 'admin'}">
@@ -74,19 +74,19 @@
 
                 </ul>
 
-                <form class = "lang my-2 mr-1" action="mmm" method="get">
+                <form class = "lang my-2 mr-1" action="airport" method="get">
                     <input type="hidden" name="action" value="change_language" />
                     <input type="hidden" name="local" value="ru" />
                     <input class = "btn-md  my-2 my-sm-0 mr-2"  type="submit" value="${ru_button}" /><br />
                 </form>
 
-                <form class = "lang my-2 mr-4" action="mmm" method="get">
+                <form class = "lang my-2 mr-4" action="airport" method="get">
                     <input type="hidden" name="action" value="change_language"/>
                     <input type="hidden" name="local" value="en" />
                     <input class = "btn-md  my-2 my-sm-0 mr-2"  type="submit" value="${en_button}" /><br />
                 </form>
 
-                <form class="form-inline my-2 my-lg-0" action="mmm" method="get">
+                <form class="form-inline my-2 my-lg-0" action="airport" method="get">
                     <input type="hidden" name="action" value="sign_out"/>
                     <input class = "btn-md  my-2 my-sm-0 mr-2" type="submit" value="${exit_button}"/> <br/>
                 </form>

@@ -27,7 +27,7 @@ public class AirportFlightPage implements Command {
             request.setAttribute(RequestParameterName.CITY_WITH_AIRPORT, citiesWithAirports);
             request.setAttribute(RequestParameterName.FROM, from);
 
-            forwardTo(request,response, JSPPageName.FLIGHTS_SEARCH_PAGE);
+            forwardTo(request,response, JSPPageName.DEPARTURES_ARRIVALS_PAGE);
 
         } catch (ServiceException e) {
             errorPage(response);

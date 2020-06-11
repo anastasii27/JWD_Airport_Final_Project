@@ -20,7 +20,8 @@
 
         <link rel="stylesheet" href="${pageContext.request.contextPath}/design/css/header.css"/>
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-        <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+        <script src="${pageContext.request.contextPath}/design/js/jquery-ui.min.js" charset="UTF-8"></script>
         <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
         <script src="${pageContext.request.contextPath}/design/js/full-js.js" charset="UTF-8"></script>
@@ -38,7 +39,7 @@
                         <a class="nav-link" href="#">${main_label}</a>
                     </li>
                     <li class="nav-item ">
-                        <a class="nav-link" href="${pageContext.request.contextPath}/mmm?action=show_flight_search_page&from=main">${arr_dep_label}</a>
+                        <a class="nav-link" href="${pageContext.request.contextPath}/airport?action=show_departures_arrivals&from=main">${arr_dep_label}</a>
                     </li>
                     <li class="nav-item ">
                         <a class="nav-link" href="#">${about_label}</a>
@@ -48,19 +49,19 @@
                     </li>
                 </ul>
 
-                <form class = "lang my-2 mr-1" action="mmm" method="get">
+                <form class = "lang my-2 mr-1" action="airport" method="get">
                     <input type="hidden" name="action" value="change_language" />
                     <input type="hidden" name="local" value="ru" />
                     <input class = "btn-md  my-2 my-sm-0 mr-2"  type="submit" value="${ru_button}" /><br />
                 </form>
 
-                <form class = "lang my-2 mr-4" action="mmm" method="get">
+                <form class = "lang my-2 mr-4" action="airport" method="get">
                     <input type="hidden" name="action" value="change_language"/>
                     <input type="hidden" name="local" value="en" />
                     <input class = "btn-md  my-2 my-sm-0 mr-2"  type="submit" value="${en_button}" /><br />
                 </form>
 
-                <form class="form-inline my-2 my-lg-0" action="mmm" method="get">
+                <form class="form-inline my-2 my-lg-0" action="airport" method="get">
                     <input type="hidden" name="action" value="show_sign_in_page"/>
                     <input class = "btn-md  my-2 my-sm-0 mr-2" type="submit" value="${enter_label}"/> <br/>
                 </form>

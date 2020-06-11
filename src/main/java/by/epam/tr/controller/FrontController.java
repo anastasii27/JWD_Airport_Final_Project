@@ -8,7 +8,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
 import java.io.IOException;
 
-@WebServlet("/mmm")
+@WebServlet("/airport")
 public class FrontController extends HttpServlet {
 
     @Override

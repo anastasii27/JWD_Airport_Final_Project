@@ -10,8 +10,7 @@ public enum CommandName {
     SHOW_REGISTER_PAGE ("common"),
     SHOW_SIGN_IN_PAGE ("common"),
     SHOW_USER_PAGE ("authorized"),
-    SHOW_FLIGHT_SEARCH_PAGE ("both"),
-    SHOW_FLIGHTS("both"),
+    SHOW_DEPARTURES_ARRIVALS ("both"),
     SHOW_FLIGHT_INFO("common"),
     SHOW_MY_FLIGHTS("authorized"),
     SHOW_CREW_PAGE("authorized");

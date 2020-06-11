@@ -36,7 +36,7 @@
         <script>
             $(document).ready(function () {
                 $('.lang').on('click', function (){
-                    $('.lang').append('<input impl="hidden" name="url" value="${pageContext.request.contextPath}/mmm?action=show_my_flights&departure_date=${requestScope.departure_date}"/>').hide();
+                    $('.lang').append('<input impl="hidden" name="url" value="${pageContext.request.contextPath}/airport?action=show_my_flights&departure_date=${requestScope.departure_date}"/>').hide();
                 });
             });
         </script>
@@ -46,7 +46,7 @@
 
         <jsp:include page="parts/header.jsp"/>
 
-        <form action="mmm" method="get" id="calendar">
+        <form action="airport" method="get" id="calendar">
             <input type="hidden" name="action" value="show_my_flights"/>
             <label for="piker"></label>
             <input type='text' name="departure_date" id= "piker" class="datepicker-here"
@@ -64,7 +64,7 @@
                     <th>${plane_label}</th><th>${status_label}</th>
                 </tr>
                 <c:forEach items="${requestScope.flight}" var="flight_item">
-                    <tr onclick="document.location.href= '${pageContext.request.contextPath}/mmm?action=show_flight_info&flight_number=${flight_item.flightNumber}&departure_date=${flight_item.departureDate}'">
+                    <tr onclick="document.location.href= '${pageContext.request.contextPath}/airport?action=show_flight_info&flight_number=${flight_item.flightNumber}&departure_date=${flight_item.departureDate}'">
                         <td>${flight_item.flightNumber}</td>
                         <td>${flight_item.departureTime}</td>
                         <td>${flight_item.departureCity}(${flight_item.departureAirportShortName})</td>

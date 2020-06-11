@@ -118,6 +118,7 @@ public class FlightDAOImpl extends CloseOperation implements FlightDAO {
         String query;
 
         try {
+            pool.poolInitialization();
             connection = pool.takeConnection();
             query = dbQueryByFlightType(type);
 
@@ -239,4 +240,5 @@ public class FlightDAOImpl extends CloseOperation implements FlightDAO {
 
         return null;
     }
+
 }

@@ -13,7 +13,7 @@ import java.io.IOException;
 public class SignIn implements Command {
 
     private final static String ANSWER = "There is no such a user";
-    private final static String PATH = "/mmm?action=show_user_page";
+    private final static String PATH = "/airport?action=show_user_page";
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) {
