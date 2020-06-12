@@ -28,7 +28,6 @@ public class SignIn implements Command {
         password = request.getParameter(RequestParameterName.PASSWORD);
 
         try {
-
             user = userService.signIn(login, password);
 
                 if(user != null){
@@ -40,10 +39,8 @@ public class SignIn implements Command {
                     request.setAttribute(RequestParameterName.RESULT_INFO, ANSWER);
                     forwardTo(request,response, JSPPageName.RESULT_PAGE);
                 }
-
         } catch (ServiceException | IOException e) {
            errorPage(response);
         }
-
     }
 }

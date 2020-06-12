@@ -14,17 +14,12 @@ public class SignOut implements Command{
     public void execute(HttpServletRequest request, HttpServletResponse response) {
 
         HttpSession session = request.getSession(false);
+        session.removeAttribute(RequestParameterName.USER);
 
-        if(session != null) {
-
-            session.removeAttribute(RequestParameterName.CREW);
-            session.removeAttribute(RequestParameterName.USER);
-        }
         try {
             response.sendRedirect(JSPPageName.START_PAGE);
         } catch (IOException e) {
             errorPage(response);
         }
-
     }
 }

@@ -47,9 +47,9 @@ public class ConnectionPool {
             }
 
         } catch (SQLException e) {
-            throw new ConnectionPoolException("SQLException during pool creation!");
+            throw new ConnectionPoolException("Exception during pool creation!");
         } catch (ClassNotFoundException e) {
-            throw new ConnectionPoolException("There is no driver!");
+            throw new ConnectionPoolException("Exception! there is no driver!");
         } catch (InterruptedException e) {
             throw new ConnectionPoolException("Exception during putting element into the queue");
         }
@@ -63,7 +63,7 @@ public class ConnectionPool {
             connection = availableConnection.poll();
             usedConnection.put(connection);
         } catch (InterruptedException e) {
-            throw new ConnectionPoolException("Exception during taking the connection!");
+            throw new ConnectionPoolException("Exception during taking connection!");
         }
 
         return connection;
@@ -83,7 +83,7 @@ public class ConnectionPool {
             closeConnectionsInPool(usedConnection);
 
         } catch (SQLException e) {
-            throw new ConnectionPoolException("Exception during closing operation!");
+            throw new ConnectionPoolException("Exception during connection closing operation!");
         }
     }
 

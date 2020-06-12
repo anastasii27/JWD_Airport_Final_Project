@@ -32,7 +32,7 @@ public class UserPage implements Command {
         try {
             nearestFlights = flightService.nearestUserFlights(surname, email);
 
-            if(nearestFlights != null) {
+            if(nearestFlights.size() != 0) {
                 request.setAttribute(RequestParameterName.FLIGHT, nearestFlights);
             }
             else{

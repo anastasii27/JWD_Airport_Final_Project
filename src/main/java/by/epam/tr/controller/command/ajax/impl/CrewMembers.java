@@ -24,7 +24,6 @@ public class CrewMembers implements Command {
         crewName = request.getParameter(RequestParameterName.CREW_NAME);
 
         try {
-
             crewList = crewService.crewMembers(crewName);
             crewGson = convertListIntoGSON(crewList);
 

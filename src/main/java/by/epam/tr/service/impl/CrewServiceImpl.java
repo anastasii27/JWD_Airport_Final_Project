@@ -16,14 +16,13 @@ public class CrewServiceImpl implements CrewService {
     public List<User> crewMembers(String crewName) throws ServiceException {
 
         List<User> crew;
-
         try {
 
             crew =dao.crewMembers(crewName);
+
         } catch (DAOException e) {
             throw new ServiceException("Exception during crew members getting");
         }
-
         return crew;
     }
 }

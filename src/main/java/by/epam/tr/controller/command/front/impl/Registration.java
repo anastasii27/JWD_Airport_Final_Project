@@ -40,8 +40,7 @@ public class Registration implements Command{
         careerStartYear = request.getParameter(RequestParameterName.CAREER_START_YEAR);
 
         try {
-
-            result = service.registration(new User(role,name, surname, email, careerStartYear), login, password);
+            result = service.userRegistration(new User(role,name, surname, email, careerStartYear), login, password);
 
             session.setAttribute(RequestParameterName.RESULT_INFO, answer.getAnswer(result));//убрать
             response.sendRedirect(JSPPageName.RESULT_PAGE);

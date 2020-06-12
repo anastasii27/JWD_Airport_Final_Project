@@ -8,7 +8,6 @@ import by.epam.tr.service.ServiceException;
 import by.epam.tr.service.UserService;
 import by.epam.tr.service.validation.ValidationFactory;
 import by.epam.tr.service.validation.Validator;
-import java.util.List;
 
 public class UserServiceImpl implements UserService {
 
@@ -25,52 +24,27 @@ public class UserServiceImpl implements UserService {
         } catch (DAOException e) {
             throw new ServiceException("Exception during signing in!");
         }
-
         return user;
     }
 
     @Override
-    public int registration(User user, String login, String password) throws ServiceException {
+    public int userRegistration(User user, String login, String password) throws ServiceException {
 
         if(!registrationValidation(user, login, password)) {
             return -1;
         }
-
         try {
-
             if(dao.doesUserExist(login)){
                 return 0;
 
             }else if(dao.addNewUser(user, login, password)){
                 return 1;
             }
-
         } catch (DAOException e) {
             throw new ServiceException("Exception during registration!");
         }
-
         return -1;
     }
-
-//    @Override
-//    public List<User> userByGroup(String groupName) throws ServiceException {
-//
-//        List <User> users;
-//
-//        try {
-//
-//            users = dao.userByGroup(groupName);
-//
-//            if(users.size()==0){
-//                return null;
-//            }
-//
-//        } catch (DAOException e) {
-//            throw new ServiceException("Exception during users getting!");
-//        }
-//        return users;
-//    }
-
 
     private boolean registrationValidation(User user, String login, String password){
 
@@ -81,15 +55,12 @@ public class UserServiceImpl implements UserService {
         if(! userValidation.validate(user)){
             return false;
         }
-
         if(! loginValidation.validate(login)){
             return false;
         }
-
         if( ! passwordValidation.validate(password)){
             return false;
         }
-
         return true;
     }
 }

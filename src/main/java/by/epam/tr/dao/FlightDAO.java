@@ -6,8 +6,8 @@ import java.util.List;
 
 public interface FlightDAO {
 
-    List<Flight> userFlightsList(String surname, String email, LocalDate departureDate) throws DAOException;
-    List<Flight> allFlightsList(LocalDate departureDate, String airportName, String type) throws DAOException;
+    List<Flight> userFlights(String surname, String email, LocalDate departureDate) throws DAOException;
+    List<Flight> flightsByDay(LocalDate departureDate, String airportName, String type) throws DAOException;
     Flight flightInfo(String flightNumber, String departureDate) throws DAOException;
     List<Flight> nearestUserFlights(String surname, String email, LocalDate lastDayOfRange) throws DAOException;
 }

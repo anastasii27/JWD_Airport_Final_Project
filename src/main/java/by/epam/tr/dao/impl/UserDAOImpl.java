@@ -11,21 +11,20 @@ import java.sql.*;
 public class UserDAOImpl extends CloseOperation implements UserDAO {
 
     private final static String INSERT_USER =  "INSERT INTO airport.users (`role-id`, login, `password`, `name`, surname, email, `career-start-year`) VALUES((SELECT id FROM airport.roles WHERE title = ?),?,?,?,?,?,?);";
-    //private final static String SELECT_USER_INFO =  "SELECT title AS `user-role` ,login ,`name`, surname, email, `career-start-year` FROM airport.users JOIN airport.roles ON roles.id = users.`role-id`;";
     private final static String SELECT_FOR_SING_IN = "SELECT title  AS `role` , `name`, surname, email, `career-start-year` FROM users JOIN roles ON users.`role-id` = roles.id WHERE login = ? AND `password`=?;  ";
     private final static String CHECK_USER_EXISTENCE = "SELECT `name` FROM users WHERE login = ?";
 
     private ConnectionPool pool = ConnectionPool.getInstance();
+    private Connection connection;
+    private PreparedStatement ps;
+    private ResultSet rs;
 
     @Override
     public boolean addNewUser(User user, String login, String password) throws DAOException {
 
-        Connection connection = null;
-        PreparedStatement ps = null;
         boolean flag = false;
 
         try {
-
             connection = pool.takeConnection();
             ps =  connection.prepareStatement(INSERT_USER);
 
@@ -43,31 +42,19 @@ public class UserDAOImpl extends CloseOperation implements UserDAO {
         } catch (ConnectionPoolException e) {
             throw new DAOException("Exception during taking connection!");
         } catch (SQLException e) {
-            throw new DAOException("Exception during inserting operation");
+            throw new DAOException("Exception during registration");
         }finally {
-
-            if(ps != null){
-                closeStatement(ps);
-            }
-
-            if (pool != null) {
-                pool.releaseConnection(connection);
-            }
+            closeAll(ps, pool, connection);
         }
-
         return flag;
     }
 
     @Override
     public User singIn(String login, String password) throws DAOException {
 
-        Connection connection = null;
-        PreparedStatement ps = null;
-        ResultSet rs = null;
         User user;
 
         try {
-
             connection = pool.takeConnection();
             ps =  connection.prepareStatement(SELECT_FOR_SING_IN);
 
@@ -85,67 +72,17 @@ public class UserDAOImpl extends CloseOperation implements UserDAO {
         } catch (ConnectionPoolException e) {
             throw new DAOException("Exception during taking connection!");
         } catch (SQLException e) {
-            throw new DAOException("Exception during sign in operation!");
+            throw new DAOException("Exception during signing in!");
         }finally {
             closeAll(rs, ps, pool, connection);
         }
-
         return user;
     }
-
-//    @Override
-//    public ArrayList<User> allUsersInfo() throws DAOException {
-//
-//        ConnectionPool pool = null;
-//        Connection connection = null;
-//        PreparedStatement ps = null;
-//        ResultSet rs = null;
-//        ArrayList <User> users = new ArrayList<>();
-//
-//        try {
-//
-//            pool = ConnectionPool.getInstance();
-//            connection = pool.takeConnection();
-//            ps =  connection.prepareStatement(SELECT_USER_INFO);
-//
-//            rs = ps.executeQuery();
-//
-//            while (rs.next()){
-//                users.add(new User(rs.getString("user-role"),rs.getString("name"),rs.getString("surname"),
-//                        rs.getString("email"), rs.getString("career-start-year")));
-//            }
-//
-//        } catch (ConnectionPoolException e) {
-//            throw new DAOException("Exception during taking connection!");
-//        } catch (SQLException e) {
-//            throw new DAOException("Exception during user info selecting operation!");
-//        }finally{
-//
-//            if(rs !=  null){
-//                closeResultSet(rs);
-//            }
-//
-//            if(ps != null){
-//                closeStatement(ps);
-//            }
-//
-//            if (pool != null) {
-//                pool.releaseConnection(connection);
-//            }
-//        }
-//
-//        return users;
-//    }
 
     @Override
     public boolean doesUserExist(String login) throws DAOException {
 
-        Connection connection = null;
-        PreparedStatement ps = null;
-        ResultSet rs = null;
-
         try {
-
             connection = pool.takeConnection();
             ps =  connection.prepareStatement(CHECK_USER_EXISTENCE);
 
@@ -164,7 +101,6 @@ public class UserDAOImpl extends CloseOperation implements UserDAO {
         }finally {
             closeAll(rs, ps, pool, connection);
         }
-
         return true;
     }
 }

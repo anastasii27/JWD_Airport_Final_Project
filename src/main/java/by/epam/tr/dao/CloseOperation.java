@@ -40,4 +40,15 @@ public class CloseOperation{
             pool.releaseConnection(connection);
         }
     }
+
+    public void closeAll(Statement st, ConnectionPool pool, Connection connection){
+
+        if(st != null){
+            closeStatement(st);
+        }
+
+        if (pool != null) {
+            pool.releaseConnection(connection);
+        }
+    }
 }

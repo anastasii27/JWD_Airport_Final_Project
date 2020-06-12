@@ -13,7 +13,6 @@ public class ChangeLanguage implements Command {
         String url;
 
         try {
-
             url = request.getParameter("url");
 
             request.getSession(true).setAttribute("local", request.getParameter("local"));

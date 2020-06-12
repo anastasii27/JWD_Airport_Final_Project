@@ -19,13 +19,13 @@ public class ListCreationImpl extends CloseOperation implements ListCreationDAO 
     private static final String SELECT_CREWS = "SELECT `short-name` from airport.`flight-teams`";
 
     private ConnectionPool pool = ConnectionPool.getInstance();
+    private Connection connection;
+    private Statement st;
+    private ResultSet rs;
 
     @Override
     public List<String> createCityWithAirportList() throws DAOException {
 
-        Connection connection = null;
-        Statement st = null;
-        ResultSet rs = null;
         List <String> citiesWithAirports = new ArrayList<>();
 
         try {
@@ -51,9 +51,6 @@ public class ListCreationImpl extends CloseOperation implements ListCreationDAO 
     @Override
     public List<String> createRolesList() throws DAOException {
 
-        Connection connection = null;
-        Statement st = null;
-        ResultSet rs = null;
         List <String> roles = new ArrayList<>();
 
         try {
@@ -70,19 +67,15 @@ public class ListCreationImpl extends CloseOperation implements ListCreationDAO 
             throw new DAOException("Exception during taking connection!");
         } catch (SQLException e) {
             throw new DAOException("Exception during creating city roles list!");
-        }finally{
+        }finally {
             closeAll(rs, st, pool, connection);
         }
-
         return roles;
     }
 
     @Override
     public List<String> createCrewsList() throws DAOException {
 
-        Connection connection = null;
-        Statement st = null;
-        ResultSet rs = null;
         List <String> crews = new ArrayList<>();
 
         try {
@@ -102,7 +95,6 @@ public class ListCreationImpl extends CloseOperation implements ListCreationDAO 
         }finally{
             closeAll(rs, st, pool, connection);
         }
-
         return crews;
     }
 }

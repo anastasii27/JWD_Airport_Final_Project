@@ -6,7 +6,6 @@ import by.epam.tr.dao.CrewDAO;
 import by.epam.tr.dao.DAOException;
 import by.epam.tr.dao.connectionpool.ConnectionPool;
 import by.epam.tr.dao.connectionpool.ConnectionPoolException;
-import jdk.internal.org.objectweb.asm.tree.MultiANewArrayInsnNode;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -30,13 +29,13 @@ public class CrewDAOImpl extends CloseOperation implements CrewDAO{
                                             "WHERE `flight-teams-m2m-users`.`flight-team-id` = (SELECT id FROM `flight-teams` WHERE `short-name` = ? );";
 
     private ConnectionPool pool = ConnectionPool.getInstance();
+    private Connection connection;
+    private PreparedStatement ps;
+    private ResultSet rs;
 
     @Override
     public List<User> crewMembers(String crewName) throws DAOException {
 
-        Connection connection = null;
-        PreparedStatement ps = null;
-        ResultSet rs = null;
         List<User> crew = new ArrayList<>();
 
         try {
@@ -50,11 +49,10 @@ public class CrewDAOImpl extends CloseOperation implements CrewDAO{
             while (rs.next()) {
                 crew.add(new User(rs.getString("name"), rs.getString("surname"), rs.getString("title")));
             }
-
         } catch (ConnectionPoolException e) {
             throw new DAOException("Exception during taking connection!");
         } catch (SQLException e) {
-            throw new DAOException("Exception during finding user by group operation!");
+            throw new DAOException("Exception during crew members searching!");
         }finally{
             closeAll(rs, ps, pool, connection);
         }

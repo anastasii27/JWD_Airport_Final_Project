@@ -35,8 +35,7 @@ public class AirportFlight implements Command {
         String flightsGson;
 
         try {
-
-            flights = flightService.allFlightsList(departureDate, airportName, flightType);
+            flights = flightService.flightsByDay(departureDate, airportName, flightType);
             flightsGson=convertListToGSON(flights);
 
             response.getWriter().write(flightsGson);
@@ -44,7 +43,6 @@ public class AirportFlight implements Command {
         } catch (ServiceException | IOException e) {
             //
         }
-
     }
 
     private String getAirportName(String city){

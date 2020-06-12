@@ -18,7 +18,6 @@ public class AjaxContentTypeFilter implements Filter {
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
 
         servletResponse.setContentType(RESPONSE_CONTENT_TYPE);
-
         filterChain.doFilter(servletRequest,servletResponse);
     }
 

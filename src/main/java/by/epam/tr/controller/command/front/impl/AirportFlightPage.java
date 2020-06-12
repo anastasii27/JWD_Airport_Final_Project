@@ -33,5 +33,4 @@ public class AirportFlightPage implements Command {
             errorPage(response);
         }
     }
-
 }

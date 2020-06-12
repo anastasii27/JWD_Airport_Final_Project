@@ -16,31 +16,25 @@ public class FlightServiceImpl implements FlightService {
     private FlightDAO dao = DAOFactory.getInstance().getFlightDAO();
 
     @Override
-    public List<Flight> userFlightsList(String surname, String email, LocalDate departureDate) throws ServiceException {
+    public List<Flight> userFlights(String surname, String email, LocalDate departureDate) throws ServiceException {
 
         List<Flight> flights;
 
         if(!dateValidation(departureDate)){
             return null;
         }
-
         try {
 
-            flights = dao.userFlightsList(surname, email, departureDate);
-
-            if(flights.size() == 0){
-                return null;
-            }
+            flights = dao.userFlights(surname, email, departureDate);
 
         } catch (DAOException e) {
             throw new ServiceException("Exception during getting users flights");
         }
-
         return flights;
     }
 
     @Override
-    public List<Flight> allFlightsList(LocalDate departureDate, String airportShortName, String type) throws ServiceException {
+    public List<Flight> flightsByDay(LocalDate departureDate, String airportShortName, String type) throws ServiceException {
 
         Validator nullValidation = ValidationFactory.getInstance().getNullValidation();
         List<Flight> flights;
@@ -48,18 +42,13 @@ public class FlightServiceImpl implements FlightService {
         if(!dateValidation(departureDate) && !nullValidation.validate(type)){
             return null;
         }
-
         try {
-            flights =  dao.allFlightsList(departureDate, airportShortName, type);
 
-            if(flights.size() == 0){
-                return null;
-            }
+            flights =  dao.flightsByDay(departureDate, airportShortName, type);
 
         } catch (DAOException e) {
-            throw new ServiceException("Exception during getting all flights");
+            throw new ServiceException("Exception during getting arrivals/departures");
         }
-
         return flights;
     }
 
@@ -67,7 +56,6 @@ public class FlightServiceImpl implements FlightService {
     public Flight flightInfo(String flightNumber, String departureDate) throws ServiceException {
 
         Flight flight;
-
         try {
 
             flight =  dao.flightInfo(flightNumber,  departureDate);
@@ -75,7 +63,6 @@ public class FlightServiceImpl implements FlightService {
         } catch (DAOException e) {
             throw new ServiceException("Exception during getting flight info");
         }
-
         return flight;
     }
 
@@ -84,19 +71,13 @@ public class FlightServiceImpl implements FlightService {
 
         LocalDate lastDayOfRange = LocalDate.now().plusDays(30);
         List<Flight> flights;
-
         try {
 
             flights =  dao.nearestUserFlights(surname, email, lastDayOfRange);
 
-            if(flights.size() == 0){
-                return null;
-            }
-
         } catch (DAOException e) {
-            throw new ServiceException("Exception during getting all flights");
+            throw new ServiceException("Exception during getting nearest flight");
         }
-
         return flights;
     }
 
@@ -107,7 +88,6 @@ public class FlightServiceImpl implements FlightService {
         if(!dateValidation.validate(date)){
             return false;
         }
-
         return true;
     }
 }

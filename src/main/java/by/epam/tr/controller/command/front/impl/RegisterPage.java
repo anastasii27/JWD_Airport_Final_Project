@@ -19,9 +19,9 @@ public class RegisterPage implements Command {
         List<String> roles;
 
         try {
-
             roles = listCreationService.createRolesList();
             request.setAttribute(RequestParameterName.ROLE, roles);
+
             forwardTo(request,response,JSPPageName.REGISTER_PAGE);
 
         } catch (ServiceException e) {

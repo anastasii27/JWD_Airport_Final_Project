@@ -17,13 +17,11 @@ public class ListCreationImpl implements ListCreationService {
         List <String> citiesWithAirports;
 
         try {
-
             citiesWithAirports = listCreationDAO.createCityWithAirportList();
 
         } catch (DAOException e) {
             throw new ServiceException("Exception during city with airport list creation");
         }
-
         return citiesWithAirports;
     }
 
@@ -33,13 +31,11 @@ public class ListCreationImpl implements ListCreationService {
         List <String> roles;
 
         try {
-
             roles = listCreationDAO.createRolesList();
 
         } catch (DAOException e) {
             throw new ServiceException("Exception during roles list creation");
         }
-
         return roles;
     }
 
@@ -49,13 +45,11 @@ public class ListCreationImpl implements ListCreationService {
         List <String> crews;
 
         try {
-
             crews = listCreationDAO.createCrewsList();
 
         } catch (DAOException e) {
             throw new ServiceException("Exception during crews list creation");
         }
-
         return crews;
     }
 }

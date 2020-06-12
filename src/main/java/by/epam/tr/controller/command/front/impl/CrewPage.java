@@ -19,7 +19,6 @@ public class CrewPage implements Command {
         List<String> crews;
 
         try {
-
             crews = listCreationService.createCrewsList();
             request.setAttribute(RequestParameterName.CREW, crews);
             forwardTo(request, response, JSPPageName.CREWS_PAGE);

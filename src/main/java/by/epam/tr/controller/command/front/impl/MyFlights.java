@@ -22,7 +22,7 @@ public class MyFlights implements Command {
 
         FlightService flightService = ServiceFactory.getInstance().getFlightService();
         User user  = (User) request.getSession().getAttribute("user");
-        List<Flight> flight;
+        List<Flight> flights;
         String date;
         LocalDate departureDate;
         String surname;
@@ -35,11 +35,10 @@ public class MyFlights implements Command {
         departureDate = LocalDate.parse(date);
 
         try {
+            flights = flightService.userFlights(surname, email, departureDate);
 
-            flight = flightService.userFlightsList(surname, email, departureDate);
-
-            if(flight != null){
-                request.setAttribute(RequestParameterName.FLIGHT, flight);
+            if(flights.size()!= 0){
+                request.setAttribute(RequestParameterName.FLIGHT, flights);
             }else {
                 request.setAttribute(RequestParameterName.RESULT_INFO, ANSWER);
             }

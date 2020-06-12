@@ -6,8 +6,8 @@ import java.util.List;
 
 public interface FlightService {
 
-    List<Flight> userFlightsList(String surname, String email, LocalDate departureDate) throws ServiceException;
-    List <Flight> allFlightsList(LocalDate departureDate, String airportName, String type) throws ServiceException;
+    List<Flight> userFlights(String surname, String email, LocalDate departureDate) throws ServiceException;
+    List <Flight> flightsByDay(LocalDate departureDate, String airportName, String type) throws ServiceException;
     Flight flightInfo(String flightNumber, String departureDate) throws ServiceException;
     List<Flight> nearestUserFlights(String surname, String email) throws ServiceException;
 }

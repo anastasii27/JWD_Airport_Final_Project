@@ -67,18 +67,17 @@ public class FlightDAOImpl extends CloseOperation implements FlightDAO {
                                                 "WHERE `user-id` = (SELECT id FROM users WHERE surname = ? AND email=?) AND `departure-date` BETWEEN  current_date() AND ? LIMIT 3\n";
 
     private ConnectionPool pool = ConnectionPool.getInstance();
+    private Connection connection;
+    private PreparedStatement ps;
+    private ResultSet rs;
 
     @Override
-    public List<Flight> userFlightsList(String surname, String email, LocalDate departureDate) throws DAOException {
+    public List<Flight> userFlights(String surname, String email, LocalDate departureDate) throws DAOException {
 
-        Connection connection = null;
-        PreparedStatement ps = null;
-        ResultSet rs = null;
         List <Flight> flights = new ArrayList<>();
         Date date = Date.valueOf(departureDate);
 
         try {
-
             connection = pool.takeConnection();
             ps =  connection.prepareStatement(SELECT_USER_FLIGHT);
 
@@ -108,17 +107,13 @@ public class FlightDAOImpl extends CloseOperation implements FlightDAO {
     }
 
     @Override
-    public List<Flight> allFlightsList(LocalDate departureDate, String airportShortName, String type) throws DAOException {
+    public List<Flight> flightsByDay(LocalDate departureDate, String airportShortName, String type) throws DAOException {
 
-        Connection connection = null;
-        PreparedStatement ps = null;
-        ResultSet rs = null;
         List <Flight> flights = new ArrayList<>();
         Date date = Date.valueOf(departureDate);
         String query;
 
         try {
-            pool.poolInitialization();
             connection = pool.takeConnection();
             query = dbQueryByFlightType(type);
 
@@ -142,7 +137,7 @@ public class FlightDAOImpl extends CloseOperation implements FlightDAO {
             throw new DAOException("Exception during taking connection!");
         } catch (SQLException e) {
             e.printStackTrace();
-            throw new DAOException("Exception during flight selecting!");
+            throw new DAOException("Exception during departures/arrivals selecting!");
         }finally{
             closeAll(rs, ps, pool, connection);
         }
@@ -153,9 +148,6 @@ public class FlightDAOImpl extends CloseOperation implements FlightDAO {
     @Override
     public Flight flightInfo(String flightNumber, String departureDate) throws DAOException {
 
-        Connection connection = null;
-        PreparedStatement ps = null;
-        ResultSet rs = null;
         Flight flight;
 
         try {
@@ -178,7 +170,6 @@ public class FlightDAOImpl extends CloseOperation implements FlightDAO {
                     rs.getTime("departure-time").toLocalTime(), rs.getString("departure-airport"),
                     rs.getString("departure-city"),rs.getString("departure-country"), rs.getString("dep-airport-short-name") );
 
-
         } catch (ConnectionPoolException e) {
             throw new DAOException("Exception during taking connection!");
         } catch (SQLException e) {
@@ -193,14 +184,10 @@ public class FlightDAOImpl extends CloseOperation implements FlightDAO {
     @Override
     public List<Flight> nearestUserFlights(String surname, String email, LocalDate lastDayOfRange) throws DAOException {
 
-        Connection connection = null;
-        PreparedStatement ps = null;
-        ResultSet rs = null;
         List <Flight> flights = new ArrayList<>();
         Date date = Date.valueOf(lastDayOfRange);
 
         try {
-
             connection = pool.takeConnection();
             ps =  connection.prepareStatement(SELECT_NEAREST_FLIGHTS);
 
@@ -219,26 +206,22 @@ public class FlightDAOImpl extends CloseOperation implements FlightDAO {
             throw new DAOException("Exception during taking connection!");
         } catch (SQLException e) {
             e.printStackTrace();
-            throw new DAOException("Exception during flight selecting!");
+            throw new DAOException("Exception during nearest flight selecting!");
         }finally{
             closeAll(rs, ps, pool, connection);
         }
-
         return flights;
-
     }
 
-    private String dbQueryByFlightType(String flightsType){//заменить
+    private String dbQueryByFlightType(String flightsType) {//заменить
 
-        if(flightsType.equals(ARRIVAL)){
+        if (flightsType.equals(ARRIVAL)) {
             return SELECT_AIRPORT_ARRIVAL;
         }
 
-        if(flightsType.equals(DEPARTURE)){
+        if (flightsType.equals(DEPARTURE)) {
             return SELECT_AIRPORT_DEPARTURE;
         }
-
         return null;
     }
-
 }
