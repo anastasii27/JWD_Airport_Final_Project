@@ -1,5 +1,13 @@
 $(document).ready(function ($) {
 
+    $('.datepicker-here').datepicker({
+        dateFormat: 'yyyy-mm-dd',
+        firstDay: 1,
+        minDate: getMinDate(10),
+        maxDate: getMaxDate(31)
+    });
+
+    //menu
     $(function () {
         let url = window.location.href;
         let action = getActionFromURL(url);
@@ -14,25 +22,16 @@ $(document).ready(function ($) {
         });
     });
 
+    //arrivals departures
+    $('.arr_dep').hide();
+    $('#no_flights').hide();
     $('.crew_members').hide();
+
     $(document).on('click', '.crews li', function () {
         $('.crews li').css('border', '');
         $('.crew_members').show();
         $(this).css('border', '1px solid #0f1970');
     });
-
-    // $('#table').hide();
-
-    $('.arr_dep').hide();
-    $('#noFlights').hide();
-
-    $('.datepicker-here').datepicker({
-        dateFormat: 'yyyy-mm-dd',
-        firstDay: 1,
-        minDate: getMinDate(10),
-        maxDate: getMaxDate(31)
-    });
-
 });
 
 function getMaxDate(days) {

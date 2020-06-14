@@ -6,6 +6,149 @@ $(document).ready(function ($) {
         $('p').hide();
     });
 
+    $('#my_flights_form').validate({
+        rules:{
+            departure_date:{
+                required: true,
+                pattern_date: true,
+                legal_date: true
+            }
+        },
+
+        messages:{
+            departure_date:{
+                required:''
+            }
+        }
+    });
+
+    $('#arr_dep_form').validate({
+        rules:{
+            departure_date:{
+                required: true,
+                pattern_date: true,
+                legal_date: true
+            },
+            city: {
+                city_check: true
+            }
+        },
+
+        messages:{
+            departure_date:{
+                required:''
+            }
+        },
+
+        submitHandler: function(form) {
+
+            let from = $('input[name="from"]').val();
+            let city = $('select[name="city"]').val();
+            flightType = $('input[name="type"]:checked').val();
+            let departure_date = $('input[name="departure_date"]').val();
+
+            $.ajax({
+                type: "GET",
+                url: "/JWD_Task3_war/ajax",
+                dataType:'json',
+                data: {command: 'show_flights',city: city, type: flightType, departure_date: departure_date, from:from},
+
+                success: function (data) {
+
+                    let tableLine = '';
+                    let count =0;
+
+                    $('.arr_dep').hide();
+                    $('#no_flights').hide();
+                    $('#arrivals tr td').remove();
+                    $('#departures tr td').remove();
+
+                    $.each(data, function (flight, flightInfo) {
+
+                        tableLine += '<tr><td>' + flightInfo.flightNumber + '</td>'+
+                            '<td>' +flightInfo.destinationCity +'('+flightInfo.destinationAirportShortName +')' + '</td>'+
+                            '<td>' +flightInfo.planeModel + '</td>'+
+                            '<td>' +flightInfo.departureTime.hour +':' + flightInfo.departureTime.minute + '</td>'+
+                            '<td>' +flightInfo.status + '</td></tr>';
+                        count++;
+                    });
+
+                    if(count===0){
+                        $('#no_flights').show();
+                    }
+                    else {
+                        determineTableType(flightType, tableLine);
+                    }
+                },
+
+                error:alert('ERROR')
+            });
+            return false;
+        }
+    });
+
+    $('#sign_up').validate({
+        rules:{
+            user_name: {
+                required_value: true,
+                user_name_surname: true
+            },
+            surname: {
+                required_value: true,
+                user_name_surname: true
+            },
+            email:{
+                required_value: true,
+                email_check: true
+            },
+            user_role: 'role_check',
+            career_start_year:{
+                required_value: true,
+                number_check: true
+            },
+            login:{
+                required_value: true,
+                login_len: [4,15],
+                pattern_check: true
+            },
+            user_password:{
+                required_value: true,
+                password_len: [6,15],
+                pattern_check: true
+            },
+            confirm_password:{
+                required_but_no_mes: true,
+                equal_pas: true
+            }
+        },
+
+        errorPlacement: function(error, element){
+
+            let id= element.attr("id");
+
+            if(id=='inputPassword1' ||id=='inputStart'|| id =="inputRole"){
+                $(element).after(error);
+            }else{
+                $('label[for="'+ id +'"]').append(error);
+            }
+
+            if(id=='inputPassword2'){
+                $('input[id="inputPassword1"]').after(error);
+            }
+        }
+    });
+
+    $('#sign_in').validate({
+        rules:{
+            login: 'required',
+            user_password: 'required'
+        },
+        messages:{
+            login: null,
+            user_password: null
+        }
+    });
+
     $.validator.addMethod('required_value', function(value) {
         return value.length !== 0;
     }, function ( ) {
@@ -100,70 +243,6 @@ $(document).ready(function ($) {
         }
     });
 
-    $('#sign_up').validate({
-        rules:{
-            user_name: {
-                required_value: true,
-                user_name_surname: true
-            },
-            surname: {
-                required_value: true,
-                user_name_surname: true
-            },
-            email:{
-                required_value: true,
-                email_check: true
-            },
-            user_role: 'role_check',
-            career_start_year:{
-                required_value: true,
-                number_check: true
-            },
-            login:{
-                required_value: true,
-                login_len: [4,15],
-                pattern_check: true
-            },
-            user_password:{
-                required_value: true,
-                password_len: [6,15],
-                pattern_check: true
-            },
-            confirm_password:{
-                required_but_no_mes: true,
-                equal_pas: true
-            }
-        },
-
-        errorPlacement: function(error, element){
-
-            let id= element.attr("id");
-
-            if(id=='inputPassword1' ||id=='inputStart'|| id =="inputRole"){
-                $(element).after(error);
-            }else{
-                $('label[for="'+ id +'"]').append(error);
-            }
-
-            if(id=='inputPassword2'){
-                $('input[id="inputPassword1"]').after(error);
-            }
-        }
-    });
-
-    $('#sign_in').validate({
-        rules:{
-            login: 'required',
-            user_password: 'required'
-        },
-        messages:{
-            login: null,
-            user_password: null
-        }
-    });
-
-
-
     $.validator.addMethod('pattern_date', function(value) {
         return value.match(new RegExp("^" + "\\d{4}-\\d{2}-\\d{2}" + "$"));
     }, function () {
@@ -183,24 +262,5 @@ $(document).ready(function ($) {
         return $('select').val() != '';
     }, function () {
         return'';
-    });
-
-    $('#calendar').validate({
-        rules:{
-            departure_date:{
-                required: true,
-                pattern_date: true,
-                legal_date: true
-            },
-            city: {
-                city_check: true
-            }
-        },
-
-        messages:{
-            departure_date:{
-                required:''
-            }
-        }
     });
 });

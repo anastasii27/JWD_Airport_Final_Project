@@ -21,7 +21,6 @@
         <fmt:message bundle="${loc}" key="local.label.menu_user_my_flights" var="my_fl_label" />
 
         <link rel="stylesheet" href="${pageContext.request.contextPath}/design/css/header.css"/>
-        <script src="${pageContext.request.contextPath}/design/js/full-js.js" charset="UTF-8"></script>
 
     </head>
     <body>

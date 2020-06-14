@@ -18,7 +18,6 @@ public final class RequestParameterName {
     public static final String USER = "user";
     public static final String CREW = "crew";
     public static final String FLIGHT = "flight";
-    public static final String USERS_LIST = "users";
     public static final String FLIGHT_NUMBER = "flight_number";
     public static final String DEPARTURE_DATE = "departure_date";
     public static final String STATUS = "status";
@@ -27,4 +26,6 @@ public final class RequestParameterName {
     public static final String CITY_WITH_AIRPORT = "city_with_airport";
     public static final String FROM = "from";
     public static final String CREW_NAME = "crew_name";
+    public static final String PILOTS = "pilots_list";
+    public static final String STEWARDS = "stewards_list";
 }

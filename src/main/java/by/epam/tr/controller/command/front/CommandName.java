@@ -13,7 +13,9 @@ public enum CommandName {
     SHOW_DEPARTURES_ARRIVALS ("both"),
     SHOW_FLIGHT_INFO("common"),
     SHOW_MY_FLIGHTS("authorized"),
-    SHOW_CREW_PAGE("authorized");
+    SHOW_CREW_PAGE("authorized"),
+    SHOW_CREATE_CREW_PAGE("authorized"),
+    CREATE_CREW("authorized");
 
     private final String accessType;
 

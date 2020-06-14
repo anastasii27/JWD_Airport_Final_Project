@@ -15,8 +15,6 @@
         <fmt:message bundle="${loc}" key="local.label.flight" var="flight_label" />
         <fmt:message bundle="${loc}" key="local.label.status" var="status_label" />
 
-        <script src="${pageContext.request.contextPath}/design/js/ajax-request.js" charset="UTF-8"></script>
-
     </head>
     <body>
             <table class ="table" id="departures" border="2">

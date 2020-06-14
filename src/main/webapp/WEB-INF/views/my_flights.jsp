@@ -46,7 +46,7 @@
 
         <jsp:include page="parts/header.jsp"/>
 
-        <form action="airport" method="get" id="calendar">
+        <form action="airport" method="get" id="my_flights_form">
             <input type="hidden" name="action" value="show_my_flights"/>
             <label for="piker"></label>
             <input type='text' name="departure_date" id= "piker" class="datepicker-here"

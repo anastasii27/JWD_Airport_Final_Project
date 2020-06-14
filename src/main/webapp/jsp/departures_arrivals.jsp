@@ -13,6 +13,7 @@
         <fmt:message bundle="${loc}" key="local.label.flight_info.departures" var="dep_button" />
         <fmt:message bundle="${loc}" key="local.send_button" var="send_button" />
         <fmt:message bundle="${loc}" key="local.message.no_flights" var="no_flights_mes" />
+        <fmt:message bundle="${loc}" key="local.js.lang" var="lang" />
 
         <title>${arr_dep_label}</title>
 
@@ -29,7 +30,6 @@
         <script src="${pageContext.request.contextPath}/design/js/full-js.js" charset="UTF-8"></script>
         <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.2/dist/jquery.validate.min.js"></script>
         <script src="${pageContext.request.contextPath}/design/js/validation.js" charset="UTF-8"></script>
-        <script src="${pageContext.request.contextPath}/design/js/ajax-request.js" charset="UTF-8"></script>
 
         <script>
             $(document).ready(function () {
@@ -41,7 +41,6 @@
 
     </head>
     <body>
-
         <c:if test="${requestScope.from eq 'main'}">
             <jsp:include page="parts/header.jsp"/>
         </c:if>
@@ -50,8 +49,7 @@
             <jsp:include page="../WEB-INF/views/parts/header.jsp"/>
         </c:if>
 
-        <form action="" method="post" id="calendar">
-            <input type="hidden" name="command" value="show_flights"/>
+        <form action="" method="get" id="arr_dep_form">
             <input type="hidden" name="from" value="${requestScope.from}"/>
             <label for="piker"></label>
             <select  name= "city" id="input_city">
@@ -66,7 +64,7 @@
             <input type="radio" id="arrival_type" name="type" value="departure" checked>
             <label for="departure_type">${arr_button}</label>
             <input type="radio" id="departure_type" name="type" value="arrival">
-            <input type="submit" id="submit" value="${send_button}"/>
+            <input type="submit" id="arr_dep_submit" value="${send_button}"/>
         </form>
         <div class="arr_dep" id="arr_table">
             <jsp:include page="parts/arrivals_table.jsp"/>
@@ -74,7 +72,7 @@
         <div class="arr_dep" id="dep_table">
             <jsp:include page="parts/departures_table.jsp"/>
         </div>
-        <div id="noFlights">
+        <div id="no_flights">
             <h3>${no_flights_mes}</h3>
         </div>
     </body>

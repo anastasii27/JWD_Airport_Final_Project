@@ -23,6 +23,8 @@ public final class CommandProvider {
         commands.put(CommandName.SHOW_FLIGHT_INFO, new FlightInformation());
         commands.put(CommandName.SHOW_MY_FLIGHTS, new MyFlights());
         commands.put(CommandName.SHOW_CREW_PAGE, new CrewPage());
+        commands.put(CommandName.SHOW_CREATE_CREW_PAGE, new CreateCrewPage());
+        commands.put(CommandName.CREATE_CREW, new CreateCrew());
     }
 
     public Command getCommand(String name){

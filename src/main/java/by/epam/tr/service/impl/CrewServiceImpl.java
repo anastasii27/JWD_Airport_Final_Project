@@ -10,7 +10,7 @@ import java.util.List;
 
 public class CrewServiceImpl implements CrewService {
 
-    CrewDAO dao = DAOFactory.getInstance().getCrewDAO();
+    private CrewDAO dao = DAOFactory.getInstance().getCrewDAO();
 
     @Override
     public List<User> crewMembers(String crewName) throws ServiceException {
@@ -24,5 +24,24 @@ public class CrewServiceImpl implements CrewService {
             throw new ServiceException("Exception during crew members getting");
         }
         return crew;
+    }
+
+    @Override
+    public boolean createCrew(String crewName) throws ServiceException {
+
+        boolean resultOfCreationOperation;
+        try {
+
+            resultOfCreationOperation =dao.createCrew(crewName);
+
+        } catch (DAOException e) {
+            throw new ServiceException("Exception during crew creation");
+        }
+        return resultOfCreationOperation;
+    }
+
+    @Override
+    public boolean addMemberToCrew(List<User> users){
+        return false;
     }
 }

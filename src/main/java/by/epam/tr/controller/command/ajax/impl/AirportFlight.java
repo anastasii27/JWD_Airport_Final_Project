@@ -2,11 +2,11 @@ package by.epam.tr.controller.command.ajax.impl;
 
 import by.epam.tr.bean.Flight;
 import by.epam.tr.controller.command.Command;
+import by.epam.tr.controller.command.ajax.GSONConverter;
 import by.epam.tr.controller.constant_parameter.RequestParameterName;
 import by.epam.tr.service.FlightService;
 import by.epam.tr.service.ServiceException;
 import by.epam.tr.service.ServiceFactory;
-import com.google.gson.Gson;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -36,7 +36,7 @@ public class AirportFlight implements Command {
 
         try {
             flights = flightService.flightsByDay(departureDate, airportName, flightType);
-            flightsGson=convertListToGSON(flights);
+            flightsGson= GSONConverter.convertListToGSON(flights);
 
             response.getWriter().write(flightsGson);
 
@@ -53,14 +53,6 @@ public class AirportFlight implements Command {
         String airportName = city.substring(indexOfFirstBracket, indexOfLastBracket);
 
         return airportName;
-    }
-
-    private String convertListToGSON(List list){
-
-        Gson gson = new Gson();
-        String gsonList = gson.toJson(list);
-
-        return gsonList;
     }
 }
 

@@ -1,9 +1,6 @@
-#calendar input.error, #calendar select.error {
+#arr_dep_form input.error, #arr_dep_form select.error,
+#my_flights_form input.error, #my_flights_form select.error {
     background: #a6c5ff;
     border: 1px solid #0f1970;
-    border-radius: 5px;
-}
-
-input[type='text']{
     border-radius: 5px;
 }

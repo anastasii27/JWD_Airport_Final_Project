@@ -1,0 +1,9 @@
+#create_crew_btn{
+    position: absolute;
+    right: 8vw;
+    top: 85vh;
+}
+
+.crew_member{
+    width: 40vw;
+}

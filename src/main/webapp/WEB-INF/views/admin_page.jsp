@@ -4,7 +4,6 @@
         <title>Admin</title>
     </head>
     <body>
-
     <jsp:include page="parts/header.jsp"/>
     admin
     </body>

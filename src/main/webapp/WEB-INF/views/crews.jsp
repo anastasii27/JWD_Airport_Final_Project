@@ -11,6 +11,7 @@
 
         <title>ВОЗДУШНЫЕ ЭКИПАЖИ</title>
 
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/design/css/crews.css">
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
         <script src="${pageContext.request.contextPath}/design/js/jquery-ui.min.js" charset="UTF-8"></script>
@@ -22,7 +23,7 @@
     </head>
     <body>
         <jsp:include page="parts/header.jsp"/>
-        <div class="row">
+        <div class="row col-12">
             <div class="col-md-4">
                 <h2>НАЗВАНИЕ ЭКИПАЖА</h2>
                 <c:forEach items="${requestScope.crew}" var="crew_item">
@@ -31,8 +32,8 @@
                     </ul>
                 </c:forEach>
             </div>
-            <div class="container crew_members col-md-8">
-                <div class="row ml-auto  mr-auto" style="width: 50vw;">
+            <div class="container crew_members col-md-6">
+                <div class="row ml-auto  mr-auto">
                     <div class="col-md-5 p-0">
                         <h2>ПИЛОТЫ</h2>
                         <ul class="list-group" id="pilots_list">
@@ -40,13 +41,19 @@
                         </ul>
                     </div>
                     <div class="col-md-5 p-0">
-                        <h2>СТЮАРДЕССЫ</h2>
+                        <h2>СТЮАРДЫ</h2>
                         <ul class="list-group" id="steward_list">
 
                         </ul>
                     </div>
                 </div>
             </div>
+        </div>
+
+        <div id="create_crew_btn">
+            <form>
+                <input type="button" class="btn btn-primary"  value="СОЗДАТЬ" onClick='location.href="${pageContext.request.contextPath}/airport?action=show_create_crew_page"'>
+            </form>
         </div>
     </body>
 </html>
