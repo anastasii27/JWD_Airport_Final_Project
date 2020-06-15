@@ -20,16 +20,21 @@ public class CrewDAOImpl extends CloseOperation implements CrewDAO{
     private final static String CREATE_CREW = "INSERT INTO `flight-teams`(`date-of-creating`, `short-name`)\n" +
                                             "VALUES (current_date(), ?);";
 
+    private final static String ADD_MEMBER = "INSERT INTO airport.`flight-teams-m2m-users`(`flight-team-id`, `user-id`) VALUES (\n" +
+                                            "(SELECT id FROM `flight-teams` WHERE `short-name` =?),\n" +
+                                            "(SELECT id FROM users WHERE `name`=? AND surname =?)\n" +
+                                            ");";
+
     private ConnectionPool pool = ConnectionPool.getInstance();
     private Connection connection;
     private PreparedStatement ps;
     private ResultSet rs;
+    private boolean flag;
 
     @Override
     public List<User> crewMembers(String crewName) throws DAOException {
 
         List<User> crew = new ArrayList<>();
-
         try {
             connection = pool.takeConnection();
             ps =  connection.prepareStatement(SELECT_CREW_MEMBERS);
@@ -52,19 +57,27 @@ public class CrewDAOImpl extends CloseOperation implements CrewDAO{
     }
 
     @Override
-    public boolean createCrew(String crewName) throws DAOException {
-
-        boolean flag = false;
+    public boolean createCrew(String crewName, List<User> users) throws DAOException {
 
         try {
             connection = pool.takeConnection();
+            connection.setAutoCommit(false);
+
             ps =  connection.prepareStatement(CREATE_CREW);
-
             ps.setString(1, crewName);
-
             ps.executeUpdate();
-            flag = true;
 
+            for(User user: users){
+                ps =  connection.prepareStatement(ADD_MEMBER);
+                ps.setString(1, crewName);
+                ps.setString(2, user.getName());
+                ps.setString(3, user.getSurname());
+                ps.executeUpdate();
+            }
+
+            connection.commit();
+
+            flag = true;
         } catch (ConnectionPoolException e) {
             throw new DAOException("Exception during taking connection!");
         } catch (SQLException e) {
@@ -73,10 +86,5 @@ public class CrewDAOImpl extends CloseOperation implements CrewDAO{
             closeAll(ps, pool, connection);
         }
         return flag;
-    }
-
-    @Override
-    public boolean addMemberToCrew(User user) throws DAOException {
-        return false;
     }
 }

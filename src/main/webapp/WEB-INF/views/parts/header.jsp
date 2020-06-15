@@ -36,7 +36,7 @@
                     <jsp:useBean id="now" class="java.util.Date"/>
                     <fmt:formatDate type="time" value="${now}" pattern="yyyy-MM-dd" var="depDate"/>
                     <c:choose>
-                        <c:when test = "${role eq 'pilot' || role eq 'stewardess'}">
+                        <c:when test = "${role eq 'pilot' || role eq 'steward'}">
                             <li class="nav-item ">
                                 <a class="nav-link" href="${pageContext.request.contextPath}/airport?action=show_user_page">${my_page}</a>
                             </li>
@@ -50,6 +50,9 @@
                         <c:when test = "${role eq 'dispatcher'}">
                             <li class="nav-item">
                                 <a class="nav-link" href="${pageContext.request.contextPath}/airport?action=show_user_page">${my_page}</a>
+                            </li>
+                            <li class="nav-item ">
+                                <a class="nav-link" href="#">${my_fl_label}</a>
                             </li>
                             <li class="nav-item ">
                                 <a class="nav-link" href="${pageContext.request.contextPath}/airport?action=show_departures_arrivals&from=user">${flights_label}</a>

@@ -32,6 +32,9 @@
                     </ul>
                 </c:forEach>
             </div>
+            <div id="crews_error">
+                ДАННЫЕ НЕ НАЙДЕНЫ
+            </div>
             <div class="container crew_members col-md-6">
                 <div class="row ml-auto  mr-auto">
                     <div class="col-md-5 p-0">

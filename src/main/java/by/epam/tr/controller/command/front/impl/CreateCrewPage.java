@@ -7,12 +7,15 @@ import by.epam.tr.controller.constant_parameter.RequestParameterName;
 import by.epam.tr.service.ListCreationService;
 import by.epam.tr.service.ServiceException;
 import by.epam.tr.service.ServiceFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 public class CreateCrewPage implements Command {
 
+    private Logger logger = LogManager.getLogger(getClass());
     private static final String PILOT = "pilot";
     private static final String STEWARD = "steward";
 
@@ -33,6 +36,7 @@ public class CreateCrewPage implements Command {
             forwardTo(request, response, JSPPageName.CREATE_CREW_PAGE);
 
         } catch (ServiceException e) {
+            logger.error("Cannot execute command for creating crew page", e);
             errorPage(response);
         }
     }

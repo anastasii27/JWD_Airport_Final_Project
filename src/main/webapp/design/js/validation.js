@@ -80,8 +80,9 @@ $(document).ready(function ($) {
                         determineTableType(flightType, tableLine);
                     }
                 },
-
-                error:alert('ERROR')
+                error: function (data) {
+                    $('#no_flights').show();
+                }
             });
             return false;
         }

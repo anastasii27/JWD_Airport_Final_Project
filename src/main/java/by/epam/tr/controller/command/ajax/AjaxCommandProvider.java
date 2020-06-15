@@ -13,7 +13,6 @@ public final class AjaxCommandProvider {
     private AjaxCommandProvider(){
         commands.put(AjaxCommandName.SHOW_CREW_MEMBERS, new CrewMembers());
         commands.put(AjaxCommandName.SHOW_FLIGHTS, new AirportFlight());
-        commands.put(AjaxCommandName.CREATE_CREW, new CreateCrew());
     }
 
     public Command getCommand(String name){

@@ -27,10 +27,8 @@
         <form action="airport" method="post" id="create_crew">
             <div class="form-group">
                 <input type="hidden" name="action" value="create_crew" />
-
                 <label for="crew_name">ВВЕДИТЕ НАЗВАНИЕ ЭКИПАЖА</label>
                 <input type="text" id="crew_name" name="crew_name"/>
-
             </div>
             <div class="form-group">
                 <label for="first_pilot">ВЫБЕРИТЕ КОМАНДИРА САМОЛЕТА</label>

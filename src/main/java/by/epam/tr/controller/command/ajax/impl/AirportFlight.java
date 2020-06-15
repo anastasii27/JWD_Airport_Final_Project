@@ -7,6 +7,8 @@ import by.epam.tr.controller.constant_parameter.RequestParameterName;
 import by.epam.tr.service.FlightService;
 import by.epam.tr.service.ServiceException;
 import by.epam.tr.service.ServiceFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -14,6 +16,8 @@ import java.time.LocalDate;
 import java.util.List;
 
 public class AirportFlight implements Command {
+
+    private Logger logger = LogManager.getLogger(getClass());
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) {
@@ -40,8 +44,10 @@ public class AirportFlight implements Command {
 
             response.getWriter().write(flightsGson);
 
-        } catch (ServiceException | IOException e) {
-            //
+        } catch (ServiceException e) {
+            logger.error("Cannot execute ajax command for arrivals and departure table", e);
+        } catch (IOException e) {
+            logger.error("Cannot write json to response", e);
         }
     }
 

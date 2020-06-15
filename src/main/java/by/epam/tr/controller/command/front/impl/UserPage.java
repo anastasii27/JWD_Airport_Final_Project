@@ -8,12 +8,15 @@ import by.epam.tr.controller.constant_parameter.RequestParameterName;
 import by.epam.tr.service.FlightService;
 import by.epam.tr.service.ServiceException;
 import by.epam.tr.service.ServiceFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 public class UserPage implements Command {
 
+    private Logger logger = LogManager.getLogger(getClass());
     private static final String ANSWER = "No flight for next 30 days";
 
     @Override
@@ -42,6 +45,7 @@ public class UserPage implements Command {
             forwardTo(request,response,page.getPage(user.getRole()));
 
         } catch (ServiceException e) {
+            logger.error("Cannot execute command for user page", e);
             errorPage(response);
         }
     }

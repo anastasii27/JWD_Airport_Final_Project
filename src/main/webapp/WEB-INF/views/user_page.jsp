@@ -47,19 +47,21 @@
         <p>${role_label}: <c:out value= "${sessionScope.user.role}" /></p>
         <p>${start_label}: <c:out value= "${sessionScope.user.careerStartYear}" /></p>
 
-        <h3>${near_flight_label}</h3>
-        <table class ="table" border="2">
-            <tr><th>${flight_label}</th><th>${date_label}</th><th>${dest_label}</th><th>${dep_time_label}</th></tr>
-                <c:forEach items="${flight}" var="flight_item">
-                    <tr onclick="document.location.href= '${pageContext.request.contextPath}/airport?action=show_flight_info&flight_number=${flight_item.flightNumber}&departure_date=${flight_item.departureDate}'">
-                        <td>${flight_item.flightNumber}</td>
-                        <td>${flight_item.departureDate}</td>
-                        <td>${flight_item.destinationCity}</td>
-                        <td>${flight_item.departureTime}</td>
-                    </tr>
-                </c:forEach>
-        </table>
-<%--        <c:set var = "url" scope = "session" value = "${pageContext.request.contextPath}/airport?action=show_user_page"/>--%>
 
+        <c:if test = "${sessionScope.user.role eq 'pilot' || sessionScope.user.role eq 'steward'}">
+            <h3>${near_flight_label}</h3>
+            <table class ="table" border="2">
+                <tr><th>${flight_label}</th><th>${date_label}</th><th>${dest_label}</th><th>${dep_time_label}</th></tr>
+                    <c:forEach items="${flight}" var="flight_item">
+                        <tr onclick="document.location.href= '${pageContext.request.contextPath}/airport?action=show_flight_info&flight_number=${flight_item.flightNumber}&departure_date=${flight_item.departureDate}'">
+                            <td>${flight_item.flightNumber}</td>
+                            <td>${flight_item.departureDate}</td>
+                            <td>${flight_item.destinationCity}</td>
+                            <td>${flight_item.departureTime}</td>
+                        </tr>
+                    </c:forEach>
+            </table>
+    <%--        <c:set var = "url" scope = "session" value = "${pageContext.request.contextPath}/airport?action=show_user_page"/>--%>
+        </c:if>
     </body>
 </html>

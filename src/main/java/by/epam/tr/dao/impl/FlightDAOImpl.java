@@ -94,7 +94,6 @@ public class FlightDAOImpl extends CloseOperation implements FlightDAO {
                         rs.getString("departure-city"), rs.getString("dest-airport-short-name"),
                         rs.getString("dep-airport-short-name"), rs.getString("flight-number")));
             }
-
         } catch (ConnectionPoolException e) {
             throw new DAOException("Exception during taking connection!");
         } catch (SQLException e) {
@@ -102,7 +101,6 @@ public class FlightDAOImpl extends CloseOperation implements FlightDAO {
         }finally{
             closeAll(rs, ps, pool, connection);
         }
-
         return flights;
     }
 
@@ -141,7 +139,6 @@ public class FlightDAOImpl extends CloseOperation implements FlightDAO {
         }finally{
             closeAll(rs, ps, pool, connection);
         }
-
         return flights;
     }
 
@@ -177,7 +174,6 @@ public class FlightDAOImpl extends CloseOperation implements FlightDAO {
         }finally{
             closeAll(rs, ps, pool, connection);
         }
-
         return flight;
     }
 
@@ -201,11 +197,9 @@ public class FlightDAOImpl extends CloseOperation implements FlightDAO {
                flights.add(new Flight(rs.getDate("departure-date").toLocalDate(), rs.getTime("departure-time").toLocalTime(),
                        rs.getString("destination-city"),rs.getString("flight-number")));
             }
-
         } catch (ConnectionPoolException e) {
             throw new DAOException("Exception during taking connection!");
         } catch (SQLException e) {
-            e.printStackTrace();
             throw new DAOException("Exception during nearest flight selecting!");
         }finally{
             closeAll(rs, ps, pool, connection);

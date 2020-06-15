@@ -8,12 +8,16 @@ import by.epam.tr.controller.command.Command;
 import by.epam.tr.service.ServiceException;
 import by.epam.tr.service.ServiceFactory;
 import by.epam.tr.service.UserService;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 public class Registration implements Command{
+
+    private Logger logger = LogManager.getLogger(getClass());
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) {
@@ -46,7 +50,8 @@ public class Registration implements Command{
             response.sendRedirect(JSPPageName.RESULT_PAGE);
 
         } catch (ServiceException| IOException e) {
-           errorPage(response);
+            logger.error("Cannot execute command for registration", e);
+            errorPage(response);
         }
     }
 }

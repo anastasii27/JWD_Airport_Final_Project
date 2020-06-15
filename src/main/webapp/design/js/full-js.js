@@ -26,12 +26,13 @@ $(document).ready(function ($) {
     $('.arr_dep').hide();
     $('#no_flights').hide();
     $('.crew_members').hide();
+    $('#crews_error').hide();
 
     $(document).on('click', '.crews li', function () {
         $('.crews li').css('border', '');
-        $('.crew_members').show();
         $(this).css('border', '1px solid #0f1970');
     });
+
 });
 
 function getMaxDate(days) {

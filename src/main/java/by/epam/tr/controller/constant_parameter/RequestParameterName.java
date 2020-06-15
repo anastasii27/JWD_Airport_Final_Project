@@ -28,4 +28,7 @@ public final class RequestParameterName {
     public static final String CREW_NAME = "crew_name";
     public static final String PILOTS = "pilots_list";
     public static final String STEWARDS = "stewards_list";
+    public static final String PILOT1 = "first_pilot";
+    public static final String PILOT2 = "second_pilot";
+    public static final String STEWARD = "steward";
 }

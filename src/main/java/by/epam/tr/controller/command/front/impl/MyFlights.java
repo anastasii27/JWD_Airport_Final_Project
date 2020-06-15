@@ -8,6 +8,8 @@ import by.epam.tr.controller.constant_parameter.RequestParameterName;
 import by.epam.tr.service.FlightService;
 import by.epam.tr.service.ServiceException;
 import by.epam.tr.service.ServiceFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.time.LocalDate;
@@ -15,6 +17,7 @@ import java.util.List;
 
 public class MyFlights implements Command {
 
+    private Logger logger = LogManager.getLogger(getClass());
     private static final String ANSWER = "Sorry, no flights were found";
 
     @Override
@@ -47,6 +50,7 @@ public class MyFlights implements Command {
             forwardTo(request,response, JSPPageName.MY_FLIGHTS_PAGE);
 
         } catch (ServiceException e) {
+            logger.error("Cannot execute command for user flights", e);
             errorPage(response);
         }
     }
