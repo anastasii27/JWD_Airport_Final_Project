@@ -7,6 +7,7 @@ import by.epam.tr.dao.DAOFactory;
 import by.epam.tr.service.CrewService;
 import by.epam.tr.service.ServiceException;
 import java.util.List;
+import java.util.Map;
 
 public class CrewServiceImpl implements CrewService {
 
@@ -27,7 +28,7 @@ public class CrewServiceImpl implements CrewService {
     }
 
     @Override
-    public boolean createCrew(String crewName, List<User> users) throws ServiceException {
+    public boolean createCrew(String crewName, Map<String, User> users) throws ServiceException {
 
         try {
 

@@ -25,8 +25,8 @@ public class CreateCrewPage implements Command {
         ListCreationService listCreationService  = ServiceFactory.getInstance().getListCreationService();
         List<User> pilots;
         List<User> stewards;
-
         try {
+
             pilots = listCreationService.createUserByRoleList(PILOT);
             stewards = listCreationService.createUserByRoleList(STEWARD);
 

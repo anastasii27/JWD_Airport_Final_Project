@@ -12,12 +12,14 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.time.LocalDate;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class MyFlights implements Command {
 
     private Logger logger = LogManager.getLogger(getClass());
+    private  Map<String, String> params =  new HashMap<>();
     private static final String ANSWER = "Sorry, no flights were found";
 
     @Override
@@ -25,20 +27,19 @@ public class MyFlights implements Command {
 
         FlightService flightService = ServiceFactory.getInstance().getFlightService();
         User user  = (User) request.getSession().getAttribute("user");
-        List<Flight> flights;
-        String date;
-        LocalDate departureDate;
+        String departureDate;
         String surname;
         String email;
 
         surname = user.getSurname();
         email = user.getEmail();
+        departureDate = request.getParameter(RequestParameterName.DEPARTURE_DATE);
 
-        date = request.getParameter(RequestParameterName.DEPARTURE_DATE);
-        departureDate = LocalDate.parse(date);
-
+        List<Flight> flights;
         try {
-            flights = flightService.userFlights(surname, email, departureDate);
+
+            params = createMap(surname, email, departureDate);
+            flights = flightService.userFlights(params);
 
             if(flights.size()!= 0){
                 request.setAttribute(RequestParameterName.FLIGHT, flights);
@@ -47,11 +48,20 @@ public class MyFlights implements Command {
             }
 
             request.setAttribute(RequestParameterName.DEPARTURE_DATE, departureDate);
-            forwardTo(request,response, JSPPageName.MY_FLIGHTS_PAGE);
 
+            forwardTo(request,response, JSPPageName.MY_FLIGHTS_PAGE);
         } catch (ServiceException e) {
             logger.error("Cannot execute command for user flights", e);
             errorPage(response);
         }
+    }
+
+    private Map<String, String> createMap(String surname, String email, String departureDate){
+
+        params.put("surname", surname);
+        params.put("email", email);
+        params.put("departureDate", departureDate);
+
+        return params;
     }
 }

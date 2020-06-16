@@ -6,11 +6,8 @@ public class ValidationFactory {
 
     private static final ValidationFactory instance = new ValidationFactory();
 
-    private final Validator userValidation = new UserValidation();
     private final Validator dateValidation = new DateValidation();
-    private final Validator loginValidation = new LoginValidation();
-    private final Validator passwordValidation = new PasswordValidation();
-    private final Validator nullValidation = new NullValidation();
+    private final Validator registrationValidation = new RegistrationValidation();
 
     private ValidationFactory(){}
 
@@ -18,23 +15,11 @@ public class ValidationFactory {
         return instance;
     }
 
-    public Validator getUserValidation(){
-        return userValidation;
-    }
-
     public Validator getDateValidation() {
         return dateValidation;
     }
 
-    public Validator getLoginValidation() {
-        return loginValidation;
-    }
-
-    public Validator getPasswordValidation() {
-        return passwordValidation;
-    }
-
-    public Validator getNullValidation() {
-        return nullValidation;
+    public Validator getRegistrationValidation() {
+        return registrationValidation;
     }
 }

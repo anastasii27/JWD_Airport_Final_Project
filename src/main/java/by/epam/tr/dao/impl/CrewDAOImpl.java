@@ -9,6 +9,7 @@ import by.epam.tr.dao.connectionpool.ConnectionPoolException;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class CrewDAOImpl extends CloseOperation implements CrewDAO{
 
@@ -57,7 +58,7 @@ public class CrewDAOImpl extends CloseOperation implements CrewDAO{
     }
 
     @Override
-    public boolean createCrew(String crewName, List<User> users) throws DAOException {
+    public boolean createCrew(String crewName, Map<String, User> users) throws DAOException {
 
         try {
             connection = pool.takeConnection();
@@ -67,11 +68,11 @@ public class CrewDAOImpl extends CloseOperation implements CrewDAO{
             ps.setString(1, crewName);
             ps.executeUpdate();
 
-            for(User user: users){
+            for(Map.Entry<String, User> user : users.entrySet()){
                 ps =  connection.prepareStatement(ADD_MEMBER);
                 ps.setString(1, crewName);
-                ps.setString(2, user.getName());
-                ps.setString(3, user.getSurname());
+                ps.setString(2, user.getValue().getName());
+                ps.setString(3, user.getValue().getSurname());
                 ps.executeUpdate();
             }
 

@@ -1,7 +1,11 @@
 package by.epam.tr.service.validation.impl;
 
+import by.epam.tr.service.validation.ValidationPattern;
 import by.epam.tr.service.validation.Validator;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 public class DateValidation extends Validator {
 
@@ -9,23 +13,22 @@ public class DateValidation extends Validator {
     private final static int MAX_DAY = 30;
 
     @Override
-    public boolean validate(Object...object) {
+    public List<String> validate(Map<String, String> params) {
 
-        LocalDate date;
+        List <String> results = new ArrayList<>();
 
-        for (Object obj : object) {
-
-            date = (LocalDate) obj;
-
-            if (!nullCheck(date)) {
-                return false;
-            }
-
-            if (!dateRangeCheck(MIN_DAY, MAX_DAY, date)) {
-                return false;
-            }
+        if (!checkWithPattern(ValidationPattern.DATE_PATTERN,  params.get("departureDate"))) {
+            results.add("Illegal date!");
+            return results;
         }
-        return true;
+
+        LocalDate date = LocalDate.parse(params.get("departureDate"));
+
+        if (!dateRangeCheck(MIN_DAY, MAX_DAY, date)) {
+            results.add("Illegal date range!");
+        }
+
+        return results;
     }
 
     private boolean dateRangeCheck(int minusFromToday, int plusToToday, LocalDate date){

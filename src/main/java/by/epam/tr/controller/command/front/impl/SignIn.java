@@ -23,22 +23,21 @@ public class SignIn implements Command {
 
         UserService userService = ServiceFactory.getInstance().getUserService();
         HttpSession session = request.getSession(true);
-        User user;
         String login;
         String password;
 
         login = request.getParameter(RequestParameterName.LOGIN);
         password = request.getParameter(RequestParameterName.PASSWORD);
 
+        User user;
         try {
+
             user = userService.signIn(login, password);
 
                 if(user != null){
-
                     session.setAttribute(RequestParameterName.USER, user);
                     response.sendRedirect(request.getContextPath() + PATH);
                 }else {
-
                     request.setAttribute(RequestParameterName.RESULT_INFO, ANSWER);
                     forwardTo(request,response, JSPPageName.RESULT_PAGE);
                 }

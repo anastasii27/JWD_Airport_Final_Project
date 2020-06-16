@@ -12,38 +12,39 @@ import org.apache.logging.log4j.Logger;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.time.LocalDate;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class AirportFlight implements Command {
 
     private Logger logger = LogManager.getLogger(getClass());
+    private Map<String, String> params =  new HashMap<>();
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) {
 
         FlightService flightService = ServiceFactory.getInstance().getFlightService();
-        List<Flight> flights;
-        String date;
-        LocalDate departureDate;
+        String departureDate;
         String city;
         String airportName;
         String flightType;
 
-        date = request.getParameter(RequestParameterName.DEPARTURE_DATE);
-        departureDate = LocalDate.parse(date);
+        departureDate = request.getParameter(RequestParameterName.DEPARTURE_DATE);
         city = request.getParameter(RequestParameterName.CITY);
         airportName = getAirportName(city);
         flightType = request.getParameter(RequestParameterName.FLIGHT_TYPE);
 
+        List<Flight> flights;
         String flightsGson;
-
         try {
-            flights = flightService.flightsByDay(departureDate, airportName, flightType);
-            flightsGson= GSONConverter.convertListToGSON(flights);
+
+            params = createMap(departureDate, airportName, flightType);
+
+            flights = flightService.flightsByDay(params);
+            flightsGson = GSONConverter.convertListToGSON(flights);
 
             response.getWriter().write(flightsGson);
-
         } catch (ServiceException e) {
             logger.error("Cannot execute ajax command for arrivals and departure table", e);
         } catch (IOException e) {
@@ -59,6 +60,15 @@ public class AirportFlight implements Command {
         String airportName = city.substring(indexOfFirstBracket, indexOfLastBracket);
 
         return airportName;
+    }
+
+    private Map<String, String> createMap(String departureDate, String airportName, String flightType){
+
+        params.put("departureDate", departureDate);
+        params.put("airportName", airportName);
+        params.put("flightType", flightType);
+
+        return params;
     }
 }
 

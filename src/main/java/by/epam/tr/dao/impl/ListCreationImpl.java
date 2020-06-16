@@ -32,7 +32,6 @@ public class ListCreationImpl extends CloseOperation implements ListCreationDAO 
     public List<String> createCityWithAirportList() throws DAOException {
 
         List <String> citiesWithAirports = new ArrayList<>();
-
         try {
             connection = pool.takeConnection();
             st = connection.createStatement();
@@ -57,7 +56,6 @@ public class ListCreationImpl extends CloseOperation implements ListCreationDAO 
     public List<String> createRolesList() throws DAOException {
 
         List <String> roles = new ArrayList<>();
-
         try {
             connection = pool.takeConnection();
             st = connection.createStatement();
@@ -67,7 +65,6 @@ public class ListCreationImpl extends CloseOperation implements ListCreationDAO 
             while (rs.next()) {
                 roles.add(rs.getString("title"));
             }
-
         } catch (ConnectionPoolException e) {
             throw new DAOException("Exception during taking connection!");
         } catch (SQLException e) {
@@ -82,7 +79,6 @@ public class ListCreationImpl extends CloseOperation implements ListCreationDAO 
     public List<String> createCrewsList() throws DAOException {
 
         List <String> crews = new ArrayList<>();
-
         try {
             connection = pool.takeConnection();
             st = connection.createStatement();
@@ -92,7 +88,6 @@ public class ListCreationImpl extends CloseOperation implements ListCreationDAO 
             while (rs.next()) {
                 crews.add(rs.getString("short-name"));
             }
-
         } catch (ConnectionPoolException e) {
             throw new DAOException("Exception during taking connection!");
         } catch (SQLException e) {
@@ -107,9 +102,7 @@ public class ListCreationImpl extends CloseOperation implements ListCreationDAO 
     public List<User> createUserByRoleList(String role) throws DAOException {
 
         List <User> users = new ArrayList<>();
-
         try {
-
             connection = pool.takeConnection();
             ps =  connection.prepareStatement(SELECT_USERS_BY_ROLE);
 
@@ -120,7 +113,6 @@ public class ListCreationImpl extends CloseOperation implements ListCreationDAO 
             while (rs.next()) {
                 users.add(new User(rs.getString("name"), rs.getString("surname")));
             }
-
         } catch (ConnectionPoolException e) {
             throw new DAOException("Exception during taking connection!");
         } catch (SQLException e) {

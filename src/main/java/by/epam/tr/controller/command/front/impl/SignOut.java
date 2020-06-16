@@ -19,9 +19,8 @@ public class SignOut implements Command{
 
         HttpSession session = request.getSession(false);
         session.removeAttribute(RequestParameterName.USER);
-
+        session.removeAttribute(RequestParameterName.RESULT_INFO);
         try {
-
             response.sendRedirect(JSPPageName.START_PAGE);
 
         } catch (IOException e) {

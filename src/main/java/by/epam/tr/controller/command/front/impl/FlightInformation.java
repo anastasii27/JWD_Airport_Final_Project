@@ -27,8 +27,8 @@ public class FlightInformation implements Command {
 
         flightNumber = request.getParameter(RequestParameterName.FLIGHT_NUMBER);
         departureDate = request.getParameter(RequestParameterName.DEPARTURE_DATE);
-
         try {
+
             flight = flightService.flightInfo(flightNumber, departureDate);
 
             if (flight != null){

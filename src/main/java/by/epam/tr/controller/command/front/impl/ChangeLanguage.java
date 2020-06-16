@@ -15,15 +15,15 @@ public class ChangeLanguage implements Command {
     public void execute(HttpServletRequest request, HttpServletResponse response) {
 
         String url;
-
         try {
+
             url = request.getParameter("url");
 
             request.getSession(true).setAttribute("local", request.getParameter("local"));
             response.sendRedirect(url);
 
         } catch (IOException e) {
-            logger.error("Cannot execute command for language changing", e);
+            logger.error("Cannot execute command for language change", e);
             errorPage(response);
         }
     }

@@ -10,6 +10,7 @@ import java.sql.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class FlightDAOImpl extends CloseOperation implements FlightDAO {
 
@@ -72,17 +73,17 @@ public class FlightDAOImpl extends CloseOperation implements FlightDAO {
     private ResultSet rs;
 
     @Override
-    public List<Flight> userFlights(String surname, String email, LocalDate departureDate) throws DAOException {
+    public List<Flight> userFlights(Map<String, String> params) throws DAOException {
 
         List <Flight> flights = new ArrayList<>();
-        Date date = Date.valueOf(departureDate);
+        Date date = Date.valueOf(params.get("departureDate"));
 
         try {
             connection = pool.takeConnection();
             ps =  connection.prepareStatement(SELECT_USER_FLIGHT);
 
-            ps.setString(1,surname);
-            ps.setString(2,email);
+            ps.setString(1,params.get("surname"));
+            ps.setString(2,params.get("email"));
             ps.setDate(3, date);
 
             rs = ps.executeQuery();
@@ -105,22 +106,22 @@ public class FlightDAOImpl extends CloseOperation implements FlightDAO {
     }
 
     @Override
-    public List<Flight> flightsByDay(LocalDate departureDate, String airportShortName, String type) throws DAOException {
+    public List<Flight> flightsByDay(Map<String, String> params) throws DAOException {
 
         List <Flight> flights = new ArrayList<>();
-        Date date = Date.valueOf(departureDate);
+        Date date = Date.valueOf(params.get("departureDate"));
         String query;
 
         try {
             connection = pool.takeConnection();
-            query = dbQueryByFlightType(type);
+            query = dbQueryByFlightType(params.get("flightType"));
 
             if(query!=null) {
 
                 ps = connection.prepareStatement(query);
 
                 ps.setDate(1, date);
-                ps.setString(2, airportShortName);
+                ps.setString(2, params.get("airportName"));
 
                 rs = ps.executeQuery();
 

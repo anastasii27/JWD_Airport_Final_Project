@@ -1,8 +1,11 @@
 package by.epam.tr.service.validation;
 
+import java.util.List;
+import java.util.Map;
+
 public abstract class Validator {
 
-    public abstract boolean validate(Object...object);
+    public abstract List<String> validate(Map<String, String> params);
 
     public static boolean checkWithPattern(String pattern,String...value) {
 

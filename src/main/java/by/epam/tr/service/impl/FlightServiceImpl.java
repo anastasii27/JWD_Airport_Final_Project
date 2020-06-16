@@ -9,23 +9,25 @@ import by.epam.tr.service.ServiceException;
 import by.epam.tr.service.validation.ValidationFactory;
 import by.epam.tr.service.validation.Validator;
 import java.time.LocalDate;
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 public class FlightServiceImpl implements FlightService {
 
     private FlightDAO dao = DAOFactory.getInstance().getFlightDAO();
+    private Validator dateValidation = ValidationFactory.getInstance().getDateValidation();
 
     @Override
-    public List<Flight> userFlights(String surname, String email, LocalDate departureDate) throws ServiceException {
+    public List<Flight> userFlights(Map<String, String> params) throws ServiceException {
 
         List<Flight> flights;
 
-        if(!dateValidation(departureDate)){
-            return null;
+        if(dateValidation.validate(params).size()!= 0){
+            return Collections.emptyList();
         }
         try {
-
-            flights = dao.userFlights(surname, email, departureDate);
+            flights = dao.userFlights(params);
 
         } catch (DAOException e) {
             throw new ServiceException("Exception during getting users flights");
@@ -34,17 +36,15 @@ public class FlightServiceImpl implements FlightService {
     }
 
     @Override
-    public List<Flight> flightsByDay(LocalDate departureDate, String airportShortName, String type) throws ServiceException {
+    public List<Flight> flightsByDay(Map<String, String> params) throws ServiceException {
 
-        Validator nullValidation = ValidationFactory.getInstance().getNullValidation();
         List<Flight> flights;
 
-        if(!dateValidation(departureDate) && !nullValidation.validate(type)){
-            return null;
+        if(dateValidation.validate(params).size()!= 0 || params.get("flightType")==null){
+            return Collections.emptyList();
         }
         try {
-
-            flights =  dao.flightsByDay(departureDate, airportShortName, type);
+            flights =  dao.flightsByDay(params);
 
         } catch (DAOException e) {
             throw new ServiceException("Exception during getting arrivals/departures");
@@ -57,7 +57,6 @@ public class FlightServiceImpl implements FlightService {
 
         Flight flight;
         try {
-
             flight =  dao.flightInfo(flightNumber,  departureDate);
 
         } catch (DAOException e) {
@@ -72,22 +71,11 @@ public class FlightServiceImpl implements FlightService {
         LocalDate lastDayOfRange = LocalDate.now().plusDays(30);
         List<Flight> flights;
         try {
-
             flights =  dao.nearestUserFlights(surname, email, lastDayOfRange);
 
         } catch (DAOException e) {
             throw new ServiceException("Exception during getting nearest flight");
         }
         return flights;
-    }
-
-    private boolean dateValidation(LocalDate date){
-
-        Validator dateValidation = ValidationFactory.getInstance().getDateValidation();
-
-        if(!dateValidation.validate(date)){
-            return false;
-        }
-        return true;
     }
 }

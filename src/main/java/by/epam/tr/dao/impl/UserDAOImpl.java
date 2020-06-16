@@ -53,7 +53,6 @@ public class UserDAOImpl extends CloseOperation implements UserDAO {
     public User singIn(String login, String password) throws DAOException {
 
         User user;
-
         try {
             connection = pool.takeConnection();
             ps =  connection.prepareStatement(SELECT_FOR_SING_IN);

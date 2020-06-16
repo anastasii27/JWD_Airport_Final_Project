@@ -21,8 +21,8 @@ public class RegisterPage implements Command {
 
         ListCreationService listCreationService  = ServiceFactory.getInstance().getListCreationService();
         List<String> roles;
-
         try {
+
             roles = listCreationService.createRolesList();
             request.setAttribute(RequestParameterName.ROLE, roles);
 

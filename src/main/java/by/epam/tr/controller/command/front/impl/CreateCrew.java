@@ -12,10 +12,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
-public class CreateCrew implements Command {
+public class CreateCrew implements Command {//validation с сообщением
 
     private Logger logger = LogManager.getLogger(getClass());
     private static final String ANSWER = "Crew was successfully created";
@@ -30,21 +30,21 @@ public class CreateCrew implements Command {
         String planeCommander;
         String secondPilot;
         String [] stewards;
-        List<User> members;
+        Map <String,User> members;
         boolean operationResult;
 
         crewName = request.getParameter(RequestParameterName.CREW_NAME);
         planeCommander = request.getParameter(RequestParameterName.PILOT1);
         secondPilot = request.getParameter(RequestParameterName.PILOT2);
         stewards =  request.getParameterValues(RequestParameterName.STEWARD);
-
         try {
+
             User commander = new User(userName(planeCommander), userSurname(planeCommander));
             User pilotNumberTwo = new User(userName(secondPilot), userSurname(secondPilot));
 
             members = usersList(stewards);
-            members.add(commander);
-            members.add(pilotNumberTwo);
+            members.put(RequestParameterName.PILOT1, commander);
+            members.put(RequestParameterName.PILOT2, pilotNumberTwo);
 
             operationResult = crewService.createCrew(crewName, members);
 
@@ -59,15 +59,15 @@ public class CreateCrew implements Command {
         }
     }
 
-    private List<User> usersList(String [] usersStringArray){
+    private Map<String, User> usersList(String [] usersStringArray){
 
-        List<User> users = new ArrayList<>();
+        Map<String, User> users = new HashMap<>();
         User user;
 
         for (String s : usersStringArray) {
             if (s.length() != 0) {
                 user = new User(userName(s), userSurname(s));
-                users.add(user);
+                users.put(RequestParameterName.STEWARD,user);
             }
         }
         return users;
@@ -82,5 +82,4 @@ public class CreateCrew implements Command {
 
         return fullUserName.substring(fullUserName.indexOf(' ')).trim();
     }
-
 }

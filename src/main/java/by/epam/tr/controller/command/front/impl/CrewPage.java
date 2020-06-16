@@ -21,8 +21,8 @@ public class CrewPage implements Command {
 
         ListCreationService listCreationService  = ServiceFactory.getInstance().getListCreationService();
         List<String> crews;
-
         try {
+
             crews = listCreationService.createCrewsList();
 
             request.setAttribute(RequestParameterName.CREW, crews);
