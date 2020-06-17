@@ -1,4 +1,4 @@
-package by.epam.tr.controller.command.ajax;
+package by.epam.tr.controller.util;
 
 import com.google.gson.Gson;
 import java.util.List;

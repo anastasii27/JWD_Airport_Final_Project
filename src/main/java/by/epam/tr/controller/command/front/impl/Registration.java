@@ -4,6 +4,7 @@ import by.epam.tr.bean.User;
 import by.epam.tr.controller.constant_parameter.JSPPageName;
 import by.epam.tr.controller.constant_parameter.RequestParameterName;
 import by.epam.tr.controller.command.Command;
+import by.epam.tr.controller.util.RequestToMapParser;
 import by.epam.tr.service.ServiceException;
 import by.epam.tr.service.ServiceFactory;
 import by.epam.tr.service.UserService;
@@ -15,14 +16,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class Registration implements Command{
+public class Registration implements Command{//check
 
     private Logger logger = LogManager.getLogger(getClass());
-    private Map<String, String> params = new HashMap<>();
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) {
@@ -50,11 +49,10 @@ public class Registration implements Command{
 
         User user = new User(role,name, surname, email, careerStartYear);
 
-        params = createMap(user, login, password);
+        Map<String, String> params = RequestToMapParser.registerInfoMap(request);
         List <String> validationResults = validator.validate(params);
 
         try {
-
             if(validationResults.size()==0){
                 result = service.userRegistration(user, login, password);
             }else {
@@ -62,7 +60,7 @@ public class Registration implements Command{
             }
 
             if(result){
-                session.setAttribute(RequestParameterName.RESULT_INFO, "Yes");//убрать
+                session.setAttribute(RequestParameterName.RESULT_INFO, "You are registered");//убрать
             }
 
             response.sendRedirect(JSPPageName.RESULT_PAGE);
@@ -70,19 +68,6 @@ public class Registration implements Command{
             logger.error("Cannot execute command for registration", e);
             errorPage(response);
         }
-    }
 
-    private Map<String, String> createMap(User user, String login, String password){
-
-        Map<String, String> params =  new HashMap<>();
-
-        params.put("name", user.getName());
-        params.put("surname", user.getSurname());
-        params.put("email", user.getEmail());
-        params.put("careerStartYear", user.getCareerStartYear());
-        params.put("login", login);
-        params.put("password", password);
-
-        return params;
     }
 }

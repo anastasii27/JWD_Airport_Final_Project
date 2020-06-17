@@ -26,6 +26,8 @@ public class CrewDAOImpl extends CloseOperation implements CrewDAO{
                                             "(SELECT id FROM users WHERE `name`=? AND surname =?)\n" +
                                             ");";
 
+    private final static String CHECK_CREW_NAME_EXISTANCE = "SELECT `date-of-creating` FROM `flight-teams` WHERE `short-name`=?;";
+
     private ConnectionPool pool = ConnectionPool.getInstance();
     private Connection connection;
     private PreparedStatement ps;
@@ -87,5 +89,31 @@ public class CrewDAOImpl extends CloseOperation implements CrewDAO{
             closeAll(ps, pool, connection);
         }
         return flag;
+    }
+
+    @Override
+    public boolean doesCrewNameExist(String crewName) throws DAOException {
+
+        try {
+            pool.poolInitialization();
+            connection = pool.takeConnection();
+            ps =  connection.prepareStatement(CHECK_CREW_NAME_EXISTANCE);
+
+            ps.setString(1, crewName);
+
+            rs = ps.executeQuery();
+
+            if(!rs.next()){
+                return false;
+            }
+
+        } catch (ConnectionPoolException e) {
+            throw new DAOException("Exception during taking connection!");
+        } catch (SQLException e) {
+            throw new DAOException("Exception during user existence operation!");
+        }finally {
+            closeAll(rs, ps, pool, connection);
+        }
+        return true;
     }
 }

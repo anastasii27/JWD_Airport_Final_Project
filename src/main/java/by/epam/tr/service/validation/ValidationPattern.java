@@ -9,4 +9,5 @@ public final class ValidationPattern {
     public static final String NO_SIGN_PATTERN ="\\w+";
     public static final String EMAIL_PATTERN ="[\\w+[-.]*\\w+]+@[a-z]+[.][a-z]{2,3}";
     public static final String DATE_PATTERN ="\\d{4}-\\d{2}-\\d{2}";
+    public static final String CREW_NAME_PATTERN ="[A-Z]{1}\\d{1,3}";
 }

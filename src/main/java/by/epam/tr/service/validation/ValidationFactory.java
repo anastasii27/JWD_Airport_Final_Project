@@ -8,6 +8,7 @@ public class ValidationFactory {
 
     private final Validator dateValidation = new DateValidation();
     private final Validator registrationValidation = new RegistrationValidation();
+    private final Validator crewValidation = new CrewValidation();
 
     private ValidationFactory(){}
 
@@ -21,5 +22,9 @@ public class ValidationFactory {
 
     public Validator getRegistrationValidation() {
         return registrationValidation;
+    }
+
+    public Validator getCrewValidation() {
+        return crewValidation;
     }
 }

@@ -40,7 +40,7 @@ public class FlightServiceImpl implements FlightService {
 
         List<Flight> flights;
 
-        if(dateValidation.validate(params).size()!= 0 || params.get("flightType")==null){
+        if(dateValidation.validate(params).size()!= 0){
             return Collections.emptyList();
         }
         try {

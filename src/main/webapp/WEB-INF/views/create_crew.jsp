@@ -51,7 +51,6 @@
             <div class="form-group">
                 <label for="steward">ВЫБЕРИТЕ СТЮАРДОВ</label>
                 <select size="5" name= "steward" id="steward" class="selectpicker" multiple>
-                    <option selected></option>
                     <c:forEach var="steward" items="${stewards_list}">
                         <option>${steward.name} ${steward.surname} </option>
                     </c:forEach>

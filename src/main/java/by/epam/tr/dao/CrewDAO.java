@@ -8,4 +8,5 @@ public interface CrewDAO {
 
     List<User> crewMembers(String crewName) throws DAOException;
     boolean createCrew(String crewName, Map<String, User> users) throws DAOException;
+    boolean doesCrewNameExist(String crewName) throws DAOException;
 }

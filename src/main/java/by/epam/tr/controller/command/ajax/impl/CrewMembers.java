@@ -1,7 +1,7 @@
 package by.epam.tr.controller.command.ajax.impl;
 
 import by.epam.tr.controller.command.Command;
-import by.epam.tr.controller.command.ajax.GSONConverter;
+import by.epam.tr.controller.util.GSONConverter;
 import by.epam.tr.controller.constant_parameter.RequestParameterName;
 import by.epam.tr.service.CrewService;
 import by.epam.tr.service.ServiceException;
@@ -27,7 +27,6 @@ public class CrewMembers implements Command {
 
         crewName = request.getParameter(RequestParameterName.CREW_NAME);
         try {
-
             crewList = crewService.crewMembers(crewName);
             crewGson = GSONConverter.convertListToGSON(crewList);
 
