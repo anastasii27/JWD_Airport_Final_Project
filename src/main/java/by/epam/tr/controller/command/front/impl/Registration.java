@@ -39,6 +39,9 @@ public class Registration implements Command{//check
         String email;
         String careerStartYear;
 
+        Map<String, String> params;
+        List <String> validationResults;
+
         role = request.getParameter(RequestParameterName.ROLE);
         login = request.getParameter(RequestParameterName.LOGIN);
         password = request.getParameter(RequestParameterName.PASSWORD);
@@ -49,8 +52,8 @@ public class Registration implements Command{//check
 
         User user = new User(role,name, surname, email, careerStartYear);
 
-        Map<String, String> params = RequestToMapParser.registerInfoMap(request);
-        List <String> validationResults = validator.validate(params);
+        params = RequestToMapParser.registerInfoMap(request);
+        validationResults = validator.validate(params);
 
         try {
             if(validationResults.size()==0){
@@ -68,6 +71,5 @@ public class Registration implements Command{//check
             logger.error("Cannot execute command for registration", e);
             errorPage(response);
         }
-
     }
 }

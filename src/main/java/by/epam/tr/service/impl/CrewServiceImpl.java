@@ -31,8 +31,18 @@ public class CrewServiceImpl implements CrewService {
     public boolean createCrew(String crewName, Map<String, User> users) throws ServiceException {
 
         try {
-
             operationResult =dao.createCrew(crewName, users);
+
+        } catch (DAOException e) {
+            throw new ServiceException("Exception during crew creation");
+        }
+        return operationResult;
+    }
+
+    @Override
+    public boolean doesCrewNameExist(String crewName) throws ServiceException {
+        try {
+            operationResult =dao.doesCrewNameExist(crewName);
 
         } catch (DAOException e) {
             throw new ServiceException("Exception during crew creation");

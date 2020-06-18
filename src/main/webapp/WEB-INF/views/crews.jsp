@@ -28,7 +28,7 @@
                 <h2>НАЗВАНИЕ ЭКИПАЖА</h2>
                 <c:forEach items="${requestScope.crew}" var="crew_item">
                     <ul class="list-group crews">
-                        <li class="list-group-item">${crew_item}</li>
+                        <li class="list-group-item" value="${crew_item}">${crew_item} <button type="button" class="close" >&times;</button></li>
                     </ul>
                 </c:forEach>
             </div>
@@ -39,13 +39,13 @@
                 <div class="row ml-auto  mr-auto">
                     <div class="col-md-5 p-0">
                         <h2>ПИЛОТЫ</h2>
-                        <ul class="list-group" id="pilots_list">
+                        <ul class="list-group members_list" id="pilots_list">
 
                         </ul>
                     </div>
                     <div class="col-md-5 p-0">
                         <h2>СТЮАРДЫ</h2>
-                        <ul class="list-group" id="steward_list">
+                        <ul class="list-group members_list" id="steward_list">
 
                         </ul>
                     </div>

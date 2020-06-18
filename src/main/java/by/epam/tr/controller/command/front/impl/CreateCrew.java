@@ -37,13 +37,16 @@ public class CreateCrew implements Command {
         String secondPilot;
         String [] stewards;
 
+        Map<String, String> crewForValidation;
+        List<String> validationResults;
+
         crewName = request.getParameter(RequestParameterName.CREW_NAME);
         firstPilot = request.getParameter(RequestParameterName.PILOT1);
         secondPilot = request.getParameter(RequestParameterName.PILOT2);
         stewards =  request.getParameterValues(RequestParameterName.STEWARD);
 
-        Map<String, String> crewForValidation = RequestToMapParser.crewMembersMapForValidation(request);
-        List<String> validationResults = validator.validate(crewForValidation);
+        crewForValidation = RequestToMapParser.crewMembersMapForValidation(request);
+        validationResults = validator.validate(crewForValidation);
 
         try {
             if(validationResults.size()==0){

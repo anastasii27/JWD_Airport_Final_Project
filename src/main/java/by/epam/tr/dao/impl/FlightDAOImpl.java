@@ -76,7 +76,7 @@ public class FlightDAOImpl extends CloseOperation implements FlightDAO {
     public List<Flight> userFlights(Map<String, String> params) throws DAOException {
 
         List <Flight> flights = new ArrayList<>();
-        Date date = Date.valueOf(params.get("departureDate"));
+        Date date = Date.valueOf(params.get("departure_date"));
 
         try {
             connection = pool.takeConnection();

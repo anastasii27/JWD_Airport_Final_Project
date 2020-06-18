@@ -27,16 +27,17 @@ public class CrewValidation extends Validator {
         stewardExistenceCheck();
 
         try {
-            crewNameCheck(params.get("crew_name"));
+            crewNameCheck();
         } catch (DAOException e) {
             //
         }
         return result;
     }
 
-    private void crewNameCheck(String crewName) throws DAOException {
+    private void crewNameCheck() throws DAOException {
 
         CrewDAO crewDAO = DAOFactory.getInstance().getCrewDAO();
+        String crewName = params.get("crew_name");
 
         if(!checkWithPattern(ValidationPattern.CREW_NAME_PATTERN, crewName)){
             result.add("Illegal crew name!");
@@ -67,7 +68,7 @@ public class CrewValidation extends Validator {
 
     private void stewardExistenceCheck(){
 
-        if(params.get("steward1")== null){
+        if(params.get("steward1") == null){
             result.add("There are no stewards");
         }
     }

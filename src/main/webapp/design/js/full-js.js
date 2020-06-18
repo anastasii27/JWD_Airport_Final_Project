@@ -25,6 +25,8 @@ $(document).ready(function ($) {
     //arrivals departures
     $('.arr_dep').hide();
     $('#no_flights').hide();
+
+    //crews
     $('.crew_members').hide();
     $('#crews_error').hide();
 
@@ -70,4 +72,10 @@ function determineTableType(flightType, tableLine) {
         $('#arr_table').show();
         $('#arrivals').append(tableLine);
     }
+}
+
+function getCrewName(value){
+
+    let end = value.indexOf(" ");
+    return value.substring(0, end);
 }

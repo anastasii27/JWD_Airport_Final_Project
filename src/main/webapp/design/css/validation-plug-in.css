@@ -1,5 +1,6 @@
 #arr_dep_form input.error, #arr_dep_form select.error,
-#my_flights_form input.error, #my_flights_form select.error {
+#my_flights_form input.error, #my_flights_form select.error
+#create_crew input.error, #create_crew select.error{
     background: #a6c5ff;
     border: 1px solid #0f1970;
     border-radius: 5px;

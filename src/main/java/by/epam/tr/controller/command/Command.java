@@ -31,6 +31,5 @@ public interface Command {
         } catch (ServletException | IOException e) {
             errorPage(response);
         }
-
     }
 }

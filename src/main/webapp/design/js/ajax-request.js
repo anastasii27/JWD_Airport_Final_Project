@@ -2,7 +2,7 @@ $(document).ready(function ($) {
 
     //crews list
     $(document).on('click', '.crews li', function () {
-        let value = $(this).text();
+        let value = getCrewName($(this).text());
 
         $.ajax({
             type: "GET",
@@ -24,42 +24,31 @@ $(document).ready(function ($) {
 
         let pilots = '';
         let stewardesses ='';
+        let pilotCount = 0;
+        let stewardCount = 0;
 
-        $('.crew_members').show();
         $('#pilots_list li').remove();
         $('#steward_list li').remove();
 
         $.each(data, function (user, userInfo) {
             if(userInfo.role == "pilot"){
                 pilots += '<li class="list-group-item">'+ userInfo.name + ' ' + userInfo.surname + '</li>';
+                pilotCount++;
             }
             if(userInfo.role == "steward"){
                 stewardesses += '<li class="list-group-item">'+ userInfo.name + ' ' + userInfo.surname + '</li>';
+                stewardCount++;
             }
         });
 
-        $('#pilots_list').append(pilots);
-        $('#steward_list').append(stewardesses);
+        if(stewardCount===0 && pilotCount==0) {
+            $('.crew_members').hide();
+            $('#crews_error').show();
+        }else {
+            $('.crew_members').show();
+            $('#crews_error').hide();
+            $('#pilots_list').append(pilots);
+            $('#steward_list').append(stewardesses)
+        }
     }
-
-    // //crew creation
-    // $('#create_crew').focusout(function () {
-    //
-    //     let crewName = $('input[name="crew_name"]').val();
-    //
-    //     $.post('/JWD_Task3_war/ajax',
-    //         {
-    //             command: 'create_crew',
-    //             crew_name: crewName
-    //         },
-    //         creationResult
-    //     );
-    // });
-    //
-    // function creationResult(data) {
-    //
-    //    if(data=='true'){
-    //        $('#create_crew').css({"background": "#a6c5ff", "border": "1px solid #0f1970"});
-    //    }
-    // }
 });

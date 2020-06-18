@@ -11,12 +11,13 @@ public class RequestToMapParser {
 
     private static String key;
 
-    public  static Map<String, String> registerInfoMap(HttpServletRequest request){
+    public static Map<String, String> registerInfoMap(HttpServletRequest request){
 
         Map<String, String> params =  new HashMap<>();
         Enumeration<java.lang.String> keys = request.getParameterNames();
 
         while (keys.hasMoreElements()){
+
             key = keys.nextElement();
             params.put(key, request.getParameter(key));
         }
@@ -50,7 +51,7 @@ public class RequestToMapParser {
             key = keys.nextElement();
 
             if(key.equals("steward")){
-                stewards(request.getParameterValues(key), params);
+                putStewardsToMap(request.getParameterValues(key), params);
             }
             params.put(key, request.getParameter(key));
         }
@@ -81,7 +82,18 @@ public class RequestToMapParser {
         return users;
     }
 
-    private static void stewards(String [] stewards, Map<String, String> params){
+    public static Map<String, String> myFlightMap(String departureDate, String surname, String email){
+
+        Map<String, String> params =  new HashMap<>();
+
+        params.put("departure_date", departureDate);
+        params.put("surname", surname);
+        params.put("email", email);
+
+        return params;
+    }
+
+    private static void putStewardsToMap(String [] stewards, Map<String, String> params){
         int count=1;
 
         for (String s : stewards) {

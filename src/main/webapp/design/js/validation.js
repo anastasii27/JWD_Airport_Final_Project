@@ -150,6 +150,45 @@ $(document).ready(function ($) {
         }
     });
 
+    $('#create_crew').validate({
+        rules:{
+            crew_name: {
+                required: true,
+                crew_name_pattern: true,
+                remote:{
+                    url: '/JWD_Task3_war/ajax',
+                    type: 'GET',
+                    data:{command: 'check_crew_name', crew_name: function() {
+                            return $( "#crew_name" ).val();
+                        }
+                    },
+                    async:false
+                }
+            },
+            first_pilot: 'required',
+            second_pilot: {
+                required: true,
+                not_equal_pilots: true
+            },
+            steward: 'required'
+        },
+        messages:{
+            crew_name: {
+                 required:null,
+                 remote: function () {
+                     if(lang==="ru"){
+                         return "\u0414\u0430\u043d\u043d\u043e\u0435\u0020\u0438\u043c\u044f\u0020\u0443\u0436\u0435\u0020\u0437\u0430\u043d\u044f\u0442\u043e";
+                     }else{
+                         return "This name is already taken";
+                     }
+                 }
+            },
+            first_pilot: null,
+            second_pilot: null,
+            steward: null
+        }
+    });
+
     $.validator.addMethod('required_value', function(value) {
         return value.length !== 0;
     }, function ( ) {
@@ -264,4 +303,17 @@ $(document).ready(function ($) {
     }, function () {
         return'';
     });
+
+    $.validator.addMethod('crew_name_pattern', function(value) {
+        return value.match(new RegExp("^" + "[A-Z]{1}\\d{1,3}" + "$"));
+    }, function () {
+        return'';
+    });
+
+    $.validator.addMethod('not_equal_pilots', function(value) {
+        return value !== $('#first_pilot').val();
+    }, function () {
+        return'';
+    });
+
 });

@@ -5,6 +5,7 @@ import by.epam.tr.bean.User;
 import by.epam.tr.controller.command.Command;
 import by.epam.tr.controller.constant_parameter.JSPPageName;
 import by.epam.tr.controller.constant_parameter.RequestParameterName;
+import by.epam.tr.controller.util.RequestToMapParser;
 import by.epam.tr.service.FlightService;
 import by.epam.tr.service.ServiceException;
 import by.epam.tr.service.ServiceFactory;
@@ -38,7 +39,7 @@ public class MyFlights implements Command {
         List<Flight> flights;
         try {
 
-            params = createMap(surname, email, departureDate);
+            params = RequestToMapParser.myFlightMap(departureDate, surname, email);
             flights = flightService.userFlights(params);
 
             if(flights.size()!= 0){
@@ -54,14 +55,5 @@ public class MyFlights implements Command {
             logger.error("Cannot execute command for user flights", e);
             errorPage(response);
         }
-    }
-
-    private Map<String, String> createMap(String surname, String email, String departureDate){
-
-        params.put("surname", surname);
-        params.put("email", email);
-        params.put("departureDate", departureDate);
-
-        return params;
     }
 }

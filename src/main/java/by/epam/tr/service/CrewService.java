@@ -8,4 +8,5 @@ public interface CrewService {
 
     List<User> crewMembers(String crewName) throws ServiceException;
     boolean createCrew(String crewName, Map<String, User> users) throws ServiceException;
+    boolean doesCrewNameExist(String crewName) throws ServiceException;
 }
