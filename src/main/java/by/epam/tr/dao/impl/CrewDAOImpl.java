@@ -26,7 +26,16 @@ public class CrewDAOImpl extends CloseOperation implements CrewDAO{
                                             "(SELECT id FROM users WHERE `name`=? AND surname =?)\n" +
                                             ");";
 
-    private final static String CHECK_CREW_NAME_EXISTANCE = "SELECT `date-of-creating` FROM `flight-teams` WHERE `short-name`=?;";
+    private final static String CHECK_CREW_NAME_EXISTENCE = "SELECT `date-of-creating` FROM `flight-teams` WHERE `short-name`=?;";
+
+    private final static String DELETE_CREW_MEMBER = "DELETE FROM airport.`flight-teams-m2m-users` WHERE `user-id` = " +
+                                            "(SELECT id FROM users WHERE `name`=? AND surname =?)\n" +
+                                            "AND `flight-team-id`= (SELECT id FROM `flight-teams` WHERE `short-name`=?);";
+
+    private final static String DELETE_CREW_WITH_MEMBERS = "DELETE FROM airport.`flight-teams-m2m-users` WHERE `flight-team-id` =" +
+                                            " (SELECT id FROM `flight-teams` WHERE `short-name` = ?)";
+
+    private final static String DELETE_CREW= "DELETE FROM airport.`flight-teams` WHERE `short-name` = ?";
 
     private ConnectionPool pool = ConnectionPool.getInstance();
     private Connection connection;
@@ -95,9 +104,8 @@ public class CrewDAOImpl extends CloseOperation implements CrewDAO{
     public boolean doesCrewNameExist(String crewName) throws DAOException {
 
         try {
-            pool.poolInitialization();
             connection = pool.takeConnection();
-            ps =  connection.prepareStatement(CHECK_CREW_NAME_EXISTANCE);
+            ps =  connection.prepareStatement(CHECK_CREW_NAME_EXISTENCE);
 
             ps.setString(1, crewName);
 
@@ -110,10 +118,65 @@ public class CrewDAOImpl extends CloseOperation implements CrewDAO{
         } catch (ConnectionPoolException e) {
             throw new DAOException("Exception during taking connection!");
         } catch (SQLException e) {
-            throw new DAOException("Exception during user existence operation!");
+            throw new DAOException("Exception during crew existence checking!");
         }finally {
             closeAll(rs, ps, pool, connection);
         }
         return true;
+    }
+
+    //todo не удаляет, если в бригаде нет участников
+    @Override
+    public void deleteCrew(String crewName) throws DAOException {
+
+        try {
+            pool.poolInitialization();
+            connection = pool.takeConnection();
+            connection.setAutoCommit(false);
+
+            ps =  connection.prepareStatement(DELETE_CREW_WITH_MEMBERS);
+            ps.setString(1, crewName);
+            ps.executeUpdate();
+
+            ps =  connection.prepareStatement(DELETE_CREW);
+            ps.setString(1, crewName);
+            ps.executeUpdate();
+
+            connection.commit();
+
+        } catch (ConnectionPoolException e) {
+            throw new DAOException("Exception during taking connection!");
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new DAOException("Exception during crew deleting");
+        }finally {
+            closeAll(ps, pool, connection);
+        }
+    }
+
+    @Override
+    public void deleteCrewMember(String crewName, User user) throws DAOException {
+
+        try {
+            connection = pool.takeConnection();
+            ps =  connection.prepareStatement(DELETE_CREW_MEMBER);
+
+            ps.setString(1, user.getName());
+            ps.setString(2, user.getSurname());
+            ps.setString(3, crewName);
+
+            ps.executeUpdate();
+
+        } catch (ConnectionPoolException e) {
+            throw new DAOException("Exception during taking connection!");
+        } catch (SQLException e) {
+            throw new DAOException("Exception during crew member deleting!");
+        }finally {
+            closeAll(rs, ps, pool, connection);
+        }
+    }
+
+    public static void main(String[] args) throws DAOException {
+        new CrewDAOImpl().deleteCrew("M9");
     }
 }

@@ -14,6 +14,8 @@ public final class AjaxCommandProvider {
         commands.put(AjaxCommandName.SHOW_CREW_MEMBERS, new CrewMembers());
         commands.put(AjaxCommandName.SHOW_FLIGHTS, new AirportFlight());
         commands.put(AjaxCommandName.CHECK_CREW_NAME, new CrewNameExistence());
+        commands.put(AjaxCommandName.DELETE_CREW, new DeleteCrew());
+        commands.put(AjaxCommandName.DELETE_CREW_MEMBER, new DeleteCrewMember());
     }
 
     public Command getCommand(String name){

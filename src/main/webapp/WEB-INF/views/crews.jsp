@@ -28,7 +28,7 @@
                 <h2>НАЗВАНИЕ ЭКИПАЖА</h2>
                 <c:forEach items="${requestScope.crew}" var="crew_item">
                     <ul class="list-group crews">
-                        <li class="list-group-item" value="${crew_item}">${crew_item} <button type="button" class="close" >&times;</button></li>
+                        <li class="list-group-item" value="${crew_item}">${crew_item} <button type="button" class="close delete_crew_btn" >&times;</button></li>
                     </ul>
                 </c:forEach>
             </div>
@@ -57,6 +57,11 @@
             <form>
                 <input type="button" class="btn btn-primary"  value="СОЗДАТЬ" onClick='location.href="${pageContext.request.contextPath}/airport?action=show_create_crew_page"'>
             </form>
+        </div>
+        <div id="edit_crew_btn">
+            <button type="button" class="btn btn-info">
+                <span class="fa-pencil edit">Редактировать</span>
+            </button>
         </div>
     </body>
 </html>

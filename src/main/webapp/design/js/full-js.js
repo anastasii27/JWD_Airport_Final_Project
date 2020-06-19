@@ -29,12 +29,29 @@ $(document).ready(function ($) {
     //crews
     $('.crew_members').hide();
     $('#crews_error').hide();
+    $('.close').hide();
 
-    $(document).on('click', '.crews li', function () {
+    $('.crews li').on('click', function () {
         $('.crews li').css('border', '');
         $(this).css('border', '1px solid #0f1970');
     });
 
+    $('#edit_crew_btn').on('click', function () {
+
+        if(!$(this).hasClass('clicked')) {
+
+            $(this).addClass('clicked');
+            $('.close').show();
+            $('#create_crew_btn').hide();
+            $("span", this).text("Save");
+        } else {
+
+            $(this).removeClass('clicked');
+            $('.close').hide();
+            $('#create_crew_btn').show();
+            $("span", this).text("Edit");
+        }
+    });
 });
 
 function getMaxDate(days) {
@@ -77,5 +94,11 @@ function determineTableType(flightType, tableLine) {
 function getCrewName(value){
 
     let end = value.indexOf(" ");
+    return value.substring(0, end);
+}
+
+function getCrewMemberName(value){
+
+    let end = value.lastIndexOf(" ");
     return value.substring(0, end);
 }

@@ -45,8 +45,28 @@ public class CrewServiceImpl implements CrewService {
             operationResult =dao.doesCrewNameExist(crewName);
 
         } catch (DAOException e) {
-            throw new ServiceException("Exception during crew creation");
+            throw new ServiceException("Exception during crew existence checking");
         }
         return operationResult;
+    }
+
+    @Override
+    public void deleteCrew(String crewName) throws ServiceException {
+        try {
+            dao.deleteCrew(crewName);
+
+        } catch (DAOException e) {
+            throw new ServiceException("Exception during crew deleting");
+        }
+    }
+
+    @Override
+    public void deleteCrewMember(String crewName, User user) throws ServiceException {
+        try {
+            dao.deleteCrewMember(crewName, user);
+
+        } catch (DAOException e) {
+            throw new ServiceException("Exception during crew member deleting");
+        }
     }
 }
