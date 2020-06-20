@@ -43,7 +43,9 @@ $(document).ready(function ($) {
                 data: {command: 'delete_crew_member',crew_name: crewName, user: crewMember},
 
                 success: function (data) {
-                   showCrewAjax(crewName);
+                    if(data===true){
+                        showCrewAjax(crewName);
+                    }
                 },
                 error: function (data) {
                     $('.crew_members ').hide();
@@ -52,6 +54,27 @@ $(document).ready(function ($) {
             });
         }
     });
+
+    // $(document).on('click','.add_member_btn', function () {
+    //     let crewMember = getCrewMemberName($(this).parent().text());
+    //
+    //     $.ajax({
+    //         type: "POST",
+    //         url: "/JWD_Task3_war/ajax",
+    //         dataType:'json',
+    //         data: {command: 'add_crew_member',crew_name: crewName, user: crewMember},
+    //
+    //         success: function (data) {
+    //             if(data===true){
+    //                 showCrewAjax(crewName);
+    //             }
+    //         },
+    //         error: function (data) {
+    //             $('.crew_members ').hide();
+    //             $('#crews_error').show();
+    //         }
+    //     });
+    // });
 });
 
 function showCrewAjax(crewName) {

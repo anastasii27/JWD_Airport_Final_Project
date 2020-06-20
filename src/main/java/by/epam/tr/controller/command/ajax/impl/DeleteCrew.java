@@ -9,24 +9,29 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 public class DeleteCrew implements Command {
 
     private Logger logger = LogManager.getLogger(getClass());
-    //todo продумать удаление с рейса
-    //todo продумать возврат ответа
+
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) {
 
         CrewService crewService = ServiceFactory.getInstance().getCrewService();
         String crewName;
+        boolean operationResult;
 
         crewName = request.getParameter(RequestParameterName.CREW_NAME);
         try {
-            crewService.deleteCrew(crewName);
+            operationResult = crewService.deleteCrew(crewName);
+
+            response.getWriter().write(String.valueOf(operationResult));
 
         } catch (ServiceException e) {
             logger.error("Cannot execute ajax command for crew deleting", e);
+        } catch (IOException e) {
+            logger.error("Cannot write response", e);
         }
     }
 }

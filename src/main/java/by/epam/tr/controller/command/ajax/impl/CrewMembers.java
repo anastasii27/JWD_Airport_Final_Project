@@ -3,7 +3,7 @@ package by.epam.tr.controller.command.ajax.impl;
 import by.epam.tr.controller.command.Command;
 import by.epam.tr.controller.util.GSONConverter;
 import by.epam.tr.controller.constant_parameter.RequestParameterName;
-import by.epam.tr.service.CrewService;
+import by.epam.tr.service.CrewMemberService;
 import by.epam.tr.service.ServiceException;
 import by.epam.tr.service.ServiceFactory;
 import org.apache.logging.log4j.LogManager;
@@ -20,14 +20,14 @@ public class CrewMembers implements Command {
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) {
 
-        CrewService crewService = ServiceFactory.getInstance().getCrewService();
+        CrewMemberService crewMemberService = ServiceFactory.getInstance().getCrewMemberService();
         List crewList;
         String crewName;
         String crewGson;
 
         crewName = request.getParameter(RequestParameterName.CREW_NAME);
         try {
-            crewList = crewService.crewMembers(crewName);
+            crewList = crewMemberService.crewMembers(crewName);
             crewGson = GSONConverter.convertListToGSON(crewList);
 
             response.getWriter().write(crewGson);

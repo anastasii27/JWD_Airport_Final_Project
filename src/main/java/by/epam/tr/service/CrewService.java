@@ -6,9 +6,7 @@ import java.util.Map;
 
 public interface CrewService {
 
-    List<User> crewMembers(String crewName) throws ServiceException;
     boolean createCrew(String crewName, Map<String, User> users) throws ServiceException;
     boolean doesCrewNameExist(String crewName) throws ServiceException;
-    void deleteCrew(String crewName) throws ServiceException;
-    void deleteCrewMember(String crewName, User user) throws ServiceException;
+    boolean deleteCrew(String crewName) throws ServiceException;
 }

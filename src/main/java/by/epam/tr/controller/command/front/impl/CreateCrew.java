@@ -3,7 +3,7 @@ package by.epam.tr.controller.command.front.impl;
 import by.epam.tr.bean.User;
 import by.epam.tr.controller.command.Command;
 import by.epam.tr.controller.constant_parameter.RequestParameterName;
-import by.epam.tr.controller.util.RequestToMapParser;
+import static by.epam.tr.controller.util.RequestToMapParser.*;
 import by.epam.tr.service.CrewService;
 import by.epam.tr.service.ServiceException;
 import by.epam.tr.service.ServiceFactory;
@@ -45,12 +45,12 @@ public class CreateCrew implements Command {
         secondPilot = request.getParameter(RequestParameterName.PILOT2);
         stewards =  request.getParameterValues(RequestParameterName.STEWARD);
 
-        crewForValidation = RequestToMapParser.crewMembersMapForValidation(request);
+        crewForValidation = crewMembersMapForValidation(request);
         validationResults = validator.validate(crewForValidation);
 
         try {
             if(validationResults.size()==0){
-                Map<String, User> crew = RequestToMapParser.crewMembersMap(stewards, firstPilot, secondPilot);
+                Map<String, User> crew = crewMembersMap(stewards, firstPilot, secondPilot);
                 operationResult = crewService.createCrew(crewName, crew);
             }else {
                 session.setAttribute(RequestParameterName.RESULT_INFO, validationResults);

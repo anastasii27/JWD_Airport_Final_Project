@@ -38,13 +38,24 @@
             <div class="container crew_members col-md-6">
                 <div class="row ml-auto  mr-auto">
                     <div class="col-md-5 p-0">
-                        <h2>ПИЛОТЫ</h2>
+                        <div class="row">
+                            <h2>ПИЛОТЫ</h2>
+                            <div class="dropdown">
+                                <button class="btn btn-info add_pilot_btn " type="button">
+                                    &plus;
+                                </button>
+                            </div>
+                        </div>
                         <ul class="list-group members_list" id="pilots_list">
 
                         </ul>
                     </div>
                     <div class="col-md-5 p-0">
-                        <h2>СТЮАРДЫ</h2>
+                        <h2>СТЮАРДЫ
+                            <button type="button" class="btn btn-info add_member_btn">
+                                <span class="add">&plus;</span>
+                            </button>
+                        </h2>
                         <ul class="list-group members_list" id="steward_list">
 
                         </ul>
@@ -60,7 +71,7 @@
         </div>
         <div id="edit_crew_btn">
             <button type="button" class="btn btn-info">
-                <span class="fa-pencil edit">Редактировать</span>
+                <span class="edit">Редактировать</span>
             </button>
         </div>
     </body>

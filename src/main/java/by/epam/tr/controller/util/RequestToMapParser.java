@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
+import static by.epam.tr.controller.util.RequestParametersExtractor.*;
 
 public class RequestToMapParser {
 
@@ -101,16 +102,6 @@ public class RequestToMapParser {
                 params.put(RequestParameterName.STEWARD+count++, s);
             }
         }
-    }
-
-    private static String userName(String fullUserName){
-
-        return fullUserName.substring(0, fullUserName.indexOf(' ')).trim();
-    }
-
-    private static String userSurname(String fullUserName){
-
-        return fullUserName.substring(fullUserName.indexOf(' ')).trim();
     }
 
     private static String getAirportName(String city){
