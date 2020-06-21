@@ -78,7 +78,6 @@ public class ConnectionPool {
     public void closeAllConnections() throws ConnectionPoolException {
 
         try {
-
             closeConnectionsInPool(availableConnection);
             closeConnectionsInPool(usedConnection);
 
@@ -96,6 +95,4 @@ public class ConnectionPool {
         }
         queue.clear();
     }
-
-
 }

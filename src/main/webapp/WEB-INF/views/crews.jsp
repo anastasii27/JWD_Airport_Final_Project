@@ -39,23 +39,25 @@
                 <div class="row ml-auto  mr-auto">
                     <div class="col-md-5 p-0">
                         <div class="row">
-                            <h2>ПИЛОТЫ</h2>
-                            <div class="dropdown">
-                                <button class="btn btn-info add_pilot_btn " type="button">
-                                    &plus;
-                                </button>
-                            </div>
+                            <h2>ПИЛОТЫ
+<%--                                <button type="button" class="btn btn-info add_pilot_btn">--%>
+<%--                                    <span>&plus;</span>--%>
+<%--                                </button>--%>
+                            </h2>
                         </div>
                         <ul class="list-group members_list" id="pilots_list">
 
                         </ul>
                     </div>
                     <div class="col-md-5 p-0">
-                        <h2>СТЮАРДЫ
-                            <button type="button" class="btn btn-info add_member_btn">
-                                <span class="add">&plus;</span>
-                            </button>
-                        </h2>
+                        <div class="row">
+                            <h2>СТЮАРДЫ </h2>
+                            <div id="add_crew_btn">
+                                <button type="button" class="btn btn-info ">
+                                    <span>&plus;</span>
+                                </button>
+                            </div>
+                        </div>
                         <ul class="list-group members_list" id="steward_list">
 
                         </ul>

@@ -25,6 +25,7 @@ public final class CommandProvider {
         commands.put(CommandName.SHOW_CREW_PAGE, new CrewPage());
         commands.put(CommandName.SHOW_CREATE_CREW_PAGE, new CreateCrewPage());
         commands.put(CommandName.CREATE_CREW, new CreateCrew());
+        commands.put(CommandName.SHOW_DISPATCHER_FLIGHTS, new DispatcherFlights());
     }
 
     public Command getCommand(String name){

@@ -64,7 +64,6 @@ public class CrewMemberImpl extends CloseOperation implements CrewMemberDAO {
     public int deleteCrewMember(String crewName, User user) throws DAOException {
 
         try {
-            pool.poolInitialization();
             connection = pool.takeConnection();
             ps =  connection.prepareStatement(DELETE_CREW_MEMBER);
 
@@ -102,7 +101,6 @@ public class CrewMemberImpl extends CloseOperation implements CrewMemberDAO {
         } catch (ConnectionPoolException e) {
             throw new DAOException("Exception during taking connection!");
         } catch (SQLException e) {
-            e.printStackTrace();
             throw new DAOException("Exception during crew member deleting!");
         }finally {
             closeAll(rs, ps, pool, connection);

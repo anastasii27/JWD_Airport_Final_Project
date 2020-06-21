@@ -3,7 +3,7 @@ package by.epam.tr.controller.command.front.impl;
 import by.epam.tr.controller.command.Command;
 import by.epam.tr.controller.constant_parameter.JSPPageName;
 import by.epam.tr.controller.constant_parameter.RequestParameterName;
-import by.epam.tr.service.ListCreationService;
+import by.epam.tr.service.ListCreatorService;
 import by.epam.tr.service.ServiceException;
 import by.epam.tr.service.ServiceFactory;
 import org.apache.logging.log4j.LogManager;
@@ -19,11 +19,11 @@ public class CrewPage implements Command {
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) {
 
-        ListCreationService listCreationService  = ServiceFactory.getInstance().getListCreationService();
+        ListCreatorService listCreatorService = ServiceFactory.getInstance().getListCreatorService();
         List<String> crews;
         try {
 
-            crews = listCreationService.createCrewsList();
+            crews = listCreatorService.createCrewsList();
 
             request.setAttribute(RequestParameterName.CREW, crews);
             forwardTo(request, response, JSPPageName.CREWS_PAGE);

@@ -55,26 +55,26 @@ $(document).ready(function ($) {
         }
     });
 
-    // $(document).on('click','.add_member_btn', function () {
-    //     let crewMember = getCrewMemberName($(this).parent().text());
-    //
-    //     $.ajax({
-    //         type: "POST",
-    //         url: "/JWD_Task3_war/ajax",
-    //         dataType:'json',
-    //         data: {command: 'add_crew_member',crew_name: crewName, user: crewMember},
-    //
-    //         success: function (data) {
-    //             if(data===true){
-    //                 showCrewAjax(crewName);
-    //             }
-    //         },
-    //         error: function (data) {
-    //             $('.crew_members ').hide();
-    //             $('#crews_error').show();
-    //         }
-    //     });
-    // });
+    $(document).on('click','#add_member_btn', function () {
+        let crewMember = getCrewMemberName($(this).parent().text());
+
+        $.ajax({
+            type: "POST",
+            url: "/JWD_Task3_war/ajax",
+            dataType:'json',
+            data: {command: 'add_crew_member',crew_name: crewName, user: crewMember},
+
+            success: function (data) {
+                if(data===true){
+                    showCrewAjax(crewName);
+                }
+            },
+            error: function (data) {
+                $('.crew_members ').hide();
+                $('#crews_error').show();
+            }
+        });
+    });
 });
 
 function showCrewAjax(crewName) {
@@ -102,9 +102,6 @@ function createMembersTable(data) {
     let pilotCount = 0;
     let stewardCount = 0;
 
-    // $('#pilots_list li').remove();
-    // $('#steward_list li').remove();
-
     $.each(data, function (user, userInfo) {
         if(userInfo.role === "pilot"){
             pilots += '<li class="list-group-item">'+ userInfo.name + ' ' + userInfo.surname + ' <button type="button" class="close delete_user_btn">&times;</li>';
@@ -126,8 +123,10 @@ function createMembersTable(data) {
         $('#steward_list').empty().append(stewardesses);
         if($('#edit_crew_btn').hasClass('clicked')){
             $('.close').show();
+            $('#add_crew_btn').show();
         }else {
             $('.close').hide();
+            $('#add_crew_btn').hide();
         }
     //}
 }

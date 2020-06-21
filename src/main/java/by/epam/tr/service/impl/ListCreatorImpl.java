@@ -3,14 +3,14 @@ package by.epam.tr.service.impl;
 import by.epam.tr.bean.User;
 import by.epam.tr.dao.DAOException;
 import by.epam.tr.dao.DAOFactory;
-import by.epam.tr.dao.ListCreationDAO;
-import by.epam.tr.service.ListCreationService;
+import by.epam.tr.dao.ListCreatorDAO;
+import by.epam.tr.service.ListCreatorService;
 import by.epam.tr.service.ServiceException;
 import java.util.List;
 
-public class ListCreationImpl implements ListCreationService {
+public class ListCreatorImpl implements ListCreatorService {
 
-    private ListCreationDAO listCreationDAO = DAOFactory.getInstance().getListCreationDAO();
+    private ListCreatorDAO listCreatorDAO = DAOFactory.getInstance().getListCreatorDAO();
 
     @Override
     public List<String> createCityWithAirportList() throws ServiceException {
@@ -18,7 +18,7 @@ public class ListCreationImpl implements ListCreationService {
         List <String> citiesWithAirports;
 
         try {
-            citiesWithAirports = listCreationDAO.createCityWithAirportList();
+            citiesWithAirports = listCreatorDAO.createCityWithAirportList();
 
         } catch (DAOException e) {
             throw new ServiceException("Exception during city with airport list creation");
@@ -32,7 +32,7 @@ public class ListCreationImpl implements ListCreationService {
         List <String> roles;
 
         try {
-            roles = listCreationDAO.createRolesList();
+            roles = listCreatorDAO.createRolesList();
 
         } catch (DAOException e) {
             throw new ServiceException("Exception during roles list creation");
@@ -45,7 +45,7 @@ public class ListCreationImpl implements ListCreationService {
 
         List <String> crews;
         try {
-            crews = listCreationDAO.createCrewsList();
+            crews = listCreatorDAO.createCrewsList();
 
         } catch (DAOException e) {
             throw new ServiceException("Exception during crews list creation");
@@ -58,7 +58,7 @@ public class ListCreationImpl implements ListCreationService {
 
         List <User> users;
         try {
-            users = listCreationDAO.createUserByRoleList(role);
+            users = listCreatorDAO.createUserByRoleList(role);
 
         } catch (DAOException e) {
             throw new ServiceException("Exception during users by role list creation");

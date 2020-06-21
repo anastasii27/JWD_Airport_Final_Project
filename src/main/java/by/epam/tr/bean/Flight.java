@@ -3,6 +3,7 @@ package by.epam.tr.bean;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.Comparator;
 
 public class Flight implements Serializable {
 
@@ -41,6 +42,21 @@ public class Flight implements Serializable {
         this.destinationAirportShortName = destinationAirportShortName;
         this.flightNumber = flightNumber;
     }
+
+    public Flight(String status, String planeModel, LocalDate departureDate, LocalTime departureTime, String departureCity, String departureAirportShortName,
+                  String destinationCity, String destinationAirportShortName, String flightNumber) {
+
+        this.status = status;
+        this.planeModel = planeModel;
+        this.departureDate = departureDate;
+        this.departureTime = departureTime;
+        this.departureCity = departureCity;
+        this.departureAirportShortName = departureAirportShortName;
+        this.destinationCity = destinationCity;
+        this.destinationAirportShortName = destinationAirportShortName;
+        this.flightNumber = flightNumber;
+    }
+
 
     public Flight(String status, String planeModel, LocalDate departureDate, LocalTime departureTime, LocalDate destinationDate, LocalTime destinationTime,
                   String destinationCity, String departureCity, String destinationAirportShortName, String departureAirportShortName,
@@ -350,4 +366,24 @@ public class Flight implements Serializable {
 
         return true;
     }
+
+
+    public static final Comparator<Flight> SORT_BY_TIME_AND_DATE = new Comparator<Flight>() {
+        @Override
+        public int compare(Flight flight1, Flight flight2) {
+            if(flight1.getDepartureDate().isAfter(flight2.getDepartureDate())){
+                return 1;
+            }
+            if(flight1.getDepartureDate().equals(flight2.getDepartureDate())){
+                if(flight1.getDepartureTime().isAfter(flight2.getDepartureTime())){
+                    return 1;
+                }
+                if (flight1.getDepartureTime().equals(flight2.getDepartureTime())){
+                    return 0;
+                }
+                return -1;
+            }
+            return -1;
+        }
+    };
 }

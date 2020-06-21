@@ -30,6 +30,7 @@ $(document).ready(function ($) {
     $('.crew_members').hide();
     $('#crews_error').hide();
     $('.close').hide();
+    $('#add_crew_btn').hide();
 
     $('.crews li').on('click', function () {
         $('.crews li').css('border', '');
@@ -43,12 +44,13 @@ $(document).ready(function ($) {
             $(this).addClass('clicked');
             $('.close').show();
             $('#create_crew_btn').hide();
+            $('#add_crew_btn').show();
             $("span", this).text("Save");
         } else {
-
             $(this).removeClass('clicked');
             $('.close').hide();
             $('#create_crew_btn').show();
+            $('#add_crew_btn').hide();
             $("span", this).text("Edit");
         }
     });

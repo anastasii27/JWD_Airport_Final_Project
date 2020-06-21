@@ -11,4 +11,5 @@ public interface FlightDAO {
     List<Flight> flightsByDay(Map<String, String> params) throws DAOException;
     Flight flightInfo(String flightNumber, String departureDate) throws DAOException;
     List<Flight> nearestUserFlights(String surname, String email, LocalDate lastDayOfRange) throws DAOException;
+    List<Flight> dispatcherFlight(String surname, String email) throws DAOException;
 }

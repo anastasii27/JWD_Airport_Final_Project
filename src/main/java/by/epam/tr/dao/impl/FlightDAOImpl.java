@@ -67,6 +67,33 @@ public class FlightDAOImpl extends CloseOperation implements FlightDAO {
                                                 "JOIN `flight-teams-m2m-users` ON   `flight-teams-m2m-users`.`flight-team-id` = `flight-teams`.id \n" +
                                                 "WHERE `user-id` = (SELECT id FROM users WHERE surname = ? AND email=?) AND `departure-date` BETWEEN  current_date() AND ? LIMIT 3\n";
 
+
+    private final static String SELECT_DISPATCHER_ARRIVALS = "SELECT `status`, model, `destination-date` AS `date`, `destination-time` AS `time`, \n" +
+                                                "c1.`name` AS `destination-city` , a1.`name-abbreviation` AS `dest-airport-short-name`,\n" +
+                                                "c2.`name` AS `departure-city`, a2.`name-abbreviation` AS `dep-airport-short-name`, `flight-number` \n" +
+                                                "FROM flights\n" +
+                                                "JOIN airport.`planes-characteristic` ON (SELECT `planes-characteristic-id` FROM planes WHERE planes.id = `plane-id` ) = `planes-characteristic`.id\n" +
+                                                "JOIN airports AS a1 ON  a1.id = flights.`destination-airport-id` \n" +
+                                                "JOIN cities AS c1 ON c1.id = (SELECT  `city-id` FROM airports WHERE airports.`name` = a1.`name`)\n" +
+                                                "JOIN airports AS a2 ON a2.id = flights.`departure-airport-id` \n" +
+                                                "JOIN cities AS c2 ON c2.id = (SELECT  `city-id` FROM airports WHERE airports.`name` = a2.`name`)\n" +
+                                                "WHERE `dispatcher-id` = (SELECT id FROM users WHERE surname= ? AND email= ?)\n" +
+                                                "AND `destination-date` BETWEEN current_date() AND date_add(current_date(),interval 1 day)\n" +
+                                                "AND c1.`name`= 'Minsk';";
+
+    private final static String SELECT_DISPATCHER_DEPARTURES = "SELECT `status`, model, `departure-date` AS `date`, `departure-time` AS `time`, \n" +
+                                                "c1.`name` AS `destination-city` , a1.`name-abbreviation` AS `dest-airport-short-name`,\n" +
+                                                "c2.`name` AS `departure-city`, a2.`name-abbreviation` AS `dep-airport-short-name`, `flight-number` \n" +
+                                                "FROM flights\n" +
+                                                "JOIN airport.`planes-characteristic` ON (SELECT `planes-characteristic-id` FROM planes WHERE planes.id = `plane-id` ) = `planes-characteristic`.id\n" +
+                                                "JOIN airports AS a1 ON  a1.id = flights.`destination-airport-id` \n" +
+                                                "JOIN cities AS c1 ON c1.id = (SELECT  `city-id` FROM airports WHERE airports.`name` = a1.`name`)\n" +
+                                                "JOIN airports AS a2 ON a2.id = flights.`departure-airport-id` \n" +
+                                                "JOIN cities AS c2 ON c2.id = (SELECT  `city-id` FROM airports WHERE airports.`name` = a2.`name`)\n" +
+                                                "WHERE `dispatcher-id` = (SELECT id FROM users WHERE surname= ? AND email= ?)\n" +
+                                                "AND `departure-date` BETWEEN current_date() AND date_add(current_date(), interval 1 day)\n" +
+                                                "AND c2.`name`= 'Minsk';";
+
     private ConnectionPool pool = ConnectionPool.getInstance();
     private Connection connection;
     private PreparedStatement ps;
@@ -135,7 +162,6 @@ public class FlightDAOImpl extends CloseOperation implements FlightDAO {
         } catch (ConnectionPoolException e) {
             throw new DAOException("Exception during taking connection!");
         } catch (SQLException e) {
-            e.printStackTrace();
             throw new DAOException("Exception during departures/arrivals selecting!");
         }finally{
             closeAll(rs, ps, pool, connection);
@@ -195,7 +221,8 @@ public class FlightDAOImpl extends CloseOperation implements FlightDAO {
             rs = ps.executeQuery();
 
             while (rs.next()){
-               flights.add(new Flight(rs.getDate("departure-date").toLocalDate(), rs.getTime("departure-time").toLocalTime(),
+               flights.add(new Flight(rs.getDate("departure-date").toLocalDate(),
+                       rs.getTime("departure-time").toLocalTime(),
                        rs.getString("destination-city"),rs.getString("flight-number")));
             }
         } catch (ConnectionPoolException e) {
@@ -208,7 +235,46 @@ public class FlightDAOImpl extends CloseOperation implements FlightDAO {
         return flights;
     }
 
-    private String dbQueryByFlightType(String flightsType) {//заменить
+    @Override
+    public List<Flight> dispatcherFlight(String surname, String email) throws DAOException {
+
+        List <Flight> flights = new ArrayList<>();
+        try {
+            connection = pool.takeConnection();
+
+            flights.addAll(dispatcherArrivalsDeparturesList(SELECT_DISPATCHER_ARRIVALS, surname, email));
+            flights.addAll(dispatcherArrivalsDeparturesList(SELECT_DISPATCHER_DEPARTURES, surname, email));
+
+        } catch (ConnectionPoolException e) {
+            throw new DAOException("Exception during taking connection!");
+        } catch (SQLException e) {
+            throw new DAOException("Exception during dispatcher flight selecting!");
+        }finally{
+            closeAll(rs, ps, pool, connection);
+        }
+        return flights;
+    }
+
+    private List<Flight> dispatcherArrivalsDeparturesList(String dbQuery, String surname, String email) throws ConnectionPoolException, SQLException {
+
+        List <Flight> flights = new ArrayList<>();
+
+        ps =  connection.prepareStatement(dbQuery);
+        ps.setString(1,surname);
+        ps.setString(2,email);
+
+        rs = ps.executeQuery();
+
+        while (rs.next()){
+            flights.add(new Flight(rs.getString("status"), rs.getString("model"), rs.getDate("date").toLocalDate(),
+                    rs.getTime("time").toLocalTime(), rs.getString("departure-city"),
+                    rs.getString("dep-airport-short-name"), rs.getString("destination-city"),
+                    rs.getString("dest-airport-short-name"), rs.getString("flight-number")));
+        }
+        return flights;
+    }
+
+    private String dbQueryByFlightType(String flightsType) {//todo заменить
 
         if (flightsType.equals(ARRIVAL)) {
             return SELECT_AIRPORT_ARRIVAL;

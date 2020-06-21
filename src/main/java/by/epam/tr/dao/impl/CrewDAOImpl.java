@@ -120,7 +120,6 @@ public class CrewDAOImpl extends CloseOperation implements CrewDAO{
         } catch (ConnectionPoolException e) {
             throw new DAOException("Exception during taking connection!");
         } catch (SQLException e) {
-            e.printStackTrace();
             throw new DAOException("Exception during crew deleting");
         }finally {
             closeAll(ps, pool, connection);

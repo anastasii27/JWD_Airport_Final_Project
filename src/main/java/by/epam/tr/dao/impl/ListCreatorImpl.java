@@ -3,14 +3,14 @@ package by.epam.tr.dao.impl;
 import by.epam.tr.bean.User;
 import by.epam.tr.dao.CloseOperation;
 import by.epam.tr.dao.DAOException;
-import by.epam.tr.dao.ListCreationDAO;
+import by.epam.tr.dao.ListCreatorDAO;
 import by.epam.tr.dao.connectionpool.ConnectionPool;
 import by.epam.tr.dao.connectionpool.ConnectionPoolException;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ListCreationImpl extends CloseOperation implements ListCreationDAO {
+public class ListCreatorImpl extends CloseOperation implements ListCreatorDAO {
 
     private static final String SELECT_CITY_WITH_AIRPORT = "SELECT cities.`name`,`name-abbreviation` FROM airport.airports\n" +
                                                            "JOIN cities ON cities.id = airports.`city-id`;";
