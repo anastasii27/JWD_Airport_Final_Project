@@ -83,7 +83,6 @@ public class CrewMemberImpl extends CloseOperation implements CrewMemberDAO {
         return changedRowsAmount;
     }
 
-    //todo проверка на существование юзера и команды
     @Override
     public int addCrewMember(String crewName, User user) throws DAOException {
 
@@ -97,7 +96,6 @@ public class CrewMemberImpl extends CloseOperation implements CrewMemberDAO {
 
             changedRowsAmount = ps.executeUpdate();
 
-            System.out.println(changedRowsAmount);
         } catch (ConnectionPoolException e) {
             throw new DAOException("Exception during taking connection!");
         } catch (SQLException e) {

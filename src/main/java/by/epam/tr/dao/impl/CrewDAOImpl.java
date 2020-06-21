@@ -35,9 +35,7 @@ public class CrewDAOImpl extends CloseOperation implements CrewDAO{
     private Connection connection;
     private PreparedStatement ps;
     private ResultSet rs;
-    private int changedRowsAmount;
 
-    //todo проверка на существование юзера
     @Override
     public boolean createCrew(String crewName, Map<String, User> users) throws DAOException {
 
@@ -99,6 +97,7 @@ public class CrewDAOImpl extends CloseOperation implements CrewDAO{
     @Override
     public int deleteCrew(String crewName) throws DAOException {
 
+        int changedRowsAmount;
         try {
             connection = pool.takeConnection();
             connection.setAutoCommit(false);
@@ -109,7 +108,7 @@ public class CrewDAOImpl extends CloseOperation implements CrewDAO{
 
             ps =  connection.prepareStatement(DELETE_CREW_FROM_FLIGHT);
             ps.setString(1, crewName);
-            changedRowsAmount = ps.executeUpdate();
+            ps.executeUpdate();
 
             ps =  connection.prepareStatement(DELETE_CREW);
             ps.setString(1, crewName);

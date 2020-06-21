@@ -13,6 +13,7 @@ public class CrewServiceImpl implements CrewService {
     private CrewDAO dao = DAOFactory.getInstance().getCrewDAO();
     private boolean operationResult;
 
+    //todo проверка на существование юзера
     @Override
     public boolean createCrew(String crewName, Map<String, User> users) throws ServiceException {
 

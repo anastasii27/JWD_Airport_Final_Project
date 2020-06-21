@@ -51,7 +51,7 @@ $(document).ready(function ($) {
             $('.close').hide();
             $('#create_crew_btn').show();
             $('#add_crew_btn').hide();
-            $("span", this).text("Edit");
+            $("span", this).text($.fn.answers.language['ru'].editButton);
         }
     });
 });

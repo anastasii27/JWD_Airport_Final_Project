@@ -8,8 +8,14 @@
         <fmt:setLocale value="${sessionScope.local}" />
         <fmt:setBundle basename="localization.local" var="loc" />
         <fmt:message bundle="${loc}" key="local.js.lang" var="lang" />
+        <fmt:message bundle="${loc}" key="local.label.crew.create" var="create_label" />
+        <fmt:message bundle="${loc}" key="local.label.crew.commander" var="commander_label" />
+        <fmt:message bundle="${loc}" key="local.label.crew.second_pilot" var="second_pilot_label" />
+        <fmt:message bundle="${loc}" key="local.label.crew.stewards" var="stewards_label" />
+        <fmt:message bundle="${loc}" key="local.label.crew.crt" var="create_btn" />
+        <fmt:message bundle="${loc}" key="local.label.crew.creation" var="creation_label" />
 
-        <title>СОЗДАНИЕ ЭКИПАЖА</title>
+        <title>${creation_label}</title>
 
         <link rel="stylesheet" href="${pageContext.request.contextPath}/design/css/validation-plug-in.css"/>
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
@@ -28,17 +34,25 @@
             $('#steward').selectpicker();
         </script>
 
+        <script>
+            $(document).ready(function () {
+                $('.lang').on('click', function (){
+                    $('.lang').append('<input impl="hidden" name="url" value="${pageContext.request.contextPath}/airport?action=show_create_crew_page"/>').hide();
+                });
+            });
+        </script>
+
     </head>
     <body  lang="${lang}" >
         <jsp:include page="parts/header.jsp"/>
         <form action="airport" method="post" id="create_crew">
             <div class="form-group">
                 <input type="hidden" name="action" value="create_crew" />
-                <label for="crew_name">ВВЕДИТЕ НАЗВАНИЕ ЭКИПАЖА</label>
+                <label for="crew_name">${create_label}</label>
                 <input type="text" id="crew_name" name="crew_name"/>
             </div>
             <div class="form-group">
-                <label for="first_pilot">ВЫБЕРИТЕ КОМАНДИРА САМОЛЕТА</label>
+                <label for="first_pilot">${commander_label}</label>
                 <select name= "first_pilot" id="first_pilot">
                 <option selected></option>
                 <c:forEach var="pilot" items="${pilots_list}">
@@ -47,7 +61,7 @@
                  </select>
             </div>
             <div class="form-group">
-                <label for="second_pilot">ВЫБЕРИТЕ ВТОРОГО ПИЛОТА</label>
+                <label for="second_pilot">${second_pilot_label}</label>
                 <select name= "second_pilot" id="second_pilot">
                     <option selected></option>
                     <c:forEach var="pilot" items="${pilots_list}">
@@ -56,14 +70,14 @@
                 </select>
             </div>
             <div class="form-group">
-                <label for="steward">ВЫБЕРИТЕ СТЮАРДОВ</label>
+                <label for="steward">${stewards_label}</label>
                 <select size="5" name= "steward" id="steward" class="selectpicker" multiple>
                     <c:forEach var="steward" items="${stewards_list}">
                         <option>${steward.name} ${steward.surname} </option>
                     </c:forEach>
                 </select>
             </div>
-                <input type="submit" class="btn btn-primary" value="СОЗДАТЬ"/>
+                <input type="submit" class="btn btn-primary" value="${create_btn}"/>
         </form>
     </body>
 </html>

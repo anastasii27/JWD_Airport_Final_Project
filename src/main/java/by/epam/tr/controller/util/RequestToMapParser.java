@@ -6,19 +6,21 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
+
 import static by.epam.tr.controller.util.RequestParametersExtractor.*;
 
 public class RequestToMapParser {
 
+    private final static String AIRPORT_SHORT_NAME  = "airport_short_name";
+    //todo переделать название методов
     private static String key;
 
-    public static Map<String, String> registerInfoMap(HttpServletRequest request){
+    public static Map<String, String> requestParamsMap(HttpServletRequest request){
 
         Map<String, String> params =  new HashMap<>();
         Enumeration<java.lang.String> keys = request.getParameterNames();
 
         while (keys.hasMoreElements()){
-
             key = keys.nextElement();
             params.put(key, request.getParameter(key));
         }
@@ -34,8 +36,8 @@ public class RequestToMapParser {
 
             key = keys.nextElement();
 
-            if(key.equals("city")){
-                params.put("airport_short_name", getAirportName(request.getParameter("city")));
+            if(key.equals(RequestParameterName.CITY)){
+                params.put(AIRPORT_SHORT_NAME, getAirportName(request.getParameter(RequestParameterName.CITY)));
             }
             params.put(key, request.getParameter(key));
         }
@@ -51,7 +53,7 @@ public class RequestToMapParser {
 
             key = keys.nextElement();
 
-            if(key.equals("steward")){
+            if(key.equals(RequestParameterName.STEWARD)){
                 putStewardsToMap(request.getParameterValues(key), params);
             }
             params.put(key, request.getParameter(key));
@@ -67,13 +69,14 @@ public class RequestToMapParser {
         User pilotNumberTwo;
         int count=1;
 
-        for (String s : stewards) {
-            if (s.length() != 0) {
-                user = new User(userName(s), userSurname(s));
-                users.put(RequestParameterName.STEWARD+count++,user);
+        if (stewards != null) {
+            for (String s : stewards) {
+                if (s.length() != 0) {
+                    user = new User(userName(s), userSurname(s));
+                    users.put(RequestParameterName.STEWARD+count++,user);
+                }
             }
         }
-
         commander = new User(userName(firstPilot), userSurname(firstPilot));
         pilotNumberTwo = new User(userName(secondPilot), userSurname(secondPilot));
 
@@ -87,9 +90,9 @@ public class RequestToMapParser {
 
         Map<String, String> params =  new HashMap<>();
 
-        params.put("departure_date", departureDate);
-        params.put("surname", surname);
-        params.put("email", email);
+        params.put(RequestParameterName.DEPARTURE_DATE, departureDate);
+        params.put(RequestParameterName.SURNAME, surname);
+        params.put(RequestParameterName.EMAIL, email);
 
         return params;
     }
@@ -106,6 +109,9 @@ public class RequestToMapParser {
 
     private static String getAirportName(String city){
 
+        if (city == null) {
+            return "";
+        }
         int indexOfFirstBracket = city.indexOf('(')+1;
         int indexOfLastBracket = city.indexOf(')');
 

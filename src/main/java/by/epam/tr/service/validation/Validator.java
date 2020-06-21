@@ -20,7 +20,7 @@ public abstract class Validator {
     public  boolean emptyValueCheck(Map<String, String> params){
 
         for(Map.Entry<String, String> param : params.entrySet()){
-            if(param.getValue().length()==0){
+            if(param.getValue()== null || param.getValue().length()==0){
                 return false;
             }
         }

@@ -7,9 +7,15 @@
 
         <fmt:setLocale value="${sessionScope.local}" />
         <fmt:setBundle basename="localization.local" var="loc" />
-<%--        <fmt:message bundle="${loc}" key="local.label.plane" var="plane_label" /> --%>
+        <fmt:message bundle="${loc}" key="local.label.crew.name" var="crew_name_label" />
+        <fmt:message bundle="${loc}" key="local.label.crew.no_date" var="data_label" />
+        <fmt:message bundle="${loc}" key="local.label.crew.pilot" var="pilot_label" />
+        <fmt:message bundle="${loc}" key="local.label.crew.steward" var="steward_label" />
+        <fmt:message bundle="${loc}" key="local.label.crew.create_btn" var="create_label" />
+        <fmt:message bundle="${loc}" key="local.label.menu_user_crew" var="crews_label" />
+        <fmt:message bundle="${loc}" key="local.label.crew.edit_btn" var="edit_label" />
 
-        <title>ВОЗДУШНЫЕ ЭКИПАЖИ</title>
+        <title>${crews_label}</title>
 
         <link rel="stylesheet" href="${pageContext.request.contextPath}/design/css/crews.css">
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
@@ -20,12 +26,20 @@
         <script src="${pageContext.request.contextPath}/design/js/ajax-request.js" charset="UTF-8"></script>
         <script src="${pageContext.request.contextPath}/design/js/full-js.js" charset="UTF-8"></script>
 
+        <script>
+            $(document).ready(function () {
+                $('.lang').on('click', function (){
+                    $('.lang').append('<input impl="hidden" name="url" value="${pageContext.request.contextPath}/airport?action=show_crew_page"/>').hide();
+                });
+            });
+        </script>
+
     </head>
     <body>
         <jsp:include page="parts/header.jsp"/>
         <div class="row col-12">
             <div class="col-md-4">
-                <h2>НАЗВАНИЕ ЭКИПАЖА</h2>
+                <h2>${crew_name_label}</h2>
                 <c:forEach items="${requestScope.crew}" var="crew_item">
                     <ul class="list-group crews">
                         <li class="list-group-item" value="${crew_item}">${crew_item} <button type="button" class="close delete_crew_btn" >&times;</button></li>
@@ -33,25 +47,19 @@
                 </c:forEach>
             </div>
             <div id="crews_error">
-                ДАННЫЕ НЕ НАЙДЕНЫ
+                ${data_label}
             </div>
             <div class="container crew_members col-md-6">
                 <div class="row ml-auto  mr-auto">
                     <div class="col-md-5 p-0">
-                        <div class="row">
-                            <h2>ПИЛОТЫ
-<%--                                <button type="button" class="btn btn-info add_pilot_btn">--%>
-<%--                                    <span>&plus;</span>--%>
-<%--                                </button>--%>
-                            </h2>
-                        </div>
+                            <h2>${pilot_label}</h2>
                         <ul class="list-group members_list" id="pilots_list">
 
                         </ul>
                     </div>
                     <div class="col-md-5 p-0">
                         <div class="row">
-                            <h2>СТЮАРДЫ </h2>
+                            <h2>${steward_label}</h2>
                             <div id="add_crew_btn">
                                 <button type="button" class="btn btn-info ">
                                     <span>&plus;</span>
@@ -68,12 +76,12 @@
 
         <div id="create_crew_btn">
             <form>
-                <input type="button" class="btn btn-primary"  value="СОЗДАТЬ" onClick='location.href="${pageContext.request.contextPath}/airport?action=show_create_crew_page"'>
+                <input type="button" class="btn btn-primary"  value="${create_label}" onClick='location.href="${pageContext.request.contextPath}/airport?action=show_create_crew_page"'>
             </form>
         </div>
         <div id="edit_crew_btn">
             <button type="button" class="btn btn-info">
-                <span class="edit">Редактировать</span>
+                <span class="edit">${edit_label}</span>
             </button>
         </div>
     </body>

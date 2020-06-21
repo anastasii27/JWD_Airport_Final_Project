@@ -19,9 +19,10 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
-public class Registration implements Command{//check
+public class Registration implements Command{
 
     private Logger logger = LogManager.getLogger(getClass());
+    private final static String ANSWER = "You are registered";
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) {
@@ -52,8 +53,8 @@ public class Registration implements Command{//check
 
         User user = new User(role,name, surname, email, careerStartYear);
 
-        params = RequestToMapParser.registerInfoMap(request);
-        validationResults = validator.validate(params);
+        params = RequestToMapParser.requestParamsMap(request);
+        validationResults = validator.validate(params);//TODO проверка на одинаковые пароли
 
         try {
             if(validationResults.size()==0){
@@ -63,7 +64,7 @@ public class Registration implements Command{//check
             }
 
             if(result){
-                session.setAttribute(RequestParameterName.RESULT_INFO, "You are registered");//убрать
+                session.setAttribute(RequestParameterName.RESULT_INFO, ANSWER);//убрать
             }
 
             response.sendRedirect(JSPPageName.RESULT_PAGE);

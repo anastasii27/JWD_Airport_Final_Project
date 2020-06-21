@@ -31,25 +31,26 @@ public class CrewMemberImpl implements CrewMemberService {
     public boolean deleteCrewMember(String crewName, User user) throws ServiceException {
 
         try {
-            changedRowsAmount = dao.deleteCrewMember(crewName, user);
-
+            if(user!=null) {
+                changedRowsAmount = dao.deleteCrewMember(crewName, user);
+            }
         } catch (DAOException e) {
             throw new ServiceException("Exception during crew member deleting");
         }
 
         return changedRowsAmount !=0;
     }
-
+    //todo проверка на существование юзера и команды
     @Override
     public boolean addCrewMember(String crewName, User user) throws ServiceException {
 
         try {
-            changedRowsAmount = dao.addCrewMember(crewName, user);
-
+            if(user!=null) {
+                changedRowsAmount = dao.addCrewMember(crewName, user);
+            }
         } catch (DAOException e) {
             throw new ServiceException("Exception during crew member adding");
         }
-
         return changedRowsAmount !=0;
     }
 

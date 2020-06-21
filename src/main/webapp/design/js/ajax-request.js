@@ -1,6 +1,7 @@
 $(document).ready(function ($) {
 
     let crewName;
+
     //crews list
     $('.crews li').on('click', function () {
          crewName = getCrewName($(this).text());

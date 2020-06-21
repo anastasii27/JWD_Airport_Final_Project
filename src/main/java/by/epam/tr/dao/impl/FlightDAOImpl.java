@@ -173,7 +173,6 @@ public class FlightDAOImpl extends CloseOperation implements FlightDAO {
     public Flight flightInfo(String flightNumber, String departureDate) throws DAOException {
 
         Flight flight;
-
         try {
             connection = pool.takeConnection();
             ps =  connection.prepareStatement(SELECT_FLIGHT_INFO);

@@ -32,7 +32,6 @@ public class UserDAOImpl extends CloseOperation implements UserDAO {
     public boolean addNewUser(User user, String login, String password) throws DAOException {
 
         boolean flag = false;
-
         try {
             connection = pool.takeConnection();
             ps =  connection.prepareStatement(INSERT_USER);
@@ -51,7 +50,7 @@ public class UserDAOImpl extends CloseOperation implements UserDAO {
         } catch (ConnectionPoolException e) {
             throw new DAOException("Exception during taking connection!");
         } catch (SQLException e) {
-            throw new DAOException("Exception during registration");
+            throw new DAOException("Exception during user registration");
         }finally {
             closeAll(ps, pool, connection);
         }
@@ -116,7 +115,6 @@ public class UserDAOImpl extends CloseOperation implements UserDAO {
 
         List<User> users = new ArrayList<>();
         try {
-            pool.poolInitialization();
             connection = pool.takeConnection();
             ps =  connection.prepareStatement(SELECT_ALL_USERS);
 
