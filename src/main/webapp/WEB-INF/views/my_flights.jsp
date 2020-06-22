@@ -48,8 +48,8 @@
 
         <form action="airport" method="get" id="my_flights_form">
             <input type="hidden" name="action" value="show_my_flights"/>
-            <label for="piker"></label>
-            <input type='text' name="departure_date" id= "piker" class="datepicker-here"
+            <label for="my_flights_piker"></label>
+            <input type='text' name="departure_date" id= "my_flights_piker" class="datepicker-here"
                    data-language="${lang}" value = "${requestScope.departure_date}"/>
             <input type="submit" value="${send_button}"/>
         </form>

@@ -4,7 +4,6 @@ import by.epam.tr.bean.User;
 import by.epam.tr.dao.CrewMemberDAO;
 import by.epam.tr.dao.DAOException;
 import by.epam.tr.dao.DAOFactory;
-import by.epam.tr.dao.UserDAO;
 import by.epam.tr.service.CrewMemberService;
 import by.epam.tr.service.ServiceException;
 import java.util.List;
@@ -52,22 +51,5 @@ public class CrewMemberImpl implements CrewMemberService {
             throw new ServiceException("Exception during crew member adding");
         }
         return changedRowsAmount !=0;
-    }
-
-    @Override
-    public List<User> beyondCrewMembers(String crewName) throws ServiceException {
-
-        UserDAO dao = DAOFactory.getInstance().getUserDAO();
-        List<User> crewMembers = crewMembers(crewName);
-        List<User> allUsers;
-        try {
-
-            allUsers = dao.allUsers();
-            allUsers.removeAll(crewMembers);
-
-        } catch (DAOException e) {
-            throw new ServiceException("Exception during all users getting");
-        }
-        return allUsers;
     }
 }

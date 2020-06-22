@@ -49,19 +49,51 @@
             <div id="crews_error">
                 ${data_label}
             </div>
-            <div class="container crew_members col-md-6">
+            <div class="container choose_crew_members col-md-6">
                 <div class="row ml-auto  mr-auto">
                     <div class="col-md-5 p-0">
-                            <h2>${pilot_label}</h2>
-                        <ul class="list-group members_list" id="pilots_list">
-
-                        </ul>
+                        <h2>${pilot_label}</h2>
+                        <div class="users_select" id="pilots_select">
+                            <select size=8 name= "pilots" id="pilots" multiple>
+                                <c:forEach var="pilot" items="${pilots_list}">
+                                    <option>${pilot.name} ${pilot.surname} </option>
+                                </c:forEach>
+                            </select>
+                        </div>
                     </div>
                     <div class="col-md-5 p-0">
                         <div class="row">
                             <h2>${steward_label}</h2>
-                            <div id="add_crew_btn">
+                            <div class="add_crew_btn" id="confirm_add">
                                 <button type="button" class="btn btn-info ">
+                                    <span>&plus;</span>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="users_select" id="stewards_select" >
+                            <select size=8 name= "stewards" id="stewards" multiple>
+                                <c:forEach var="steward" items="${stewards_list}">
+                                    <option>${steward.name} ${steward.surname} </option>
+                                </c:forEach>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="container crew_members col-md-6">
+                <div class="row ml-auto  mr-auto">
+                    <div class="col-md-5 p-0">
+                            <h2>${pilot_label}</h2>
+                            <ul class="list-group members_list" id="pilots_list">
+
+                            </ul>
+                    </div>
+                    <div class="col-md-5 p-0">
+                        <div class="row">
+                            <h2>${steward_label}</h2>
+                            <div class="add_crew_btn" id="add_user">
+                                <button type="button" class="btn btn-info">
                                     <span>&plus;</span>
                                 </button>
                             </div>
@@ -86,3 +118,6 @@
         </div>
     </body>
 </html>
+
+
+

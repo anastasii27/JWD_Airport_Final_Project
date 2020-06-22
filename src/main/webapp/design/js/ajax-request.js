@@ -4,12 +4,13 @@ $(document).ready(function ($) {
 
     //crews list
     $('.crews li').on('click', function () {
-         crewName = getCrewName($(this).text());
-         showCrewAjax(crewName);
+        $('.choose_crew_members ').hide();
+        crewName = getCrewName($(this).text());
+        showCrewAjax(crewName);
     });
 
     //crew edition
-    $('.delete_crew_btn').on('click', function () {
+    $('.delete_crew_btn').on('click', function () {//todo переделать success
         let resultConfirm = confirm("Are you really want to delete?");
 
         if(resultConfirm===true){
@@ -72,6 +73,38 @@ $(document).ready(function ($) {
             },
             error: function (data) {
                 $('.crew_members ').hide();
+                $('#crews_error').show();
+            }
+        });
+    });
+
+    $('#add_user').on('click', function () {
+
+        $('#pilots_select option:disabled').removeAttr('disabled');
+        $('#stewards_select option').removeAttr('disabled');
+
+        let pilots = $('#pilots_select').text();
+        let stewards = $('#stewards_select').text();
+
+        $.ajax({
+            type: "GET",
+            url: "/JWD_Task3_war/ajax",
+            dataType:'json',
+            data: {command: 'show_crew_members',crew_name: crewName},
+
+            success: function (data) {
+                $.each(data, function (user, userInfo) {
+                    user = userInfo.name+ ' '+ userInfo.surname;
+                    if(pilots.search(user)!==-1){
+                        $("#pilots_select option:contains(\""+user+"\")").attr('disabled', 'disabled');
+                    }
+                    if(stewards.search(user)!==-1){
+                        $("#stewards_select option:contains(\""+user+"\")").attr('disabled', 'disabled');;
+                    }
+                });
+            },
+            error: function (data) {
+                $('.choose_crew_members ').hide();
                 $('#crews_error').show();
             }
         });

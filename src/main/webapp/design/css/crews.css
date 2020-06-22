@@ -3,12 +3,24 @@
     right: 8vw;
     top: 85vh;
 }
-
 #edit_crew_btn{
     position: absolute;
     left: 8vw;
     top: 85vh;
 }
-.crew_member{
+.crew_members{
     width: 40vw;
+}
+select[name ="pilots"]{
+    height:38vh;
+    width:19vw;
+    border-radius:5px;
+}
+select[name ="stewards"]{
+    height:38vh;
+    width:19vw;
+    border-radius:5px;
+}
+option{
+    height:6vh;
 }

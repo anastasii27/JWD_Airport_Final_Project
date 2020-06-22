@@ -70,8 +70,8 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="piker" class="label">${date_label}</label>
-                    <input type='text' name="departure_date" id= "piker" class="datepicker-here"
+                    <label for="dep_arr_piker" class="label">${date_label}</label>
+                    <input type='text' name="departure_date" id= "dep_arr_piker" class="datepicker-here"
                            data-language="${lang}" value = "${requestScope.departure_date}"/>
                 </div>
 

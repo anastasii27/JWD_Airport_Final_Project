@@ -71,7 +71,7 @@
             </div>
             <div class="form-group">
                 <label for="steward">${stewards_label}</label>
-                <select size="5" name= "steward" id="steward" class="selectpicker" multiple>
+                <select name= "steward" id="steward" class="selectpicker" multiple>
                     <c:forEach var="steward" items="${stewards_list}">
                         <option>${steward.name} ${steward.surname} </option>
                     </c:forEach>

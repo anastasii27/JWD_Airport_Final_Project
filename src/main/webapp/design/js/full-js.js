@@ -1,10 +1,17 @@
 $(document).ready(function ($) {
 
-    $('.datepicker-here').datepicker({
+    $('#my_flights_piker').datepicker({
         dateFormat: 'yyyy-mm-dd',
         firstDay: 1,
         minDate: getMinDate(10),
         maxDate: getMaxDate(31)
+    });
+
+    $('#dep_arr_piker').datepicker({
+        dateFormat: 'yyyy-mm-dd',
+        firstDay: 1,
+        minDate: getMinDate(1),
+        maxDate: getMaxDate(1)
     });
 
     //menu
@@ -22,7 +29,7 @@ $(document).ready(function ($) {
         });
     });
 
-    //arrivals departures
+     //arrivals departures
     $('.arr_dep').hide();
     $('#no_flights').hide();
 
@@ -30,7 +37,8 @@ $(document).ready(function ($) {
     $('.crew_members').hide();
     $('#crews_error').hide();
     $('.close').hide();
-    $('#add_crew_btn').hide();
+    $('.add_crew_btn').hide();
+    $('.choose_crew_members').hide();
 
     $('.crews li').on('click', function () {
         $('.crews li').css('border', '');
@@ -44,15 +52,26 @@ $(document).ready(function ($) {
             $(this).addClass('clicked');
             $('.close').show();
             $('#create_crew_btn').hide();
-            $('#add_crew_btn').show();
+            $('.add_crew_btn').show();
             $("span", this).text("Save");
         } else {
             $(this).removeClass('clicked');
             $('.close').hide();
             $('#create_crew_btn').show();
-            $('#add_crew_btn').hide();
-            $("span", this).text($.fn.answers.language['ru'].editButton);
+            $('.add_crew_btn').hide();
+            $('.choose_crew_members').hide();
+            $("span", this).text("Edit");//todo локализация кнопок
         }
+    });
+
+   $(document).on('click','#add_user', function () {
+       $('.choose_crew_members').show();
+       $('.crew_members').hide();
+    });
+
+    $(document).on('click','#confirm_add', function () {
+        $('.choose_crew_members').hide();
+        $('.crew_members').show();
     });
 });
 

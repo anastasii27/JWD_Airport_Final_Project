@@ -33,7 +33,6 @@ public class DeleteCrewMember implements Command {
             operationResult = crewMemberService.deleteCrewMember(crewName, user);
 
             response.getWriter().write(String.valueOf(operationResult));
-
         } catch (ServiceException e) {
             logger.error("Cannot execute ajax command for crew member deleting", e);
         } catch (IOException e) {
