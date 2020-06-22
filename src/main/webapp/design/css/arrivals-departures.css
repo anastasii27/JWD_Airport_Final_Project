@@ -1,0 +1,67 @@
+#title{
+    width: 35vw;
+    margin-left: 21vw;
+    margin-top: 4vh;
+}
+.form{
+    background-color: #d6e5f17a;
+    margin-left: auto;
+    margin-right: auto;
+    padding-top: 2vh;
+    height:35vh;
+    border: solid 0.5px #6c757d52;
+}
+.form-group{
+    margin-top:3vh;
+    width:40vw;
+}
+.arr_dep{
+    margin-top: 3vh;
+    margin-left: auto;
+    margin-right: auto;
+}
+#input_city{
+    margin-left: 1vw;
+}
+label[for="input_city"]{
+    margin-left: 1vw;
+}
+.label{
+    width: 5vw;
+}
+label{
+    font-size:17px;
+}
+input[name="departure_date"]{
+    width: 15vw;
+    height: 5vh;
+    margin-left: 0.6vw;
+    border: solid 2px #6c757d52;
+    border-radius:7px;
+}
+select[name="city"]{
+    width: 15vw;
+    height: 5vh;
+    border: solid 2px #6c757d52;
+    border-radius:7px;
+}
+
+td{
+    text-align: center;
+    border-bottom: 2px solid #6c757d52;
+}
+
+th{
+    text-align: center;
+    border-bottom: 2px solid #6c757d52;
+    background-color:#d6e5f17a;
+}
+table{
+    border: 2px solid white;
+}
+#no_flights{
+    width: 26vw;
+    margin-top:3vh;
+    margin-left: auto;
+    margin-right: auto;
+}

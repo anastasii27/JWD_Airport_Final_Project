@@ -14,10 +14,13 @@
         <fmt:message bundle="${loc}" key="local.send_button" var="send_button" />
         <fmt:message bundle="${loc}" key="local.message.no_flights" var="no_flights_mes" />
         <fmt:message bundle="${loc}" key="local.js.lang" var="lang" />
+        <fmt:message bundle="${loc}" key="local.label.arr_dep.airport" var="airport_label" />
+        <fmt:message bundle="${loc}" key="local.label.arr_dep.date" var="date_label" />
 
         <title>${arr_dep_label}</title>
 
         <link rel="stylesheet" href="${pageContext.request.contextPath}/design/css/validation-plug-in.css"/>
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/design/css/arrivals-departures.css"/>
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
         <link href="${pageContext.request.contextPath}/design/css/datepicker.min.css" rel="stylesheet" type="text/css">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
@@ -49,27 +52,44 @@
             <jsp:include page="../WEB-INF/views/parts/header.jsp"/>
         </c:if>
 
-        <form action="" method="get" id="arr_dep_form">
-            <input type="hidden" name="from" value="${requestScope.from}"/>
-            <label for="piker"></label>
-            <select  name= "city" id="input_city">
-                <option selected></option>
-                <c:forEach var="city" items="${city_with_airport}">
-                    <option>${city}</option>
-                </c:forEach>
-            </select>
-            <input type='text' name="departure_date" id= "piker" class="datepicker-here"
-                   data-language="${lang}" value = "${requestScope.departure_date}"/>
-            <label for="arrival_type">${dep_button}</label>
-            <input type="radio" id="arrival_type" name="type" value="departure" checked>
-            <label for="departure_type">${arr_button}</label>
-            <input type="radio" id="departure_type" name="type" value="arrival">
-            <input type="submit" id="arr_dep_submit" value="${send_button}"/>
-        </form>
-        <div class="arr_dep" id="arr_table">
+        <div id="title">
+            <h2>${arr_dep_label}</h2>
+        </div>
+        <div class="col-md-7 form">
+            <form action="" method="get" id="arr_dep_form">
+                <input type="hidden" name="from" value="${requestScope.from}"/>
+
+                <div class="form-group row">
+                    <label for="input_city" >${airport_label}</label>
+                    <select name= "city" id="input_city">
+                        <option selected></option>
+                        <c:forEach var="city" items="${city_with_airport}">
+                            <option>${city}</option>
+                        </c:forEach>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="piker" class="label">${date_label}</label>
+                    <input type='text' name="departure_date" id= "piker" class="datepicker-here"
+                           data-language="${lang}" value = "${requestScope.departure_date}"/>
+                </div>
+
+                <div class="form-group">
+                    <label for="arrival_type">${dep_button}</label>
+                    <input type="radio" id="arrival_type" name="type" value="departure" checked>
+                    <label for="departure_type" class="ml-2">${arr_button}</label>
+                    <input type="radio" id="departure_type" name="type" value="arrival">
+                </div>
+                <div>
+                    <button type="submit" id="arr_dep_submit" class="btn btn-primary">${send_button}</button>
+                </div>
+            </form>
+        </div>
+        <div class="arr_dep col-7" id="arr_table">
             <jsp:include page="parts/arrivals_table.jsp"/>
         </div>
-        <div class="arr_dep" id="dep_table">
+        <div class="arr_dep col-7" id="dep_table">
             <jsp:include page="parts/departures_table.jsp"/>
         </div>
         <div id="no_flights">

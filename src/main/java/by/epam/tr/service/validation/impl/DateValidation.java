@@ -16,38 +16,36 @@ public class DateValidation extends Validator {
     public List<String> validate(Map<String, String> params) {
 
         List <String> result = new ArrayList<>();
-        LocalDate date;
 
         if(!emptyValueCheck(params)){
             result.add("You didnt` enter all values!");
             return result;
         }
 
-        if (!checkWithPattern(ValidationPattern.DATE_PATTERN,  params.get("departure_date"))) {
+        String departureDate = params.get("departure_date");
+        if (!checkWithPattern(ValidationPattern.DATE_PATTERN,  departureDate)) {
             result.add("Illegal date!");
             return result;
         }
 
-        date = LocalDate.parse(params.get("departure_date"));
-
-        if (!dateRangeCheck(date)) {
+        if (!idDateRangeValid(departureDate)) {
             result.add("Illegal date range!");
         }
-
         return result;
     }
 
-    private boolean dateRangeCheck(LocalDate date){
+    private boolean idDateRangeValid(String date){
 
+        LocalDate enteredDate = LocalDate.parse(date);
         LocalDate today = LocalDate.now();
         LocalDate minDateOfRange = today.minusDays(MIN_DAY);
         LocalDate maxDateOfRange = today.plusDays(MAX_DAY);
 
-        if(date.isAfter(maxDateOfRange)){
+        if(enteredDate.isAfter(maxDateOfRange)){
             return false;
         }
 
-        if(date.isBefore(minDateOfRange)){
+        if(enteredDate.isBefore(minDateOfRange)){
             return false;
         }
 

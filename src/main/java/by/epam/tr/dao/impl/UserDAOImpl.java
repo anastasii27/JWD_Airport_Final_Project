@@ -18,7 +18,9 @@ public class UserDAOImpl extends CloseOperation implements UserDAO {
     private final static String SELECT_FOR_SING_IN = "SELECT title  AS `role` , `name`, surname, email, `career-start-year` " +
                                                 "FROM users JOIN roles ON users.`role-id` = roles.id WHERE login = ? AND `password`=?;";
 
-    private final static String CHECK_USER_EXISTENCE = "SELECT `name` FROM users WHERE login = ?;";
+    private final static String CHECK_USER_EXISTENCE_1 = "SELECT `name` FROM users WHERE login = ?;";
+
+    private final static String CHECK_USER_EXISTENCE_2 = "SELECT email FROM users where `name`= ? AND surname = ?;";
 
     private final static String SELECT_ALL_USERS = "SELECT `name`, surname, title FROM airport.users " +
                                                 "JOIN roles ON roles.id = users.`role-id`;";
@@ -58,7 +60,7 @@ public class UserDAOImpl extends CloseOperation implements UserDAO {
     }
 
     @Override
-    public User singIn(String login, String password) throws DAOException {
+    public User signIn(String login, String password) throws DAOException {
 
         User user;
         try {
@@ -91,9 +93,33 @@ public class UserDAOImpl extends CloseOperation implements UserDAO {
 
         try {
             connection = pool.takeConnection();
-            ps =  connection.prepareStatement(CHECK_USER_EXISTENCE);
+            ps =  connection.prepareStatement(CHECK_USER_EXISTENCE_1);
 
             ps.setString(1, login);
+
+            rs = ps.executeQuery();
+
+            if(!rs.next()){
+                return false;
+            }
+        } catch (ConnectionPoolException e) {
+            throw new DAOException("Exception during taking connection!");
+        } catch (SQLException e) {
+            throw new DAOException("Exception during user existence operation!");
+        }finally {
+            closeAll(rs, ps, pool, connection);
+        }
+        return true;
+    }
+
+    @Override
+    public boolean doesUserExist(User user) throws DAOException {
+        try {
+            connection = pool.takeConnection();
+            ps =  connection.prepareStatement(CHECK_USER_EXISTENCE_2);
+
+            ps.setString(1, user.getName());
+            ps.setString(2, user.getSurname());
 
             rs = ps.executeQuery();
 

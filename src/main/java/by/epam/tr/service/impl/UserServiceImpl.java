@@ -16,7 +16,7 @@ public class UserServiceImpl implements UserService {
 
         User user;
         try {
-            user = dao.singIn(login,password);
+            user = dao.signIn(login,password);
 
         } catch (DAOException e) {
             throw new ServiceException("Exception during signing in!");
