@@ -37,7 +37,7 @@ public class RequestToMapParser {
             key = keys.nextElement();
 
             if(key.equals(RequestParameterName.CITY)){
-                params.put(AIRPORT_SHORT_NAME, getAirportName(request.getParameter(RequestParameterName.CITY)));
+                params.put(AIRPORT_SHORT_NAME, airportName(request.getParameter(RequestParameterName.CITY)));
             }
             params.put(key, request.getParameter(key));
         }
@@ -105,16 +105,5 @@ public class RequestToMapParser {
                 params.put(RequestParameterName.STEWARD+count++, s);
             }
         }
-    }
-
-    private static String getAirportName(String city){
-
-        if (city == null) {
-            return "";
-        }
-        int indexOfFirstBracket = city.indexOf('(')+1;
-        int indexOfLastBracket = city.indexOf(')');
-
-        return city.substring(indexOfFirstBracket, indexOfLastBracket);
     }
 }

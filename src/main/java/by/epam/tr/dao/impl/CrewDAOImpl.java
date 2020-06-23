@@ -48,8 +48,8 @@ public class CrewDAOImpl extends CloseOperation implements CrewDAO{
             ps.setString(1, crewName);
             ps.executeUpdate();
 
+            ps =  connection.prepareStatement(ADD_MEMBER);
             for(Map.Entry<String, User> user : users.entrySet()){
-                ps =  connection.prepareStatement(ADD_MEMBER);
                 ps.setString(1, crewName);
                 ps.setString(2, user.getValue().getName());
                 ps.setString(3, user.getValue().getSurname());

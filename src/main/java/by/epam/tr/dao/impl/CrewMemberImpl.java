@@ -63,10 +63,9 @@ public class CrewMemberImpl extends CloseOperation implements CrewMemberDAO {
     @Override
     public int deleteCrewMember(String crewName, User user) throws DAOException {
 
-        Connection connection1 = null;
         try {
-            connection1 = pool.takeConnection();
-            ps =  connection1.prepareStatement(DELETE_CREW_MEMBER);
+            connection = pool.takeConnection();
+            ps =  connection.prepareStatement(DELETE_CREW_MEMBER);
 
             ps.setString(1, user.getName());
             ps.setString(2, user.getSurname());
@@ -79,24 +78,27 @@ public class CrewMemberImpl extends CloseOperation implements CrewMemberDAO {
         } catch (SQLException e) {
             throw new DAOException("Exception during crew member deleting!");
         }finally {
-            closeAll(rs, ps, pool, connection1);
+            closeAll(rs, ps, pool, connection);
         }
         return changedRowsAmount;
     }
 
     @Override
-    public int addCrewMember(String crewName, User user) throws DAOException {
+    public int addCrewMember(String crewName, List<User> crewMembers) throws DAOException {
 
         try {
             connection = pool.takeConnection();
+            connection.setAutoCommit(false);
             ps =  connection.prepareStatement(ADD_MEMBER);
 
-            ps.setString(1, crewName);
-            ps.setString(2, user.getName());
-            ps.setString(3, user.getSurname());
+            for (User user: crewMembers) {
+                ps.setString(1, crewName);
+                ps.setString(2, user.getName());
+                ps.setString(3, user.getSurname());
+                changedRowsAmount = ps.executeUpdate();
+            }
 
-            changedRowsAmount = ps.executeUpdate();
-
+            connection.commit();
         } catch (ConnectionPoolException e) {
             throw new DAOException("Exception during taking connection!");
         } catch (SQLException e) {

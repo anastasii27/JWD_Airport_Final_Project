@@ -41,12 +41,11 @@ public class CrewMemberImpl implements CrewMemberService {
     }
     //todo проверка на существование юзера и команды
     @Override
-    public boolean addCrewMember(String crewName, User user) throws ServiceException {
+    public boolean addCrewMember(String crewName, List<User> crewMembers) throws ServiceException {
 
         try {
-            if(user!=null) {
-                changedRowsAmount = dao.addCrewMember(crewName, user);
-            }
+            changedRowsAmount = dao.addCrewMember(crewName, crewMembers);
+
         } catch (DAOException e) {
             throw new ServiceException("Exception during crew member adding");
         }

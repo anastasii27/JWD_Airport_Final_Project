@@ -2,6 +2,7 @@ package by.epam.tr.controller.command.ajax.impl;
 
 import by.epam.tr.bean.User;
 import by.epam.tr.controller.command.Command;
+import static by.epam.tr.controller.util.RequestParametersExtractor.*;
 import by.epam.tr.controller.constant_parameter.RequestParameterName;
 import by.epam.tr.service.CrewMemberService;
 import by.epam.tr.service.ServiceException;
@@ -11,7 +12,7 @@ import org.apache.logging.log4j.Logger;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import static by.epam.tr.controller.util.RequestParametersExtractor.*;
+import java.util.List;
 
 public class AddCrewMember implements Command {
 
@@ -22,15 +23,18 @@ public class AddCrewMember implements Command {
 
         CrewMemberService crewMemberService = ServiceFactory.getInstance().getCrewMemberService();
         String crewName;
-        String crewMember;
-        User user;
+        String crewMembers;
+        List<User> membersList;
         boolean operationResult;
 
         crewName = request.getParameter(RequestParameterName.CREW_NAME);
-        crewMember = request.getParameter(RequestParameterName.USER);
-        user = new User(userName(crewMember), userSurname(crewMember));
+        crewMembers = request.getParameter(RequestParameterName.USER);
+
+        membersList = userFullName(crewMembers);
+
+        System.out.println(membersList);
         try {
-            operationResult = crewMemberService.addCrewMember(crewName, user);
+            operationResult = crewMemberService.addCrewMember(crewName, membersList);
 
             response.getWriter().write(String.valueOf(operationResult));
 

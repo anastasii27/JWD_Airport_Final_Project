@@ -109,6 +109,31 @@ $(document).ready(function ($) {
             }
         });
     });
+
+    $('#confirm_add').on('click', function () {
+
+        let pilots = $('#pilots_select option:selected').text();
+        let stewards = $('#stewards_select option:selected').text();
+
+        $.ajax({
+            type: "GET",
+            url: "/JWD_Task3_war/ajax",
+            dataType:'json',
+            data: {command: 'add_crew_member',crew_name: crewName, user: pilots+stewards},
+
+            success: function (data) {
+                if(data===true){
+                    showCrewAjax(crewName);
+                }
+            },
+            error: function (data) {
+                $('.choose_crew_members ').hide();
+                $('#crews_error').show();
+            }
+        });
+    });
+
+
 });
 
 function showCrewAjax(crewName) {
