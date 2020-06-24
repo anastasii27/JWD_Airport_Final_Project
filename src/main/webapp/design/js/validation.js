@@ -166,7 +166,7 @@ $(document).ready(function ($) {
                 }
             },
             first_pilot: 'required',
-            second_pilot: {
+            pilot: {
                 required: true,
                 not_equal_pilots: true
             },
@@ -184,7 +184,7 @@ $(document).ready(function ($) {
                  }
             },
             first_pilot: null,
-            second_pilot: null,
+            pilot: null,
             steward: null
         }
     });

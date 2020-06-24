@@ -15,11 +15,10 @@ import java.util.List;
 
 public class CrewMembers implements Command {
 
-    private Logger logger = LogManager.getLogger(getClass());
+    private Logger LOGGER = LogManager.getLogger(getClass());
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) {
-
         CrewMemberService crewMemberService = ServiceFactory.getInstance().getCrewMemberService();
         List crewList;
         String crewName;
@@ -31,11 +30,10 @@ public class CrewMembers implements Command {
             crewGson = GSONConverter.convertListToGSON(crewList);
 
             response.getWriter().write(crewGson);
-
         } catch (ServiceException e) {
-            logger.error("Cannot execute ajax command for crew creation", e);
+            LOGGER.error("Cannot execute ajax command for crew creation", e);
         } catch (IOException e) {
-            logger.error("Cannot write json to response", e);
+            LOGGER.error("Cannot write json to response", e);
         }
     }
 }

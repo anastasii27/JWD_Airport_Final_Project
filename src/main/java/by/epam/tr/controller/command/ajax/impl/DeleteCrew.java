@@ -13,11 +13,10 @@ import java.io.IOException;
 
 public class DeleteCrew implements Command {
 
-    private Logger logger = LogManager.getLogger(getClass());
+    private Logger LOGGER = LogManager.getLogger(getClass());
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) {
-
         CrewService crewService = ServiceFactory.getInstance().getCrewService();
         String crewName;
         boolean operationResult;
@@ -27,11 +26,10 @@ public class DeleteCrew implements Command {
             operationResult = crewService.deleteCrew(crewName);
 
             response.getWriter().write(String.valueOf(operationResult));
-
         } catch (ServiceException e) {
-            logger.error("Cannot execute ajax command for crew deleting", e);
+            LOGGER.error("Cannot execute ajax command for crew deleting", e);
         } catch (IOException e) {
-            logger.error("Cannot write response", e);
+            LOGGER.error("Cannot write response", e);
         }
     }
 }

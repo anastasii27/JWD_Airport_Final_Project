@@ -67,11 +67,16 @@ $(document).ready(function ($) {
    $(document).on('click','#add_user', function () {
        $('.choose_crew_members').show();
        $('.crew_members').hide();
+       $('#pilots_select option:disabled').removeAttr('disabled');
+       $('#stewards_select option:disabled').removeAttr('disabled');
+       $('#pilots_select option:selected').removeAttr('selected');
+       $('#stewards_select option:selected').removeAttr('selected');
     });
 
     $(document).on('click','#confirm_add', function () {
         $('.choose_crew_members').hide();
         $('.crew_members').show();
+
     });
 });
 

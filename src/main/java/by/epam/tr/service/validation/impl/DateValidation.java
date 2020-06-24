@@ -28,13 +28,13 @@ public class DateValidation extends Validator {
             return result;
         }
 
-        if (!idDateRangeValid(departureDate)) {
+        if (!isDateRangeValid(departureDate)) {
             result.add("Illegal date range!");
         }
         return result;
     }
 
-    private boolean idDateRangeValid(String date){
+    private boolean isDateRangeValid(String date){
 
         LocalDate enteredDate = LocalDate.parse(date);
         LocalDate today = LocalDate.now();

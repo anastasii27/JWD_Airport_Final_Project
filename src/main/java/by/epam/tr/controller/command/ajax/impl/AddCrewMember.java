@@ -16,11 +16,10 @@ import java.util.List;
 
 public class AddCrewMember implements Command {
 
-    private Logger logger = LogManager.getLogger(getClass());
+    private Logger LOGGER = LogManager.getLogger(getClass());
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) {
-
         CrewMemberService crewMemberService = ServiceFactory.getInstance().getCrewMemberService();
         String crewName;
         String crewMembers;
@@ -31,17 +30,14 @@ public class AddCrewMember implements Command {
         crewMembers = request.getParameter(RequestParameterName.USER);
 
         membersList = userFullName(crewMembers);
-
-        System.out.println(membersList);
         try {
             operationResult = crewMemberService.addCrewMember(crewName, membersList);
 
             response.getWriter().write(String.valueOf(operationResult));
-
         } catch (ServiceException e) {
-            logger.error("Cannot execute ajax command for crew member adding", e);
+            LOGGER.error("Cannot execute ajax command for crew member adding", e);
         } catch (IOException e) {
-            logger.error("Cannot write response", e);
+            LOGGER.error("Cannot write response", e);
         }
     }
 }

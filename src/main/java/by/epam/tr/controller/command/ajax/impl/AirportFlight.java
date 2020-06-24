@@ -17,26 +17,25 @@ import java.util.Map;
 
 public class AirportFlight implements Command {
 
-    private Logger logger = LogManager.getLogger(getClass());
+    private Logger LOGGER = LogManager.getLogger(getClass());
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) {
-
         FlightService flightService = ServiceFactory.getInstance().getFlightService();
         Map<String, String> params;
         List<Flight> flights;
         String flightsGson;
         try {
-            params = RequestToMapParser.flightMap(request);
+            params = RequestToMapParser.toFlightValidationParamsMap(request);
 
             flights = flightService.flightsByDay(params);
             flightsGson = GSONConverter.convertListToGSON(flights);
 
             response.getWriter().write(flightsGson);
         } catch (ServiceException e) {
-            logger.error("Cannot execute ajax command for arrivals and departure table", e);
+            LOGGER.error("Cannot execute ajax command for arrivals and departure table", e);
         } catch (IOException e) {
-            logger.error("Cannot write json to response", e);
+            LOGGER.error("Cannot write json to response", e);
         }
     }
 }

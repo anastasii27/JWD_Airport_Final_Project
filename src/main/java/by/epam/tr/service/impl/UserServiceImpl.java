@@ -13,26 +13,22 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User signIn(String login, String password) throws ServiceException {
-
         User user;
         try {
             user = dao.signIn(login,password);
-
         } catch (DAOException e) {
-            throw new ServiceException("Exception during signing in!");
+            throw new ServiceException("Exception during signing in!", e);
         }
         return user;
     }
 
     @Override
     public boolean userRegistration(User user, String login, String password) throws ServiceException {
-
         boolean operationResult;
-
         try {
            operationResult = dao.addNewUser(user, login, password);
         } catch (DAOException e) {
-            throw new ServiceException("Exception during registration!");
+            throw new ServiceException("Exception during registration!", e);
         }
         return operationResult;
     }

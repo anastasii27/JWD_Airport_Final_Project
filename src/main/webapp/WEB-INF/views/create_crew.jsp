@@ -61,9 +61,8 @@
                  </select>
             </div>
             <div class="form-group">
-                <label for="second_pilot">${second_pilot_label}</label>
-                <select name= "second_pilot" id="second_pilot">
-                    <option selected></option>
+                <label for="pilot">${second_pilot_label}</label>
+                <select name= "pilot" id="pilot" class="selectpicker" multiple>
                     <c:forEach var="pilot" items="${pilots_list}">
                         <option>${pilot.name} ${pilot.surname}</option>
                     </c:forEach>

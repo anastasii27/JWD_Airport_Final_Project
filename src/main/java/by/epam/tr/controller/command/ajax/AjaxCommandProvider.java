@@ -20,7 +20,6 @@ public final class AjaxCommandProvider {
     }
 
     public Command getCommand(String name){
-
         AjaxCommandName commandName;
         Command command = null;
 
@@ -28,7 +27,7 @@ public final class AjaxCommandProvider {
             commandName = AjaxCommandName.valueOf(name.toUpperCase());
             command = commands.get(commandName);
         }catch (IllegalArgumentException e){
-          //
+            //command = commands.get(AjaxCommandName.NO_SUCH_COMMAND);
         }
         return command;
     }

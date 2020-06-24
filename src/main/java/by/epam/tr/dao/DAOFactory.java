@@ -9,7 +9,7 @@ public final class DAOFactory {
     private final UserDAO userDao = new UserDAOImpl();
     private final FlightDAO flightDAO = new FlightDAOImpl();
     private final CrewDAO crewDAO = new CrewDAOImpl();
-    private final CrewMemberDAO crewMemberDAO = new CrewMemberImpl();
+    private final CrewMemberDAO crewMemberDAO = new CrewMemberDAOImpl();
     private final ListCreatorDAO listCreatorDAO = new ListCreatorImpl();
 
     private DAOFactory(){}

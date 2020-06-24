@@ -6,7 +6,6 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
-
 import static by.epam.tr.controller.util.RequestParametersExtractor.*;
 
 public class RequestToMapParser {
@@ -15,8 +14,7 @@ public class RequestToMapParser {
     //todo переделать название методов
     private static String key;
 
-    public static Map<String, String> requestParamsMap(HttpServletRequest request){
-
+    public static Map<String, String> toRequestParamsMap(HttpServletRequest request){
         Map<String, String> params =  new HashMap<>();
         Enumeration<java.lang.String> keys = request.getParameterNames();
 
@@ -27,13 +25,11 @@ public class RequestToMapParser {
         return params;
     }
 
-    public static Map<String, String> flightMap(HttpServletRequest request){
-
+    public static Map<String, String> toFlightValidationParamsMap(HttpServletRequest request){
         Map<String, String> params =  new HashMap<>();
         Enumeration<String> keys = request.getParameterNames();
 
         while (keys.hasMoreElements()){
-
             key = keys.nextElement();
 
             if(key.equals(RequestParameterName.CITY)){
@@ -44,7 +40,7 @@ public class RequestToMapParser {
         return params;
     }
 
-    public static Map<String, String> crewMembersMapForValidation(HttpServletRequest request){
+    public static Map<String, String> toCrewValidationMap(HttpServletRequest request){
 
         Map<String, String> params =  new HashMap<>();
         Enumeration<String> keys = request.getParameterNames();
@@ -56,12 +52,21 @@ public class RequestToMapParser {
             if(key.equals(RequestParameterName.STEWARD)){
                 putStewardsToMap(request.getParameterValues(key), params);
             }
-            params.put(key, request.getParameter(key));
+            if(key.equals(RequestParameterName.PILOT)){
+                putPilotsToMap(request.getParameterValues(key), params);
+            }
+            if(key.equals(RequestParameterName.PILOT1)){
+                params.put(key, request.getParameter(key));
+            }
+            if(key.equals(RequestParameterName.CREW_NAME)){
+                params.put(key, request.getParameter(key));
+            }
+           // params.put(key, request.getParameter(key));
         }
         return params;
     }
 
-    public static Map<String, User> crewMembersMap(String [] stewards, String firstPilot, String secondPilot){
+    public static Map<String, User> toCrewMembersMap(String [] stewards, String firstPilot, String secondPilot){
 
         Map<String, User> users = new HashMap<>();
         User user;
@@ -81,20 +86,9 @@ public class RequestToMapParser {
         pilotNumberTwo = new User(userName(secondPilot), userSurname(secondPilot));
 
         users.put(RequestParameterName.PILOT1, commander);
-        users.put(RequestParameterName.PILOT2, pilotNumberTwo);
+        users.put(RequestParameterName.PILOT, pilotNumberTwo);
 
         return users;
-    }
-
-    public static Map<String, String> myFlightMap(String departureDate, String surname, String email){
-
-        Map<String, String> params =  new HashMap<>();
-
-        params.put(RequestParameterName.DEPARTURE_DATE, departureDate);
-        params.put(RequestParameterName.SURNAME, surname);
-        params.put(RequestParameterName.EMAIL, email);
-
-        return params;
     }
 
     private static void putStewardsToMap(String [] stewards, Map<String, String> params){
@@ -103,6 +97,16 @@ public class RequestToMapParser {
         for (String s : stewards) {
             if (s.length()!= 0) {
                 params.put(RequestParameterName.STEWARD+count++, s);
+            }
+        }
+    }
+
+    private static void putPilotsToMap(String [] stewards, Map<String, String> params){
+        int count=1;
+
+        for (String s : stewards) {
+            if (s.length()!= 0) {
+                params.put(RequestParameterName.PILOT+count++, s);
             }
         }
     }

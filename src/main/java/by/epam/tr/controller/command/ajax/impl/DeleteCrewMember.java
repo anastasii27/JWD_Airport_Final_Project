@@ -11,15 +11,15 @@ import org.apache.logging.log4j.Logger;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+
 import static by.epam.tr.controller.util.RequestParametersExtractor.*;
 
 public class DeleteCrewMember implements Command {
 
-    private Logger logger = LogManager.getLogger(getClass());
+    private Logger LOGGER = LogManager.getLogger(getClass());
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) {
-
         CrewMemberService crewMemberService = ServiceFactory.getInstance().getCrewMemberService();
         String crewName;
         String member;
@@ -29,16 +29,14 @@ public class DeleteCrewMember implements Command {
         crewName = request.getParameter(RequestParameterName.CREW_NAME);
         member = request.getParameter(RequestParameterName.USER);
         user = new User(userName(member), userSurname(member));
-
-        System.out.println(user);
         try {
             operationResult = crewMemberService.deleteCrewMember(crewName, user);
 
             response.getWriter().write(String.valueOf(operationResult));
         } catch (ServiceException e) {
-            logger.error("Cannot execute ajax command for crew member deleting", e);
+            LOGGER.error("Cannot execute ajax command for crew member deleting", e);
         } catch (IOException e) {
-            logger.error("Cannot write response", e);
+            LOGGER.error("Cannot write response", e);
         }
     }
 }

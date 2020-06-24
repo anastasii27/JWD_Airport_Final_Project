@@ -1,7 +1,6 @@
 package by.epam.tr.controller.command.front.impl;
 
 import by.epam.tr.bean.Flight;
-import by.epam.tr.bean.User;
 import by.epam.tr.controller.command.Command;
 import by.epam.tr.controller.constant_parameter.JSPPageName;
 import by.epam.tr.controller.constant_parameter.RequestParameterName;
@@ -25,21 +24,13 @@ public class MyFlights implements Command {
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) {
-
         FlightService flightService = ServiceFactory.getInstance().getFlightService();
-        User user  = (User) request.getSession().getAttribute(RequestParameterName.USER);
         String departureDate;
-        String surname;
-        String email;
-
-        surname = user.getSurname();
-        email = user.getEmail();
-        departureDate = request.getParameter(RequestParameterName.DEPARTURE_DATE);
-
         List<Flight> flights;
-        try {
 
-            params = RequestToMapParser.myFlightMap(departureDate, surname, email);
+        departureDate = request.getParameter(RequestParameterName.DEPARTURE_DATE);
+        try {
+            params = RequestToMapParser.toRequestParamsMap(request);
             flights = flightService.userFlights(params);
 
             if(flights.size()!= 0){
@@ -47,7 +38,6 @@ public class MyFlights implements Command {
             }else {
                 request.setAttribute(RequestParameterName.RESULT_INFO, ANSWER);
             }
-
             request.setAttribute(RequestParameterName.DEPARTURE_DATE, departureDate);
 
             forwardTo(request,response, JSPPageName.MY_FLIGHTS_PAGE);

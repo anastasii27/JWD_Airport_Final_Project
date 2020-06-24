@@ -13,11 +13,10 @@ import java.io.IOException;
 
 public class CrewNameExistence implements Command {
 
-    private Logger logger = LogManager.getLogger(getClass());
+    private Logger LOGGER = LogManager.getLogger(getClass());
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) {
-
         CrewService crewService = ServiceFactory.getInstance().getCrewService();
         boolean operationResult;
         String crewName;
@@ -28,9 +27,9 @@ public class CrewNameExistence implements Command {
 
             response.getWriter().write(String.valueOf(!operationResult));
         } catch (ServiceException e) {
-            logger.error("Cannot execute ajax command for crew name check", e);
+            LOGGER.error("Cannot execute ajax command for crew name check", e);
         } catch (IOException e) {
-            logger.error("Cannot write response", e);
+            LOGGER.error("Cannot write response", e);
         }
     }
 }

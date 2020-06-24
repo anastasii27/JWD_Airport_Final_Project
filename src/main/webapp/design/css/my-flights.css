@@ -1,0 +1,52 @@
+.form{
+    height:12vh;
+    margin-left:auto;
+    margin-right:auto;
+    margin-top:4vh;
+    background-color: #d6e5f17a;
+    border: solid 0.5px #6c757d52;
+    border-radius:3px;
+}
+input[name="departure_date"]{
+    width: 15vw;
+    height: 5vh;
+    margin-left: 1vw;
+    margin-top:4vh;
+    border: solid 2px #6c757d52;
+    border-radius:7px;
+}
+#btn{
+    margin-left:1vw;
+    margin-top:4vh;
+}
+.for_label{
+    margin-left:1vw;
+    margin-top:5vh;
+}
+label{
+    font-size:17px;
+}
+#table{
+    margin-top: 3vh;
+    margin-left: auto;
+    margin-right: auto;
+    width:65vw;
+}
+td{
+    text-align: center;
+    border-bottom: 2px solid #6c757d52;
+}
+th{
+    text-align: center;
+    border-bottom: 2px solid #6c757d52;
+    background-color:#d6e5f17a;
+}
+table{
+    border: 2px solid white;
+}
+#no_flights{
+    width: 26vw;
+    margin-top:3vh;
+    margin-left: auto;
+    margin-right: auto;
+}

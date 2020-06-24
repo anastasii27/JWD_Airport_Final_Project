@@ -8,7 +8,6 @@ public class NoSuchCommand implements Command {
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) {
-
         errorPage(response);
     }
 }

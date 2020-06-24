@@ -10,7 +10,7 @@ public class ServiceFactory{
     private final FlightService flightService = new FlightServiceImpl();
     private final CrewService crewService = new CrewServiceImpl();
     private final ListCreatorService listCreatorService = new ListCreatorImpl();
-    private final CrewMemberService crewMemberService = new CrewMemberImpl();
+    private final CrewMemberService crewMemberService = new CrewMemberServiceImpl();
 
     private ServiceFactory(){}
 

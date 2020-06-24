@@ -16,9 +16,11 @@
         <fmt:message bundle="${loc}" key="local.js.lang" var="lang" />
         <fmt:message bundle="${loc}" key="local.label.menu_user_my_flights" var="my_flights_label" />
         <fmt:message bundle="${loc}" key="local.send_button" var="send_button" />
+        <fmt:message bundle="${loc}" key="local.label.flight_info.date" var="date_label" />
 
         <title>${my_flights_label}</title>
 
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/design/css/my-flights.css"/>
         <link rel="stylesheet" href="${pageContext.request.contextPath}/design/css/validation-plug-in.css"/>
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
         <link href="${pageContext.request.contextPath}/design/css/datepicker.min.css" rel="stylesheet" type="text/css">
@@ -40,42 +42,48 @@
                 });
             });
         </script>
-
     </head>
     <body>
-
         <jsp:include page="parts/header.jsp"/>
-
-        <form action="airport" method="get" id="my_flights_form">
-            <input type="hidden" name="action" value="show_my_flights"/>
-            <label for="my_flights_piker"></label>
-            <input type='text' name="departure_date" id= "my_flights_piker" class="datepicker-here"
-                   data-language="${lang}" value = "${requestScope.departure_date}"/>
-            <input type="submit" value="${send_button}"/>
-        </form>
-
+        <div class="col-md-5 form">
+            <form action="airport" method="get" id="my_flights_form">
+                <input type="hidden" name="action" value="show_my_flights"/>
+                <input type="hidden" name="surname" value="${sessionScope.user.surname}"/>
+                <input type="hidden" name="email" value="${sessionScope.user.email}"/>
+                <div class="form-group row">
+                    <div class="for_label">
+                        <label for="my_flights_piker">${date_label}</label>
+                    </div>
+                    <input type='text' name="departure_date" id= "my_flights_piker" class="datepicker-here"
+                         data-language="${lang}" value = "${requestScope.departure_date}"/>
+                    <div id="btn">
+                         <button type="submit" class="btn btn-primary">${send_button}</button>
+                    </div>
+                </div>
+            </form>
+        </div>
         <c:set var = "result" value = "${requestScope.result}"/>
-        <c:if test = "${result eq null}">
-
-            <table class ="table" border="2">
-                <tr>
-                    <th>${flight_label}</th><th>${dep_time_label}</th>
-                    <th>${dep_city_label}</th><th>${dest_city_label}</th>
-                    <th>${plane_label}</th><th>${status_label}</th>
-                </tr>
-                <c:forEach items="${requestScope.flight}" var="flight_item">
-                    <tr onclick="document.location.href= '${pageContext.request.contextPath}/airport?action=show_flight_info&flight_number=${flight_item.flightNumber}&departure_date=${flight_item.departureDate}'">
-                        <td>${flight_item.flightNumber}</td>
-                        <td>${flight_item.departureTime}</td>
-                        <td>${flight_item.departureCity}(${flight_item.departureAirportShortName})</td>
-                        <td>${flight_item.destinationCity}(${flight_item.destinationAirportShortName})</td>
-                        <td>${flight_item.planeModel}</td>
-                        <td>${flight_item.status}</td>
+        <div id="table">
+            <c:if test = "${result eq null}">
+                <table class ="table" border="2">
+                    <tr>
+                        <th>${flight_label}</th><th>${dep_time_label}</th>
+                        <th>${dep_city_label}</th><th>${dest_city_label}</th>
+                        <th>${plane_label}</th><th>${status_label}</th>
                     </tr>
-                </c:forEach>
-            </table>
-        </c:if>
-
+                    <c:forEach items="${requestScope.flight}" var="flight_item">
+                        <tr onclick="document.location.href= '${pageContext.request.contextPath}/airport?action=show_flight_info&flight_number=${flight_item.flightNumber}&departure_date=${flight_item.departureDate}'">
+                            <td>${flight_item.flightNumber}</td>
+                            <td>${flight_item.departureTime}</td>
+                            <td>${flight_item.departureCity}(${flight_item.departureAirportShortName})</td>
+                            <td>${flight_item.destinationCity}(${flight_item.destinationAirportShortName})</td>
+                            <td>${flight_item.planeModel}</td>
+                            <td>${flight_item.status}</td>
+                        </tr>
+                    </c:forEach>
+                </table>
+            </c:if>
+        </div>
         <c:if test = "${result ne null}">
             <c:out value="${result}"/>
         </c:if>

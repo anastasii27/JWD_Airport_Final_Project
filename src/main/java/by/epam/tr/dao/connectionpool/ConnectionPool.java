@@ -58,7 +58,6 @@ public class ConnectionPool {
     public Connection takeConnection() throws ConnectionPoolException {
 
         Connection connection;
-
         try {
             connection = availableConnection.poll();
             usedConnection.put(connection);

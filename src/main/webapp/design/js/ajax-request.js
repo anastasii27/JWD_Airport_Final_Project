@@ -80,8 +80,10 @@ $(document).ready(function ($) {
 
     $('#add_user').on('click', function () {
 
-        $('#pilots_select option:disabled').removeAttr('disabled');
-        $('#stewards_select option').removeAttr('disabled');
+        // $('#pilots_select option:disabled').removeAttr('disabled');
+        // $('#stewards_select option:disabled').removeAttr('disabled');
+        // $('#pilots_select option:selected').removeAttr('selected');
+        // $('#stewards_select option:selected').removeAttr('selected');
 
         let pilots = $('#pilots_select').text();
         let stewards = $('#stewards_select').text();
