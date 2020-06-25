@@ -15,7 +15,6 @@ $(document).ready(function ($) {
 
         if(resultConfirm===true){
             $(this).parent().remove();
-
             $.ajax({
                 type: "POST",
                 url: "/JWD_Task3_war/ajax",
@@ -23,7 +22,6 @@ $(document).ready(function ($) {
                 data: {command: 'delete_crew',crew_name: crewName},
 
                 success: function (data) {
-                   // showCrewAjax(crewName);
                 },
                 error: function (data) {
                     $('.crew_members ').hide();
@@ -79,11 +77,6 @@ $(document).ready(function ($) {
     });
 
     $('#add_user').on('click', function () {
-
-        // $('#pilots_select option:disabled').removeAttr('disabled');
-        // $('#stewards_select option:disabled').removeAttr('disabled');
-        // $('#pilots_select option:selected').removeAttr('selected');
-        // $('#stewards_select option:selected').removeAttr('selected');
 
         let pilots = $('#pilots_select').text();
         let stewards = $('#stewards_select').text();

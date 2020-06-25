@@ -54,7 +54,7 @@ public class Registration implements Command{
         User user = new User(role,name, surname, email, careerStartYear);
 
         params = RequestToMapParser.toRequestParamsMap(request);
-        validationResults = validator.validate(params);//TODO проверка на одинаковые пароли
+        validationResults = validator.validate(params);
 
         try {
             if(validationResults.size()==0){

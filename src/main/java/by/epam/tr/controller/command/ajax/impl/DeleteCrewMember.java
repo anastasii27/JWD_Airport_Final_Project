@@ -15,7 +15,6 @@ import java.io.IOException;
 import static by.epam.tr.controller.util.RequestParametersExtractor.*;
 
 public class DeleteCrewMember implements Command {
-
     private Logger LOGGER = LogManager.getLogger(getClass());
 
     @Override

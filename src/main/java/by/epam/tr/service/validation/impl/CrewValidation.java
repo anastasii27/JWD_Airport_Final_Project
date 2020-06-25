@@ -5,23 +5,24 @@ import by.epam.tr.dao.DAOException;
 import by.epam.tr.dao.DAOFactory;
 import by.epam.tr.service.validation.ValidationPattern;
 import by.epam.tr.service.validation.Validator;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import java.util.*;
 
 public class CrewValidation extends Validator {
+    private Logger LOGGER = LogManager.getLogger(getClass());
 
     @Override
     public List<String> validate(Map<String, String> params) {
         List<String> result= new ArrayList<>();
+        CrewDAO crewDAO = DAOFactory.getInstance().getCrewDAO();
         
         if(!emptyValueCheck(params)){
             result.add("You didnt` enter some values");
             return result;
         }
 
-        String firstPilot = params.get("first_pilot");
-        CrewDAO crewDAO = DAOFactory.getInstance().getCrewDAO();
         String crewName = params.get("crew_name");
-
         if(!checkWithPattern(ValidationPattern.CREW_NAME_PATTERN, crewName)){
             result.add("Illegal crew name!");
         }
@@ -31,19 +32,18 @@ public class CrewValidation extends Validator {
                 result.add("This name is already exist!");
             }
         } catch (DAOException e) {
-            //
+            LOGGER.error("Error during crew name existence checking");
         }
 
-        if(firstPilot.length()==0){
-            result.add("You didn`t choose first pilot");
+        if(!areSameMembersInCrew(params)){
+            result.add("Same values");
         }
-
-
-
-        if(params.get("steward1") == null){
-            result.add("There are no stewards");
-        }
-
         return result;
     }
+
+    private boolean areSameMembersInCrew(Map<String, String> params){
+        Set<String> members = new HashSet<>(params.values());
+        return members.size()==params.size() ;
+    }
+
 }

@@ -15,14 +15,16 @@ import java.sql.SQLException;
 import java.util.Map;
 
 public class CrewDAOImpl extends CloseOperation implements CrewDAO {
-
-
     private final static String CREATE_CREW = "INSERT INTO `flight-teams`(`date-of-creating`, `short-name`)\n" +
                                         "VALUES (current_date(), ?);";
 
     private final static String ADD_MEMBER = "INSERT INTO airport.`flight-teams-m2m-users`(`flight-team-id`, `user-id`) VALUES (\n" +
                                         "(SELECT id FROM `flight-teams` WHERE `short-name` =?),\n" +
                                         "(SELECT id FROM users WHERE `name`=? AND surname =?));";
+
+    private final static String SET_MAIN_PILOT = "UPDATE airport.`flight-teams` \n" +
+                                        "SET `main-pilot-id` = (SELECT id FROM users WHERE `name` = ? AND `surname` = ?)\n" +
+                                        "WHERE `short-name` = ?; ";
 
     private final static String CHECK_CREW_NAME_EXISTENCE = "SELECT `date-of-creating` FROM `flight-teams` WHERE `short-name`=?;";
 
@@ -35,6 +37,10 @@ public class CrewDAOImpl extends CloseOperation implements CrewDAO {
     private final static String DELETE_CREW_FROM_FLIGHT = "UPDATE airport.flights\n" +
                                         "SET `flight-team-id` =  null WHERE `flight-team-id` = (SELECT id FROM `flight-teams` " +
                                         "WHERE `short-name`= ?);";
+
+    private final static String FIND_MAIN_PILOT = "SELECT `name`, surname FROM airport.`flight-teams`\n" +
+                                        "JOIN users ON `main-pilot-id`  = users.id\n" +
+                                        "WHERE `short-name` = ?;";
 
     private Logger LOGGER = LogManager.getLogger(getClass());
 
@@ -49,6 +55,7 @@ public class CrewDAOImpl extends CloseOperation implements CrewDAO {
 
             createCrew(crewName, connection);
             addCrewUser(crewName, users, connection);
+            setMainPilot(crewName, users.get("first_pilot"), connection);
 
             connection.commit();
             flag = true;
@@ -74,6 +81,33 @@ public class CrewDAOImpl extends CloseOperation implements CrewDAO {
             }
         }
         return flag;
+    }
+
+    private void addCrewUser(String crewName, Map<String, User> users, Connection connection) throws SQLException {
+        try(PreparedStatement ps = connection.prepareStatement(ADD_MEMBER)){
+            for (Map.Entry<String, User> user : users.entrySet()) {
+                ps.setString(1, crewName);
+                ps.setString(2, user.getValue().getName());
+                ps.setString(3, user.getValue().getSurname());
+                ps.executeUpdate();
+            }
+        }
+    }
+
+    private int createCrew(String crewName, Connection connection) throws SQLException {
+        try(PreparedStatement ps = connection.prepareStatement(CREATE_CREW)){
+            ps.setString(1, crewName);
+            return ps.executeUpdate();
+        }
+    }
+
+    private void setMainPilot(String crewName, User user, Connection connection) throws SQLException {
+        try(PreparedStatement ps = connection.prepareStatement(SET_MAIN_PILOT)){
+            ps.setString(1, user.getName());
+            ps.setString(2, user.getSurname());
+            ps.setString(3, crewName);
+            ps.executeUpdate();
+        }
     }
 
     @Override
@@ -138,24 +172,6 @@ public class CrewDAOImpl extends CloseOperation implements CrewDAO {
         return changedRowsAmount;
     }
 
-    private void addCrewUser(String crewName, Map<String, User> users, Connection connection) throws SQLException {
-        try(PreparedStatement ps = connection.prepareStatement(ADD_MEMBER)){
-            for (Map.Entry<String, User> user : users.entrySet()) {
-                ps.setString(1, crewName);
-                ps.setString(2, user.getValue().getName());
-                ps.setString(3, user.getValue().getSurname());
-                ps.executeUpdate();
-            }
-        }
-    }
-
-    private int createCrew(String crewName, Connection connection) throws SQLException {
-        try(PreparedStatement ps = connection.prepareStatement(CREATE_CREW)){
-            ps.setString(1, crewName);
-            return ps.executeUpdate();
-        }
-    }
-
     private int deleteCrew(String crewName, Connection connection) throws SQLException {
         try (PreparedStatement deleteCrew = connection.prepareStatement(DELETE_CREW)) {
             deleteCrew.setString(1, crewName);
@@ -175,5 +191,31 @@ public class CrewDAOImpl extends CloseOperation implements CrewDAO {
             deleteWithMembers.setString(1, crewName);
             return deleteWithMembers.executeUpdate();
         }
+    }
+
+    @Override
+    public User findMainPilot(String crewName) throws DAOException {
+        ConnectionPool pool = ConnectionPool.getInstance();
+        Connection  connection = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        User user;
+        try{
+            connection = pool.takeConnection();
+
+            ps = connection.prepareStatement(FIND_MAIN_PILOT);
+            ps.setString(1, crewName);
+            rs = ps.executeQuery();
+
+            if (!rs.next()) {
+                return null;
+            }
+            user = new User(rs.getString("name"), rs.getString("surname"));
+        } catch (ConnectionPoolException | SQLException e) {
+            throw new DAOException("Exception during crew existence checking!", e);
+        } finally {
+            closeAll(rs, ps, pool, connection);
+        }
+        return user;
     }
 }

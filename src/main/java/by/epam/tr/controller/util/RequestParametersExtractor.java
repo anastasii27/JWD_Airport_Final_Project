@@ -7,14 +7,14 @@ import java.util.List;
 public class RequestParametersExtractor{
 
     public static String userName(String fullUserName){
-        if(fullUserName==null){
+        if(fullUserName == null){
             return " ";
         }
         return fullUserName.substring(0, fullUserName.indexOf(' ')).trim();
     }
 
     public static String userSurname(String fullUserName){
-        if(fullUserName==null){
+        if(fullUserName == null){
             return " ";
         }
         return fullUserName.substring(fullUserName.indexOf(' ')).trim();
@@ -22,10 +22,10 @@ public class RequestParametersExtractor{
 
     public static List<User> userFullName(String users){//todo переделать
         List<User> usersList = new ArrayList<>();
-        if(users != null && users.length()!=0){
+        if(users != null && users.length() != 0){
             String [] usersStringArray = users.split(" ");
 
-            for(int i=0;i<usersStringArray.length;i=i+2){
+            for(int i=0; i<usersStringArray.length; i=i+2){
                 usersList.add(new User(usersStringArray[i], usersStringArray[i+1]));
             }
         }

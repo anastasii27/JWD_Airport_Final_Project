@@ -6,32 +6,28 @@ import by.epam.tr.dao.DAOException;
 import by.epam.tr.dao.DAOFactory;
 import by.epam.tr.service.CrewService;
 import by.epam.tr.service.ServiceException;
-
 import java.util.Map;
 
 public class CrewServiceImpl implements CrewService {
 
     private CrewDAO dao = DAOFactory.getInstance().getCrewDAO();
-    private boolean operationResult;
 
     @Override
     public boolean createCrew(String crewName, Map<String, User> users) throws ServiceException {
         try {
-            operationResult = dao.createCrew(crewName, users);
+            return dao.createCrew(crewName, users);
         } catch (DAOException e) {
             throw new ServiceException("Exception during crew creation", e);
         }
-        return operationResult;
     }
 
     @Override
     public boolean doesCrewNameExist(String crewName) throws ServiceException {
         try {
-            operationResult = dao.doesCrewNameExist(crewName);
+            return dao.doesCrewNameExist(crewName);
         } catch (DAOException e) {
             throw new ServiceException("Exception during crew existence checking", e);
         }
-        return operationResult;
     }
 
     @Override
@@ -43,5 +39,14 @@ public class CrewServiceImpl implements CrewService {
             throw new ServiceException("Exception during crew deleting", e);
         }
         return changedRowsAmount != 0;
+    }
+
+    @Override
+    public User findMainPilot(String crewName) throws ServiceException {
+        try {
+            return dao.findMainPilot(crewName);
+        } catch (DAOException e) {
+            throw new ServiceException("Exception during main pilot searching", e);
+        }
     }
 }

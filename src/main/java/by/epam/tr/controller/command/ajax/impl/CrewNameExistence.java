@@ -12,7 +12,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 public class CrewNameExistence implements Command {
-
     private Logger LOGGER = LogManager.getLogger(getClass());
 
     @Override

@@ -16,7 +16,6 @@ import java.util.List;
 import java.util.Map;
 
 public class AirportFlight implements Command {
-
     private Logger LOGGER = LogManager.getLogger(getClass());
 
     @Override
@@ -25,6 +24,7 @@ public class AirportFlight implements Command {
         Map<String, String> params;
         List<Flight> flights;
         String flightsGson;
+
         try {
             params = RequestToMapParser.toFlightValidationParamsMap(request);
 

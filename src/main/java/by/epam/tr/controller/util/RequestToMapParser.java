@@ -11,8 +11,8 @@ import static by.epam.tr.controller.util.RequestParametersExtractor.*;
 public class RequestToMapParser {
 
     private final static String AIRPORT_SHORT_NAME  = "airport_short_name";
-    //todo переделать название методов
     private static String key;
+    private static int count = 1;
 
     public static Map<String, String> toRequestParamsMap(HttpServletRequest request){
         Map<String, String> params =  new HashMap<>();
@@ -31,82 +31,64 @@ public class RequestToMapParser {
 
         while (keys.hasMoreElements()){
             key = keys.nextElement();
-
             if(key.equals(RequestParameterName.CITY)){
                 params.put(AIRPORT_SHORT_NAME, airportName(request.getParameter(RequestParameterName.CITY)));
             }
+
             params.put(key, request.getParameter(key));
         }
         return params;
     }
 
     public static Map<String, String> toCrewValidationMap(HttpServletRequest request){
-
         Map<String, String> params =  new HashMap<>();
         Enumeration<String> keys = request.getParameterNames();
 
         while (keys.hasMoreElements()){
-
             key = keys.nextElement();
-
             if(key.equals(RequestParameterName.STEWARD)){
-                putStewardsToMap(request.getParameterValues(key), params);
+               putMemberToMap(request.getParameterValues(key), params);
             }
+
             if(key.equals(RequestParameterName.PILOT)){
-                putPilotsToMap(request.getParameterValues(key), params);
+                putMemberToMap(request.getParameterValues(key), params);
             }
-            if(key.equals(RequestParameterName.PILOT1)){
+
+            if(key.equals(RequestParameterName.PILOT1) || key.equals(RequestParameterName.CREW_NAME)){
                 params.put(key, request.getParameter(key));
             }
-            if(key.equals(RequestParameterName.CREW_NAME)){
-                params.put(key, request.getParameter(key));
-            }
-           // params.put(key, request.getParameter(key));
         }
         return params;
     }
 
-    public static Map<String, User> toCrewMembersMap(String [] stewards, String firstPilot, String secondPilot){
-
-        Map<String, User> users = new HashMap<>();
-        User user;
-        User commander;
-        User pilotNumberTwo;
-        int count=1;
-
-        if (stewards != null) {
-            for (String s : stewards) {
-                if (s.length() != 0) {
-                    user = new User(userName(s), userSurname(s));
-                    users.put(RequestParameterName.STEWARD+count++,user);
-                }
+    private static void putMemberToMap(String [] crewMembers, Map<String, String> users){
+        for (String member: crewMembers) {
+            if (member.length()!= 0) {
+                users.put(RequestParameterName.USER+count++, member);
             }
         }
-        commander = new User(userName(firstPilot), userSurname(firstPilot));
-        pilotNumberTwo = new User(userName(secondPilot), userSurname(secondPilot));
+    }
 
-        users.put(RequestParameterName.PILOT1, commander);
-        users.put(RequestParameterName.PILOT, pilotNumberTwo);
+    public static Map<String, User> toCrewMembersMap(String [] stewards, String commander, String [] pilots){
+        Map<String, User> users = new HashMap<>();
+        User firstPilot;
+
+        putUserToMap(stewards, users);
+        putUserToMap(pilots, users);
+
+        firstPilot = new User(userName(commander), userSurname(commander));
+        users.put(RequestParameterName.PILOT1, firstPilot);
 
         return users;
     }
 
-    private static void putStewardsToMap(String [] stewards, Map<String, String> params){
-        int count=1;
+    private static void putUserToMap(String [] crewMembers,  Map<String, User> users){
+        User user;
 
-        for (String s : stewards) {
-            if (s.length()!= 0) {
-                params.put(RequestParameterName.STEWARD+count++, s);
-            }
-        }
-    }
-
-    private static void putPilotsToMap(String [] stewards, Map<String, String> params){
-        int count=1;
-
-        for (String s : stewards) {
-            if (s.length()!= 0) {
-                params.put(RequestParameterName.PILOT+count++, s);
+        for (String member: crewMembers) {
+            if (member.length() != 0) {
+                user = new User(userName(member), userSurname(member));
+                users.put(RequestParameterName.USER+count++,user);
             }
         }
     }

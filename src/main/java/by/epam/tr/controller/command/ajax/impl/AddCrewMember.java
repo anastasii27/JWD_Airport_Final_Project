@@ -15,7 +15,6 @@ import java.io.IOException;
 import java.util.List;
 
 public class AddCrewMember implements Command {
-
     private Logger LOGGER = LogManager.getLogger(getClass());
 
     @Override

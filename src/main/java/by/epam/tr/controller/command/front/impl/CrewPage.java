@@ -14,14 +14,12 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 public class CrewPage implements Command {
-
     private Logger logger = LogManager.getLogger(getClass());
     private static final String PILOT = "pilot";
     private static final String STEWARD = "steward";
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) {
-
         ListCreatorService listCreatorService = ServiceFactory.getInstance().getListCreatorService();
         List<String> crews;
         List<User> pilots;

@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class DateValidation extends Validator {
+public class DateValidation extends Validator {//todo MAX| MIN date
 
     private final static int MIN_DAY = 10;
     private final static int MAX_DAY = 30;
