@@ -76,7 +76,7 @@ public class RequestToMapParser {
         putUserToMap(stewards, users);
         putUserToMap(pilots, users);
 
-        firstPilot = new User(userName(commander), userSurname(commander));
+        firstPilot = User.builder().name(userName(commander)).surname(userSurname(commander)).build();
         users.put(RequestParameterName.PILOT1, firstPilot);
 
         return users;
@@ -87,7 +87,7 @@ public class RequestToMapParser {
 
         for (String member: crewMembers) {
             if (member.length() != 0) {
-                user = new User(userName(member), userSurname(member));
+                user = User.builder().name(userName(member)).surname(userSurname(member)).build();
                 users.put(RequestParameterName.USER+count++,user);
             }
         }

@@ -31,4 +31,5 @@ public final class RequestParameterName {
     public static final String PILOT1 = "first_pilot";
     public static final String PILOT = "pilot";
     public static final String STEWARD = "steward";
+    public static final String COUNTRIES = "country_list";
 }

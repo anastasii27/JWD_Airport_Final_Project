@@ -7,7 +7,7 @@ import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 
 public class ConnectionPool {
-
+    private static ConnectionPool instance;
     private String driver;
     private String user;
     private String password;
@@ -15,7 +15,6 @@ public class ConnectionPool {
     private int poolSize;
     private BlockingQueue<Connection> availableConnection;
     private BlockingQueue<Connection> usedConnection;
-    private static ConnectionPool instance;
 
     private ConnectionPool() {
         ResourceManager resourceManager = ResourceManager.getInstance();
@@ -27,7 +26,6 @@ public class ConnectionPool {
     }
 
     public static ConnectionPool getInstance() {
-
         if(instance == null){
             instance = new ConnectionPool();
         }
@@ -35,7 +33,6 @@ public class ConnectionPool {
     }
 
     public void poolInitialization() throws ConnectionPoolException {
-
         try {
             Class.forName(driver);
             availableConnection = new ArrayBlockingQueue<>(poolSize);
@@ -45,7 +42,6 @@ public class ConnectionPool {
                 Connection connection = DriverManager.getConnection(url, user, password);
                 availableConnection.put(connection);
             }
-
         } catch (SQLException e) {
             throw new ConnectionPoolException("Exception during pool creation!");
         } catch (ClassNotFoundException e) {
@@ -56,26 +52,23 @@ public class ConnectionPool {
     }
 
     public Connection takeConnection() throws ConnectionPoolException {
-
         Connection connection;
+
         try {
             connection = availableConnection.poll();
             usedConnection.put(connection);
         } catch (InterruptedException e) {
             throw new ConnectionPoolException("Exception during taking connection!");
         }
-
         return connection;
     }
 
     public void releaseConnection(Connection connection){
-
         usedConnection.remove(connection);
         availableConnection.add(connection);
     }
 
     public void closeAllConnections() throws ConnectionPoolException {
-
         try {
             closeConnectionsInPool(availableConnection);
             closeConnectionsInPool(usedConnection);
@@ -86,7 +79,6 @@ public class ConnectionPool {
     }
 
     private void closeConnectionsInPool(BlockingQueue <Connection> queue) throws SQLException {
-
         Connection connection;
 
         while ((connection = queue.poll()) != null) {

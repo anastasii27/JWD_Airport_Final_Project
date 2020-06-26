@@ -51,7 +51,11 @@ public class Registration implements Command{
         email = request.getParameter(RequestParameterName.EMAIL);
         careerStartYear = request.getParameter(RequestParameterName.CAREER_START_YEAR);
 
-        User user = new User(role,name, surname, email, careerStartYear);
+        User user =  User.builder().role(role)
+                                    .name(name)
+                                    .surname(surname)
+                                    .email(email)
+                                    .careerStartYear(careerStartYear).build();
 
         params = RequestToMapParser.toRequestParamsMap(request);
         validationResults = validator.validate(params);

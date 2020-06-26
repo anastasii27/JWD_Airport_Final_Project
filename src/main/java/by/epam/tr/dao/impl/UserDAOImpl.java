@@ -15,7 +15,7 @@ public class UserDAOImpl extends CloseOperation implements UserDAO {
     private final static String INSERT_USER =  "INSERT INTO airport.users (`role-id`, login, `password`, `name`, surname, email, `career-start-year`)" +
                                     "VALUES((SELECT id FROM airport.roles WHERE title = ?),?,?,?,?,?,?);";
 
-    private final static String SELECT_FOR_SING_IN = "SELECT title  AS `role` , `name`, surname, email, `career-start-year` " +
+    private final static String SING_IN = "SELECT title  AS `role` , `name`, surname, email, `career-start-year` " +
                                     "FROM users JOIN roles ON users.`role-id` = roles.id WHERE login = ? AND `password`=?;";
 
     private final static String CHECK_USER_EXISTENCE_1 = "SELECT `name` FROM users WHERE login = ?;";
@@ -62,7 +62,7 @@ public class UserDAOImpl extends CloseOperation implements UserDAO {
         User user;
         try {
             connection = pool.takeConnection();
-            ps =  connection.prepareStatement(SELECT_FOR_SING_IN);
+            ps =  connection.prepareStatement(SING_IN);
 
             ps.setString(1, login);
             ps.setString(2,password);
@@ -71,8 +71,15 @@ public class UserDAOImpl extends CloseOperation implements UserDAO {
             if(!rs.next()){
                 return null;
             }
-            user =  new User(rs.getString("role"),rs.getString("name"), rs.getString("surname"), rs.getString("email"),rs.getString("career-start-year"));
-        } catch (ConnectionPoolException | SQLException e) {
+            //user =  new User(rs.getString("role"),rs.getString("role"), rs.getString("surname"), rs.getString("email"),rs.getString("career-start-year"));
+
+            user = User.builder().role(rs.getString("role"))
+                                .name(rs.getString("name"))
+                                .surname(rs.getString("surname"))
+                                .email(rs.getString("email"))
+                                .careerStartYear(rs.getString("career-start-year")).build();
+
+        }catch (ConnectionPoolException | SQLException e) {
             throw new DAOException("Exception during signing in!", e);
         }finally {
             closeAll(rs, ps, pool, connection);
@@ -136,7 +143,11 @@ public class UserDAOImpl extends CloseOperation implements UserDAO {
 
             rs = ps.executeQuery();
             while (rs.next()){
-                users.add(new User(rs.getString("name"), rs.getString("surname"), rs.getString("title")));
+                users.add( User.builder()
+                        .name(rs.getString("name"))
+                        .surname(rs.getString("surname"))
+                        .role( rs.getString("title"))
+                        .build());
             }
         } catch (ConnectionPoolException | SQLException e) {
             throw new DAOException("Exception during all users getting!", e);

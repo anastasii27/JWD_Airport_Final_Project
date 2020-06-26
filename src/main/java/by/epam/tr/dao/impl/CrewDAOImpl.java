@@ -210,7 +210,7 @@ public class CrewDAOImpl extends CloseOperation implements CrewDAO {
             if (!rs.next()) {
                 return null;
             }
-            user = new User(rs.getString("name"), rs.getString("surname"));
+            user = User.builder().name(rs.getString("name")).surname(rs.getString("surname")).build();
         } catch (ConnectionPoolException | SQLException e) {
             throw new DAOException("Exception during crew existence checking!", e);
         } finally {

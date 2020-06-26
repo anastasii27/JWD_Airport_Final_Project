@@ -1,7 +1,6 @@
 package by.epam.tr.dao.connectionpool;
 
 public class ConnectionPoolException extends Exception {
-
     public ConnectionPoolException(){}
 
     public ConnectionPoolException(String message){

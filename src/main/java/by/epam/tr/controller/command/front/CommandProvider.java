@@ -6,7 +6,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 public final class CommandProvider {
-
     private static final CommandProvider instance =  new CommandProvider();
     private  final Map <CommandName, Command> commands = new HashMap<>();
 
@@ -26,6 +25,8 @@ public final class CommandProvider {
         commands.put(CommandName.SHOW_CREATE_CREW_PAGE, new CreateCrewPage());
         commands.put(CommandName.CREATE_CREW, new CreateCrew());
         commands.put(CommandName.SHOW_DISPATCHER_FLIGHTS, new DispatcherFlights());
+        commands.put(CommandName.SHOW_FLIGHT_MANAGEMENT_PAGE, new FlightManagementPage());
+        commands.put(CommandName.SHOW_CREATE_FLIGHT_PAGE, new CreateFlightPage());
     }
 
     public Command getCommand(String name){
@@ -45,5 +46,4 @@ public final class CommandProvider {
     public static CommandProvider getInstance(){
         return instance;
     }
-
 }

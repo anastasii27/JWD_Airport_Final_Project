@@ -15,6 +15,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import static by.epam.tr.controller.util.RequestParametersExtractor.userName;
+import static by.epam.tr.controller.util.RequestParametersExtractor.userSurname;
+
 public class CrewMemberDAOImpl extends CloseOperation implements CrewMemberDAO {
 
     private final static String CREW_MEMBERS = "SELECT `name`, `surname`, title FROM `flight-teams-m2m-users`\n"+
@@ -52,7 +55,7 @@ public class CrewMemberDAOImpl extends CloseOperation implements CrewMemberDAO {
             rs = ps.executeQuery();
 
             while (rs.next()) {
-                crew.add(new User(rs.getString("name"), rs.getString("surname"), rs.getString("title")));
+                crew.add(User.builder().name(rs.getString("name")).surname(rs.getString("surname")).role(rs.getString("title")).build());
             }
 
             connection.commit();
@@ -162,19 +165,17 @@ public class CrewMemberDAOImpl extends CloseOperation implements CrewMemberDAO {
         Connection connection = null;
         ResultSet rs;
         PreparedStatement  ps = null;
-        boolean res;
+        boolean operationResult;
         try {
             connection = pool.takeConnection();
             connection.setAutoCommit(false);
 
-              ps =  connection.prepareStatement(CHECK_CREW_MEMBER_EXISTENCE);
-                ps.setString(1, user.getName());
-                ps.setString(2, user.getSurname());
-                ps.setString(3, crewName);
-
-                rs = ps.executeQuery();
-
-               res  = rs.next();
+            ps =  connection.prepareStatement(CHECK_CREW_MEMBER_EXISTENCE);
+            ps.setString(1, user.getName());
+            ps.setString(2, user.getSurname());
+            ps.setString(3, crewName);
+            rs = ps.executeQuery();
+            operationResult  = rs.next();
 
             connection.commit();
         } catch (ConnectionPoolException | SQLException e) {
@@ -196,7 +197,7 @@ public class CrewMemberDAOImpl extends CloseOperation implements CrewMemberDAO {
             }
             closeAll(ps, pool, connection);
         }
-        return res;
+        return operationResult;
     }
 
 }

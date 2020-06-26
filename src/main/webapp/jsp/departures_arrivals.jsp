@@ -60,7 +60,7 @@
                 <input type="hidden" name="from" value="${requestScope.from}"/>
 
                 <div class="form-group row">
-                    <label for="input_city" >${airport_label}</label>
+                    <label for="input_city" class="label">${airport_label}</label>
                     <select name= "city" id="input_city">
                         <option selected></option>
                         <c:forEach var="city" items="${city_with_airport}">

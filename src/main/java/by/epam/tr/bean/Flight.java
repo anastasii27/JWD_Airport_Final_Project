@@ -22,6 +22,8 @@ public class Flight implements Serializable {
     private String destinationAirportShortName;
     private String departureAirportShortName;
     private String flightNumber;
+    private String crewName;
+    private User user;
 
     public Flight(){}
 
@@ -365,6 +367,22 @@ public class Flight implements Serializable {
         }
 
         return true;
+    }
+
+    public String getCrewName() {
+        return crewName;
+    }
+
+    public void setCrewName(String crewName) {
+        this.crewName = crewName;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
 

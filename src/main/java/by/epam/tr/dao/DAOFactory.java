@@ -3,9 +3,7 @@ package by.epam.tr.dao;
 import by.epam.tr.dao.impl.*;
 
 public final class DAOFactory {
-
-    private static final DAOFactory instance = new DAOFactory();
-
+    private final static DAOFactory instance = new DAOFactory();
     private final UserDAO userDao = new UserDAOImpl();
     private final FlightDAO flightDAO = new FlightDAOImpl();
     private final CrewDAO crewDAO = new CrewDAOImpl();

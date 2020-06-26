@@ -14,11 +14,11 @@
         <fmt:message bundle="${loc}" key="local.exit_button" var="exit_button" />
         <fmt:message bundle="${loc}" key="local.label.menu_user_my_page" var="my_page" />
         <fmt:message bundle="${loc}" key="local.label.menu_main_arr_and_dep" var="flights_label" />
-<%--        <fmt:message bundle="${loc}" key="local.label.menu_user_empl" var="empl_label" />--%>
         <fmt:message bundle="${loc}" key="local.label.menu_user_crew" var="crew_label" />
         <fmt:message bundle="${loc}" key="local.label.menu_main_park" var="park_label" />
         <fmt:message bundle="${loc}" key="local.label.menu_main_lang" var="lang_label" />
         <fmt:message bundle="${loc}" key="local.label.menu_user_my_flights" var="my_fl_label" />
+        <fmt:message bundle="${loc}" key="local.label.admin_menu" var="fl_manage_label" />
 
         <link rel="stylesheet" href="${pageContext.request.contextPath}/design/css/header.css"/>
 
@@ -63,7 +63,7 @@
                         </c:when>
                         <c:when test = "${role eq 'admin'}">
                             <li class="nav-item active">
-                                <a class="nav-link" href="#">${flights_label}</a>
+                                <a class="nav-link" href="${pageContext.request.contextPath}/airport?action=show_flight_management_page">${fl_manage_label}</a>
                             </li>
                             <li class="nav-item ">
                                 <a class="nav-link" href="#">${empl_label}</a>
@@ -73,7 +73,6 @@
                             </li>
                         </c:when>
                     </c:choose>
-
                 </ul>
 
                 <form class = "lang my-2 mr-1" action="airport" method="get">

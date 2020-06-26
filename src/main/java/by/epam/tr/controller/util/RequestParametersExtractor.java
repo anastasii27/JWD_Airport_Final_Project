@@ -26,7 +26,7 @@ public class RequestParametersExtractor{
             String [] usersStringArray = users.split(" ");
 
             for(int i=0; i<usersStringArray.length; i=i+2){
-                usersList.add(new User(usersStringArray[i], usersStringArray[i+1]));
+                usersList.add(User.builder().name(usersStringArray[i]).surname(usersStringArray[i+1]).build());
             }
         }
         return usersList;

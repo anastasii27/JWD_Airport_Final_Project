@@ -9,7 +9,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 public class CloseOperation{//todo change private method with try catch!
-
     private Logger LOGGER = LogManager.getLogger(getClass());
 
     public void closeAll(ResultSet rs, Statement st, ConnectionPool pool, Connection connection){

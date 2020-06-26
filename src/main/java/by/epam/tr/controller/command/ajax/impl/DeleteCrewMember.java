@@ -27,7 +27,7 @@ public class DeleteCrewMember implements Command {
 
         crewName = request.getParameter(RequestParameterName.CREW_NAME);
         member = request.getParameter(RequestParameterName.USER);
-        user = new User(userName(member), userSurname(member));
+        user = User.builder().name(userName(member)).surname(userSurname(member)).build();
         try {
             operationResult = crewMemberService.deleteCrewMember(crewName, user);
 
