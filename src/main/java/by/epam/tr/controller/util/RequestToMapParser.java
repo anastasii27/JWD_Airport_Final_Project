@@ -9,7 +9,6 @@ import java.util.Map;
 import static by.epam.tr.controller.util.RequestParametersExtractor.*;
 
 public class RequestToMapParser {
-
     private final static String AIRPORT_SHORT_NAME  = "airport_short_name";
     private static String key;
     private static int count = 1;

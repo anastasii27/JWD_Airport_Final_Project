@@ -77,6 +77,7 @@ public class FlightServiceImpl implements FlightService {
     public List<Flight> dispatcherFlights(String surname, String email) throws ServiceException {
         List<Flight> flights;
         List<Flight> flightsAfterDeleting;
+
         try {
             flights = dao.dispatcherFlight(surname, email);
 

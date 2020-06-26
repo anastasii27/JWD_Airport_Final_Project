@@ -9,13 +9,10 @@ import by.epam.tr.service.ServiceFactory;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import lombok.extern.log4j.Log4j2;
 
-
+@Log4j2
 public class AirportFlightPage implements Command {
-
-    private Logger logger = LogManager.getLogger(getClass());
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) {
@@ -34,7 +31,7 @@ public class AirportFlightPage implements Command {
             forwardTo(request,response, JSPPageName.DEPARTURES_ARRIVALS_PAGE);
 
         } catch (ServiceException e) {
-            logger.error("Cannot execute command for flights page", e);
+            log.error("Cannot execute command for flights page", e);
             errorPage(response);
         }
     }

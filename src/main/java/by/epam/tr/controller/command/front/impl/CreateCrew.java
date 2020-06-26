@@ -9,8 +9,7 @@ import by.epam.tr.service.ServiceException;
 import by.epam.tr.service.ServiceFactory;
 import by.epam.tr.service.validation.ValidationFactory;
 import by.epam.tr.service.validation.Validator;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import lombok.extern.log4j.Log4j2;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -18,10 +17,10 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
+@Log4j2
 public class CreateCrew implements Command {
     private static final String ANSWER = "Crew was successfully created";
     private static final String PATH = "/jsp/result.jsp";
-    private Logger logger = LogManager.getLogger(getClass());
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) {
@@ -59,7 +58,7 @@ public class CreateCrew implements Command {
 
             response.sendRedirect(request.getContextPath()+ PATH);
         } catch (ServiceException | IOException e) {
-            logger.error("Cannot execute command for crew creation", e);
+            log.error("Cannot execute command for crew creation", e);
             errorPage(response);
         }
     }

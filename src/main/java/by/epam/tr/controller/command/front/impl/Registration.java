@@ -10,8 +10,7 @@ import by.epam.tr.service.ServiceFactory;
 import by.epam.tr.service.UserService;
 import by.epam.tr.service.validation.ValidationFactory;
 import by.epam.tr.service.validation.Validator;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import lombok.extern.log4j.Log4j2;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -19,9 +18,8 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
+@Log4j2
 public class Registration implements Command{
-
-    private Logger logger = LogManager.getLogger(getClass());
     private final static String ANSWER = "You are registered";
 
     @Override
@@ -73,7 +71,7 @@ public class Registration implements Command{
 
             response.sendRedirect(JSPPageName.RESULT_PAGE);
         } catch (ServiceException| IOException e) {
-            logger.error("Cannot execute command for registration", e);
+            log.error("Cannot execute command for registration", e);
             errorPage(response);
         }
     }

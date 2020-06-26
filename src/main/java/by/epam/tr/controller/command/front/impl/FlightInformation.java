@@ -7,15 +7,13 @@ import by.epam.tr.controller.constant_parameter.RequestParameterName;
 import by.epam.tr.service.FlightService;
 import by.epam.tr.service.ServiceException;
 import by.epam.tr.service.ServiceFactory;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import lombok.extern.log4j.Log4j2;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+@Log4j2
 public class FlightInformation implements Command {
-
     private static final String ANSWER = "No information";
-    private Logger logger = LogManager.getLogger(getClass());
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) {
@@ -43,7 +41,7 @@ public class FlightInformation implements Command {
             forwardTo(request, response, JSPPageName.FLIGHTS_INFO_PAGE);
 
         } catch (ServiceException  e) {
-            logger.error("Cannot execute command for flights information", e);
+            log.error("Cannot execute command for flights information", e);
             errorPage(response);
         }
     }

@@ -6,16 +6,15 @@ import by.epam.tr.controller.constant_parameter.RequestParameterName;
 import by.epam.tr.service.CrewMemberService;
 import by.epam.tr.service.ServiceException;
 import by.epam.tr.service.ServiceFactory;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import lombok.extern.log4j.Log4j2;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 import static by.epam.tr.controller.util.RequestParametersExtractor.*;
 
+@Log4j2
 public class DeleteCrewMember implements Command {
-    private Logger LOGGER = LogManager.getLogger(getClass());
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) {
@@ -33,9 +32,9 @@ public class DeleteCrewMember implements Command {
 
             response.getWriter().write(String.valueOf(operationResult));
         } catch (ServiceException e) {
-            LOGGER.error("Cannot execute ajax command for crew member deleting", e);
+            log.error("Cannot execute ajax command for crew member deleting", e);
         } catch (IOException e) {
-            LOGGER.error("Cannot write response", e);
+            log.error("Cannot write response", e);
         }
     }
 }

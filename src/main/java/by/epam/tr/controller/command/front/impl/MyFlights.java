@@ -8,17 +8,15 @@ import by.epam.tr.controller.util.RequestToMapParser;
 import by.epam.tr.service.FlightService;
 import by.epam.tr.service.ServiceException;
 import by.epam.tr.service.ServiceFactory;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import lombok.extern.log4j.Log4j2;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@Log4j2
 public class MyFlights implements Command {
-
-    private Logger logger = LogManager.getLogger(getClass());
     private  Map<String, String> params =  new HashMap<>();
     private static final String ANSWER = "Sorry, no flights were found";
 
@@ -42,7 +40,7 @@ public class MyFlights implements Command {
 
             forwardTo(request,response, JSPPageName.MY_FLIGHTS_PAGE);
         } catch (ServiceException e) {
-            logger.error("Cannot execute command for user flights", e);
+            log.error("Cannot execute command for user flights", e);
             errorPage(response);
         }
     }

@@ -1,15 +1,14 @@
 package by.epam.tr.dao;
 
 import by.epam.tr.dao.connectionpool.ConnectionPool;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import lombok.extern.log4j.Log4j2;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+@Log4j2
 public class CloseOperation{//todo change private method with try catch!
-    private Logger LOGGER = LogManager.getLogger(getClass());
 
     public void closeAll(ResultSet rs, Statement st, ConnectionPool pool, Connection connection){
         if(rs !=  null){
@@ -36,7 +35,7 @@ public class CloseOperation{//todo change private method with try catch!
         try {
             st.close();
         } catch (SQLException e) {
-            LOGGER.error("Exception while closing Statement", e);
+            log.error("Exception while closing Statement", e);
         }
     }
 
@@ -44,7 +43,7 @@ public class CloseOperation{//todo change private method with try catch!
         try {
             rs.close();
         } catch (SQLException e) {
-            LOGGER.error("Exception while closing ResultSet", e);
+            log.error("Exception while closing ResultSet", e);
         }
     }
 }

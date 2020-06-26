@@ -6,14 +6,13 @@ import by.epam.tr.controller.constant_parameter.RequestParameterName;
 import by.epam.tr.service.ListCreatorService;
 import by.epam.tr.service.ServiceException;
 import by.epam.tr.service.ServiceFactory;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import lombok.extern.log4j.Log4j2;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
+@Log4j2
 public class CreateFlightPage implements Command {
-    private Logger LOGGER = LogManager.getLogger(getClass());
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) {
@@ -26,7 +25,7 @@ public class CreateFlightPage implements Command {
             request.setAttribute(RequestParameterName.COUNTRIES, countries);
             forwardTo(request,response, JSPPageName.CREATE_FLIGHT_PAGE);
         } catch (ServiceException e) {
-           //
+           log.error("Cannot execute command for creating flight page", e);
         }
     }
 }

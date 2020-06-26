@@ -2,16 +2,14 @@ package by.epam.tr.controller;
 
 import by.epam.tr.dao.connectionpool.ConnectionPool;
 import by.epam.tr.dao.connectionpool.ConnectionPoolException;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import lombok.extern.log4j.Log4j2;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;
 
+@Log4j2
 @WebListener
 public class ConnectionPoolListener implements ServletContextListener {
-
-    private Logger logger = LogManager.getLogger(getClass());
 
     @Override
     public void contextInitialized(ServletContextEvent sce) {
@@ -20,7 +18,7 @@ public class ConnectionPoolListener implements ServletContextListener {
         try {
             pool.poolInitialization();
         } catch (ConnectionPoolException e) {
-            logger.error("Connection pool cannot be initialized", e);
+            log.error("Connection pool cannot be initialized", e);
         }
     }
 
@@ -31,7 +29,7 @@ public class ConnectionPoolListener implements ServletContextListener {
         try {
             pool.closeAllConnections();
         } catch (ConnectionPoolException e) {
-            logger.error("Connection pool cannot be closed", e);
+            log.error("Connection pool cannot be closed", e);
         }
     }
 }

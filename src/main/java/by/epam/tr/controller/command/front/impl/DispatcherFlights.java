@@ -8,15 +8,13 @@ import by.epam.tr.controller.constant_parameter.RequestParameterName;
 import by.epam.tr.service.FlightService;
 import by.epam.tr.service.ServiceException;
 import by.epam.tr.service.ServiceFactory;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import lombok.extern.log4j.Log4j2;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
+@Log4j2
 public class DispatcherFlights implements Command {
-
-    private Logger logger = LogManager.getLogger(getClass());
     private static final String ANSWER = "Sorry, no flights were found";
 
     @Override
@@ -43,7 +41,7 @@ public class DispatcherFlights implements Command {
 
             forwardTo(request,response, JSPPageName.DISPATCHER_FLIGHTS_PAGE);
         } catch (ServiceException e) {
-            logger.error("Cannot execute command for dispatcher flights", e);
+            log.error("Cannot execute command for dispatcher flights", e);
             errorPage(response);
         }
     }

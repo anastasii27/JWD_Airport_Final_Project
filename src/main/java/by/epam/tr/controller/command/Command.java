@@ -12,16 +12,14 @@ public interface Command {
     void execute(HttpServletRequest request, HttpServletResponse response);
 
     default void errorPage(HttpServletResponse response){
-
         try {
             response.sendRedirect(JSPPageName.ERROR_PAGE);
         } catch (IOException e) {
-            //log
+           //
         }
     }
 
     default void forwardTo(HttpServletRequest request, HttpServletResponse response, String page){
-
         RequestDispatcher requestDispatcher = request.getRequestDispatcher(page);
 
         try {

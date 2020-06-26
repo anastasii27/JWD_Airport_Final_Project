@@ -6,6 +6,7 @@ import by.epam.tr.dao.CrewDAO;
 import by.epam.tr.dao.DAOException;
 import by.epam.tr.dao.connectionpool.ConnectionPool;
 import by.epam.tr.dao.connectionpool.ConnectionPoolException;
+import lombok.extern.log4j.Log4j2;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import java.sql.Connection;
@@ -14,6 +15,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Map;
 
+@Log4j2
 public class CrewDAOImpl extends CloseOperation implements CrewDAO {
     private final static String CREATE_CREW = "INSERT INTO `flight-teams`(`date-of-creating`, `short-name`)\n" +
                                         "VALUES (current_date(), ?);";
@@ -42,8 +44,6 @@ public class CrewDAOImpl extends CloseOperation implements CrewDAO {
                                         "JOIN users ON `main-pilot-id`  = users.id\n" +
                                         "WHERE `short-name` = ?;";
 
-    private Logger LOGGER = LogManager.getLogger(getClass());
-
     @Override
     public boolean createCrew(String crewName, Map<String, User> users) throws DAOException {
         boolean flag;
@@ -65,7 +65,7 @@ public class CrewDAOImpl extends CloseOperation implements CrewDAO {
                     connection.rollback();
                 }
             } catch (SQLException ex) {
-                LOGGER.error("Exception while executing rollback()", ex);
+                log.error("Exception while executing rollback()", ex);
             }
             throw new DAOException("Exception during crew creation", e);
         } finally {
@@ -74,7 +74,7 @@ public class CrewDAOImpl extends CloseOperation implements CrewDAO {
                     connection.setAutoCommit(true);
                 }
             } catch (SQLException e) {
-                LOGGER.error("Exception while setting auto committing = true", e);
+                log.error("Exception while setting auto committing = true", e);
             }
             if (pool != null) {
                 pool.releaseConnection(connection);
@@ -154,7 +154,7 @@ public class CrewDAOImpl extends CloseOperation implements CrewDAO {
                     connection.rollback();
                 }
             } catch (SQLException ex) {
-                LOGGER.error("Exception while executing rollback()", ex);
+                log.error("Exception while executing rollback()", ex);
             }
             throw new DAOException("Exception during taking connection!",e);
         }finally {
@@ -163,7 +163,7 @@ public class CrewDAOImpl extends CloseOperation implements CrewDAO {
                     connection.setAutoCommit(true);
                 }
             } catch (SQLException e) {
-                LOGGER.error("Exception while setting auto committing = true", e);
+                log.error("Exception while setting auto committing = true", e);
             }
             if (pool != null) {
                 pool.releaseConnection(connection);

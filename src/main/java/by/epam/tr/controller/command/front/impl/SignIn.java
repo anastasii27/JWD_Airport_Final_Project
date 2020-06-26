@@ -5,16 +5,14 @@ import by.epam.tr.controller.constant_parameter.JSPPageName;
 import by.epam.tr.controller.constant_parameter.RequestParameterName;
 import by.epam.tr.controller.command.Command;
 import by.epam.tr.service.*;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import lombok.extern.log4j.Log4j2;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
+@Log4j2
 public class SignIn implements Command {
-
-    private Logger logger = LogManager.getLogger(getClass());
     private final static String ANSWER = "There is no such a user";
     private final static String PATH = "/airport?action=show_user_page";
 
@@ -42,7 +40,7 @@ public class SignIn implements Command {
                     forwardTo(request,response, JSPPageName.RESULT_PAGE);
                 }
         } catch (ServiceException | IOException e) {
-            logger.error("Cannot execute command for signing in", e);
+            log.error("Cannot execute command for signing in", e);
             errorPage(response);
         }
     }

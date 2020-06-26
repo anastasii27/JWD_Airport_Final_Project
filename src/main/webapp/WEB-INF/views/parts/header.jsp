@@ -41,7 +41,7 @@
                                 <a class="nav-link" href="${pageContext.request.contextPath}/airport?action=show_user_page">${my_page}</a>
                             </li>
                             <li class="nav-item ">
-                                <a class="nav-link" href="${pageContext.request.contextPath}/airport?action=show_my_flights&departure_date=${depDate}">${my_fl_label}</a>
+                                <a class="nav-link" href="${pageContext.request.contextPath}/airport?action=show_my_flights&departure_date=${depDate}&surname=${sessionScope.user.surname}&email=${sessionScope.user.email}">${my_fl_label}</a>
                             </li>
                             <li class="nav-item ">
                                 <a class="nav-link" href="${pageContext.request.contextPath}/airport?action=show_departures_arrivals&from=user">${flights_label}</a>
