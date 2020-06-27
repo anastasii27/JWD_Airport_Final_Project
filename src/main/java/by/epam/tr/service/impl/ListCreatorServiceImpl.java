@@ -8,14 +8,14 @@ import by.epam.tr.service.ListCreatorService;
 import by.epam.tr.service.ServiceException;
 import java.util.List;
 
-public class ListCreatorImpl implements ListCreatorService {
+public class ListCreatorServiceImpl implements ListCreatorService {
 
-    private ListCreatorDAO listCreatorDAO = DAOFactory.getInstance().getListCreatorDAO();
+    private ListCreatorDAO dao = DAOFactory.getInstance().getListCreatorDAO();
 
     @Override
     public List<String> createCityWithAirportList() throws ServiceException {
         try {
-            return listCreatorDAO.createCityWithAirportList();
+            return dao.createCityWithAirportList();
         } catch (DAOException e) {
             throw new ServiceException("Exception during city with airport list creation", e);
         }
@@ -24,7 +24,7 @@ public class ListCreatorImpl implements ListCreatorService {
     @Override
     public List<String> createCityWithAirportList(String country) throws ServiceException {
         try {
-            return listCreatorDAO.createCityWithAirportList(country);
+            return dao.createCityWithAirportList(country);
         } catch (DAOException e) {
             throw new ServiceException("Exception during city with airport list creation", e);
         }
@@ -33,7 +33,7 @@ public class ListCreatorImpl implements ListCreatorService {
     @Override
     public List<String> createRolesList() throws ServiceException {
         try {
-            return listCreatorDAO.createRolesList();
+            return dao.createRolesList();
         } catch (DAOException e) {
             throw new ServiceException("Exception during roles list creation", e);
         }
@@ -42,7 +42,7 @@ public class ListCreatorImpl implements ListCreatorService {
     @Override
     public List<String> createCrewsList() throws ServiceException {
         try {
-            return listCreatorDAO.createCrewsList();
+            return dao.createCrewsList();
         } catch (DAOException e) {
             throw new ServiceException("Exception during crews list creation", e);
         }
@@ -51,7 +51,7 @@ public class ListCreatorImpl implements ListCreatorService {
     @Override
     public List<User> createUserByRoleList(String role) throws ServiceException {
         try {
-            return listCreatorDAO.createUserByRoleList(role);
+            return dao.createUserByRoleList(role);
         } catch (DAOException e) {
             throw new ServiceException("Exception during users by role list creation", e);
         }
@@ -60,7 +60,7 @@ public class ListCreatorImpl implements ListCreatorService {
     @Override
     public List<String> createCountriesList() throws ServiceException {
         try {
-            return listCreatorDAO.createCountriesList();
+            return dao.createCountriesList();
         } catch (DAOException e) {
             throw new ServiceException("Exception during country list creation", e);
         }

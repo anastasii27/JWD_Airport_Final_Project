@@ -19,12 +19,11 @@ public class CreateCrewPage implements Command {
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) {
-
         ListCreatorService listCreatorService = ServiceFactory.getInstance().getListCreatorService();
         List<User> pilots;
         List<User> stewards;
-        try {
 
+        try {
             pilots = listCreatorService.createUserByRoleList(PILOT);
             stewards = listCreatorService.createUserByRoleList(STEWARD);
 
@@ -32,7 +31,6 @@ public class CreateCrewPage implements Command {
             request.setAttribute(RequestParameterName.STEWARDS, stewards);
 
             forwardTo(request, response, JSPPageName.CREATE_CREW_PAGE);
-
         } catch (ServiceException e) {
             log.error("Cannot execute command for creating crew page", e);
             errorPage(response);

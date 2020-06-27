@@ -20,8 +20,6 @@ public class UserDAOImpl extends CloseOperation implements UserDAO {
 
     private final static String CHECK_USER_EXISTENCE_1 = "SELECT `name` FROM users WHERE login = ?;";
 
-    private final static String CHECK_USER_EXISTENCE_2 = "SELECT email FROM users where `name`= ? AND surname = ?;";
-
     private final static String SELECT_ALL_USERS = "SELECT `name`, surname, title FROM airport.users " +
                                     "JOIN roles ON roles.id = users.`role-id`;";
 
@@ -98,28 +96,6 @@ public class UserDAOImpl extends CloseOperation implements UserDAO {
             ps =  connection.prepareStatement(CHECK_USER_EXISTENCE_1);
 
             ps.setString(1, login);
-            rs = ps.executeQuery();
-
-            return rs.next();
-        } catch (ConnectionPoolException | SQLException e) {
-            throw new DAOException("Exception during user existence operation!", e);
-        }finally {
-            closeAll(rs, ps, pool, connection);
-        }
-    }
-
-    @Override
-    public boolean doesUserExist(User user) throws DAOException {
-        ConnectionPool pool = ConnectionPool.getInstance();
-        Connection connection = null;
-        PreparedStatement ps = null;
-        ResultSet rs = null;
-        try {
-            connection = pool.takeConnection();
-            ps =  connection.prepareStatement(CHECK_USER_EXISTENCE_2);
-
-            ps.setString(1, user.getName());
-            ps.setString(2, user.getSurname());
             rs = ps.executeQuery();
 
             return rs.next();

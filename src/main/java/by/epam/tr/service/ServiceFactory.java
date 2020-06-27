@@ -9,8 +9,10 @@ public class ServiceFactory{
     private final UserService  userService = new UserServiceImpl();
     private final FlightService flightService = new FlightServiceImpl();
     private final CrewService crewService = new CrewServiceImpl();
-    private final ListCreatorService listCreatorService = new ListCreatorImpl();
+    private final ListCreatorService listCreatorService = new ListCreatorServiceImpl();
     private final CrewMemberService crewMemberService = new CrewMemberServiceImpl();
+    private final UserFlightsService userFlightsService = new UserFlightsServiceImpl();
+    private final PlaneService planeService = new PlaneServiceImpl();
 
     private ServiceFactory(){}
 
@@ -36,5 +38,13 @@ public class ServiceFactory{
 
     public CrewMemberService getCrewMemberService() {
         return crewMemberService;
+    }
+
+    public UserFlightsService getUserFlightsService() {
+        return userFlightsService;
+    }
+
+    public PlaneService getPlaneService() {
+        return planeService;
     }
 }

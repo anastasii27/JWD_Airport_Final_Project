@@ -5,9 +5,9 @@ import by.epam.tr.bean.User;
 import by.epam.tr.controller.command.Command;
 import by.epam.tr.controller.constant_parameter.PageByRole;
 import by.epam.tr.controller.constant_parameter.RequestParameterName;
-import by.epam.tr.service.FlightService;
 import by.epam.tr.service.ServiceException;
 import by.epam.tr.service.ServiceFactory;
+import by.epam.tr.service.UserFlightsService;
 import lombok.extern.log4j.Log4j2;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -20,7 +20,7 @@ public class UserPage implements Command {
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) {
         User user = (User)request.getSession().getAttribute(RequestParameterName.USER);
-        FlightService flightService = ServiceFactory.getInstance().getFlightService();
+        UserFlightsService userFlightsService = ServiceFactory.getInstance().getUserFlightsService();
         PageByRole page = PageByRole.getInstance();
         List<Flight> nearestFlights;
         String surname;
@@ -30,7 +30,7 @@ public class UserPage implements Command {
         email = user.getEmail();
 
         try {
-            nearestFlights = flightService.nearestUserFlights(surname, email);
+            nearestFlights = userFlightsService.nearestUserFlights(surname, email);
 
             if(nearestFlights.size() != 0) {
                 request.setAttribute(RequestParameterName.FLIGHT, nearestFlights);

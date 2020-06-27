@@ -22,7 +22,6 @@ public class FindCrewMainPilot implements Command {//todo доделать
 
         crewName = request.getParameter(RequestParameterName.CREW_NAME);
         try {
-
             User user = crewService.findMainPilot(crewName);
 
             if(user != null) {

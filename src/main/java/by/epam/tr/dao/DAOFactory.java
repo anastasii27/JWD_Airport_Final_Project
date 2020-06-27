@@ -9,6 +9,8 @@ public final class DAOFactory {
     private final CrewDAO crewDAO = new CrewDAOImpl();
     private final CrewMemberDAO crewMemberDAO = new CrewMemberDAOImpl();
     private final ListCreatorDAO listCreatorDAO = new ListCreatorImpl();
+    private final UserFlightsDao userFlightsDao = new UserFlightsDaoImpl();
+    private final PlaneDao planeDao = new PlaneDaoImpl();
 
     private DAOFactory(){}
 
@@ -34,5 +36,13 @@ public final class DAOFactory {
 
     public CrewMemberDAO getCrewMemberDAO() {
         return crewMemberDAO;
+    }
+
+    public UserFlightsDao getUserFlightsDao() {
+        return userFlightsDao;
+    }
+
+    public PlaneDao getPlaneDao() {
+        return planeDao;
     }
 }

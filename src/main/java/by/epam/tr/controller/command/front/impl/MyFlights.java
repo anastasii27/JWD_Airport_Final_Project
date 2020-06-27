@@ -5,9 +5,9 @@ import by.epam.tr.controller.command.Command;
 import by.epam.tr.controller.constant_parameter.JSPPageName;
 import by.epam.tr.controller.constant_parameter.RequestParameterName;
 import by.epam.tr.controller.util.RequestToMapParser;
-import by.epam.tr.service.FlightService;
 import by.epam.tr.service.ServiceException;
 import by.epam.tr.service.ServiceFactory;
+import by.epam.tr.service.UserFlightsService;
 import lombok.extern.log4j.Log4j2;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -22,14 +22,14 @@ public class MyFlights implements Command {
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) {
-        FlightService flightService = ServiceFactory.getInstance().getFlightService();
+        UserFlightsService userFlightsService = ServiceFactory.getInstance().getUserFlightsService();
         String departureDate;
         List<Flight> flights;
 
         departureDate = request.getParameter(RequestParameterName.DEPARTURE_DATE);
         try {
             params = RequestToMapParser.toRequestParamsMap(request);
-            flights = flightService.userFlights(params);
+            flights = userFlightsService.userFlights(params);
 
             if(flights.size()!= 0){
                 request.setAttribute(RequestParameterName.FLIGHT, flights);

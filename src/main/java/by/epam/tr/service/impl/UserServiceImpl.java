@@ -8,7 +8,6 @@ import by.epam.tr.service.ServiceException;
 import by.epam.tr.service.UserService;
 
 public class UserServiceImpl implements UserService {
-
     private UserDAO  dao = DAOFactory.getInstance().getUserDAO();
 
     @Override
