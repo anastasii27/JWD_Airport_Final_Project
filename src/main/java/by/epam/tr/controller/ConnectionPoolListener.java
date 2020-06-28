@@ -13,8 +13,8 @@ public class ConnectionPoolListener implements ServletContextListener {
 
     @Override
     public void contextInitialized(ServletContextEvent sce) {
-
         ConnectionPool pool = ConnectionPool.getInstance();
+
         try {
             pool.poolInitialization();
         } catch (ConnectionPoolException e) {
@@ -24,8 +24,8 @@ public class ConnectionPoolListener implements ServletContextListener {
 
     @Override
     public void contextDestroyed(ServletContextEvent sce) {
-
         ConnectionPool pool = ConnectionPool.getInstance();
+
         try {
             pool.closeAllConnections();
         } catch (ConnectionPoolException e) {

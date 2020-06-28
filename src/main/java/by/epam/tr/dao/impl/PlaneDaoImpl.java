@@ -7,36 +7,38 @@ import by.epam.tr.dao.PlaneDao;
 import by.epam.tr.dao.connectionpool.ConnectionPool;
 import by.epam.tr.dao.connectionpool.ConnectionPoolException;
 import java.sql.*;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
 public class PlaneDaoImpl extends CloseOperation implements PlaneDao{
-    private final static String PLANES_FROM_AIRPORT = "SELECT model, count(`plane-id`) as amount\n"+
-                                        "FROM airport.flights\n"+
-                                        "JOIN planes on `plane-id` = planes.id\n"+
-                                        "WHERE `status` = 'Scheduled'\n"+
-                                        "AND `destination-airport-id` = (SELECT id FROM airports WHERE `name-abbreviation` = ?)\n"+
-                                        "AND `destination-date` = ?\n"+
-                                        "GROUP BY `plane-id`;";
+    private final static String PLANES_AT_AIRPORT = "SELECT `number`, title \n"+
+            "FROM airport.flights\n"+
+            "JOIN planes ON `plane-id` = planes.id\n" +
+            "JOIN `plane-models` ON `plane-models`.id = (SELECT `model-id` FROM planes WHERE planes.id = `plane-id`)\n"+
+            "WHERE `status` = 'Scheduled'\n"+
+            "AND `destination-airport-id` = (SELECT id FROM airports WHERE `name-abbreviation` = ?)\n"+
+            "GROUP BY `plane-id`;";
 
-    private final static String ALREADY_TAKEN_ON_FLIGHT_PLANES = "SELECT model, count(`plane-id`) as amount\n" +
-                                        "FROM airport.flights\n" +
-                                        "JOIN planes on `plane-id` = planes.id\n" +
-                                        "WHERE `status` = 'Scheduled'\n" +
-                                        "AND `departure-airport-id` = (SELECT id FROM airports WHERE `name-abbreviation` = ?)\n" +
-                                        "AND `departure-date` = ?\n" +
-                                        "GROUP BY `plane-id`;";
+    private final static String TAKEN_ON_FLIGHT_PLANES_AT_AIRPORT = "SELECT `number`, title \n" +
+            "FROM airport.flights\n" +
+            "JOIN planes ON `plane-id` = planes.id\n" +
+            "JOIN `plane-models` ON `plane-models`.id = (SELECT `model-id` FROM planes WHERE planes.id = `plane-id`)\n" +
+            "WHERE `status` = 'Scheduled'\n" +
+            "AND `departure-airport-id` = (SELECT id FROM airports WHERE `name-abbreviation` = ?)\n" +
+            "GROUP BY `plane-id`;";
+
+    private final static String ALL_PLANES_NUMBERS = "SELECT `number`, title FROM airport.planes\n" +
+            "JOIN `plane-models` ON `plane-models`.id = `model-id`";
+
     @Override
-    public List<Plane> allPlanesFromAirport(String airportName, LocalDate destinationDate) throws DAOException {
+    public List<Plane> allPlanesFromAirport(String airportName) throws DAOException {
         ConnectionPool pool = ConnectionPool.getInstance();
         Connection connection = null;
 
         try {
-            pool.poolInitialization();
             connection = pool.takeConnection();
 
-            return makePlanesList(PLANES_FROM_AIRPORT, airportName, destinationDate, connection);
+            return makePlanesList(PLANES_AT_AIRPORT, airportName, connection);
         } catch (ConnectionPoolException | SQLException e) {
             throw new DAOException("Exception during getting airport planes list!", e);
         }finally {
@@ -47,15 +49,14 @@ public class PlaneDaoImpl extends CloseOperation implements PlaneDao{
     }
 
     @Override
-    public List<Plane> takenOnFlightPlanes(String airportName, LocalDate departureDate) throws DAOException {
+    public List<Plane> takenOnFlightPlanes(String airportName) throws DAOException {
         ConnectionPool pool = ConnectionPool.getInstance();
         Connection connection = null;
 
         try {
-            pool.poolInitialization();
             connection = pool.takeConnection();
 
-            return makePlanesList(ALREADY_TAKEN_ON_FLIGHT_PLANES, airportName, departureDate, connection);
+            return makePlanesList(TAKEN_ON_FLIGHT_PLANES_AT_AIRPORT, airportName, connection);
         } catch (ConnectionPoolException | SQLException e) {
             throw new DAOException("Exception during getting planes on flight list!", e);
         }finally {
@@ -65,19 +66,41 @@ public class PlaneDaoImpl extends CloseOperation implements PlaneDao{
         }
     }
 
-    private List<Plane> makePlanesList(String query, String airportName, LocalDate date, Connection connection) throws SQLException {
+    private List<Plane> makePlanesList(String query, String airportName, Connection connection) throws SQLException {
         List<Plane> planes = new ArrayList<>();
         ResultSet rs;
 
         try(PreparedStatement ps = connection.prepareStatement(query)){
             ps.setString(1, airportName);
-            ps.setDate(2, Date.valueOf(date));
 
             rs = ps.executeQuery();
             while (rs.next()) {
-                planes.add(new Plane(rs.getString("model"), rs.getInt("amount")));
+                planes.add(new Plane(rs.getString("title"),rs.getString("number")));
             }
         }
         return planes;
+    }
+
+    public List<Plane> allPlanes() throws DAOException {
+        ConnectionPool pool = ConnectionPool.getInstance();
+        Connection connection = null;
+        Statement st = null;
+        ResultSet rs;
+        List<Plane> planes = new ArrayList<>();
+
+        try {
+            connection = pool.takeConnection();
+            st = connection.createStatement();
+
+            rs = st.executeQuery(ALL_PLANES_NUMBERS);
+            while (rs.next()) {
+                planes.add(new Plane(rs.getString("title"),rs.getString("number")));
+            }
+            return planes;
+        } catch (ConnectionPoolException | SQLException e) {
+            throw new DAOException("Exception during getting planes on flight list!", e);
+        }finally {
+            closeAll(st, pool, connection);
+        }
     }
 }

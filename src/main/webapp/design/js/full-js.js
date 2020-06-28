@@ -14,6 +14,12 @@ $(document).ready(function ($) {
         maxDate: getMaxDate(1)
     });
 
+    $('#dep_flights_piker').datepicker({
+        dateFormat: 'yyyy-mm-dd',
+        firstDay: 1,
+        minDate: getMinDate(0)
+    });
+
     //menu
     $(function () {
         let url = window.location.href;

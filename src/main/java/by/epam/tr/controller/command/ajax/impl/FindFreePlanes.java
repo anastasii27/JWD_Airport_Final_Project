@@ -4,6 +4,7 @@ import by.epam.tr.bean.Plane;
 import by.epam.tr.controller.command.Command;
 import by.epam.tr.controller.constant_parameter.RequestParameterName;
 import by.epam.tr.controller.util.GSONConverter;
+import by.epam.tr.controller.util.RequestParametersExtractor;
 import by.epam.tr.service.PlaneService;
 import by.epam.tr.service.ServiceException;
 import by.epam.tr.service.ServiceFactory;
@@ -11,7 +12,6 @@ import lombok.extern.log4j.Log4j2;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.time.LocalDate;
 import java.util.List;
 
 @Log4j2
@@ -21,15 +21,14 @@ public class FindFreePlanes implements Command {
     public void execute(HttpServletRequest request, HttpServletResponse response) {
         PlaneService planeService = ServiceFactory.getInstance().getPlaneService();
         List<Plane> planes;
-        LocalDate departureDate;
-        LocalDate destinationDate;
+        String cityWithAirport;
         String airportName;
 
-        departureDate = LocalDate.parse(request.getParameter(RequestParameterName.DEPARTURE_DATE));
-        destinationDate = LocalDate.parse(request.getParameter(RequestParameterName.DESTINATION_DATE));
-        airportName = request.getParameter(RequestParameterName.DEPARTURE_AIRPORT);
+        cityWithAirport = request.getParameter(RequestParameterName.DEPARTURE_AIRPORT);
+        airportName = RequestParametersExtractor.airportName(cityWithAirport);
+
         try {
-            planes = planeService.freePlanes(airportName, departureDate, destinationDate);
+            planes = planeService.freePlanesAtAirport(airportName);
 
             String planesGSON = GSONConverter.convertListToGSON(planes);
             response.getWriter().write(planesGSON);

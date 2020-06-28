@@ -1,6 +1,7 @@
 package by.epam.tr.dao.impl;
 
 import by.epam.tr.bean.Flight;
+import by.epam.tr.bean.User;
 import by.epam.tr.dao.CloseOperation;
 import by.epam.tr.dao.DAOException;
 import by.epam.tr.dao.UserFlightsDao;
@@ -8,23 +9,24 @@ import by.epam.tr.dao.connectionpool.ConnectionPool;
 import by.epam.tr.dao.connectionpool.ConnectionPoolException;
 import java.sql.*;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 public class UserFlightsDaoImpl extends CloseOperation implements UserFlightsDao {
-    private final static String SELECT_USER_FLIGHT =   "SELECT `status`, model, `departure-date`, `departure-time`, `destination-date`, `destination-time`, \n" +
+    private final static String SELECT_USER_FLIGHT =   "SELECT `status`, title, `departure-date`, `departure-time`, `destination-date`, `destination-time`, \n" +
                                         "c1.`name` AS `destination-city` , a1.`name-abbreviation` AS `dest-airport-short-name`,\n" +
                                         "c2.`name` AS `departure-city`, a2.`name-abbreviation` AS `dep-airport-short-name`, `flight-number` \n" +
                                         "FROM flights\n" +
-                                        "JOIN planes ON  planes.id = `plane-id`\n" +
+                                        "JOIN `plane-models` ON `plane-models`.id = (SELECT `model-id` FROM planes WHERE planes.id = `plane-id`)\n" +
                                         "JOIN `flight-teams` ON  flights.`flight-team-id` = `flight-teams`.id\n" +
                                         "JOIN `flight-teams-m2m-users` ON   `flight-teams-m2m-users`.`flight-team-id` = `flight-teams`.id \n" +
                                         "JOIN airports AS a1 ON  a1.id = flights.`destination-airport-id`\n" +
                                         "JOIN cities AS c1 ON  c1.id = (SELECT `city-id` FROM airports WHERE airports.`name` = a1.`name`)\n" +
                                         "JOIN airports AS a2 ON a2.id = flights.`departure-airport-id`\n" +
                                         "JOIN cities AS c2 ON  c2.id = (SELECT `city-id` FROM airports WHERE airports.`name` = a2.`name`)\n" +
-                                        "WHERE `user-id` = (SELECT id FROM users WHERE surname = ? AND email=?)  AND `departure-date` = ?;\n";
+                                        "WHERE `user-id` = (SELECT id FROM users WHERE surname = ? AND email=?)  AND `departure-date` = ?;";
 
     private final static String SELECT_NEAREST_FLIGHTS =  "SELECT `departure-date`, `departure-time`, `flight-number`,cities.`name` AS 'destination-city' FROM flights \n" +
                                         "JOIN airports AS a1 ON  a1.id = flights.`destination-airport-id`\n" +
@@ -33,11 +35,11 @@ public class UserFlightsDaoImpl extends CloseOperation implements UserFlightsDao
                                         "JOIN `flight-teams-m2m-users` ON   `flight-teams-m2m-users`.`flight-team-id` = `flight-teams`.id \n" +
                                         "WHERE `user-id` = (SELECT id FROM users WHERE surname = ? AND email=?) AND `departure-date` BETWEEN  current_date() AND ? LIMIT 3\n";
 
-    private final static String SELECT_DISPATCHER_ARRIVALS = "SELECT `status`, model, `destination-date` AS `date`, `destination-time` AS `time`, \n" +
+    private final static String SELECT_DISPATCHER_ARRIVALS = "SELECT `status`, title, `destination-date` AS `date`, `destination-time` AS `time`, \n" +
                                         "c1.`name` AS `destination-city` , a1.`name-abbreviation` AS `dest-airport-short-name`,\n" +
                                         "c2.`name` AS `departure-city`, a2.`name-abbreviation` AS `dep-airport-short-name`, `flight-number` \n" +
                                         "FROM flights\n" +
-                                        "JOIN planes ON  planes.id = `plane-id`\n" +
+                                        "JOIN `plane-models` ON `plane-models`.id = (SELECT `model-id` FROM planes WHERE planes.id = `plane-id`)\n" +
                                         "JOIN airports AS a1 ON  a1.id = flights.`destination-airport-id` \n" +
                                         "JOIN cities AS c1 ON c1.id = (SELECT  `city-id` FROM airports WHERE airports.`name` = a1.`name`)\n" +
                                         "JOIN airports AS a2 ON a2.id = flights.`departure-airport-id` \n" +
@@ -46,11 +48,11 @@ public class UserFlightsDaoImpl extends CloseOperation implements UserFlightsDao
                                         "AND `destination-date` BETWEEN current_date() AND date_add(current_date(),interval 1 day)\n" +
                                         "AND c1.`name`= 'Minsk';";
 
-    private final static String SELECT_DISPATCHER_DEPARTURES = "SELECT `status`, model, `departure-date` AS `date`, `departure-time` AS `time`, \n" +
+    private final static String SELECT_DISPATCHER_DEPARTURES = "SELECT `status`, title, `departure-date` AS `date`, `departure-time` AS `time`, \n" +
                                         "c1.`name` AS `destination-city` , a1.`name-abbreviation` AS `dest-airport-short-name`,\n" +
                                         "c2.`name` AS `departure-city`, a2.`name-abbreviation` AS `dep-airport-short-name`, `flight-number` \n" +
                                         "FROM flights\n" +
-                                        "JOIN planes ON  planes.id = `plane-id`\n" +
+                                        "JOIN `plane-models` ON `plane-models`.id = (SELECT `model-id` FROM planes WHERE planes.id = `plane-id`)\n" +
                                         "JOIN airports AS a1 ON  a1.id = flights.`destination-airport-id` \n" +
                                         "JOIN cities AS c1 ON c1.id = (SELECT  `city-id` FROM airports WHERE airports.`name` = a1.`name`)\n" +
                                         "JOIN airports AS a2 ON a2.id = flights.`departure-airport-id` \n" +
@@ -78,7 +80,7 @@ public class UserFlightsDaoImpl extends CloseOperation implements UserFlightsDao
             rs = ps.executeQuery();
             while (rs.next()){
                 flights.add( Flight.builder().status(rs.getString("status"))
-                        .planeModel(rs.getString("model"))
+                        .planeModel(rs.getString("title"))
                         .departureDate(rs.getDate("departure-date").toLocalDate())
                         .departureTime(rs.getTime("departure-time").toLocalTime())
                         .destinationDate(rs.getDate("destination-date").toLocalDate())
@@ -161,16 +163,21 @@ public class UserFlightsDaoImpl extends CloseOperation implements UserFlightsDao
             rs = ps.executeQuery();
             while (rs.next()){
                 flights.add(Flight.builder().status(rs.getString("status"))
-                        .planeModel(rs.getString("model"))
-                        .departureDate(rs.getDate("date").toLocalDate())
-                        .departureTime(rs.getTime("time").toLocalTime())
-                        .destinationCity(rs.getString("destination-city"))
-                        .departureCity( rs.getString("departure-city"))
-                        .destinationAirportShortName(rs.getString("dest-airport-short-name"))
-                        .departureAirportShortName( rs.getString("dep-airport-short-name"))
-                        .flightNumber(rs.getString("flight-number")).build());
+                                            .planeModel(rs.getString("title"))
+                                            .departureDate(rs.getDate("date").toLocalDate())
+                                            .departureTime(rs.getTime("time").toLocalTime())
+                                            .destinationCity(rs.getString("destination-city"))
+                                            .departureCity( rs.getString("departure-city"))
+                                            .destinationAirportShortName(rs.getString("dest-airport-short-name"))
+                                            .departureAirportShortName( rs.getString("dep-airport-short-name"))
+                                            .flightNumber(rs.getString("flight-number")).build());
             }
         }
         return flights;
+    }
+
+    @Override
+    public List<User> freeDispatchers(LocalDate date, LocalTime time) {
+        return null;
     }
 }

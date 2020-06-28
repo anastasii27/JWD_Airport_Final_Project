@@ -15,21 +15,21 @@ public class FlightDAOImpl extends CloseOperation implements FlightDAO {
     private final static String ARRIVAL = "arrival";
     private final static String DEPARTURE = "departure";
     private final static String SELECT_AIRPORT_DEPARTURE = "SELECT `flight-number`, `departure-date` AS `date`, `departure-time` AS `time`, a1.`name` AS `airport`,\n" +
-                                                "cities.`name` AS `city`, a1.`name-abbreviation` AS `airport-short-name`, model, `status`\n" +
+                                                "cities.`name` AS `city`, a1.`name-abbreviation` AS `airport-short-name`, title, `status`\n" +
                                                 "FROM flights\n" +
                                                 "JOIN airports AS a1 ON  a1.id = flights.`destination-airport-id`\n" +
                                                 "JOIN cities ON cities.id = (SELECT `city-id` FROM airports WHERE airports.`name` = a1.`name`)\n" +
-                                                "JOIN planes ON  planes.id = `plane-id`\n" +
+                                                "JOIN `plane-models` ON `plane-models`.id = (SELECT `model-id` FROM planes WHERE planes.id = `plane-id`)\n" +
                                                 "JOIN airports AS a2 ON a2.id = flights.`departure-airport-id`\n" +
                                                 "WHERE `departure-date` = ? AND a2.`name-abbreviation` = ?;";
 
-    private final static String SELECT_AIRPORT_ARRIVAL = "SELECT `flight-number`, `departure-date` AS `date`, `destination-time` AS `time`,cities.`name` AS `city`,\n" +
-                                                "a2.`name-abbreviation` AS `airport-short-name`, model, `status`\n" +
+    private final static String SELECT_AIRPORT_ARRIVAL = "SELECT `flight-number`, `departure-date` AS `date`, `destination-time` AS `time`,a2.`name` AS `airport`," +
+                                                "cities.`name` AS `city`, a2.`name-abbreviation` AS `airport-short-name`, title, `status`\n" +
                                                 "FROM flights\n" +
-                                                "JOIN airports AS a2 ON \ta2.id = flights.`departure-airport-id`\n" +
+                                                "JOIN airports AS a2 ON a2.id = flights.`departure-airport-id`\n" +
                                                 "JOIN cities ON cities.id = (SELECT `city-id` FROM airports WHERE airports.`name` = a2.`name`)\n" +
                                                 "JOIN airports AS a1 ON  a1.id = flights.`destination-airport-id`\n" +
-                                                "JOIN planes ON  planes.id = `plane-id`\n" +
+                                                "JOIN `plane-models` ON `plane-models`.id = (SELECT `model-id` FROM planes WHERE planes.id = `plane-id`)\n" +
                                                 "WHERE `destination-date` = ? AND a1.`name-abbreviation` = ?;";
 
     private final static String SELECT_FLIGHT_INFO =   "SELECT `status`,`destination-date`, `destination-time`, a2.`name` AS `departure-airport`, c2.`name` AS `departure-city`, cnt2.`name` AS `departure-country`,  a2.`name-abbreviation` AS `dep-airport-short-name`, \n" +
@@ -72,7 +72,7 @@ public class FlightDAOImpl extends CloseOperation implements FlightDAO {
                 rs = ps.executeQuery();
                 while (rs.next()) {
                     flights.add( Flight.builder().status(rs.getString("status"))
-                                                .planeModel(rs.getString("model"))
+                                                .planeModel(rs.getString("title"))
                                                 .departureDate(rs.getDate("date").toLocalDate())
                                                 .departureTime(rs.getTime("time").toLocalTime())
                                                 .destinationCity(rs.getString("city"))

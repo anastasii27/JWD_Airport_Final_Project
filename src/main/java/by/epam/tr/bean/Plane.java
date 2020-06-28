@@ -8,5 +8,5 @@ import java.io.Serializable;
 @AllArgsConstructor
 public class Plane implements Serializable {
     private String model;
-    private int amount;
+    private String number;
 }

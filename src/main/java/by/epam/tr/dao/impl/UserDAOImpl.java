@@ -11,7 +11,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UserDAOImpl extends CloseOperation implements UserDAO {
-
     private final static String INSERT_USER =  "INSERT INTO airport.users (`role-id`, login, `password`, `name`, surname, email, `career-start-year`)" +
                                     "VALUES((SELECT id FROM airport.roles WHERE title = ?),?,?,?,?,?,?);";
 
@@ -29,6 +28,7 @@ public class UserDAOImpl extends CloseOperation implements UserDAO {
         Connection connection = null;
         PreparedStatement ps = null;
         boolean flag = false;
+
         try {
             connection = pool.takeConnection();
             ps =  connection.prepareStatement(INSERT_USER);
@@ -58,6 +58,7 @@ public class UserDAOImpl extends CloseOperation implements UserDAO {
         PreparedStatement ps = null;
         ResultSet rs = null;
         User user;
+
         try {
             connection = pool.takeConnection();
             ps =  connection.prepareStatement(SING_IN);
@@ -69,7 +70,6 @@ public class UserDAOImpl extends CloseOperation implements UserDAO {
             if(!rs.next()){
                 return null;
             }
-            //user =  new User(rs.getString("role"),rs.getString("role"), rs.getString("surname"), rs.getString("email"),rs.getString("career-start-year"));
 
             user = User.builder().role(rs.getString("role"))
                                 .name(rs.getString("name"))
@@ -91,6 +91,7 @@ public class UserDAOImpl extends CloseOperation implements UserDAO {
         Connection connection = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
+
         try {
             connection = pool.takeConnection();
             ps =  connection.prepareStatement(CHECK_USER_EXISTENCE_1);
@@ -113,17 +114,16 @@ public class UserDAOImpl extends CloseOperation implements UserDAO {
         PreparedStatement ps = null;
         ResultSet rs = null;
         List<User> users = new ArrayList<>();
+
         try {
             connection = pool.takeConnection();
             ps =  connection.prepareStatement(SELECT_ALL_USERS);
 
             rs = ps.executeQuery();
             while (rs.next()){
-                users.add( User.builder()
-                        .name(rs.getString("name"))
-                        .surname(rs.getString("surname"))
-                        .role( rs.getString("title"))
-                        .build());
+                users.add( User.builder().name(rs.getString("name"))
+                                        .surname(rs.getString("surname"))
+                                        .role( rs.getString("title")).build());
             }
         } catch (ConnectionPoolException | SQLException e) {
             throw new DAOException("Exception during all users getting!", e);

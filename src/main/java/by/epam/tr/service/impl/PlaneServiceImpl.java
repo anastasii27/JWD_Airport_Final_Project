@@ -6,18 +6,26 @@ import by.epam.tr.dao.DAOFactory;
 import by.epam.tr.dao.PlaneDao;
 import by.epam.tr.service.PlaneService;
 import by.epam.tr.service.ServiceException;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
 public class PlaneServiceImpl implements PlaneService {
+    private final static String MINSK_NATIONAL_AIRPORT = "MSQ";
     private PlaneDao dao = DAOFactory.getInstance().getPlaneDao();
 
+
     @Override
-    public List<Plane> freePlanes(String airportName, LocalDate departureDate, LocalDate destinationDate) throws ServiceException {
+    public List<Plane> freePlanesAtAirport(String airportName) throws ServiceException {
+        List<Plane> allPlanes;
+
         try {
-            List<Plane> allPlanes  = dao.allPlanesFromAirport(airportName, destinationDate);
-            List<Plane> takenOnFlightPlanes = dao.takenOnFlightPlanes(airportName, departureDate);
+            if(airportName.equals(MINSK_NATIONAL_AIRPORT)){
+                allPlanes = dao.allPlanes();
+            }
+            else{
+                allPlanes  = dao.allPlanesFromAirport(airportName);
+            }
+            List<Plane> takenOnFlightPlanes = dao.takenOnFlightPlanes(airportName);
 
             return findFreePlanes(allPlanes, takenOnFlightPlanes);
         } catch (DAOException e) {
@@ -30,22 +38,13 @@ public class PlaneServiceImpl implements PlaneService {
 
         for (Plane plane1: allPlanes) {
             for (Plane plane2: takenOnFlightPlanes) {
-                if(plane1.getModel().equals(plane2.getModel())){
-                   comparePlanesAmount(inappropriatePlane, plane1, plane2);
+                if(plane1.getNumber().equals(plane2.getNumber())){
+                    inappropriatePlane.add(plane1);
                 }
             }
         }
         allPlanes.removeAll(inappropriatePlane);
 
         return allPlanes;
-    }
-
-    private void comparePlanesAmount(List<Plane> inappropriatePlane, Plane plane1, Plane plane2){
-        if(plane1.getAmount()==plane2.getAmount()){
-            inappropriatePlane.add(plane1);
-        }
-        if(plane1.getAmount()> plane2.getAmount()){
-            plane1.setAmount(plane1.getAmount()-plane2.getAmount());
-        }
     }
 }

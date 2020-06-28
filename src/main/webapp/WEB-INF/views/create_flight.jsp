@@ -14,12 +14,13 @@
         <link href="${pageContext.request.contextPath}/design/css/datepicker.min.css" rel="stylesheet" type="text/css">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
         <script src="${pageContext.request.contextPath}/design/js/jquery-ui.min.js" charset="UTF-8"></script>
-        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
         <script src="${pageContext.request.contextPath}/design/js/datepicker.min.js" charset="UTF-8"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.13.0/moment.min.js"></script>
         <script src="${pageContext.request.contextPath}/design/js/i18n/datepicker.en.js" charset="UTF-8"></script>
         <script src="${pageContext.request.contextPath}/design/js/i18n/datepicker.ru.js" charset="UTF-8"></script>
+        <script src="${pageContext.request.contextPath}/design/js/ajax-request.js" charset="UTF-8"></script>
+        <script src="${pageContext.request.contextPath}/design/js/full-js.js" charset="UTF-8"></script>
 
     </head>
     <body>
@@ -52,10 +53,7 @@
                 <div class="form-group">
                     <label for="planes">САМОЛЕТ</label>
                     <select name= "planes" id="planes">
-                        <option selected></option>
-                        <c:forEach var="plane" items="${planes_list}">
-                            <option>${plane}</option>
-                        </c:forEach>
+
                     </select>
                 </div>
             </div>
@@ -69,8 +67,7 @@
                     </div>
                     <div class="form-group">
                         <label for="dep_time">ВРЕМЯ ОТПРАВЛЕНИЯ</label>
-                        <input type='text' name="departure_time" id= "dep_time" class="datepicker-here"
-                               data-language="${lang}" value = "${requestScope.departure_date}"/>
+                        <input type='time' name="departure_time" id= "dep_time"/>
                     </div>
                     <div class="form-group">
                         <label for="dep_country">СТРАНА ОТПРАВЛЕНИЯ</label>
@@ -85,9 +82,7 @@
                         <label for="dep_airport">АЭРОПОРТ ОТПРАВЛЕНИЯ</label>
                         <select name= "departure_airport" id="dep_airport">
                             <option selected></option>
-                            <c:forEach var="airport" items="${airport_list}">
-                                <option>${airport}</option>
-                            </c:forEach>
+
                         </select>
                     </div>
                 </div>
@@ -100,8 +95,7 @@
                     </div>
                     <div class="form-group">
                         <label for="dest_time">ВРЕМЯ ПРИБЫТИЯ</label>
-                        <input type='text' name="destination_time" id= "dest_time" class="datepicker-here"
-                               data-language="${lang}" value = "${requestScope.departure_date}"/>
+                        <input type='time' name="destination_time" id= "dest_time"/>
                     </div>
                     <div class="form-group">
                         <label for="dest_country">СТРАНА ПРИБЫТИЯ</label>
@@ -116,9 +110,7 @@
                         <label for="dest_airport">АЭРОПОРТ ПРИБЫТИЯ</label>
                         <select name= "destination_airport" id="dest_airport">
                             <option selected></option>
-                            <c:forEach var="airport" items="${airport_list}">
-                                <option>${airport}</option>
-                            </c:forEach>
+
                         </select>
                     </div>
                 </div>

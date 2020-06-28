@@ -10,20 +10,20 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ListCreatorImpl extends CloseOperation implements ListCreatorDAO {
+public class ListCreatorIDaoImpl extends CloseOperation implements ListCreatorDAO {
     private static final String CITY_WITH_AIRPORT = "SELECT cities.`name`,`name-abbreviation` FROM airport.airports\n" +
-                                                "JOIN cities ON cities.id = airports.`city-id`;";
+            "JOIN cities ON cities.id = airports.`city-id`;";
 
     private static final String CITY_WITH_AIRPORT_BY_COUNTRY = "SELECT cities.`name`,`name-abbreviation` FROM airport.airports\n" +
-                                                "JOIN cities ON cities.id = airports.`city-id`\n" +
-                                                "JOIN countries ON cities.`country-id` = countries.id\n" +
-                                                "WHERE countries.`name` = ?;";
+            "JOIN cities ON cities.id = airports.`city-id`\n" +
+            "JOIN countries ON cities.`country-id` = countries.id\n" +
+            "WHERE countries.`name` = ?;";
 
     private static final String USERS_ROLES = "SELECT title from airport.roles";
     private static final String CREWS = "SELECT `short-name` from airport.`flight-teams`";
     private static final String COUNTRIES = "SELECT `name` FROM airport.countries;";
     private static final String USERS_BY_ROLE = "SELECT `name`, surname FROM airport.users WHERE `role-id`= (" +
-                                        "SELECT id  FROM roles WHERE title = ?);";
+            "SELECT id  FROM roles WHERE title = ?);";
 
     @Override
     public List<String> createCityWithAirportList() throws DAOException {

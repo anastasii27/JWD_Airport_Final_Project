@@ -21,6 +21,7 @@ public class FindCrewMainPilot implements Command {//todo доделать
         String commander = " ";
 
         crewName = request.getParameter(RequestParameterName.CREW_NAME);
+
         try {
             User user = crewService.findMainPilot(crewName);
 
@@ -29,9 +30,9 @@ public class FindCrewMainPilot implements Command {//todo доделать
             }
             response.getWriter().write(commander);
         } catch (ServiceException e) {
-            log.error("Cannot execute ajax command for crew creation", e);
+            log.error("Cannot execute ajax command for crew main pilot searching", e);
         } catch (IOException e) {
-            log.error("Cannot write json to response", e);
+            log.error("Cannot write response", e);
         }
     }
 }

@@ -34,7 +34,7 @@ public class AirportFlight implements Command {
         } catch (ServiceException e) {
             log.error("Cannot execute ajax command for arrivals and departure table", e);
         } catch (IOException e) {
-           log.error("Cannot write json to response", e);
+            log.error("Cannot write json to response", e);
         }
     }
 }

@@ -1,5 +1,4 @@
 $(document).ready(function ($) {
-
     let crewName;
 
     //crews list
@@ -128,7 +127,41 @@ $(document).ready(function ($) {
         });
     });
 
+    $('.form-group').on('change','#dep_country', function () {
+        createAirportSelectAjax('#dep_country');
+    });
 
+    $('.form-group').on('change','#dest_country', function () {
+        createAirportSelectAjax('#dest_country');
+    });
+
+    $('.form-group').on('change','#dep_airport', function () {
+        let airport = $(this).val();
+        let emptyOption = '<option selected>' + ' ' + '</option>';
+
+        $('#planes option').remove();
+
+        $.ajax({
+            type: "GET",
+            url: "/JWD_Task3_war/ajax",
+            dataType:'json',
+            data: {command: 'find_free_plane', departure_airport: airport},
+
+            success: function (data) {
+                let option = '';
+
+                $.each(data, function (airport, airportInfo) {
+                    option += '<option>' + airportInfo.model + ' '+ airportInfo.number + '</option>';
+                });
+
+                $('#planes').append(emptyOption);
+                $('#planes').append(option);
+            },
+            error: function (data) {
+                $('#planes').append(emptyOption);
+            }
+        });
+    });
 });
 
 function showCrewAjax(crewName) {
@@ -150,7 +183,6 @@ function showCrewAjax(crewName) {
 }
 
 function createMembersTable(data) {
-
     let pilots = '';
     let stewardesses ='';
     let pilotCount = 0;
@@ -183,4 +215,42 @@ function createMembersTable(data) {
             $('#add_crew_btn').hide();
         }
     //}
+}
+
+function createAirportSelectAjax(selector) {
+    let country = $(selector).val();
+    let emptyOption = '<option selected>' + ' ' + '</option>';
+    let airportSelect = getAirportSelector(selector);
+
+    $(airportSelect+' option').remove();
+
+    $.ajax({
+        type: "GET",
+        url: "/JWD_Task3_war/ajax",
+        dataType:'json',
+        data: {command: 'find_country_airport',country: country},
+
+        success: function (data) {
+            let option = '';
+
+            $.each(data, function (airport, airportInfo) {
+                option += '<option>' + airportInfo + '</option>';
+            });
+
+            $(airportSelect).append(emptyOption);
+            $(airportSelect).append(option);
+        },
+        error: function (data) {
+            $(airportSelect).append(emptyOption);
+        }
+    });
+}
+
+function getAirportSelector(selector) {
+    if(selector === '#dep_country'){
+        return '#dep_airport';
+    }
+    if(selector === '#dest_country'){
+        return '#dest_airport';
+    }
 }

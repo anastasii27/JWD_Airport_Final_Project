@@ -34,4 +34,5 @@ public final class RequestParameterName {
     public static final String COUNTRIES = "country_list";
     public static final String DESTINATION_DATE = "destination_date";
     public static final String DEPARTURE_AIRPORT = "departure_airport";
+    public static final String COUNTRY = "country";
 }
