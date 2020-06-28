@@ -1,21 +1,22 @@
 package by.epam.tr.service.impl;
 
 import by.epam.tr.bean.User;
-import by.epam.tr.dao.DAOException;
-import by.epam.tr.dao.DAOFactory;
-import by.epam.tr.dao.UserDAO;
+import by.epam.tr.dao.DaoException;
+import by.epam.tr.dao.DaoFactory;
+import by.epam.tr.dao.UserDao;
 import by.epam.tr.service.ServiceException;
 import by.epam.tr.service.UserService;
 
 public class UserServiceImpl implements UserService {
-    private UserDAO  dao = DAOFactory.getInstance().getUserDAO();
+    private UserDao dao = DaoFactory.getInstance().getUserDAO();
 
     @Override
     public User signIn(String login, String password) throws ServiceException {
         User user;
+
         try {
             user = dao.signIn(login,password);
-        } catch (DAOException e) {
+        } catch (DaoException e) {
             throw new ServiceException("Exception during signing in!", e);
         }
         return user;
@@ -24,9 +25,10 @@ public class UserServiceImpl implements UserService {
     @Override
     public boolean userRegistration(User user, String login, String password) throws ServiceException {
         boolean operationResult;
+
         try {
            operationResult = dao.addNewUser(user, login, password);
-        } catch (DAOException e) {
+        } catch (DaoException e) {
             throw new ServiceException("Exception during registration!", e);
         }
         return operationResult;

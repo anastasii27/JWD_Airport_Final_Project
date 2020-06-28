@@ -2,28 +2,28 @@ package by.epam.tr.dao.impl;
 
 import by.epam.tr.bean.User;
 import by.epam.tr.dao.CloseOperation;
-import by.epam.tr.dao.DAOException;
-import by.epam.tr.dao.UserDAO;
+import by.epam.tr.dao.DaoException;
+import by.epam.tr.dao.UserDao;
 import by.epam.tr.dao.connectionpool.ConnectionPool;
 import by.epam.tr.dao.connectionpool.ConnectionPoolException;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UserDAOImpl extends CloseOperation implements UserDAO {
+public class UserDaoImpl extends CloseOperation implements UserDao {
     private final static String INSERT_USER =  "INSERT INTO airport.users (`role-id`, login, `password`, `name`, surname, email, `career-start-year`)" +
-                                    "VALUES((SELECT id FROM airport.roles WHERE title = ?),?,?,?,?,?,?);";
+            "VALUES((SELECT id FROM airport.roles WHERE title = ?),?,?,?,?,?,?);";
 
     private final static String SING_IN = "SELECT title  AS `role` , `name`, surname, email, `career-start-year` " +
-                                    "FROM users JOIN roles ON users.`role-id` = roles.id WHERE login = ? AND `password`=?;";
+            "FROM users JOIN roles ON users.`role-id` = roles.id WHERE login = ? AND `password`=?;";
 
     private final static String CHECK_USER_EXISTENCE_1 = "SELECT `name` FROM users WHERE login = ?;";
 
     private final static String SELECT_ALL_USERS = "SELECT `name`, surname, title FROM airport.users " +
-                                    "JOIN roles ON roles.id = users.`role-id`;";
+            "JOIN roles ON roles.id = users.`role-id`;";
 
     @Override
-    public boolean addNewUser(User user, String login, String password) throws DAOException {
+    public boolean addNewUser(User user, String login, String password) throws DaoException {
         ConnectionPool pool = ConnectionPool.getInstance();
         Connection connection = null;
         PreparedStatement ps = null;
@@ -44,7 +44,7 @@ public class UserDAOImpl extends CloseOperation implements UserDAO {
 
             flag = true;
         } catch (ConnectionPoolException | SQLException e) {
-            throw new DAOException("Exception during user registration", e);
+            throw new DaoException("Exception during user registration", e);
         }finally {
             closeAll(ps, pool, connection);
         }
@@ -52,7 +52,7 @@ public class UserDAOImpl extends CloseOperation implements UserDAO {
     }
 
     @Override
-    public User signIn(String login, String password) throws DAOException {
+    public User signIn(String login, String password) throws DaoException {
         ConnectionPool pool = ConnectionPool.getInstance();
         Connection connection = null;
         PreparedStatement ps = null;
@@ -78,7 +78,7 @@ public class UserDAOImpl extends CloseOperation implements UserDAO {
                                 .careerStartYear(rs.getString("career-start-year")).build();
 
         }catch (ConnectionPoolException | SQLException e) {
-            throw new DAOException("Exception during signing in!", e);
+            throw new DaoException("Exception during signing in!", e);
         }finally {
             closeAll(rs, ps, pool, connection);
         }
@@ -86,7 +86,7 @@ public class UserDAOImpl extends CloseOperation implements UserDAO {
     }
 
     @Override
-    public boolean doesUserExist(String login) throws DAOException {
+    public boolean doesUserExist(String login) throws DaoException {
         ConnectionPool pool = ConnectionPool.getInstance();
         Connection connection = null;
         PreparedStatement ps = null;
@@ -101,14 +101,14 @@ public class UserDAOImpl extends CloseOperation implements UserDAO {
 
             return rs.next();
         } catch (ConnectionPoolException | SQLException e) {
-            throw new DAOException("Exception during user existence operation!", e);
+            throw new DaoException("Exception during user existence operation!", e);
         }finally {
             closeAll(rs, ps, pool, connection);
         }
     }
 
     @Override
-    public List<User> allUsers() throws DAOException {
+    public List<User> allUsers() throws DaoException {
         ConnectionPool pool = ConnectionPool.getInstance();
         Connection connection = null;
         PreparedStatement ps = null;
@@ -126,7 +126,7 @@ public class UserDAOImpl extends CloseOperation implements UserDAO {
                                         .role( rs.getString("title")).build());
             }
         } catch (ConnectionPoolException | SQLException e) {
-            throw new DAOException("Exception during all users getting!", e);
+            throw new DaoException("Exception during all users getting!", e);
         }finally {
             closeAll(rs, ps, pool, connection);
         }

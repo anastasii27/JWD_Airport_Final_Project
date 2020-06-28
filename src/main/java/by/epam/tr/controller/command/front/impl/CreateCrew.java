@@ -41,7 +41,6 @@ public class CreateCrew implements Command {
 
         crewForValidation = toCrewValidationMap(request);
         validationResults = validator.validate(crewForValidation);
-
         try {
             boolean operationResult = false;
 

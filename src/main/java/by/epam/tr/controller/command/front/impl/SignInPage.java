@@ -9,7 +9,6 @@ public class SignInPage implements Command {
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) {
-
        forwardTo(request,response, JSPPageName.SIGN_IN_PAGE);
     }
 }

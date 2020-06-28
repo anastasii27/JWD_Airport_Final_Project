@@ -1,8 +1,8 @@
 package by.epam.tr.service.validation.impl;
 
-import by.epam.tr.dao.CrewDAO;
-import by.epam.tr.dao.DAOException;
-import by.epam.tr.dao.DAOFactory;
+import by.epam.tr.dao.CrewDao;
+import by.epam.tr.dao.DaoException;
+import by.epam.tr.dao.DaoFactory;
 import by.epam.tr.service.validation.ValidationPattern;
 import by.epam.tr.service.validation.Validator;
 import org.apache.logging.log4j.LogManager;
@@ -15,7 +15,7 @@ public class CrewValidation extends Validator {
     @Override
     public List<String> validate(Map<String, String> params) {
         List<String> result= new ArrayList<>();
-        CrewDAO crewDAO = DAOFactory.getInstance().getCrewDAO();
+        CrewDao crewDAO = DaoFactory.getInstance().getCrewDAO();
         
         if(!emptyValueCheck(params)){
             result.add("You didnt` enter some values");
@@ -31,7 +31,7 @@ public class CrewValidation extends Validator {
             if(crewDAO.doesCrewNameExist(crewName)){
                 result.add("This name is already exist!");
             }
-        } catch (DAOException e) {
+        } catch (DaoException e) {
             LOGGER.error("Error during crew name existence checking");
         }
 

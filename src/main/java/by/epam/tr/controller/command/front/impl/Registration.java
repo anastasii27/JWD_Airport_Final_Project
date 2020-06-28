@@ -24,12 +24,9 @@ public class Registration implements Command{
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) {
-
         UserService service = ServiceFactory.getInstance().getUserService();
         HttpSession session = request.getSession(true);
         Validator validator = ValidationFactory.getInstance().getRegistrationValidation();
-
-        boolean result = false;
         String role;
         String login;
         String password;
@@ -37,7 +34,6 @@ public class Registration implements Command{
         String surname;
         String email;
         String careerStartYear;
-
         Map<String, String> params;
         List <String> validationResults;
 
@@ -49,24 +45,24 @@ public class Registration implements Command{
         email = request.getParameter(RequestParameterName.EMAIL);
         careerStartYear = request.getParameter(RequestParameterName.CAREER_START_YEAR);
 
-        User user =  User.builder().role(role)
-                                    .name(name)
-                                    .surname(surname)
-                                    .email(email)
-                                    .careerStartYear(careerStartYear).build();
-
         params = RequestToMapParser.toRequestParamsMap(request);
         validationResults = validator.validate(params);
-
         try {
+            boolean result = false;
             if(validationResults.size()==0){
+                User user =  User.builder().role(role)
+                                            .name(name)
+                                            .surname(surname)
+                                            .email(email)
+                                            .careerStartYear(careerStartYear).build();
+
                 result = service.userRegistration(user, login, password);
             }else {
                 session.setAttribute(RequestParameterName.RESULT_INFO, validationResults);
             }
 
             if(result){
-                session.setAttribute(RequestParameterName.RESULT_INFO, ANSWER);//убрать
+                session.setAttribute(RequestParameterName.RESULT_INFO, ANSWER);
             }
 
             response.sendRedirect(JSPPageName.RESULT_PAGE);

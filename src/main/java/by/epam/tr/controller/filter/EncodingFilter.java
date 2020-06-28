@@ -6,7 +6,6 @@ import java.io.IOException;
 
 @WebFilter("/*")
 public class EncodingFilter implements Filter {
-
     private String ENCODING = "UTF-8";
 
     @Override
@@ -16,7 +15,6 @@ public class EncodingFilter implements Filter {
 
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
-
         servletRequest.setCharacterEncoding(ENCODING);
         servletResponse.setCharacterEncoding(ENCODING);
 

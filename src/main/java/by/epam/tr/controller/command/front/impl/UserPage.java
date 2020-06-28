@@ -28,7 +28,6 @@ public class UserPage implements Command {
 
         surname = user.getSurname();
         email = user.getEmail();
-
         try {
             nearestFlights = userFlightsService.nearestUserFlights(surname, email);
 
@@ -40,7 +39,6 @@ public class UserPage implements Command {
             }
 
             forwardTo(request,response,page.getPage(user.getRole()));
-
         } catch (ServiceException e) {
             log.error("Cannot execute command for user page", e);
             errorPage(response);

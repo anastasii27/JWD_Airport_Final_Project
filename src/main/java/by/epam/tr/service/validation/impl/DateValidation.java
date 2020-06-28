@@ -8,13 +8,11 @@ import java.util.List;
 import java.util.Map;
 
 public class DateValidation extends Validator {//todo MAX| MIN date
-
     private final static int MIN_DAY = 10;
     private final static int MAX_DAY = 30;
 
     @Override
     public List<String> validate(Map<String, String> params) {
-
         List <String> result = new ArrayList<>();
 
         if(!emptyValueCheck(params)){
@@ -35,7 +33,6 @@ public class DateValidation extends Validator {//todo MAX| MIN date
     }
 
     private boolean isDateRangeValid(String date){
-
         LocalDate enteredDate = LocalDate.parse(date);
         LocalDate today = LocalDate.now();
         LocalDate minDateOfRange = today.minusDays(MIN_DAY);
@@ -48,7 +45,6 @@ public class DateValidation extends Validator {//todo MAX| MIN date
         if(enteredDate.isBefore(minDateOfRange)){
             return false;
         }
-
         return true;
     }
 }

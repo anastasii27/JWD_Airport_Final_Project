@@ -2,15 +2,15 @@ package by.epam.tr.dao.impl;
 
 import by.epam.tr.bean.User;
 import by.epam.tr.dao.CloseOperation;
-import by.epam.tr.dao.DAOException;
-import by.epam.tr.dao.ListCreatorDAO;
+import by.epam.tr.dao.DaoException;
+import by.epam.tr.dao.ListCreatorDao;
 import by.epam.tr.dao.connectionpool.ConnectionPool;
 import by.epam.tr.dao.connectionpool.ConnectionPoolException;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ListCreatorIDaoImpl extends CloseOperation implements ListCreatorDAO {
+public class ListCreatorIDaoImpl extends CloseOperation implements ListCreatorDao {
     private static final String CITY_WITH_AIRPORT = "SELECT cities.`name`,`name-abbreviation` FROM airport.airports\n" +
             "JOIN cities ON cities.id = airports.`city-id`;";
 
@@ -26,7 +26,7 @@ public class ListCreatorIDaoImpl extends CloseOperation implements ListCreatorDA
             "SELECT id  FROM roles WHERE title = ?);";
 
     @Override
-    public List<String> createCityWithAirportList() throws DAOException {
+    public List<String> createCityWithAirportList() throws DaoException {
         ConnectionPool pool = ConnectionPool.getInstance();
         Connection connection = null;
         PreparedStatement ps = null;
@@ -37,16 +37,16 @@ public class ListCreatorIDaoImpl extends CloseOperation implements ListCreatorDA
 
             return citiesWithAirports(ps);
         } catch (ConnectionPoolException e) {
-            throw new DAOException("Exception during taking connection!", e);
+            throw new DaoException("Exception during taking connection!", e);
         } catch (SQLException e) {
-            throw new DAOException("Exception during creating city with airports list!", e);
+            throw new DaoException("Exception during creating city with airports list!", e);
         }finally{
             closeAll(ps, pool, connection);
         }
     }
 
     @Override
-    public List<String> createCityWithAirportList(String country) throws DAOException {
+    public List<String> createCityWithAirportList(String country) throws DaoException {
         ConnectionPool pool = ConnectionPool.getInstance();
         Connection connection = null;
         PreparedStatement ps = null;
@@ -59,9 +59,9 @@ public class ListCreatorIDaoImpl extends CloseOperation implements ListCreatorDA
 
             return citiesWithAirports(ps);
         } catch (ConnectionPoolException e) {
-            throw new DAOException("Exception during taking connection!", e);
+            throw new DaoException("Exception during taking connection!", e);
         } catch (SQLException e) {
-            throw new DAOException("Exception during creating city with airports list!", e);
+            throw new DaoException("Exception during creating city with airports list!", e);
         }finally{
             closeAll(ps, pool, connection);
         }
@@ -79,7 +79,7 @@ public class ListCreatorIDaoImpl extends CloseOperation implements ListCreatorDA
         return citiesWithAirports;
     }
     @Override
-    public List<String> createRolesList() throws DAOException {
+    public List<String> createRolesList() throws DaoException {
         ConnectionPool pool = ConnectionPool.getInstance();
         Connection connection = null;
         Statement st = null;
@@ -95,7 +95,7 @@ public class ListCreatorIDaoImpl extends CloseOperation implements ListCreatorDA
                 roles.add(rs.getString("title"));
             }
         } catch (ConnectionPoolException | SQLException e) {
-            throw new DAOException("Exception during creating roles list!", e);
+            throw new DaoException("Exception during creating roles list!", e);
         }finally {
             closeAll(rs, st, pool, connection);
         }
@@ -103,7 +103,7 @@ public class ListCreatorIDaoImpl extends CloseOperation implements ListCreatorDA
     }
 
     @Override
-    public List<String> createCrewsList() throws DAOException {
+    public List<String> createCrewsList() throws DaoException {
         ConnectionPool pool = ConnectionPool.getInstance();
         Connection connection = null;
         Statement st = null;
@@ -119,7 +119,7 @@ public class ListCreatorIDaoImpl extends CloseOperation implements ListCreatorDA
                 crews.add(rs.getString("short-name"));
             }
         } catch (ConnectionPoolException | SQLException e) {
-            throw new DAOException("Exception during creating crews list!", e);
+            throw new DaoException("Exception during creating crews list!", e);
         }finally{
             closeAll(rs, st, pool, connection);
         }
@@ -127,7 +127,7 @@ public class ListCreatorIDaoImpl extends CloseOperation implements ListCreatorDA
     }
 
     @Override
-    public List<User> createUserByRoleList(String role) throws DAOException {
+    public List<User> createUserByRoleList(String role) throws DaoException {
         ConnectionPool pool = ConnectionPool.getInstance();
         Connection connection = null;
         PreparedStatement ps = null;
@@ -146,7 +146,7 @@ public class ListCreatorIDaoImpl extends CloseOperation implements ListCreatorDA
             }
 
         } catch (ConnectionPoolException | SQLException e) {
-            throw new DAOException("Exception during creating users by role list!", e);
+            throw new DaoException("Exception during creating users by role list!", e);
         }finally {
             closeAll(rs, ps, pool, connection);
         }
@@ -154,7 +154,7 @@ public class ListCreatorIDaoImpl extends CloseOperation implements ListCreatorDA
     }
 
     @Override
-    public List<String> createCountriesList() throws DAOException {
+    public List<String> createCountriesList() throws DaoException {
         ConnectionPool pool = ConnectionPool.getInstance();
         Connection connection = null;
         Statement st = null;
@@ -170,7 +170,7 @@ public class ListCreatorIDaoImpl extends CloseOperation implements ListCreatorDA
                 countries.add(rs.getString("name"));
             }
         } catch (ConnectionPoolException | SQLException e) {
-            throw new DAOException("Exception during creating countries list!", e);
+            throw new DaoException("Exception during creating countries list!", e);
         } finally {
             closeAll(rs, st, pool, connection);
         }

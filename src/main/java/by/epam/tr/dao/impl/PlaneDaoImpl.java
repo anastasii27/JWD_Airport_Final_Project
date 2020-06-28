@@ -2,7 +2,7 @@ package by.epam.tr.dao.impl;
 
 import by.epam.tr.bean.Plane;
 import by.epam.tr.dao.CloseOperation;
-import by.epam.tr.dao.DAOException;
+import by.epam.tr.dao.DaoException;
 import by.epam.tr.dao.PlaneDao;
 import by.epam.tr.dao.connectionpool.ConnectionPool;
 import by.epam.tr.dao.connectionpool.ConnectionPoolException;
@@ -31,7 +31,7 @@ public class PlaneDaoImpl extends CloseOperation implements PlaneDao{
             "JOIN `plane-models` ON `plane-models`.id = `model-id`";
 
     @Override
-    public List<Plane> allPlanesFromAirport(String airportName) throws DAOException {
+    public List<Plane> allPlanesFromAirport(String airportName) throws DaoException {
         ConnectionPool pool = ConnectionPool.getInstance();
         Connection connection = null;
 
@@ -40,7 +40,7 @@ public class PlaneDaoImpl extends CloseOperation implements PlaneDao{
 
             return makePlanesList(PLANES_AT_AIRPORT, airportName, connection);
         } catch (ConnectionPoolException | SQLException e) {
-            throw new DAOException("Exception during getting airport planes list!", e);
+            throw new DaoException("Exception during getting airport planes list!", e);
         }finally {
             if (pool != null) {
                 pool.releaseConnection(connection);
@@ -49,7 +49,7 @@ public class PlaneDaoImpl extends CloseOperation implements PlaneDao{
     }
 
     @Override
-    public List<Plane> takenOnFlightPlanes(String airportName) throws DAOException {
+    public List<Plane> takenOnFlightPlanes(String airportName) throws DaoException {
         ConnectionPool pool = ConnectionPool.getInstance();
         Connection connection = null;
 
@@ -58,7 +58,7 @@ public class PlaneDaoImpl extends CloseOperation implements PlaneDao{
 
             return makePlanesList(TAKEN_ON_FLIGHT_PLANES_AT_AIRPORT, airportName, connection);
         } catch (ConnectionPoolException | SQLException e) {
-            throw new DAOException("Exception during getting planes on flight list!", e);
+            throw new DaoException("Exception during getting planes on flight list!", e);
         }finally {
             if (pool != null) {
                 pool.releaseConnection(connection);
@@ -81,7 +81,7 @@ public class PlaneDaoImpl extends CloseOperation implements PlaneDao{
         return planes;
     }
 
-    public List<Plane> allPlanes() throws DAOException {
+    public List<Plane> allPlanes() throws DaoException {
         ConnectionPool pool = ConnectionPool.getInstance();
         Connection connection = null;
         Statement st = null;
@@ -98,7 +98,7 @@ public class PlaneDaoImpl extends CloseOperation implements PlaneDao{
             }
             return planes;
         } catch (ConnectionPoolException | SQLException e) {
-            throw new DAOException("Exception during getting planes on flight list!", e);
+            throw new DaoException("Exception during getting planes on flight list!", e);
         }finally {
             closeAll(st, pool, connection);
         }

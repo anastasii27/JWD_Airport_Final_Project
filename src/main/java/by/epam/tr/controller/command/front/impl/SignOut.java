@@ -14,13 +14,12 @@ public class SignOut implements Command{
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) {
-
         HttpSession session = request.getSession(false);
+
         session.removeAttribute(RequestParameterName.USER);
         session.removeAttribute(RequestParameterName.RESULT_INFO);
         try {
             response.sendRedirect(JSPPageName.START_PAGE);
-
         } catch (IOException e) {
             log.error("Cannot execute command for signing out", e);
             errorPage(response);

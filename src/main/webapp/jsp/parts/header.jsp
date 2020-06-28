@@ -13,7 +13,7 @@
         <fmt:message bundle="${loc}" key="local.button.name.en" var="en_button" />
         <fmt:message bundle="${loc}" key="local.label.menu_main_arr_and_dep" var="arr_dep_label" />
         <fmt:message bundle="${loc}" key="local.label.menu_main_about" var="about_label" />
-        <fmt:message bundle="${loc}" key="local.label.menu_main_park" var="park_label" />
+        <fmt:message bundle="${loc}" key="local.label.menu_main_timetable" var="timetable_label" />
         <fmt:message bundle="${loc}" key="local.label.menu_main_lang" var="lang_label" />
         <fmt:message bundle="${loc}" key="local.label.menu_main" var="main_label" />
         <fmt:message bundle="${loc}" key="local.enter_button" var="enter_label" />
@@ -39,7 +39,7 @@
                         <a class="nav-link" href="#">${about_label}</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">${park_label}</a>
+                        <a class="nav-link" href="#">${timetable_label}</a>
                     </li>
                 </ul>
 

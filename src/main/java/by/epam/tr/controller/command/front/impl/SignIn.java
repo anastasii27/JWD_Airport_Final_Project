@@ -18,7 +18,6 @@ public class SignIn implements Command {
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) {
-
         UserService userService = ServiceFactory.getInstance().getUserService();
         HttpSession session = request.getSession(true);
         String login;
@@ -29,16 +28,15 @@ public class SignIn implements Command {
 
         User user;
         try {
-
             user = userService.signIn(login, password);
 
-                if(user != null){
-                    session.setAttribute(RequestParameterName.USER, user);
-                    response.sendRedirect(request.getContextPath() + PATH);
-                }else {
-                    request.setAttribute(RequestParameterName.RESULT_INFO, ANSWER);
-                    forwardTo(request,response, JSPPageName.RESULT_PAGE);
-                }
+            if(user != null){
+                session.setAttribute(RequestParameterName.USER, user);
+                response.sendRedirect(request.getContextPath() + PATH);
+            }else {
+                request.setAttribute(RequestParameterName.RESULT_INFO, ANSWER);
+                forwardTo(request,response, JSPPageName.RESULT_PAGE);
+            }
         } catch (ServiceException | IOException e) {
             log.error("Cannot execute command for signing in", e);
             errorPage(response);

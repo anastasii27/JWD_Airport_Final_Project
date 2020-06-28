@@ -23,8 +23,8 @@ public class CrewPage implements Command {
         List<String> crews;
         List<User> pilots;
         List<User> stewards;
-        try {
 
+        try {
             crews = listCreatorService.createCrewsList();
             pilots = listCreatorService.createUserByRoleList(PILOT);
             stewards = listCreatorService.createUserByRoleList(STEWARD);

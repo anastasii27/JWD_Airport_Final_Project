@@ -1,14 +1,13 @@
 package by.epam.tr.service.validation.impl;
 
-import by.epam.tr.dao.DAOException;
-import by.epam.tr.dao.DAOFactory;
-import by.epam.tr.dao.UserDAO;
+import by.epam.tr.dao.DaoException;
+import by.epam.tr.dao.DaoFactory;
+import by.epam.tr.dao.UserDao;
 import by.epam.tr.service.validation.ValidationPattern;
 import by.epam.tr.service.validation.Validator;
 import java.util.*;
 
 public class RegistrationValidation extends Validator {
-
     private List<String> result= new ArrayList<>();
 
     @Override
@@ -26,7 +25,7 @@ public class RegistrationValidation extends Validator {
 
         try {
             loginCheck(params.get("login"));
-        } catch (DAOException e) {
+        } catch (DaoException e) {
             //
         }
 
@@ -63,9 +62,9 @@ public class RegistrationValidation extends Validator {
         }
     }
 
-    private void loginCheck(String login) throws DAOException {
+    private void loginCheck(String login) throws DaoException {
 
-        UserDAO userDAO = DAOFactory.getInstance().getUserDAO();
+        UserDao userDAO = DaoFactory.getInstance().getUserDAO();
 
         if(userDAO.doesUserExist(login)){
             result.add("User with this login is already exist!");

@@ -15,7 +15,6 @@ public class AjaxController extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
         String commandName = req.getParameter(RequestParameterName.COMMAND);
         Command command = AjaxCommandProvider.getInstance().getCommand(commandName);
 

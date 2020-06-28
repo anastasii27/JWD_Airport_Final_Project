@@ -22,7 +22,6 @@ public class FindCountryAirport implements Command {
         List<String> countries;
 
         country = request.getParameter(RequestParameterName.COUNTRY);
-
         try {
             countries = listCreatorService.createCityWithAirportList(country);
 

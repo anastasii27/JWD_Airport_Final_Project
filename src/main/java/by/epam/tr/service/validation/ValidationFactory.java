@@ -3,9 +3,7 @@ package by.epam.tr.service.validation;
 import by.epam.tr.service.validation.impl.*;
 
 public class ValidationFactory {
-
     private static final ValidationFactory instance = new ValidationFactory();
-
     private final Validator dateValidation = new DateValidation();
     private final Validator registrationValidation = new RegistrationValidation();
     private final Validator crewValidation = new CrewValidation();

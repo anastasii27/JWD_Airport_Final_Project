@@ -17,7 +17,6 @@ public class FlightInformation implements Command {
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) {
-
         FlightService flightService = ServiceFactory.getInstance().getFlightService();
         Flight flight;
         String flightNumber;
@@ -26,7 +25,6 @@ public class FlightInformation implements Command {
         flightNumber = request.getParameter(RequestParameterName.FLIGHT_NUMBER);
         departureDate = request.getParameter(RequestParameterName.DEPARTURE_DATE);
         try {
-
             flight = flightService.flightInfo(flightNumber, departureDate);
 
             if (flight != null){
@@ -39,7 +37,6 @@ public class FlightInformation implements Command {
             request.setAttribute(RequestParameterName.DEPARTURE_DATE, departureDate);
 
             forwardTo(request, response, JSPPageName.FLIGHTS_INFO_PAGE);
-
         } catch (ServiceException  e) {
             log.error("Cannot execute command for flights information", e);
             errorPage(response);

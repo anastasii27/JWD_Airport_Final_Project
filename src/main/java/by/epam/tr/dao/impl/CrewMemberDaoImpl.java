@@ -2,13 +2,12 @@ package by.epam.tr.dao.impl;
 
 import by.epam.tr.bean.User;
 import by.epam.tr.dao.CloseOperation;
-import by.epam.tr.dao.CrewMemberDAO;
-import by.epam.tr.dao.DAOException;
+import by.epam.tr.dao.CrewMemberDao;
+import by.epam.tr.dao.DaoException;
 import by.epam.tr.dao.connectionpool.ConnectionPool;
 import by.epam.tr.dao.connectionpool.ConnectionPoolException;
 import lombok.extern.log4j.Log4j2;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -17,33 +16,33 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Log4j2
-public class CrewMemberDAOImpl extends CloseOperation implements CrewMemberDAO {
-
+public class CrewMemberDaoImpl extends CloseOperation implements CrewMemberDao {
     private final static String CREW_MEMBERS = "SELECT `name`, `surname`, title FROM `flight-teams-m2m-users`\n"+
-                                            "JOIN users ON `flight-teams-m2m-users`.`user-id` = users.id \n"+
-                                            "JOIN roles ON roles.id  = (SELECT `role-id` FROM users WHERE users.id = `flight-teams-m2m-users`.`user-id` )\n"+
-                                            "WHERE `flight-teams-m2m-users`.`flight-team-id` = (SELECT id FROM `flight-teams` WHERE `short-name` = ? );";
+            "JOIN users ON `flight-teams-m2m-users`.`user-id` = users.id \n"+
+            "JOIN roles ON roles.id  = (SELECT `role-id` FROM users WHERE users.id = `flight-teams-m2m-users`.`user-id` )\n"+
+            "WHERE `flight-teams-m2m-users`.`flight-team-id` = (SELECT id FROM `flight-teams` WHERE `short-name` = ? );";
 
     private final static String DELETE_CREW_MEMBER = "DELETE FROM airport.`flight-teams-m2m-users` WHERE `user-id` = " +
-                                            "(SELECT id FROM users WHERE `name`=? AND surname =?)\n" +
-                                            "AND `flight-team-id`= (SELECT id FROM `flight-teams` WHERE `short-name`=?);";
+            "(SELECT id FROM users WHERE `name`=? AND surname =?)\n" +
+            "AND `flight-team-id`= (SELECT id FROM `flight-teams` WHERE `short-name`=?);";
 
     private final static String ADD_MEMBER = "INSERT INTO airport.`flight-teams-m2m-users`(`flight-team-id`, `user-id`) VALUES (\n" +
-                                            "(SELECT id FROM `flight-teams` WHERE `short-name` =?),\n" +
-                                            "(SELECT id FROM users WHERE `name`=? AND surname =?));";
+            "(SELECT id FROM `flight-teams` WHERE `short-name` =?),\n" +
+            "(SELECT id FROM users WHERE `name`=? AND surname =?));";
 
     private final static String CHECK_CREW_MEMBER_EXISTENCE = "SELECT * FROM airport.`flight-teams-m2m-users` WHERE `user-id` = " +
-                                            "(SELECT id FROM users WHERE `name` = ? AND surname = ?) AND `flight-team-id` = (SELECT id " +
-                                            "FROM `flight-teams` WHERE `short-name` = ?);";
+            "(SELECT id FROM users WHERE `name` = ? AND surname = ?) AND `flight-team-id` = (SELECT id " +
+            "FROM `flight-teams` WHERE `short-name` = ?);";
     private int changedRowsAmount;
 
     @Override
-    public List<User> crewMembers(String crewName) throws DAOException {
+    public List<User> crewMembers(String crewName) throws DaoException {
         List<User> crew = new ArrayList<>();
         ConnectionPool pool = ConnectionPool.getInstance();
         Connection  connection = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
+
         try {
             connection = pool.takeConnection();
             connection.setAutoCommit(false);
@@ -65,7 +64,7 @@ public class CrewMemberDAOImpl extends CloseOperation implements CrewMemberDAO {
             } catch (SQLException ex) {
                 log.error("Exception while executing rollback()", ex);
             }
-            throw new DAOException("Exception during crew members searching!", e);
+            throw new DaoException("Exception during crew members searching!", e);
         }finally{
             try {
                 if(connection!=null){
@@ -80,10 +79,11 @@ public class CrewMemberDAOImpl extends CloseOperation implements CrewMemberDAO {
     }
 
     @Override
-    public int deleteCrewMember(String crewName, User user) throws DAOException {
+    public int deleteCrewMember(String crewName, User user) throws DaoException {
         ConnectionPool pool = ConnectionPool.getInstance();
         Connection  connection = null;
         PreparedStatement ps = null;
+
         try {
             connection = pool.takeConnection();
             connection.setAutoCommit(false);
@@ -103,7 +103,7 @@ public class CrewMemberDAOImpl extends CloseOperation implements CrewMemberDAO {
             } catch (SQLException ex) {
                 log.error("Exception while executing rollback()", ex);
             }
-            throw new DAOException("Exception during crew member deleting!", e);
+            throw new DaoException("Exception during crew member deleting!", e);
         }finally {
             try {
                 if(connection!=null){
@@ -118,10 +118,11 @@ public class CrewMemberDAOImpl extends CloseOperation implements CrewMemberDAO {
     }
 
     @Override
-    public int addCrewMember(String crewName, List<User> crewMembers) throws DAOException {
+    public int addCrewMember(String crewName, List<User> crewMembers) throws DaoException {
         ConnectionPool pool = ConnectionPool.getInstance();
         Connection  connection = null;
         PreparedStatement ps = null;
+
         try {
             connection = pool.takeConnection();
             connection.setAutoCommit(false);
@@ -143,7 +144,7 @@ public class CrewMemberDAOImpl extends CloseOperation implements CrewMemberDAO {
             } catch (SQLException ex) {
                 log.error("Exception while executing rollback()", ex);
             }
-            throw new DAOException("Exception during crew member deleting!", e);
+            throw new DaoException("Exception during crew member deleting!", e);
         }finally {
             try {
                 if(connection!=null){
@@ -158,12 +159,13 @@ public class CrewMemberDAOImpl extends CloseOperation implements CrewMemberDAO {
     }
 
     @Override
-    public boolean isUserInTheCrew(String crewName, User user) throws DAOException {
+    public boolean isUserInTheCrew(String crewName, User user) throws DaoException {
         ConnectionPool pool = ConnectionPool.getInstance();
         Connection connection = null;
         ResultSet rs;
         PreparedStatement  ps = null;
         boolean operationResult;
+
         try {
             connection = pool.takeConnection();
             connection.setAutoCommit(false);
@@ -184,7 +186,7 @@ public class CrewMemberDAOImpl extends CloseOperation implements CrewMemberDAO {
             } catch (SQLException ex) {
                 log.error("Exception while executing rollback()", ex);
             }
-            throw new DAOException("Exception during user existence operation!", e);
+            throw new DaoException("Exception during user existence operation!", e);
         }finally {
             try {
                 if(connection!=null){

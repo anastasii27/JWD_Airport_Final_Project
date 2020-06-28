@@ -26,7 +26,6 @@ public class FindFreePlanes implements Command {
 
         cityWithAirport = request.getParameter(RequestParameterName.DEPARTURE_AIRPORT);
         airportName = RequestParametersExtractor.airportName(cityWithAirport);
-
         try {
             planes = planeService.freePlanesAtAirport(airportName);
 

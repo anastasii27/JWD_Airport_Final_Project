@@ -19,7 +19,6 @@ public class DispatcherFlights implements Command {
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) {
-
         UserFlightsService userFlightsService = ServiceFactory.getInstance().getUserFlightsService();
         User user  = (User) request.getSession().getAttribute(RequestParameterName.USER);
         String surname;

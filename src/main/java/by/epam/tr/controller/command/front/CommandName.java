@@ -1,7 +1,6 @@
 package by.epam.tr.controller.command.front;
 
 public enum CommandName {
-
     SIGN_IN ("common"),
     REGISTER ("common"),
     NO_SUCH_COMMAND ("common"),

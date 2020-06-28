@@ -1,8 +1,8 @@
 package by.epam.tr.service.impl;
 
 import by.epam.tr.bean.Plane;
-import by.epam.tr.dao.DAOException;
-import by.epam.tr.dao.DAOFactory;
+import by.epam.tr.dao.DaoException;
+import by.epam.tr.dao.DaoFactory;
 import by.epam.tr.dao.PlaneDao;
 import by.epam.tr.service.PlaneService;
 import by.epam.tr.service.ServiceException;
@@ -11,8 +11,7 @@ import java.util.List;
 
 public class PlaneServiceImpl implements PlaneService {
     private final static String MINSK_NATIONAL_AIRPORT = "MSQ";
-    private PlaneDao dao = DAOFactory.getInstance().getPlaneDao();
-
+    private PlaneDao dao = DaoFactory.getInstance().getPlaneDao();
 
     @Override
     public List<Plane> freePlanesAtAirport(String airportName) throws ServiceException {
@@ -28,7 +27,7 @@ public class PlaneServiceImpl implements PlaneService {
             List<Plane> takenOnFlightPlanes = dao.takenOnFlightPlanes(airportName);
 
             return findFreePlanes(allPlanes, takenOnFlightPlanes);
-        } catch (DAOException e) {
+        } catch (DaoException e) {
             throw new ServiceException("Exception during free planes searching!", e);
         }
     }

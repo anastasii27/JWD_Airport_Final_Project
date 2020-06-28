@@ -16,16 +16,14 @@ public class RegisterPage implements Command {
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) {
-
         ListCreatorService listCreatorService = ServiceFactory.getInstance().getListCreatorService();
         List<String> roles;
-        try {
 
+        try {
             roles = listCreatorService.createRolesList();
             request.setAttribute(RequestParameterName.ROLE, roles);
 
             forwardTo(request,response,JSPPageName.REGISTER_PAGE);
-
         } catch (ServiceException e) {
             log.error("Cannot execute command for register page", e);
             errorPage(response);

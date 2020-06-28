@@ -11,7 +11,6 @@ import java.io.IOException;
 
 @WebFilter("/*")
 public class AuthorizationFilter implements Filter {
-
     private static final String ACTION = "action";
     private static final String USER = "user";
     private static final String ACCESS_TYPE_AUTHORIZED = "authorized";
@@ -23,17 +22,14 @@ public class AuthorizationFilter implements Filter {
 
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
-
         HttpServletRequest req = (HttpServletRequest) servletRequest;
         HttpServletResponse resp = (HttpServletResponse) servletResponse;
         String action =  req.getParameter(ACTION);
         User user = (User) req.getSession().getAttribute(USER);
-
         CommandName commandName;
         String accessType;
 
         if(action!=null) {
-
             commandName =  CommandName.valueOf(action.toUpperCase());
             accessType = commandName.getAccessType();
 
@@ -41,7 +37,6 @@ public class AuthorizationFilter implements Filter {
                 req.getRequestDispatcher("/"+JSPPageName.SIGN_IN_PAGE).forward(req, resp);
             }
         }
-
         filterChain.doFilter(servletRequest, servletResponse);
     }
 

@@ -6,7 +6,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 public final class AjaxCommandProvider {
-
     private static final AjaxCommandProvider instance =  new AjaxCommandProvider();
     private  final Map<AjaxCommandName, Command> commands = new HashMap<>();
 

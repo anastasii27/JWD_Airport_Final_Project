@@ -18,7 +18,6 @@ public class ChangeLanguage implements Command {
 
             request.getSession(true).setAttribute("local", request.getParameter("local"));
             response.sendRedirect(url);
-
         } catch (IOException e) {
             log.error("Cannot execute command for language change", e);
             errorPage(response);

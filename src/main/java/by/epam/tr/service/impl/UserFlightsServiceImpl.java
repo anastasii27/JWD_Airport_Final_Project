@@ -1,8 +1,8 @@
 package by.epam.tr.service.impl;
 
 import by.epam.tr.bean.Flight;
-import by.epam.tr.dao.DAOException;
-import by.epam.tr.dao.DAOFactory;
+import by.epam.tr.dao.DaoException;
+import by.epam.tr.dao.DaoFactory;
 import by.epam.tr.dao.UserFlightsDao;
 import by.epam.tr.service.ServiceException;
 import by.epam.tr.service.UserFlightsService;
@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.Map;
 
 public class UserFlightsServiceImpl implements UserFlightsService {
-    private UserFlightsDao dao = DAOFactory.getInstance().getUserFlightsDao();
+    private UserFlightsDao dao = DaoFactory.getInstance().getUserFlightsDao();
     private Validator dateValidation = ValidationFactory.getInstance().getDateValidation();
 
     @Override
@@ -28,7 +28,7 @@ public class UserFlightsServiceImpl implements UserFlightsService {
         }
         try {
             flights = dao.userFlights(params);
-        } catch (DAOException e) {
+        } catch (DaoException e) {
             throw new ServiceException("Exception during getting users flights", e);
         }
         return flights;
@@ -38,9 +38,10 @@ public class UserFlightsServiceImpl implements UserFlightsService {
     public List<Flight> nearestUserFlights(String surname, String email) throws ServiceException {
         LocalDate lastDayOfRange = LocalDate.now().plusDays(30);
         List<Flight> flights;
+
         try {
             flights =  dao.nearestUserFlights(surname, email, lastDayOfRange);
-        } catch (DAOException e) {
+        } catch (DaoException e) {
             throw new ServiceException("Exception during getting nearest flight", e);
         }
         return flights;
@@ -55,7 +56,7 @@ public class UserFlightsServiceImpl implements UserFlightsService {
             flights = dao.dispatcherFlights(surname, email);
 
             flightsAfterDeleting = deleteInappropriateDispatcherFlights(flights);
-        } catch (DAOException e) {
+        } catch (DaoException e) {
             throw new ServiceException("Exception during getting dispatcher flights", e);
         }
         return flightsAfterDeleting;

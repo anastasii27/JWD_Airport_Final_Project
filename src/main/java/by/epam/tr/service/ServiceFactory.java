@@ -3,9 +3,7 @@ package by.epam.tr.service;
 import by.epam.tr.service.impl.*;
 
 public class ServiceFactory{
-
     private static final ServiceFactory instance = new ServiceFactory();
-
     private final UserService  userService = new UserServiceImpl();
     private final FlightService flightService = new FlightServiceImpl();
     private final CrewService crewService = new CrewServiceImpl();
