@@ -12,7 +12,6 @@ public class RegistrationValidation extends Validator {
 
     @Override
     public List<String> validate(Map<String, String> params) {
-
         result.clear();
 
         if(!emptyValueCheck(params)){

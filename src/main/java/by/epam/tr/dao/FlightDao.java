@@ -9,4 +9,5 @@ public interface FlightDao {
     List<Flight> flightsByDay(Map<String, String> params) throws DaoException;
     Flight flightInfo(String flightNumber, String departureDate) throws DaoException;
     int createFlight(Flight flight) throws DaoException;
+    boolean doesFlightNumberExist(String flightNumber) throws DaoException;
 }

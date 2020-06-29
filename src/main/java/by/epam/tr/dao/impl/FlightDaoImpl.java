@@ -50,6 +50,8 @@ public class FlightDaoImpl extends CloseOperation implements FlightDao {
             "(SELECT id FROM airports WHERE `name-abbreviation` = ?), (SELECT id FROM airports WHERE `name-abbreviation` = ?), ?, ?,\n" +
             "?, ?, ?, (SELECT id FROM users WHERE `name` = ? AND surname = ?));";
 
+    private final static String DOES_FLIGHT_NUMBER_EXIST = "SELECT `destination-date` FROM airport.flights WHERE `flight-number` = ?";
+
     @Override
     public List<Flight> flightsByDay(Map<String, String> params) throws DaoException {
         ConnectionPool pool = ConnectionPool.getInstance();
@@ -151,7 +153,7 @@ public class FlightDaoImpl extends CloseOperation implements FlightDao {
             ps =  connection.prepareStatement(CREATE_FLIGHT);
 
             ps.setString(1, flight.getFlightNumber());
-            ps.setString(2, "A-2110");
+            ps.setString(2, flight.getPlaneNumber());
             ps.setString(3, flight.getDepartureAirportShortName());
             ps.setString(4, flight.getDestinationAirportShortName());
             ps.setDate(5, Date.valueOf(flight.getDepartureDate()));
@@ -167,6 +169,28 @@ public class FlightDaoImpl extends CloseOperation implements FlightDao {
             throw new DaoException("Exception during nearest flight selecting!", e);
         }finally{
             closeAll(ps, pool, connection);
+        }
+    }
+
+    @Override
+    public boolean doesFlightNumberExist(String flightNumber) throws DaoException {
+        ConnectionPool pool = ConnectionPool.getInstance();
+        Connection connection = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        try {
+            pool.poolInitialization();
+            connection = pool.takeConnection();
+            ps =  connection.prepareStatement(DOES_FLIGHT_NUMBER_EXIST);
+            ps.setString(1, flightNumber);
+
+            rs = ps.executeQuery();
+            return rs.next();
+        }catch (ConnectionPoolException | SQLException e) {
+            throw new DaoException("Exception during flight number existence checking!", e);
+        }finally {
+            closeAll(rs, ps, pool, connection);
         }
     }
 }

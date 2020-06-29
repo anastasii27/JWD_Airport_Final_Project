@@ -7,14 +7,14 @@ import java.util.List;
 public class RequestParametersExtractor{
 
     public static String userName(String fullUserName){
-        if(fullUserName == null){
+        if(fullUserName == null || fullUserName.isEmpty()){
             return " ";
         }
         return fullUserName.substring(0, fullUserName.indexOf(' ')).trim();
     }
 
     public static String userSurname(String fullUserName){
-        if(fullUserName == null){
+        if(fullUserName == null || fullUserName.isEmpty()){
             return " ";
         }
         return fullUserName.substring(fullUserName.indexOf(' ')).trim();
