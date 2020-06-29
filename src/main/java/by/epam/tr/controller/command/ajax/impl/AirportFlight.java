@@ -2,7 +2,7 @@ package by.epam.tr.controller.command.ajax.impl;
 
 import by.epam.tr.bean.Flight;
 import by.epam.tr.controller.command.Command;
-import by.epam.tr.controller.util.GSONConverter;
+import by.epam.tr.controller.util.GsonConverter;
 import by.epam.tr.controller.util.RequestToMapParser;
 import by.epam.tr.service.FlightService;
 import by.epam.tr.service.ServiceException;
@@ -28,7 +28,7 @@ public class AirportFlight implements Command {
             params = RequestToMapParser.toFlightValidationParamsMap(request);
 
             flights = flightService.flightsByDay(params);
-            flightsGson = GSONConverter.convertListToGSON(flights);
+            flightsGson = GsonConverter.convertListToGSON(flights);
 
             response.getWriter().write(flightsGson);
         } catch (ServiceException e) {

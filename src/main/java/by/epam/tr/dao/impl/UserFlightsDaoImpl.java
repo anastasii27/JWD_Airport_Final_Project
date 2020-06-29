@@ -1,7 +1,6 @@
 package by.epam.tr.dao.impl;
 
 import by.epam.tr.bean.Flight;
-import by.epam.tr.bean.User;
 import by.epam.tr.dao.CloseOperation;
 import by.epam.tr.dao.DaoException;
 import by.epam.tr.dao.UserFlightsDao;
@@ -9,7 +8,6 @@ import by.epam.tr.dao.connectionpool.ConnectionPool;
 import by.epam.tr.dao.connectionpool.ConnectionPoolException;
 import java.sql.*;
 import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -118,9 +116,9 @@ public class UserFlightsDaoImpl extends CloseOperation implements UserFlightsDao
             rs = ps.executeQuery();
             while (rs.next()){
                 flights.add( Flight.builder().departureDate(rs.getDate("departure-date").toLocalDate())
-                        .departureTime(rs.getTime("departure-time").toLocalTime())
-                        .destinationCity(rs.getString("destination-city"))
-                        .flightNumber(rs.getString("flight-number")).build());
+                                            .departureTime(rs.getTime("departure-time").toLocalTime())
+                                            .destinationCity(rs.getString("destination-city"))
+                                            .flightNumber(rs.getString("flight-number")).build());
             }
 
         } catch (ConnectionPoolException | SQLException e) {
@@ -174,10 +172,5 @@ public class UserFlightsDaoImpl extends CloseOperation implements UserFlightsDao
             }
         }
         return flights;
-    }
-
-    @Override
-    public List<User> freeDispatchers(LocalDate date, LocalTime time) {
-        return null;
     }
 }

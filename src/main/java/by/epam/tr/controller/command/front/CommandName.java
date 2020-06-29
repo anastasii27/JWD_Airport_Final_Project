@@ -17,7 +17,8 @@ public enum CommandName {
     CREATE_CREW("authorized"),
     SHOW_DISPATCHER_FLIGHTS("authorized"),
     SHOW_FLIGHT_MANAGEMENT_PAGE("authorized"),
-    SHOW_CREATE_FLIGHT_PAGE("authorized");
+    SHOW_CREATE_FLIGHT_PAGE("authorized"),
+    CREATE_FLIGHT("authorized");
 
     private final String accessType;
 

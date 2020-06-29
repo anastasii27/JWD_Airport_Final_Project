@@ -18,30 +18,35 @@ public class FlightServiceImpl implements FlightService {
 
     @Override
     public List<Flight> flightsByDay(Map<String, String> params) throws ServiceException {
-        List<Flight> flights;
-
         if(dateValidation.validate(params).size()!= 0){
             return Collections.emptyList();
         }
+
         try {
-            flights =  dao.flightsByDay(params);
+           return dao.flightsByDay(params);
         } catch (DaoException e) {
             throw new ServiceException("Exception during getting arrivals/departures", e);
         }
-        return flights;
     }
 
     @Override
     public Flight flightInfo(String flightNumber, String departureDate) throws ServiceException {
-        Flight flight;
-
         try {
-            flight =  dao.flightInfo(flightNumber,  departureDate);
+            return dao.flightInfo(flightNumber,  departureDate);
         } catch (DaoException e) {
             throw new ServiceException("Exception during getting flight info", e);
         }
-        return flight;
     }
 
+    @Override
+    public boolean createFlight(Flight flight) throws ServiceException {
+        int changedRowsAmount;
 
+        try {
+            changedRowsAmount =  dao.createFlight(flight);
+        } catch (DaoException e) {
+            throw new ServiceException("Exception during flight creating", e);
+        }
+        return changedRowsAmount!=0;
+    }
 }

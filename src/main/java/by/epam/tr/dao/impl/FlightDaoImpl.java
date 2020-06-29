@@ -13,6 +13,7 @@ import java.util.*;
 public class FlightDaoImpl extends CloseOperation implements FlightDao {
     private final static String ARRIVAL = "arrival";
     private final static String DEPARTURE = "departure";
+    private final static String FLIGHT_CREATION_STATUS = "Scheduled";
     private final static String SELECT_AIRPORT_DEPARTURE = "SELECT `flight-number`, `departure-date` AS `date`, `departure-time` AS `time`, a1.`name` AS `airport`,\n" +
             "cities.`name` AS `city`, a1.`name-abbreviation` AS `airport-short-name`, title, `status`\n" +
             "FROM flights\n" +
@@ -42,10 +43,10 @@ public class FlightDaoImpl extends CloseOperation implements FlightDao {
             "JOIN countries AS cnt2 ON cnt2.id = c2.`country-id`\n" +
             "WHERE `flight-number` = ? AND `departure-date` = ?;\n";
 
-    private final static String CREATE_FLIGHT = "INSERT INTO airport.flights (`flight-number`, `plane-id`, `flight-team-id`, `departure-airport-id`," +
+    private final static String CREATE_FLIGHT = "INSERT INTO airport.flights (`flight-number`, `plane-id`, `departure-airport-id`," +
             " `destination-airport-id`, `departure-date`,\n" +
             " `destination-date`, `departure-time`, `destination-time`, `status`, `dispatcher-id`) \n" +
-            " VALUES (?, (SELECT id FROM planes WHERE model = ?), (SELECT id FROM `flight-teams` WHERE `short-name` = ?),\n" +
+            " VALUES (?, (SELECT id FROM planes WHERE `number` = ?),\n" +
             "(SELECT id FROM airports WHERE `name-abbreviation` = ?), (SELECT id FROM airports WHERE `name-abbreviation` = ?), ?, ?,\n" +
             "?, ?, ?, (SELECT id FROM users WHERE `name` = ? AND surname = ?));";
 
@@ -150,17 +151,16 @@ public class FlightDaoImpl extends CloseOperation implements FlightDao {
             ps =  connection.prepareStatement(CREATE_FLIGHT);
 
             ps.setString(1, flight.getFlightNumber());
-            ps.setString(2, flight.getPlaneModel());
-            ps.setString(3, "crewName");
-            ps.setString(4, flight.getDepartureAirport());
-            ps.setString(5, flight.getDestinationAirport());
-            ps.setDate(6, Date.valueOf(flight.getDepartureDate()));
-            ps.setDate(7, Date.valueOf(flight.getDestinationDate()));
-            ps.setTime(8, Time.valueOf(flight.getDepartureTime()));
-            ps.setTime(9, Time.valueOf(flight.getDestinationTime()));
-            ps.setString(10, flight.getStatus());
-            ps.setString(11, "User");
-            ps.setString(12, "User");
+            ps.setString(2, "A-2110");
+            ps.setString(3, flight.getDepartureAirportShortName());
+            ps.setString(4, flight.getDestinationAirportShortName());
+            ps.setDate(5, Date.valueOf(flight.getDepartureDate()));
+            ps.setDate(6, Date.valueOf(flight.getDestinationDate()));
+            ps.setTime(7, Time.valueOf(flight.getDepartureTime()));
+            ps.setTime(8, Time.valueOf(flight.getDestinationTime()));
+            ps.setString(9, FLIGHT_CREATION_STATUS);
+            ps.setString(10, flight.getDispatcher().getName());
+            ps.setString(11, flight.getDispatcher().getSurname());
 
             return ps.executeUpdate();
         } catch (ConnectionPoolException | SQLException e) {

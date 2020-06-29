@@ -31,8 +31,16 @@ public final class RequestParameterName {
     public static final String PILOT1 = "first_pilot";
     public static final String PILOT = "pilot";
     public static final String STEWARD = "steward";
-    public static final String COUNTRIES = "country_list";
-    public static final String DESTINATION_DATE = "destination_date";
+    public static final String COUNTRIES = "country_list";;
     public static final String DEPARTURE_AIRPORT = "departure_airport";
+    public static final String DESTINATION_AIRPORT = "destination_airport";
     public static final String COUNTRY = "country";
+    public static final String DATE = "date";
+    public static final String TIME = "time";
+    public static final String PLANE = "planes";
+    public static final String DEPARTURE_TIME= "departure_time";
+    public static final String DEPARTURE_COUNTRY= "departure_country";
+    public static final String DESTINATION_DATE = "destination_date";
+    public static final String DESTINATION_TIME = "destination_time";
+    public static final String DESTINATION_COUNTRY= "destination_country";
 }

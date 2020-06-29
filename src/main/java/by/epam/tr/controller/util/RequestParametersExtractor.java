@@ -41,5 +41,14 @@ public class RequestParametersExtractor{
 
         return city.substring(indexOfFirstBracket, indexOfLastBracket);
     }
+
+    public static String planeNumber(String plane){
+        if (plane == null) {
+            return "";
+        }
+        int firstIndexOfFlightNumber = plane.indexOf(" ", plane.indexOf(" ")+1)+1;
+
+        return plane.substring(firstIndexOfFlightNumber);
+    }
 }
 

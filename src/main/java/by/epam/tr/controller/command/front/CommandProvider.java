@@ -27,6 +27,7 @@ public final class CommandProvider {
         commands.put(CommandName.SHOW_DISPATCHER_FLIGHTS, new DispatcherFlights());
         commands.put(CommandName.SHOW_FLIGHT_MANAGEMENT_PAGE, new FlightManagementPage());
         commands.put(CommandName.SHOW_CREATE_FLIGHT_PAGE, new CreateFlightPage());
+        commands.put(CommandName.CREATE_FLIGHT, new CreateFlight());
     }
 
     public Command getCommand(String name){

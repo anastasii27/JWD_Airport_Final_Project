@@ -76,7 +76,7 @@
                     </c:forEach>
                 </select>
             </div>
-                <input type="submit" class="btn btn-primary" value="${create_btn}"/>
+                <input type="submit" class="btn btn-primary" value="ДАЛЕЕ"/>
         </form>
     </body>
 </html>

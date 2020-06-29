@@ -29,25 +29,14 @@
             <div class="row">
                 <div class="form-group">
                     <input type="hidden" name="action" value="create_flight" />
-                    <label for="flight_name"> НОМЕР РЕЙСА</label>
-                    <input type="text" id="flight_name" name="flight_name"/>
-                </div>
-                <div class="form-group">
-                    <label for="crew">БРИГАДА</label>
-                    <select name= "crew" id="crew">
-                        <option selected></option>
-                        <c:forEach var="crew" items="${crews_list}">
-                            <option>${crew}</option>
-                        </c:forEach>
-                    </select>
+                    <label for="flight_number"> НОМЕР РЕЙСА</label>
+                    <input type="text" id="flight_number" name="flight_number"/>
                 </div>
                 <div class="form-group">
                     <label for="dispatcher">ДИСПЕТЧЕР</label>
-                    <select name= "dispatcher" id="dispatcher">
+                    <select name= "user" id="dispatcher">
                         <option selected></option>
-                        <c:forEach var="user" items="${users_list}">
-                            <option>${user.name} ${user.surname}</option>
-                        </c:forEach>
+
                     </select>
                 </div>
                 <div class="form-group">

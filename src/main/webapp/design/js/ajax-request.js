@@ -162,6 +162,27 @@ $(document).ready(function ($) {
             }
         });
     });
+
+    $('.form-group').on('change','#planes', function () {
+        let departure_airport = $('#dep_airport').val();
+        let destination_airport = $('#dest_airport').val();
+        let date;
+        let time;
+
+        if(departure_airport === 'Minsk(MSQ)'){
+            date = $('#dep_flights_piker').val();
+            time = $('#dep_time').val();
+
+            createFreeDispatchersSelect(date, time, departure_airport);
+        }
+
+        if(destination_airport ==="Minsk(MSQ)"){
+            date = $('#dest_flights_piker').val();
+            time = $('#dest_time').val();
+
+            createFreeDispatchersSelect(date, time, destination_airport);
+        }
+    });
 });
 
 function showCrewAjax(crewName) {
@@ -253,4 +274,32 @@ function getAirportSelector(selector) {
     if(selector === '#dest_country'){
         return '#dest_airport';
     }
+}
+
+function createFreeDispatchersSelect(date, time, airport) {
+
+    let emptyOption = '<option selected>' + ' ' + '</option>';
+    $('#dispatcher option').remove();
+
+    console.log(date+time+airport);
+    $.ajax({
+        type: "GET",
+        url: "/JWD_Task3_war/ajax",
+        dataType:'json',
+        data: {command: 'find_free_dispatcher',date: date, time:time, city_with_airport:airport},
+
+        success: function (data) {
+            let option = '';
+
+            $.each(data, function (dispatcher, dispatcherInfo) {
+                option += '<option>' + dispatcherInfo.name + ' ' + dispatcherInfo.surname + '</option>';
+            });
+
+            $('#dispatcher').append(emptyOption);
+            $('#dispatcher').append(option);
+        },
+        error: function (data) {
+            $('#dispatcher').append(emptyOption);
+        }
+    });
 }

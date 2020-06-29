@@ -2,7 +2,7 @@ package by.epam.tr.controller.command.ajax.impl;
 
 import by.epam.tr.controller.command.Command;
 import by.epam.tr.controller.constant_parameter.RequestParameterName;
-import by.epam.tr.controller.util.GSONConverter;
+import by.epam.tr.controller.util.GsonConverter;
 import by.epam.tr.service.ListCreatorService;
 import by.epam.tr.service.ServiceException;
 import by.epam.tr.service.ServiceFactory;
@@ -25,7 +25,7 @@ public class FindCountryAirport implements Command {
         try {
             countries = listCreatorService.createCityWithAirportList(country);
 
-            String countriesGson = GSONConverter.convertListToGSON(countries);
+            String countriesGson = GsonConverter.convertListToGSON(countries);
             response.getWriter().write(countriesGson);
         } catch (ServiceException e) {
             log.error("Cannot execute ajax command for country airport searching", e);
