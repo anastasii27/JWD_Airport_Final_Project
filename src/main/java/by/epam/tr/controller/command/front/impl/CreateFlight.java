@@ -6,7 +6,6 @@ import by.epam.tr.controller.command.Command;
 import by.epam.tr.controller.constant_parameter.JSPPageName;
 import by.epam.tr.controller.constant_parameter.RequestParameterName;
 import by.epam.tr.controller.util.RequestToMapParser;
-import by.epam.tr.dao.ListCreatorDao;
 import by.epam.tr.service.FlightService;
 import by.epam.tr.service.ServiceException;
 import by.epam.tr.service.ServiceFactory;
@@ -62,10 +61,10 @@ public class CreateFlight implements Command {
                 boolean operationResult = flightService.createFlight(flight);
 
                 if(operationResult){
-                    request.getSession().setAttribute(RequestParameterName.RESULT_INFO,"Fuvk");
+                    //request.getSession().setAttribute(RequestParameterName.RESULT_INFO, );
                     forwardTo(request, response, JSPPageName.RESULT_PAGE);
                 }else {
-                    request.getSession().setAttribute(RequestParameterName.RESULT_INFO,"No");
+                   // request.getSession().setAttribute(RequestParameterName.RESULT_INFO, );
                     response.sendRedirect(JSPPageName.RESULT_PAGE);
                 }
             }
