@@ -17,7 +17,6 @@ import java.util.Map;
 
 @Log4j2
 public class MyFlights implements Command {
-    private  Map<String, String> params =  new HashMap<>();
     private static final String ANSWER = "Sorry, no flights were found";
 
     @Override
@@ -28,7 +27,7 @@ public class MyFlights implements Command {
 
         departureDate = request.getParameter(RequestParameterName.DEPARTURE_DATE);
         try {
-            params = RequestToMapParser.toRequestParamsMap(request);
+            Map<String, String> params = RequestToMapParser.toRequestParamsMap(request);
             flights = userFlightsService.userFlights(params);
 
             if(flights.size()!= 0){

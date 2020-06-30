@@ -6,13 +6,6 @@
     <head>
         <fmt:setLocale value="${sessionScope.local}" />
         <fmt:setBundle basename="localization.local" var="loc" />
-        <fmt:message bundle="${loc}" key="local.label.plane" var="plane_label" />
-        <fmt:message bundle="${loc}" key="local.label.dep_time" var="dep_time_label" />
-        <fmt:message bundle="${loc}" key="local.label.dest_time" var="dest_time_label" />
-        <fmt:message bundle="${loc}" key="local.label.dest_city" var="dest_city_label" />
-        <fmt:message bundle="${loc}" key="local.label.dep_city" var="dep_city_label" />
-        <fmt:message bundle="${loc}" key="local.label.flight" var="flight_label" />
-        <fmt:message bundle="${loc}" key="local.label.status" var="status_label" />
         <fmt:message bundle="${loc}" key="local.js.lang" var="lang" />
         <fmt:message bundle="${loc}" key="local.label.menu_user_my_flights" var="my_flights_label" />
         <fmt:message bundle="${loc}" key="local.send_button" var="send_button" />
@@ -20,7 +13,7 @@
 
         <title>${my_flights_label}</title>
 
-        <link rel="stylesheet" href="${pageContext.request.contextPath}/design/css/my-flights.css"/>
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/design/css/flights-table.css"/>
         <link rel="stylesheet" href="${pageContext.request.contextPath}/design/css/validation-plug-in.css"/>
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
         <link href="${pageContext.request.contextPath}/design/css/datepicker.min.css" rel="stylesheet" type="text/css">
@@ -55,37 +48,13 @@
                         <label for="my_flights_piker">${date_label}</label>
                     </div>
                     <input type='text' name="departure_date" id= "my_flights_piker" class="datepicker-here"
-                         data-language="${lang}" value = "${requestScope.departure_date}"/>
+                           data-language="${lang}" value = "${requestScope.departure_date}"/>
                     <div id="btn">
-                         <button type="submit" class="btn btn-primary">${send_button}</button>
+                        <button type="submit" class="btn btn-primary">${send_button}</button>
                     </div>
                 </div>
             </form>
         </div>
-        <c:set var = "result" value = "${requestScope.result}"/>
-        <div id="table">
-            <c:if test = "${result eq null}">
-                <table class ="table" border="2">
-                    <tr>
-                        <th>${flight_label}</th><th>${dep_time_label}</th>
-                        <th>${dep_city_label}</th><th>${dest_city_label}</th>
-                        <th>${plane_label}</th><th>${status_label}</th>
-                    </tr>
-                    <c:forEach items="${requestScope.flight}" var="flight_item">
-                        <tr onclick="document.location.href= '${pageContext.request.contextPath}/airport?action=show_flight_info&flight_number=${flight_item.flightNumber}&departure_date=${flight_item.departureDate}'">
-                            <td>${flight_item.flightNumber}</td>
-                            <td>${flight_item.departureTime}</td>
-                            <td>${flight_item.departureCity}(${flight_item.departureAirportShortName})</td>
-                            <td>${flight_item.destinationCity}(${flight_item.destinationAirportShortName})</td>
-                            <td>${flight_item.planeModel}</td>
-                            <td>${flight_item.status}</td>
-                        </tr>
-                    </c:forEach>
-                </table>
-            </c:if>
-        </div>
-        <c:if test = "${result ne null}">
-            <c:out value="${result}"/>
-        </c:if>
+        <jsp:include page="parts/flights_table.jsp"/>
     </body>
 </html>

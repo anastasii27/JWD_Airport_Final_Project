@@ -27,7 +27,7 @@ public class AirportFlight implements Command {
         try {
             params = RequestToMapParser.toFlightValidationParamsMap(request);
 
-            flights = flightService.flightsByDay(params);
+            flights = flightService.airportFlightsByDay(params);
             flightsGson = GsonConverter.convertListToGSON(flights);
 
             response.getWriter().write(flightsGson);

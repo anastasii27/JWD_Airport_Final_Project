@@ -40,15 +40,10 @@ $(document).ready(function ($) {
     });
 
      //arrivals departures
-    $('.arr_dep').hide();
-    $('#no_flights').hide();
+    $('.arr_dep, #no_flights').hide();
 
     //crews
-    $('.crew_members').hide();
-    $('#crews_error').hide();
-    $('.close').hide();
-    $('.add_crew_btn').hide();
-    $('.choose_crew_members').hide();
+    $('.crew_members, #crews_error, .close, .add_crew_btn, .choose_crew_members').hide();
 
     $('.crews li').on('click', function () {
         $('.crews li').css('border', '');
@@ -60,16 +55,13 @@ $(document).ready(function ($) {
         if(!$(this).hasClass('clicked')) {
 
             $(this).addClass('clicked');
-            $('.close').show();
+            $('.close, .add_crew_btn ').show();
             $('#create_crew_btn').hide();
-            $('.add_crew_btn').show();
             $("span", this).text("Save");
         } else {
             $(this).removeClass('clicked');
-            $('.close').hide();
+            $('.close, .add_crew_btn, .choose_crew_members').hide();
             $('#create_crew_btn').show();
-            $('.add_crew_btn').hide();
-            $('.choose_crew_members').hide();
             $("span", this).text("Edit");//todo локализация кнопок
         }
     });
@@ -77,10 +69,8 @@ $(document).ready(function ($) {
    $(document).on('click','#add_user', function () {
        $('.choose_crew_members').show();
        $('.crew_members').hide();
-       $('#pilots_select option:disabled').removeAttr('disabled');
-       $('#stewards_select option:disabled').removeAttr('disabled');
-       $('#pilots_select option:selected').removeAttr('selected');
-       $('#stewards_select option:selected').removeAttr('selected');
+       $('#pilots_select option:disabled, #stewards_select option:disabled').removeAttr('disabled');
+       $('#pilots_select option:selected, #stewards_select option:selected').removeAttr('selected');
     });
 
     $(document).on('click','#confirm_add', function () {
@@ -88,6 +78,21 @@ $(document).ready(function ($) {
         $('.crew_members').show();
 
     });
+
+    //create_flight
+    $('#dep_country, #dest_country').change(function () {
+        // let airport = $(this).val();
+        // let depAirport = $('#dep_country').val();
+        // let destAirport = $('#dest_country').val();
+        //
+        // if(depAirport !== 'Minsk(MSQ)' && airport !== 'Minsk(MSQ)') {
+        //     $('#dispatcher option').remove();
+        // }
+        //
+        // if(destAirport !== 'Minsk(MSQ)' && airport !== 'Minsk(MSQ)') {
+        //     $('#dispatcher option').remove();
+        // }
+    })
 });
 
 function getMaxDate(days) {
@@ -116,7 +121,6 @@ function getActionFromURL(url) {
 }
 
 function determineTableType(flightType, tableLine) {
-
     if(flightType === 'departure'){
         $('#dep_table').show();
         $('#departures').append(tableLine);
@@ -128,13 +132,11 @@ function determineTableType(flightType, tableLine) {
 }
 
 function getCrewName(value){
-
     let end = value.indexOf(" ");
     return value.substring(0, end);
 }
 
 function getCrewMemberName(value){
-
     let end = value.lastIndexOf(" ");
     return value.substring(0, end);
 }

@@ -63,7 +63,7 @@
                         </c:when>
                         <c:when test = "${role eq 'admin'}">
                             <li class="nav-item active">
-                                <a class="nav-link" href="${pageContext.request.contextPath}/airport?action=show_flight_management_page">${fl_manage_label}</a>
+                                <a class="nav-link" href="${pageContext.request.contextPath}/airport?action=show_flight_management_page&departure_date=${depDate}">${fl_manage_label}</a>
                             </li>
                             <li class="nav-item ">
                                 <a class="nav-link" href="#">Управление сотрудниками</a>

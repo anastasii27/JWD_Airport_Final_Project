@@ -21,30 +21,24 @@ public class UserFlightsServiceImpl implements UserFlightsService {
 
     @Override
     public List<Flight> userFlights(Map<String, String> params) throws ServiceException {
-        List<Flight> flights;
-
         if(dateValidation.validate(params).size()!= 0){
             return Collections.emptyList();
         }
         try {
-            flights = dao.userFlights(params);
+            return dao.userFlights(params);
         } catch (DaoException e) {
             throw new ServiceException("Exception during getting users flights", e);
         }
-        return flights;
     }
 
     @Override
     public List<Flight> nearestUserFlights(String surname, String email) throws ServiceException {
         LocalDate lastDayOfRange = LocalDate.now().plusDays(30);
-        List<Flight> flights;
-
         try {
-            flights =  dao.nearestUserFlights(surname, email, lastDayOfRange);
+            return dao.nearestUserFlights(surname, email, lastDayOfRange);
         } catch (DaoException e) {
             throw new ServiceException("Exception during getting nearest flight", e);
         }
-        return flights;
     }
 
     @Override

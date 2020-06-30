@@ -40,7 +40,6 @@ public final class CommandProvider {
         }catch (IllegalArgumentException e){
             command = commands.get(CommandName.NO_SUCH_COMMAND);
         }
-
         return command;
     }
 

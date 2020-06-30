@@ -9,7 +9,6 @@ import by.epam.tr.service.ServiceException;
 import by.epam.tr.service.UserService;
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.ArrayList;
 import java.util.List;
 
 public class UserServiceImpl implements UserService {
@@ -18,26 +17,20 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User signIn(String login, String password) throws ServiceException {
-        User user;
-
         try {
-            user = dao.signIn(login,password);
+            return dao.signIn(login,password);
         } catch (DaoException e) {
             throw new ServiceException("Exception during signing in!", e);
         }
-        return user;
     }
 
     @Override
     public boolean userRegistration(User user, String login, String password) throws ServiceException {
-        boolean operationResult;
-
         try {
-           operationResult = dao.addNewUser(user, login, password);
+           return dao.addNewUser(user, login, password);
         } catch (DaoException e) {
             throw new ServiceException("Exception during registration!", e);
         }
-        return operationResult;
     }
 
     @Override
@@ -54,7 +47,6 @@ public class UserServiceImpl implements UserService {
             throw new ServiceException("Exception during free dispatcher searching!", e);
         }
     }
-
 
     private List<User> findFreeDispatchers(List<User> allDispatchers, List<User> busyArrivalDispatchers, List<User> busyDepartureDispatchers){
         allDispatchers.removeAll(busyArrivalDispatchers);

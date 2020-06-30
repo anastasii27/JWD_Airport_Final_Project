@@ -1,5 +1,9 @@
 $(document).ready(function ($) {
     let crewName;
+    let departure_airport;
+    let destination_airport;
+    let date;
+    let time;
 
     //crews list
     $('.crews li').on('click', function () {
@@ -76,7 +80,6 @@ $(document).ready(function ($) {
     });
 
     $('#add_user').on('click', function () {
-
         let pilots = $('#pilots_select').text();
         let stewards = $('#stewards_select').text();
 
@@ -105,7 +108,6 @@ $(document).ready(function ($) {
     });
 
     $('#confirm_add').on('click', function () {
-
         let pilots = $('#pilots_select option:selected').text();
         let stewards = $('#stewards_select option:selected').text();
 
@@ -164,23 +166,58 @@ $(document).ready(function ($) {
     });
 
     $('.form-group').on('change','#planes', function () {
-        let departure_airport = $('#dep_airport').val();
-        let destination_airport = $('#dest_airport').val();
-        let date;
-        let time;
+        departure_airport = $('#dep_airport').val();
+        destination_airport = $('#dest_airport').val();
 
         if(departure_airport === 'Minsk(MSQ)'){
             date = $('#dep_flights_piker').val();
             time = $('#dep_time').val();
+        }
 
+        if(destination_airport === 'Minsk(MSQ)'){
+            date = $('#dest_flights_piker').val();
+            time = $('#dest_time').val();
+        }
+    });
+
+    $('#dep_time, #dest_time').on('change', function () {
+        departure_airport = $('#dep_airport').val();
+        destination_airport = $('#dest_airport').val();
+
+        if(departure_airport === 'Minsk(MSQ)'){
+            time = $('#dep_time').val();
             createFreeDispatchersSelect(date, time, departure_airport);
         }
 
-        if(destination_airport ==="Minsk(MSQ)"){
-            date = $('#dest_flights_piker').val();
+        if(destination_airport === 'Minsk(MSQ)'){
             time = $('#dest_time').val();
-
             createFreeDispatchersSelect(date, time, destination_airport);
+        }
+    });
+
+    $('#dep_airport, #dest_airport').on('change', function () {
+        let airport = $(this).val();
+
+        if(airport === 'Minsk(MSQ)'){
+            createFreeDispatchersSelect(date, time, airport);
+        }
+    });
+
+    $('#dep_flights_piker, #dest_flights_piker').datepicker({
+
+        onSelect: function (){
+            departure_airport = $('#dep_airport').val();
+            destination_airport = $('#dest_airport').val();
+
+            if(departure_airport === 'Minsk(MSQ)'){
+                date = $('#dep_flights_piker').val();
+                createFreeDispatchersSelect(date, time, departure_airport);
+            }
+
+            if(destination_airport === 'Minsk(MSQ)'){
+                date = $('#dest_flights_piker').val();
+                createFreeDispatchersSelect(date, time, destination_airport);
+            }
         }
     });
 });
@@ -282,24 +319,26 @@ function createFreeDispatchersSelect(date, time, airport) {
     $('#dispatcher option').remove();
 
     console.log(date+time+airport);
-    $.ajax({
-        type: "GET",
-        url: "/JWD_Task3_war/ajax",
-        dataType:'json',
-        data: {command: 'find_free_dispatcher',date: date, time:time, city_with_airport:airport},
+    if(date !== null && time != null && airport != null){
+        $.ajax({
+            type: "GET",
+            url: "/JWD_Task3_war/ajax",
+            dataType:'json',
+            data: {command: 'find_free_dispatcher',date: date, time:time, city_with_airport:airport},
 
-        success: function (data) {
-            let option = '';
+            success: function (data) {
+                let option = '';
 
-            $.each(data, function (dispatcher, dispatcherInfo) {
-                option += '<option>' + dispatcherInfo.name + ' ' + dispatcherInfo.surname + '</option>';
-            });
+                $.each(data, function (dispatcher, dispatcherInfo) {
+                    option += '<option>' + dispatcherInfo.name + ' ' + dispatcherInfo.surname + '</option>';
+                });
 
-            $('#dispatcher').append(emptyOption);
-            $('#dispatcher').append(option);
-        },
-        error: function (data) {
-            $('#dispatcher').append(emptyOption);
-        }
-    });
+                $('#dispatcher').append(emptyOption);
+                $('#dispatcher').append(option);
+            },
+            error: function (data) {
+                $('#dispatcher').append(emptyOption);
+            }
+        });
+    }
 }

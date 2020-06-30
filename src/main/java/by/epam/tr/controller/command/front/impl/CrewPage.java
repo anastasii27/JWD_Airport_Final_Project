@@ -34,7 +34,6 @@ public class CrewPage implements Command {
             request.setAttribute(RequestParameterName.STEWARDS, stewards);
 
             forwardTo(request, response, JSPPageName.CREWS_PAGE);
-
         } catch (ServiceException e) {
             log.error("Cannot execute command for crew page", e);
             errorPage(response);

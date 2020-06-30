@@ -3,7 +3,7 @@ package by.epam.tr.controller.command.front.impl;
 import by.epam.tr.bean.Flight;
 import by.epam.tr.bean.User;
 import by.epam.tr.controller.command.Command;
-import by.epam.tr.controller.constant_parameter.PageByRole;
+import by.epam.tr.controller.constant_parameter.JSPPageName;
 import by.epam.tr.controller.constant_parameter.RequestParameterName;
 import by.epam.tr.service.ServiceException;
 import by.epam.tr.service.ServiceFactory;
@@ -21,7 +21,6 @@ public class UserPage implements Command {
     public void execute(HttpServletRequest request, HttpServletResponse response) {
         User user = (User)request.getSession().getAttribute(RequestParameterName.USER);
         UserFlightsService userFlightsService = ServiceFactory.getInstance().getUserFlightsService();
-        PageByRole page = PageByRole.getInstance();
         List<Flight> nearestFlights;
         String surname;
         String email;
@@ -37,8 +36,7 @@ public class UserPage implements Command {
             else{
                 request.setAttribute(RequestParameterName.RESULT_INFO, ANSWER);
             }
-
-            forwardTo(request,response,page.getPage(user.getRole()));
+            forwardTo(request,response, JSPPageName.USER_PAGE);
         } catch (ServiceException e) {
             log.error("Cannot execute command for user page", e);
             errorPage(response);
