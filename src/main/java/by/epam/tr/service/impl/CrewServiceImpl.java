@@ -31,14 +31,11 @@ public class CrewServiceImpl implements CrewService {
 
     @Override
     public boolean deleteCrew(String crewName) throws ServiceException {
-        int changedRowsAmount;
-
         try {
-            changedRowsAmount = dao.deleteCrew(crewName);
+            return dao.deleteCrew(crewName) != 0;
         } catch (DaoException e) {
             throw new ServiceException("Exception during crew deleting", e);
         }
-        return changedRowsAmount != 0;
     }
 
     @Override

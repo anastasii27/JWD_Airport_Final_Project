@@ -28,8 +28,8 @@ public class AirportFlight implements Command {
             params = RequestToMapParser.toFlightValidationParamsMap(request);
 
             flights = flightService.airportFlightsByDay(params);
-            flightsGson = GsonConverter.convertListToGSON(flights);
 
+            flightsGson = GsonConverter.convertListToGSON(flights);
             response.getWriter().write(flightsGson);
         } catch (ServiceException e) {
             log.error("Cannot execute ajax command for arrivals and departure table", e);

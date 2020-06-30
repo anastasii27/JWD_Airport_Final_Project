@@ -1,7 +1,7 @@
 $(document).ready(function ($) {
     let crewName;
-    let departure_airport;
-    let destination_airport;
+    let departureAirport;
+    let destinationAirport;
     let date;
     let time;
 
@@ -138,7 +138,7 @@ $(document).ready(function ($) {
     });
 
     $('.form-group').on('change','#dep_airport', function () {
-        let airport = $(this).val();
+        departureAirport = $(this).val();
         let emptyOption = '<option selected>' + ' ' + '</option>';
 
         $('#planes option').remove();
@@ -147,7 +147,7 @@ $(document).ready(function ($) {
             type: "GET",
             url: "/JWD_Task3_war/ajax",
             dataType:'json',
-            data: {command: 'find_free_plane', departure_airport: airport},
+            data: {command: 'find_free_plane', departure_airport: departureAirport},
 
             success: function (data) {
                 let option = '';
@@ -165,58 +165,38 @@ $(document).ready(function ($) {
         });
     });
 
-    $('.form-group').on('change','#planes', function () {
-        departure_airport = $('#dep_airport').val();
-        destination_airport = $('#dest_airport').val();
-
-        if(departure_airport === 'Minsk(MSQ)'){
-            date = $('#dep_flights_piker').val();
-            time = $('#dep_time').val();
-        }
-
-        if(destination_airport === 'Minsk(MSQ)'){
-            date = $('#dest_flights_piker').val();
-            time = $('#dest_time').val();
-        }
-    });
-
     $('#dep_time, #dest_time').on('change', function () {
-        departure_airport = $('#dep_airport').val();
-        destination_airport = $('#dest_airport').val();
+        time = $(this).val();
 
-        if(departure_airport === 'Minsk(MSQ)'){
-            time = $('#dep_time').val();
-            createFreeDispatchersSelect(date, time, departure_airport);
-        }
-
-        if(destination_airport === 'Minsk(MSQ)'){
-            time = $('#dest_time').val();
-            createFreeDispatchersSelect(date, time, destination_airport);
+        if(departureAirport === 'Minsk(MSQ)'|| destinationAirport=== 'Minsk(MSQ)'){
+            createFreeDispatchersSelect(date, time, departureAirport);
         }
     });
 
-    $('#dep_airport, #dest_airport').on('change', function () {
-        let airport = $(this).val();
+    $('#dest_airport').on('change', function () {
+        destinationAirport = $(this).val();
 
-        if(airport === 'Minsk(MSQ)'){
-            createFreeDispatchersSelect(date, time, airport);
+        if(destinationAirport === 'Minsk(MSQ)'){
+            createFreeDispatchersSelect(date, time, destinationAirport);
         }
     });
 
-    $('#dep_flights_piker, #dest_flights_piker').datepicker({
-
+    $('#dep_flights_piker').datepicker({
         onSelect: function (){
-            departure_airport = $('#dep_airport').val();
-            destination_airport = $('#dest_airport').val();
+            date = $('#dep_flights_piker').val();
 
-            if(departure_airport === 'Minsk(MSQ)'){
-                date = $('#dep_flights_piker').val();
-                createFreeDispatchersSelect(date, time, departure_airport);
+            if(departureAirport === 'Minsk(MSQ)'|| destinationAirport=== 'Minsk(MSQ)'){
+                createFreeDispatchersSelect(date, time, departureAirport);
             }
+        }
+    });
 
-            if(destination_airport === 'Minsk(MSQ)'){
-                date = $('#dest_flights_piker').val();
-                createFreeDispatchersSelect(date, time, destination_airport);
+    $('#dest_flights_piker').datepicker({
+        onSelect: function (){
+            date = $('#dest_flights_piker').val();
+
+            if(departureAirport === 'Minsk(MSQ)'|| destinationAirport=== 'Minsk(MSQ)'){
+                createFreeDispatchersSelect(date, time, departureAirport);
             }
         }
     });

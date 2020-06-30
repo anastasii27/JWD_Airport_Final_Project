@@ -44,16 +44,14 @@ public class UserFlightsServiceImpl implements UserFlightsService {
     @Override
     public List<Flight> dispatcherFlights(String surname, String email) throws ServiceException {
         List<Flight> flights;
-        List<Flight> flightsAfterDeleting;
 
         try {
             flights = dao.dispatcherFlights(surname, email);
 
-            flightsAfterDeleting = deleteInappropriateDispatcherFlights(flights);
+            return deleteInappropriateDispatcherFlights(flights);
         } catch (DaoException e) {
             throw new ServiceException("Exception during getting dispatcher flights", e);
         }
-        return flightsAfterDeleting;
     }
 
     private List<Flight> deleteInappropriateDispatcherFlights(List<Flight> flights){

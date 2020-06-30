@@ -20,7 +20,7 @@ public class RequestParametersExtractor{
         return fullUserName.substring(fullUserName.indexOf(' ')).trim();
     }
 
-    public static List<User> userFullName(String users){//todo переделать
+    public static List<User> usersListFromFullNamesString(String users){//todo переделать
         List<User> usersList = new ArrayList<>();
         if(users != null && users.length() != 0){
             String [] usersStringArray = users.split(" ");

@@ -10,22 +10,19 @@ import java.util.List;
 
 public class CrewMemberServiceImpl implements CrewMemberService {
     private CrewMemberDao dao = DaoFactory.getInstance().getCrewMemberDAO();
-    private int changedRowsAmount;
 
     @Override
     public List<User> crewMembers(String crewName) throws ServiceException {
-        List<User> crew;
-
         try {
-            crew =dao.crewMembers(crewName);
+            return  dao.crewMembers(crewName);
         } catch (DaoException e) {
             throw new ServiceException("Exception during crew members getting", e);
         }
-        return crew;
     }
 
     @Override
     public boolean deleteCrewMember(String crewName, User user) throws ServiceException {
+        int changedRowsAmount = 0;
         try {
             if(user!= null && dao.isUserInTheCrew(crewName, user)){
                 changedRowsAmount = dao.deleteCrewMember(crewName, user);
@@ -44,10 +41,9 @@ public class CrewMemberServiceImpl implements CrewMemberService {
                     return false;
                 }
             }
-            changedRowsAmount = dao.addCrewMember(crewName, crewMembers);
+            return dao.addCrewMember(crewName, crewMembers) != 0;
         } catch (DaoException e) {
             throw new ServiceException("Exception during crew member adding", e);
         }
-        return changedRowsAmount !=0;
     }
 }

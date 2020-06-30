@@ -21,11 +21,13 @@ public class DispatcherFlights implements Command {
     public void execute(HttpServletRequest request, HttpServletResponse response) {
         UserFlightsService userFlightsService = ServiceFactory.getInstance().getUserFlightsService();
         User user  = (User) request.getSession().getAttribute(RequestParameterName.USER);
-        String surname;
-        String email;
+        String surname = "";
+        String email = "";
 
-        surname = user.getSurname();
-        email = user.getEmail();
+        if(user != null) {
+            surname = user.getSurname();
+            email = user.getEmail();
+        }
 
         List<Flight> flights;
         try {

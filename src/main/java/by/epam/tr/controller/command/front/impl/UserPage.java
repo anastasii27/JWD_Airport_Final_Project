@@ -22,18 +22,19 @@ public class UserPage implements Command {
         User user = (User)request.getSession().getAttribute(RequestParameterName.USER);
         UserFlightsService userFlightsService = ServiceFactory.getInstance().getUserFlightsService();
         List<Flight> nearestFlights;
-        String surname;
-        String email;
+        String surname = "";
+        String email = "";
 
-        surname = user.getSurname();
-        email = user.getEmail();
+        if(user!= null) {
+            surname = user.getSurname();
+            email = user.getEmail();
+        }
         try {
             nearestFlights = userFlightsService.nearestUserFlights(surname, email);
 
             if(nearestFlights.size() != 0) {
                 request.setAttribute(RequestParameterName.FLIGHT, nearestFlights);
-            }
-            else{
+            }else{
                 request.setAttribute(RequestParameterName.RESULT_INFO, ANSWER);
             }
             forwardTo(request,response, JSPPageName.USER_PAGE);

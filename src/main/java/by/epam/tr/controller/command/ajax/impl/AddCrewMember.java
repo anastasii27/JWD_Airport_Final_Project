@@ -27,7 +27,7 @@ public class AddCrewMember implements Command {
         crewName = request.getParameter(RequestParameterName.CREW_NAME);
         crewMembers = request.getParameter(RequestParameterName.USER);
 
-        membersList = userFullName(crewMembers);
+        membersList = usersListFromFullNamesString(crewMembers);
         try {
             operationResult = crewMemberService.addCrewMember(crewName, membersList);
 

@@ -88,5 +88,4 @@ public class CreateFlight implements Command {
         }
         return validationResults;
     }
-
 }

@@ -20,8 +20,7 @@ public class PlaneServiceImpl implements PlaneService {
         try {
             if(airportName.equals(MINSK_NATIONAL_AIRPORT)){
                 allPlanes = dao.allPlanes();
-            }
-            else{
+            }else{
                 allPlanes  = dao.allPlanesFromAirport(airportName);
             }
             List<Plane> takenOnFlightPlanes = dao.takenOnFlightPlanes(airportName);

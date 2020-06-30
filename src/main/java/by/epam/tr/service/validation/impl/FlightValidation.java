@@ -21,7 +21,6 @@ public class FlightValidation extends Validator {
         List<String> validationResult= new ArrayList<>();
 
         params.remove("user");
-        System.out.println(params);///////////////
 
         if(!emptyValueCheck(params)){
             validationResult.add("You didn`t enter some values");
@@ -88,7 +87,6 @@ public class FlightValidation extends Validator {
         for (String date: dateArr) {
             localDate = LocalDate.parse(date);
             if(localDate.isBefore(LocalDate.now())){
-                System.out.println(localDate);////////////////////
                 return false;
             }
         }

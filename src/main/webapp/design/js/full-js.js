@@ -80,19 +80,21 @@ $(document).ready(function ($) {
     });
 
     //create_flight
-    $('#dep_country, #dest_country').change(function () {
-        // let airport = $(this).val();
-        // let depAirport = $('#dep_country').val();
-        // let destAirport = $('#dest_country').val();
-        //
-        // if(depAirport !== 'Minsk(MSQ)' && airport !== 'Minsk(MSQ)') {
-        //     $('#dispatcher option').remove();
-        // }
-        //
-        // if(destAirport !== 'Minsk(MSQ)' && airport !== 'Minsk(MSQ)') {
-        //     $('#dispatcher option').remove();
-        // }
-    })
+    $('#dep_country').change(function () {
+        let destinationCountry = $('#dest_country').val();
+
+        if(destinationCountry !== 'Belarus'){
+            $('#dispatcher option').remove();
+        }
+    });
+
+    $('#dest_country').change(function () {
+        let departureCountry = $('#dep_country').val();
+
+        if(departureCountry !== 'Belarus'){
+            $('#dispatcher option').remove();
+        }
+    });
 });
 
 function getMaxDate(days) {
