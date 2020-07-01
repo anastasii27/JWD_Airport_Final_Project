@@ -1,13 +1,11 @@
 package by.epam.tr.dao.impl;
 
 import by.epam.tr.bean.User;
-import by.epam.tr.dao.CloseOperation;
 import by.epam.tr.dao.CrewMemberDao;
 import by.epam.tr.dao.DaoException;
 import by.epam.tr.dao.connectionpool.ConnectionPool;
 import by.epam.tr.dao.connectionpool.ConnectionPoolException;
 import lombok.extern.log4j.Log4j2;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -16,8 +14,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Log4j2
-public class CrewMemberDaoImpl extends CloseOperation implements CrewMemberDao {
-    private final static String CREW_MEMBERS = "SELECT `name`, `surname`, title FROM `flight-teams-m2m-users`\n"+
+public class CrewMemberDaoImpl implements CrewMemberDao, CloseOperation {
+    private final static String CREW_MEMBERS = "SELECT `name`, `surname`, email, title FROM `flight-teams-m2m-users`\n"+
             "JOIN users ON `flight-teams-m2m-users`.`user-id` = users.id \n"+
             "JOIN roles ON roles.id  = (SELECT `role-id` FROM users WHERE users.id = `flight-teams-m2m-users`.`user-id` )\n"+
             "WHERE `flight-teams-m2m-users`.`flight-team-id` = (SELECT id FROM `flight-teams` WHERE `short-name` = ? );";
@@ -52,7 +50,10 @@ public class CrewMemberDaoImpl extends CloseOperation implements CrewMemberDao {
             rs = ps.executeQuery();
 
             while (rs.next()) {
-                crew.add(User.builder().name(rs.getString("name")).surname(rs.getString("surname")).role(rs.getString("title")).build());
+                crew.add(User.builder().name(rs.getString("name"))
+                        .surname(rs.getString("surname"))
+                        .role(rs.getString("title"))
+                        .email(rs.getString("email")).build());
             }
 
             connection.commit();

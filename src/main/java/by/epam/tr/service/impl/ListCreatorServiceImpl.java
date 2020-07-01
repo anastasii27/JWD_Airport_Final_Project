@@ -39,15 +39,6 @@ public class ListCreatorServiceImpl implements ListCreatorService {
     }
 
     @Override
-    public List<String> createCrewsList() throws ServiceException {
-        try {
-            return dao.createCrewsList();
-        } catch (DaoException e) {
-            throw new ServiceException("Exception during crews list creation", e);
-        }
-    }
-
-    @Override
     public List<User> createUserByRoleList(String role) throws ServiceException {
         try {
             return dao.createUserByRoleList(role);

@@ -10,7 +10,7 @@
         <fmt:message bundle="${loc}" key="local.js.lang" var="lang" />
         <fmt:message bundle="${loc}" key="local.label.crew.create" var="create_label" />
         <fmt:message bundle="${loc}" key="local.label.crew.commander" var="commander_label" />
-        <fmt:message bundle="${loc}" key="local.label.crew.second_pilot" var="second_pilot_label" />
+        <fmt:message bundle="${loc}" key="local.label.crew.additional_pilots" var="add_pilots_label"/>
         <fmt:message bundle="${loc}" key="local.label.crew.stewards" var="stewards_label" />
         <fmt:message bundle="${loc}" key="local.label.crew.crt" var="create_btn" />
         <fmt:message bundle="${loc}" key="local.label.crew.creation" var="creation_label" />
@@ -61,7 +61,7 @@
                  </select>
             </div>
             <div class="form-group">
-                <label for="pilot">${second_pilot_label}</label>
+                <label for="pilot">${add_pilots_label}</label>
                 <select name= "pilot" id="pilot" class="selectpicker" multiple>
                     <c:forEach var="pilot" items="${pilots_list}">
                         <option>${pilot.name} ${pilot.surname}</option>

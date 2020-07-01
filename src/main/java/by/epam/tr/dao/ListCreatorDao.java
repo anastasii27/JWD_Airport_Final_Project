@@ -7,7 +7,6 @@ public interface ListCreatorDao {
     List<String> createCityWithAirportList() throws DaoException;
     List<String> createCityWithAirportList(String country) throws DaoException;
     List<String> createRolesList() throws DaoException;
-    List<String> createCrewsList() throws DaoException;
     List<User> createUserByRoleList(String role) throws DaoException;
     List<String> createCountriesList() throws DaoException;
 }

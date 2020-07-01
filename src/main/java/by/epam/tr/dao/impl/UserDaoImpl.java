@@ -1,7 +1,6 @@
 package by.epam.tr.dao.impl;
 
 import by.epam.tr.bean.User;
-import by.epam.tr.dao.CloseOperation;
 import by.epam.tr.dao.DaoException;
 import by.epam.tr.dao.UserDao;
 import by.epam.tr.dao.connectionpool.ConnectionPool;
@@ -12,7 +11,7 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UserDaoImpl extends CloseOperation implements UserDao {
+public class UserDaoImpl implements UserDao, CloseOperation {
     private final static String INSERT_USER =  "INSERT INTO airport.users (`role-id`, login, `password`, `name`, surname, email, `career-start-year`)" +
             "VALUES((SELECT id FROM airport.roles WHERE title = ?),?,?,?,?,?,?);";
 

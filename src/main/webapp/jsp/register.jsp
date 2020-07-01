@@ -62,17 +62,17 @@
                 <div class="form-row mt-2">
                     <div class="form-group col-md-5">
                         <label for="inputName">${name_label} </label>
-                        <input type="text" name="user_name" class="form-control" id="inputName"/>
+                        <input type="text" name="user_name" class="form-control" id="inputName" autocomplete="off"/>
                     </div>
                     <div class="form-group col-md-5">
                         <label for="inputSurname" >${surname_label} </label>
-                        <input type="text" name="surname" class="form-control" id="inputSurname"/>
+                        <input type="text" name="surname" class="form-control" id="inputSurname" autocomplete="off"/>
                     </div>
                 </div>
                 <div class="form-row">
                     <div class="form-group col-md-10">
                         <label for="inputEmail">Email </label>
-                        <input type="text" name="email" class="form-control" id="inputEmail"/>
+                        <input type="text" name="email" class="form-control" id="inputEmail" autocomplete="off"/>
                     </div>
                 </div>
                 <div class="form-row">
@@ -87,25 +87,25 @@
                     </div>
                     <div class="form-group col-md-5">
                         <label for="inputStart">${start_label} </label>
-                        <input type="text" name="career_start_year" class="form-control" id="inputStart"/>
+                        <input type="text" name="career_start_year" class="form-control" id="inputStart" autocomplete="off"/>
                     </div>
                 </div>
                 <div class="form-row">
                     <div class="form-group col-md-10">
                         <label for="inputLogin">${login_label} </label>
-                        <input type="text" name="login" class="form-control" id="inputLogin"/>
+                        <input type="text" name="login" class="form-control" id="inputLogin" autocomplete="off"/>
                         <p class="info">${login_info}</p>
                     </div>
                 </div>
                 <div class="form-row">
                     <div class="form-group col-md-5">
                         <label for="inputPassword1">${password_label} </label>
-                        <input type="password" name="user_password" class="form-control" id="inputPassword1"/>
+                        <input type="password" name="user_password" class="form-control" id="inputPassword1" autocomplete="off"/>
                         <p class="info">${password_info}</p>
                     </div>
                     <div class="form-group col-md-5">
                         <label for="inputPassword2">${conf_label} </label>
-                        <input type="password" name="confirm_password" class="form-control" id="inputPassword2"/>
+                        <input type="password" name="confirm_password" class="form-control" id="inputPassword2" autocomplete="off"/>
                         <div class="button">
                             <input type="submit" class="btn btn-primary" id="submit" value="${register_button}"/>
                         </div>

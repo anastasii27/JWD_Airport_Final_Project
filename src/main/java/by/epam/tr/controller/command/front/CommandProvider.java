@@ -28,6 +28,7 @@ public final class CommandProvider {
         commands.put(CommandName.SHOW_FLIGHT_MANAGEMENT_PAGE, new FlightManagementPage());
         commands.put(CommandName.SHOW_CREATE_FLIGHT_PAGE, new CreateFlightPage());
         commands.put(CommandName.CREATE_FLIGHT, new CreateFlight());
+        commands.put(CommandName.FREE_CREWS_FOR_FLIGHT, new FreeCrewsForFlight());
     }
 
     public Command getCommand(String name){

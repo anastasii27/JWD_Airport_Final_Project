@@ -15,7 +15,7 @@ public class RegistrationValidation extends Validator {
     private final static String USER_SURNAME_PARAM = "surname";
     private final static String USER_EMAIL_PARAM = "email";
     private final static String USER_CAREER_START_YEAR_PARAM = "career_start_year";
-    private final static String USER_PASSWORD_PARAM = "password";
+    private final static String USER_PASSWORD_PARAM = "user_password";
     private final static String USER_LOGIN_PARAM = "login";
 
     @Override

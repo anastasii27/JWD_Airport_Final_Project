@@ -1,6 +1,7 @@
 package by.epam.tr.dao;
 
 import by.epam.tr.bean.User;
+import java.util.List;
 import java.util.Map;
 
 public interface CrewDao {
@@ -8,4 +9,5 @@ public interface CrewDao {
     boolean doesCrewNameExist(String crewName) throws DaoException;
     int deleteCrew(String crewName) throws DaoException;
     User findMainPilot(String crewName) throws DaoException;
+    List<String> allCrews() throws DaoException;
 }

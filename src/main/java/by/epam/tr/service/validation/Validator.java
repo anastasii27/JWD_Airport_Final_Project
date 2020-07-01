@@ -7,7 +7,7 @@ public abstract class Validator {
 
     public abstract List<String> validate(Map<String, String> params);
 
-    public static boolean checkWithPattern(String pattern,String value) {
+    public  boolean checkWithPattern(String pattern,String value) {
 
         return value.trim().matches(pattern);
     }

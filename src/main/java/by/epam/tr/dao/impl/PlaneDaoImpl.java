@@ -1,7 +1,6 @@
 package by.epam.tr.dao.impl;
 
 import by.epam.tr.bean.Plane;
-import by.epam.tr.dao.CloseOperation;
 import by.epam.tr.dao.DaoException;
 import by.epam.tr.dao.PlaneDao;
 import by.epam.tr.dao.connectionpool.ConnectionPool;
@@ -10,7 +9,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PlaneDaoImpl extends CloseOperation implements PlaneDao{
+public class PlaneDaoImpl implements PlaneDao, CloseOperation{
     private final static String PLANES_AT_AIRPORT = "SELECT `number`, title \n"+
             "FROM airport.flights\n"+
             "JOIN planes ON `plane-id` = planes.id\n" +

@@ -80,7 +80,7 @@ public class FlightValidation extends Validator {
         return true;
     }
 
-    private static boolean dateFormatCheck(String...dateArr){
+    private boolean dateFormatCheck(String...dateArr){
         for (String date: dateArr) {
             if(!checkWithPattern(ValidationPattern.DATE_PATTERN, date)){
                 return false;

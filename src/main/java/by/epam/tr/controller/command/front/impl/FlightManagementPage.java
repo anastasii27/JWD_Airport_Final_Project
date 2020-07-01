@@ -30,6 +30,7 @@ public class FlightManagementPage implements Command {
             flights = userFlightsService.allFlightByDay(params);
 
             if(flights.size()!= 0){
+                flights.sort(Flight.SORT_BY_TIME_AND_DATE);
                 request.setAttribute(RequestParameterName.FLIGHT, flights);
             }else {
                 request.setAttribute(RequestParameterName.RESULT_INFO, ANSWER);

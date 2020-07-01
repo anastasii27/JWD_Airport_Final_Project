@@ -22,7 +22,7 @@ import java.util.List;
 import java.util.Map;
 
 @Log4j2
-public class CreateFlight implements Command {
+public class CreateFlight implements Command {//todo validation
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) {
@@ -61,10 +61,10 @@ public class CreateFlight implements Command {
                 boolean operationResult = flightService.createFlight(flight);
 
                 if(operationResult){
-                    //request.getSession().setAttribute(RequestParameterName.RESULT_INFO, );
-                    forwardTo(request, response, JSPPageName.RESULT_PAGE);
+                    request.getSession().setAttribute(RequestParameterName.FLIGHT, flight);
+                    response.sendRedirect(request.getContextPath()+ "/airport?action=free_crews_for_flight");
                 }else {
-                   // request.getSession().setAttribute(RequestParameterName.RESULT_INFO, );
+                    request.getSession().setAttribute(RequestParameterName.RESULT_INFO,"No");
                     response.sendRedirect(JSPPageName.RESULT_PAGE);
                 }
             }

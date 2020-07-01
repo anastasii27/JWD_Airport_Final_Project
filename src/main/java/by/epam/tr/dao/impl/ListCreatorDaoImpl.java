@@ -1,7 +1,6 @@
 package by.epam.tr.dao.impl;
 
 import by.epam.tr.bean.User;
-import by.epam.tr.dao.CloseOperation;
 import by.epam.tr.dao.DaoException;
 import by.epam.tr.dao.ListCreatorDao;
 import by.epam.tr.dao.connectionpool.ConnectionPool;
@@ -10,7 +9,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ListCreatorIDaoImpl extends CloseOperation implements ListCreatorDao {
+public class ListCreatorDaoImpl implements ListCreatorDao, CloseOperation {
     private static final String CITY_WITH_AIRPORT = "SELECT cities.`name`,`name-abbreviation` FROM airport.airports\n" +
             "JOIN cities ON cities.id = airports.`city-id`;";
 
@@ -20,7 +19,6 @@ public class ListCreatorIDaoImpl extends CloseOperation implements ListCreatorDa
             "WHERE countries.`name` = ?;";
 
     private static final String USERS_ROLES = "SELECT title from airport.roles";
-    private static final String CREWS = "SELECT `short-name` from airport.`flight-teams`";
     private static final String COUNTRIES = "SELECT `name` FROM airport.countries;";
     private static final String USERS_BY_ROLE = "SELECT `name`, surname FROM airport.users WHERE `role-id`= (" +
             "SELECT id  FROM roles WHERE title = ?);";
@@ -100,30 +98,6 @@ public class ListCreatorIDaoImpl extends CloseOperation implements ListCreatorDa
             closeAll(rs, st, pool, connection);
         }
         return roles;
-    }
-
-    @Override
-    public List<String> createCrewsList() throws DaoException {
-        ConnectionPool pool = ConnectionPool.getInstance();
-        Connection connection = null;
-        Statement st = null;
-        ResultSet rs = null;
-        List <String> crews = new ArrayList<>();
-
-        try {
-            connection = pool.takeConnection();
-            st = connection.createStatement();
-
-            rs = st.executeQuery(CREWS);
-            while (rs.next()) {
-                crews.add(rs.getString("short-name"));
-            }
-        } catch (ConnectionPoolException | SQLException e) {
-            throw new DaoException("Exception during creating crews list!", e);
-        }finally{
-            closeAll(rs, st, pool, connection);
-        }
-        return crews;
     }
 
     @Override

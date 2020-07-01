@@ -1,16 +1,14 @@
-package by.epam.tr.dao;
+package by.epam.tr.dao.impl;
 
 import by.epam.tr.dao.connectionpool.ConnectionPool;
-import lombok.extern.log4j.Log4j2;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-@Log4j2
-public class CloseOperation{//todo change private method with try catch!
+public interface CloseOperation{
 
-    public void closeAll(ResultSet rs, Statement st, ConnectionPool pool, Connection connection){
+    default void closeAll(ResultSet rs, Statement st, ConnectionPool pool, Connection connection){
         if(rs !=  null){
             closeResultSet(rs);
         }
@@ -22,7 +20,7 @@ public class CloseOperation{//todo change private method with try catch!
         }
     }
 
-    public void closeAll(Statement st, ConnectionPool pool, Connection connection){
+    default void closeAll(Statement st, ConnectionPool pool, Connection connection){
         if(st != null){
             closeStatement(st);
         }
@@ -31,19 +29,19 @@ public class CloseOperation{//todo change private method with try catch!
         }
     }
 
-    private void closeStatement(Statement st) {
+    default void closeStatement(Statement st) {
         try {
             st.close();
         } catch (SQLException e) {
-            log.error("Exception while closing Statement", e);
+
         }
     }
 
-    private void closeResultSet(ResultSet rs){
+    default void closeResultSet(ResultSet rs){
         try {
             rs.close();
         } catch (SQLException e) {
-            log.error("Exception while closing ResultSet", e);
+
         }
     }
 }

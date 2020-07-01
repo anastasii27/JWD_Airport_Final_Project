@@ -1,7 +1,6 @@
 package by.epam.tr.dao.impl;
 
 import by.epam.tr.bean.Flight;
-import by.epam.tr.dao.CloseOperation;
 import by.epam.tr.dao.DaoException;
 import by.epam.tr.dao.FlightDao;
 import by.epam.tr.dao.connectionpool.ConnectionPool;
@@ -10,7 +9,7 @@ import java.sql.*;
 import java.sql.Date;
 import java.util.*;
 
-public class FlightDaoImpl extends CloseOperation implements FlightDao {
+public class FlightDaoImpl implements FlightDao, CloseOperation {
     private final static String FLIGHT_CREATION_STATUS = "Scheduled";
     private final static String AIRPORT_DEPARTURE = "SELECT `flight-number`, `departure-date` AS `date`, `departure-time` AS `time`," +
             "a1.`name` AS `airport`,\n" +

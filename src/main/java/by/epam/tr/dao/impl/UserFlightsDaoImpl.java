@@ -1,7 +1,7 @@
 package by.epam.tr.dao.impl;
 
 import by.epam.tr.bean.Flight;
-import by.epam.tr.dao.CloseOperation;
+import by.epam.tr.bean.User;
 import by.epam.tr.dao.DaoException;
 import by.epam.tr.dao.UserFlightsDao;
 import by.epam.tr.dao.connectionpool.ConnectionPool;
@@ -12,8 +12,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class UserFlightsDaoImpl extends CloseOperation implements UserFlightsDao {
-    private final static String SELECT_USER_FLIGHT =   "SELECT `status`, title, `departure-date`, `departure-time`, `destination-date`, `destination-time`, \n" +
+public class UserFlightsDaoImpl implements UserFlightsDao, CloseOperation {
+    private final static String USER_FLIGHTS_BY_DAY =   "SELECT `status`, title, `departure-date`, `departure-time`, `destination-date`, `destination-time`, \n" +
             "c1.`name` AS `destination-city` , a1.`name-abbreviation` AS `dest-airport-short-name`,\n" +
             "c2.`name` AS `departure-city`, a2.`name-abbreviation` AS `dep-airport-short-name`, `flight-number` \n" +
             "FROM flights\n" +
@@ -26,14 +26,14 @@ public class UserFlightsDaoImpl extends CloseOperation implements UserFlightsDao
             "JOIN cities AS c2 ON  c2.id = (SELECT `city-id` FROM airports WHERE airports.`name` = a2.`name`)\n" +
             "WHERE `user-id` = (SELECT id FROM users WHERE surname = ? AND email=?)  AND `departure-date` = ?;";
 
-    private final static String SELECT_NEAREST_FLIGHTS =  "SELECT `departure-date`, `departure-time`, `flight-number`,cities.`name` AS 'destination-city' FROM flights \n" +
+    private final static String NEAREST_USER_FLIGHTS =  "SELECT `departure-date`, `departure-time`, `flight-number`,cities.`name` AS 'destination-city' FROM flights \n" +
             "JOIN airports AS a1 ON  a1.id = flights.`destination-airport-id`\n" +
             "JOIN cities  ON cities.id = (SELECT `city-id` FROM airports WHERE airports.`name` = a1.`name`)\n" +
             "JOIN `flight-teams` ON  flights.`flight-team-id` = `flight-teams`.id\n" +
             "JOIN `flight-teams-m2m-users` ON   `flight-teams-m2m-users`.`flight-team-id` = `flight-teams`.id \n" +
             "WHERE `user-id` = (SELECT id FROM users WHERE surname = ? AND email=?) AND `departure-date` BETWEEN  current_date() AND ? LIMIT 3\n";
 
-    private final static String SELECT_DISPATCHER_ARRIVALS = "SELECT `status`, title, `destination-date` AS `date`, `destination-time` AS `time`, \n" +
+    private final static String DISPATCHER_ARRIVALS = "SELECT `status`, title, `destination-date` AS `date`, `destination-time` AS `time`, \n" +
             "c1.`name` AS `destination-city` , a1.`name-abbreviation` AS `dest-airport-short-name`,\n" +
             "c2.`name` AS `departure-city`, a2.`name-abbreviation` AS `dep-airport-short-name`, `flight-number` \n" +
             "FROM flights\n" +
@@ -46,7 +46,7 @@ public class UserFlightsDaoImpl extends CloseOperation implements UserFlightsDao
             "AND `destination-date` BETWEEN current_date() AND date_add(current_date(),interval 1 day)\n" +
             "AND c1.`name`= 'Minsk';";
 
-    private final static String SELECT_DISPATCHER_DEPARTURES = "SELECT `status`, title, `departure-date` AS `date`, `departure-time` AS `time`, \n" +
+    private final static String DISPATCHER_DEPARTURES = "SELECT `status`, title, `departure-date` AS `date`, `departure-time` AS `time`, \n" +
             "c1.`name` AS `destination-city` , a1.`name-abbreviation` AS `dest-airport-short-name`,\n" +
             "c2.`name` AS `departure-city`, a2.`name-abbreviation` AS `dep-airport-short-name`, `flight-number` \n" +
             "FROM flights\n" +
@@ -59,6 +59,14 @@ public class UserFlightsDaoImpl extends CloseOperation implements UserFlightsDao
             "AND `departure-date` BETWEEN current_date() AND date_add(current_date(), interval 1 day)\n" +
             "AND c2.`name`= 'Minsk';";
 
+    private final static String LAST_USER_FLIGHT = "SELECT `name-abbreviation` AS `dest-airport-short-name`, `destination-time`," +
+            "`destination-date`\n" +
+            "FROM flights\n" +
+            "JOIN airports AS a1 ON  a1.id = flights.`destination-airport-id`\n" +
+            "JOIN `flight-teams` ON  flights.`flight-team-id` = `flight-teams`.id\n" +
+            "JOIN `flight-teams-m2m-users` ON   `flight-teams-m2m-users`.`flight-team-id` = `flight-teams`.id \n" +
+            "WHERE `user-id` = (SELECT id FROM users WHERE surname = ?  AND email = ?)  \n" +
+            "ORDER BY `destination-date` DESC, `destination-time` DESC LIMIT 1";
     @Override
     public List<Flight> userFlights(Map<String, String> params) throws DaoException {
         ConnectionPool pool = ConnectionPool.getInstance();
@@ -69,7 +77,7 @@ public class UserFlightsDaoImpl extends CloseOperation implements UserFlightsDao
 
         try {
             connection = pool.takeConnection();
-            ps =  connection.prepareStatement(SELECT_USER_FLIGHT);
+            ps =  connection.prepareStatement(USER_FLIGHTS_BY_DAY);
 
             ps.setString(1,params.get("surname"));
             ps.setString(2,params.get("email"));
@@ -107,7 +115,7 @@ public class UserFlightsDaoImpl extends CloseOperation implements UserFlightsDao
 
         try {
             connection = pool.takeConnection();
-            ps =  connection.prepareStatement(SELECT_NEAREST_FLIGHTS);
+            ps =  connection.prepareStatement(NEAREST_USER_FLIGHTS);
 
             ps.setString(1, surname);
             ps.setString(2, email);
@@ -138,8 +146,8 @@ public class UserFlightsDaoImpl extends CloseOperation implements UserFlightsDao
         try {
             connection = pool.takeConnection();
 
-            flights.addAll(dispatcherArrivalsDeparturesList(SELECT_DISPATCHER_ARRIVALS, surname, email, connection));
-            flights.addAll(dispatcherArrivalsDeparturesList(SELECT_DISPATCHER_DEPARTURES, surname, email, connection));
+            flights.addAll(dispatcherArrivalsDeparturesList(DISPATCHER_ARRIVALS, surname, email, connection));
+            flights.addAll(dispatcherArrivalsDeparturesList(DISPATCHER_DEPARTURES, surname, email, connection));
         } catch (ConnectionPoolException | SQLException e) {
             throw new DaoException("Exception during dispatcher flight selecting!", e);
         }finally{
@@ -172,5 +180,34 @@ public class UserFlightsDaoImpl extends CloseOperation implements UserFlightsDao
             }
         }
         return flights;
+    }
+
+    @Override
+    public Flight lastUserFlight(User user) throws DaoException {
+        ConnectionPool pool = ConnectionPool.getInstance();
+        Connection connection = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        Flight flight = null;
+
+        try {
+            connection = pool.takeConnection();
+            ps =  connection.prepareStatement(LAST_USER_FLIGHT);
+
+            ps.setString(1, user.getSurname());
+            ps.setString(2, user.getEmail());
+
+            rs = ps.executeQuery();
+            if(rs.next()) {
+                flight = Flight.builder().destinationDate(rs.getDate("destination-date").toLocalDate())
+                        .destinationTime(rs.getTime("destination-time").toLocalTime())
+                        .destinationAirportShortName(rs.getString("dest-airport-short-name")).build();
+            }
+        } catch (ConnectionPoolException | SQLException e) {
+            throw new DaoException("Exception during nearest flight selecting!", e);
+        }finally{
+            closeAll(rs, ps, pool, connection);
+        }
+        return flight;
     }
 }

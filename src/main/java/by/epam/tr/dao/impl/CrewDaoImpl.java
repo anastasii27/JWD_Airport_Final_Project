@@ -1,20 +1,19 @@
 package by.epam.tr.dao.impl;
 
 import by.epam.tr.bean.User;
-import by.epam.tr.dao.CloseOperation;
 import by.epam.tr.dao.CrewDao;
 import by.epam.tr.dao.DaoException;
 import by.epam.tr.dao.connectionpool.ConnectionPool;
 import by.epam.tr.dao.connectionpool.ConnectionPoolException;
 import lombok.extern.log4j.Log4j2;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 @Log4j2
-public class CrewDaoImpl extends CloseOperation implements CrewDao {
+public class CrewDaoImpl implements CrewDao, CloseOperation {
     private final static String CREATE_CREW = "INSERT INTO `flight-teams`(`date-of-creating`, `short-name`)\n" +
             "VALUES (current_date(), ?);";
 
@@ -40,6 +39,8 @@ public class CrewDaoImpl extends CloseOperation implements CrewDao {
     private final static String FIND_MAIN_PILOT = "SELECT `name`, surname FROM airport.`flight-teams`\n" +
             "JOIN users ON `main-pilot-id`  = users.id\n" +
             "WHERE `short-name` = ?;";
+
+    private final static String ALL_CREWS = "SELECT `short-name` FROM airport.`flight-teams`;";
 
     @Override
     public boolean createCrew(String crewName, Map<String, User> users) throws DaoException {
@@ -218,5 +219,30 @@ public class CrewDaoImpl extends CloseOperation implements CrewDao {
             closeAll(rs, ps, pool, connection);
         }
         return user;
+    }
+
+    @Override
+    public List<String> allCrews() throws DaoException {
+        ConnectionPool pool = ConnectionPool.getInstance();
+        Connection connection = null;
+        Statement st = null;
+        ResultSet rs = null;
+        List<String> countries = new ArrayList<>();
+
+        try {
+            pool.poolInitialization();//todo убрать
+            connection = pool.takeConnection();
+            st = connection.createStatement();
+
+            rs = st.executeQuery(ALL_CREWS);
+            while (rs.next()) {
+                countries.add(rs.getString("short-name"));
+            }
+        } catch (ConnectionPoolException | SQLException e) {
+            throw new DaoException("Exception during creating countries list!", e);
+        } finally {
+            closeAll(rs, st, pool, connection);
+        }
+        return countries;
     }
 }

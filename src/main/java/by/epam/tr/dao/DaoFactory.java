@@ -8,7 +8,7 @@ public final class DaoFactory {
     private final FlightDao flightDao = new FlightDaoImpl();
     private final CrewDao crewDao = new CrewDaoImpl();
     private final CrewMemberDao crewMemberDao = new CrewMemberDaoImpl();
-    private final ListCreatorDao listCreatorDao = new ListCreatorIDaoImpl();
+    private final ListCreatorDao listCreatorDao = new ListCreatorDaoImpl();
     private final UserFlightsDao userFlightsDao = new UserFlightsDaoImpl();
     private final PlaneDao planeDao = new PlaneDaoImpl();
 
