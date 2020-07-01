@@ -5,45 +5,44 @@ import by.epam.tr.dao.DaoException;
 import by.epam.tr.dao.DaoFactory;
 import by.epam.tr.service.validation.ValidationPattern;
 import by.epam.tr.service.validation.Validator;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import lombok.extern.log4j.Log4j2;
 import java.util.*;
 
+@Log4j2
 public class CrewValidation extends Validator {
-    private Logger LOGGER = LogManager.getLogger(getClass());
+    private final static String CREW_NAME_PARAM = "crew_name";
 
     @Override
     public List<String> validate(Map<String, String> params) {
-        List<String> result= new ArrayList<>();
+        List<String> validationResult= new ArrayList<>();
         CrewDao crewDAO = DaoFactory.getInstance().getCrewDAO();
         
         if(!emptyValueCheck(params)){
-            result.add("You didnt` enter some values");
-            return result;
+            validationResult.add("You didnt` enter some values");
+            return validationResult;
         }
 
-        String crewName = params.get("crew_name");
+        String crewName = params.get(CREW_NAME_PARAM);
         if(!checkWithPattern(ValidationPattern.CREW_NAME_PATTERN, crewName)){
-            result.add("Illegal crew name!");
+            validationResult.add("Illegal crew name!");
         }
 
         try {
             if(crewDAO.doesCrewNameExist(crewName)){
-                result.add("This name is already exist!");
+                validationResult.add("This name is already exist!");
             }
         } catch (DaoException e) {
-            LOGGER.error("Error during crew name existence checking");
+            log.error("Error during crew name existence checking");
         }
 
         if(!areSameMembersInCrew(params)){
-            result.add("Same values");
+            validationResult.add("Same values");
         }
-        return result;
+        return validationResult;
     }
 
     private boolean areSameMembersInCrew(Map<String, String> params){
         Set<String> members = new HashSet<>(params.values());
         return members.size()==params.size() ;
     }
-
 }

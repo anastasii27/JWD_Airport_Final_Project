@@ -7,23 +7,23 @@ import java.util.List;
 import java.util.Map;
 
 public class DateValidation extends Validator {//todo переделать
+    private final static String DEPARTURE_DATE_PARAM = "departure_date";
 
     @Override
     public List<String> validate(Map<String, String> params) {
-        List <String> result = new ArrayList<>();
+        List <String> validationResult = new ArrayList<>();
 
         if(!emptyValueCheck(params)){
-            result.add("You didnt` enter all values!");
-            return result;
+            validationResult.add("You didnt` enter all values!");
+            return validationResult;
         }
 
-        String departureDate = params.get("departure_date");
-        if (!checkWithPattern(ValidationPattern.DATE_PATTERN,  departureDate)) {
-            result.add("Illegal date!");
-            return result;
+        if (!checkWithPattern(ValidationPattern.DATE_PATTERN,  params.get(DEPARTURE_DATE_PARAM))) {
+            validationResult.add("Illegal date!");
+            return validationResult;
         }
 
-        return result;
+        return validationResult;
     }
 
 }

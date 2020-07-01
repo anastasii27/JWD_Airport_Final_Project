@@ -15,22 +15,30 @@ import java.util.Map;
 
 @Log4j2
 public class FlightValidation extends Validator {
+    private final static String FLIGHT_DEPARTURE_DATE_PARAM = "departure_date";
+    private final static String FLIGHT_DEPARTURE_TIME_PARAM = "departure_time";
+    private final static String FLIGHT_DEPARTURE_AIRPORT_PARAM = "departure_airport";
+    private final static String FLIGHT_DESTINATION_DATE_PARAM = "destination_date";
+    private final static String FLIGHT_DESTINATION_TIME_PARAM = "destination_time";
+    private final static String FLIGHT_DESTINATION_AIRPORT_PARAM = "destination_airport";
+    private final static String FLIGHT_USER_PARAM = "user";
+    private final static String FLIGHT_NUMBER_PARAM = "flight_number";
 
     @Override
     public List<String> validate(Map<String, String> params) {
         List<String> validationResult= new ArrayList<>();
 
-        params.remove("user");
+        params.remove(FLIGHT_USER_PARAM);
 
         if(!emptyValueCheck(params)){
             validationResult.add("You didn`t enter some values");
             return validationResult;
         }
 
-        String departureDate = params.get("departure_date");
-        String departureTime = params.get("departure_time");
-        String destinationDate = params.get("destination_date");
-        String destinationTime = params.get("destination_time");
+        String departureDate = params.get(FLIGHT_DEPARTURE_DATE_PARAM);
+        String departureTime = params.get(FLIGHT_DEPARTURE_TIME_PARAM);
+        String destinationDate = params.get(FLIGHT_DESTINATION_DATE_PARAM);
+        String destinationTime = params.get(FLIGHT_DESTINATION_TIME_PARAM);
 
         if(!timeFormatCheck(departureTime, destinationTime)){
             validationResult.add("Illegal time");
@@ -49,12 +57,12 @@ public class FlightValidation extends Validator {
             validationResult.add("Departure date is earlier than destination one");
         }
 
-        if(params.get("departure_airport").equals(params.get("destination_airport"))){
+        if(params.get(FLIGHT_DEPARTURE_AIRPORT_PARAM).equals(params.get(FLIGHT_DESTINATION_AIRPORT_PARAM))){
             validationResult.add("Equal airports");
         }
 
         try {
-            if(!flightNumberCheck(params.get("flight_number"))){
+            if(!flightNumberCheck(params.get(FLIGHT_NUMBER_PARAM))){
                 validationResult.add("Illegal flight number");
             }
         } catch (DaoException e) {
