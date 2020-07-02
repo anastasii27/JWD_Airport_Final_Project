@@ -230,7 +230,6 @@ public class CrewDaoImpl implements CrewDao, CloseOperation {
         List<String> countries = new ArrayList<>();
 
         try {
-            pool.poolInitialization();//todo убрать
             connection = pool.takeConnection();
             st = connection.createStatement();
 

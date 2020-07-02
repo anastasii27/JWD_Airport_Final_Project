@@ -17,11 +17,10 @@ public class DeleteCrew implements Command {
     public void execute(HttpServletRequest request, HttpServletResponse response) {
         CrewService crewService = ServiceFactory.getInstance().getCrewService();
         String crewName;
-        boolean operationResult;
 
         crewName = request.getParameter(RequestParameterName.CREW_NAME);
         try {
-            operationResult = crewService.deleteCrew(crewName);
+            boolean operationResult = crewService.deleteCrew(crewName);
 
             response.getWriter().write(String.valueOf(operationResult));
         } catch (ServiceException e) {

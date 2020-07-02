@@ -22,14 +22,13 @@ public class AddCrewMember implements Command {
         String crewName;
         String crewMembers;
         List<User> membersList;
-        boolean operationResult;
 
         crewName = request.getParameter(RequestParameterName.CREW_NAME);
         crewMembers = request.getParameter(RequestParameterName.USER);
 
         membersList = usersListFromFullNamesString(crewMembers);
         try {
-            operationResult = crewMemberService.addCrewMember(crewName, membersList);
+            boolean operationResult = crewMemberService.addCrewMember(crewName, membersList);
 
             response.getWriter().write(String.valueOf(operationResult));
         } catch (ServiceException e) {

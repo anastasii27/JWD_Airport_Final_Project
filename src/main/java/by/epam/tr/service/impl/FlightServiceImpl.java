@@ -69,4 +69,13 @@ public class FlightServiceImpl implements FlightService {
             throw new ServiceException("Exception during flight creating", e);
         }
     }
+
+    @Override
+    public boolean doesFlightNumberExist(String flightNumber) throws ServiceException {
+        try {
+            return dao.doesFlightNumberExist(flightNumber);
+        } catch (DaoException e) {
+            throw new ServiceException("Exception during flight creating", e);
+        }
+    }
 }

@@ -13,7 +13,7 @@ import java.io.IOException;
 import java.util.List;
 
 @Log4j2
-public class FindCountryAirport implements Command {
+public class CountryAirport implements Command {
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) {

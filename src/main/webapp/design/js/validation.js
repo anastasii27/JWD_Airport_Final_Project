@@ -10,7 +10,7 @@ $(document).ready(function ($) {
         rules:{
             departure_date:{
                 required: true,
-                pattern_date: true,
+                date_pattern_check: true,
                 legal_date: true
             }
         },
@@ -26,8 +26,8 @@ $(document).ready(function ($) {
         rules:{
             departure_date:{
                 required: true,
-                pattern_date: true,
-                legal_date: true
+                date_pattern_check: true,
+                legal_date_check: true
             },
             city: {
                 city_check: true
@@ -92,11 +92,11 @@ $(document).ready(function ($) {
         rules:{
             user_name: {
                 required_value: true,
-                user_name_surname: true
+                user_name_surname_check: true
             },
             surname: {
                 required_value: true,
-                user_name_surname: true
+                user_name_surname_check: true
             },
             email:{
                 required_value: true,
@@ -109,17 +109,17 @@ $(document).ready(function ($) {
             },
             login:{
                 required_value: true,
-                login_len: [4,15],
-                pattern_check: true
+                login_len_check: [4,15],
+                no_sign_pattern_check: true
             },
             user_password:{
                 required_value: true,
-                password_len: [6,15],
-                pattern_check: true
+                password_len_check: [6,15],
+                no_sign_pattern_check: true
             },
             confirm_password:{
                 required_but_no_mes: true,
-                equal_pas: true
+                equal_passwords_check: true
             }
         },
 
@@ -127,13 +127,13 @@ $(document).ready(function ($) {
 
             let id= element.attr("id");
 
-            if(id=='inputPassword1' ||id=='inputStart'|| id =="inputRole"){
+            if(id==='inputPassword1' ||id==='inputStart'|| id ==="inputRole"){
                 $(element).after(error);
             }else{
                 $('label[for="'+ id +'"]').append(error);
             }
 
-            if(id=='inputPassword2'){
+            if(id==='inputPassword2'){
                 $('input[id="inputPassword1"]').after(error);
             }
         }
@@ -162,13 +162,13 @@ $(document).ready(function ($) {
                             return $( "#crew_name" ).val();
                         }
                     },
-                    async:false
+                    async:true
                 }
             },
             first_pilot: 'required',
             pilot: {
                 required: true,
-                not_equal_pilots: true
+                not_equal_pilots_check: true
             },
             steward: 'required'
         },
@@ -189,6 +189,87 @@ $(document).ready(function ($) {
         }
     });
 
+    $('#create_flight').validate({
+        rules:{
+            flight_number:{
+                required: true,
+                flight_number_pattern_check: true,
+                remote:{
+                    url: '/JWD_Task3_war/ajax',
+                    type: 'GET',
+                    data:{command: 'check_flight_number', flight_number: function() {
+                            return $( "#flight_number" ).val();
+                        }
+                    },
+                    async:true
+                }
+            },
+            planes: 'required',
+            departure_date:{
+                required:true,
+                date_pattern_check:true,
+            },
+            departure_time:{
+                required:true,
+                same_date_time_check: true
+            },
+            departure_country: 'required',
+            departure_airport:{
+                required: true,
+                not_equal_airports_check: true
+            },
+
+            destination_date:{
+                required:true,
+                date_pattern_check:true,
+            },
+            destination_time:{
+                required:true,
+                same_date_time_check: true
+            },
+            destination_country: 'required',
+            destination_airport:{
+                required: true,
+                not_equal_airports_check: true
+            }
+        },
+        messages:{
+            flight_number:{
+                required: null,
+                remote: function () {
+                    if(lang==="ru"){
+                        return "\u0422\u0430\u043a\u043e\u0439\u0020\u0440\u0435\u0439\u0441\u0020\u0443\u0436\u0435\u0020\u0441\u0443\u0449\u0435\u0441\u0442\u0432\u0443\u0435\u0442\u0021";
+                    }else{
+                        return "This flight name is already taken";
+                    }
+                }
+            },
+            planes: null,
+            departure_date:{
+                required: null,
+            },
+            departure_time:{
+                required: null,
+            },
+            departure_country: null,
+            departure_airport:{
+                required: null,
+            },
+
+            destination_date:{
+                required: null,
+            },
+            destination_time:{
+                required: null,
+            },
+            destination_country: null,
+            destination_airport:{
+                required: null,
+            }
+        }
+
+    });
+
     $.validator.addMethod('required_value', function(value) {
         return value.length !== 0;
     }, function ( ) {
@@ -199,7 +280,7 @@ $(document).ready(function ($) {
         }
     });
 
-    $.validator.addMethod('user_name_surname', function(value) {
+    $.validator.addMethod('user_name_surname_check', function(value) {
         return value.match(new RegExp("^" + "[A-Za-z]+" + "$"));
     }, function () {
         if(lang=='en'){
@@ -239,7 +320,7 @@ $(document).ready(function ($) {
         }
     });
 
-    $.validator.addMethod('login_len', function(value) {
+    $.validator.addMethod('login_len_check', function(value) {
         return !(value.length < 4 || value.length > 15);
     }, function () {
         if(lang=='en'){
@@ -249,7 +330,7 @@ $(document).ready(function ($) {
         }
     });
 
-    $.validator.addMethod('password_len', function(value) {
+    $.validator.addMethod('password_len_check', function(value) {
         return !(value.length < 6 || value.length > 15);
     }, function () {
         if(lang=='en'){
@@ -259,7 +340,7 @@ $(document).ready(function ($) {
         }
     });
 
-    $.validator.addMethod('pattern_check', function(value) {
+    $.validator.addMethod('no_sign_pattern_check', function(value) {
         return value.match(new RegExp("^" + "[A-Za-z0-9]+" + "$"));
     }, function () {
         if(lang=='en'){
@@ -273,7 +354,7 @@ $(document).ready(function ($) {
         return value.length != 0;
     }, null);
 
-    $.validator.addMethod('equal_pas', function(value) {
+    $.validator.addMethod('equal_passwords_check', function(value) {
         return value== $('#inputPassword1').val();
     }, function () {
         if(lang=='en'){
@@ -283,13 +364,13 @@ $(document).ready(function ($) {
         }
     });
 
-    $.validator.addMethod('pattern_date', function(value) {
+    $.validator.addMethod('date_pattern_check', function(value) {
         return value.match(new RegExp("^" + "\\d{4}-\\d{2}-\\d{2}" + "$"));
     }, function () {
         return '';
     });
 
-    $.validator.addMethod('legal_date', function(value) {
+    $.validator.addMethod('legal_date_check', function(value) {
 
         let enteredDate = new Date(value);
 
@@ -310,10 +391,60 @@ $(document).ready(function ($) {
         return'';
     });
 
-    $.validator.addMethod('not_equal_pilots', function(value) {
+    $.validator.addMethod('not_equal_pilots_check', function(value) {//todo redo
         return value !== $('#first_pilot').val();
     }, function () {
         return'';
+    });
+
+    $.validator.addMethod('same_date_time_check', function(value) {
+        let departure_date = $('#dep_flights_piker').val();
+        let departure_time = $('#dep_time').val();
+        let destination_date = $('#dest_flights_piker').val();
+        let destination_time = $('#dest_time').val();
+
+        if(departure_date.length!==0 && departure_time.length!==0
+                && destination_date.length!==0 && destination_time.length!==0){
+            let departure = new Date(departure_date + 'T' + departure_time);
+            let arrival = new Date(destination_date + 'T' + destination_time);
+
+            return departure<arrival;
+        }else {
+            return true;
+        }
+    }, function () {
+        if(lang=='en'){
+            return "Departure is before arrival!";
+        }else{
+            return "\u041f\u0440\u0438\u043b\u0435\u0442\u0020\u0440\u0430\u043d\u044c\u0448\u0435\u0020\u0432\u044b\u043b\u0435\u0442\u0430\u0021";
+        }
+    });
+
+    $.validator.addMethod('not_equal_airports_check', function(value) {
+        let departure_airport = $('#dep_airport').val();
+        let destination_airport = $('#dest_airport').val();
+
+        if(departure_airport.length!==0 && destination_airport.length!==0){
+            return departure_airport !==destination_airport;
+        }else {
+            return true;
+        }
+    }, function () {
+        if(lang=='en'){
+            return "You entered same airports!";
+        }else{
+            return "\u0412\u044b\u0020\u0443\u043a\u0430\u0437\u0430\u043b\u0438\u0020\u043e\u0434\u0438\u043d\u0430\u043a\u043e\u0432\u044b\u0435\u0020\u0430\u044d\u0440\u043e\u043f\u043e\u0440\u0442\u044b\u0021";
+        }
+    });
+
+    $.validator.addMethod('flight_number_pattern_check', function(value) {
+        return value.match(new RegExp("^" + "[A-Z]{2} \\d{4}" + "$"));
+    }, function () {
+        if(lang=='en'){
+            return "Illegal flight number format!";
+        }else{
+            return "\u041d\u043e\u043c\u0435\u0440\u0020\u0440\u0435\u0439\u0441\u0430\u0020\u0443\u043a\u0430\u0437\u0430\u043d\u0020\u0432\u0020\u043d\u0435\u0432\u0435\u0440\u043d\u043e\u043c\u0020\u0444\u043e\u0440\u043c\u0430\u0442\u0435\u0021";
+        }
     });
 
 });

@@ -22,13 +22,12 @@ public class DeleteCrewMember implements Command {
         String crewName;
         String member;
         User user;
-        boolean operationResult;
 
         crewName = request.getParameter(RequestParameterName.CREW_NAME);
         member = request.getParameter(RequestParameterName.USER);
         user = User.builder().name(userName(member)).surname(userSurname(member)).build();
         try {
-            operationResult = crewMemberService.deleteCrewMember(crewName, user);
+            boolean operationResult = crewMemberService.deleteCrewMember(crewName, user);
 
             response.getWriter().write(String.valueOf(operationResult));
         } catch (ServiceException e) {

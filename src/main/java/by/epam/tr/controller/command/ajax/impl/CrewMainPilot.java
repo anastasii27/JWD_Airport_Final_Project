@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @Log4j2
-public class FindCrewMainPilot implements Command {//todo доделать
+public class CrewMainPilot implements Command {//todo доделать
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) {

@@ -17,7 +17,7 @@ import java.time.LocalTime;
 import java.util.List;
 
 @Log4j2
-public class FindFreeDispatcher implements Command {
+public class FreeDispatcher implements Command {
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) {

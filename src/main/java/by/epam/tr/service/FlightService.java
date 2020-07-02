@@ -9,4 +9,5 @@ public interface FlightService {
     Flight flightInfo(String flightNumber, String departureDate) throws ServiceException;
     boolean createFlight(Flight flight) throws ServiceException;
     List<Flight> allFlightByDay(Map<String, String> params) throws ServiceException;
+    boolean doesFlightNumberExist(String flightNumber) throws ServiceException;
 }
