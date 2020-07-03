@@ -95,6 +95,14 @@ $(document).ready(function ($) {
             $('#dispatcher option').remove();
         }
     });
+
+    //choose crew
+    $('#crew_table').on('click','tr', function () {
+        $('tr').css('background', '');
+        $('tr').removeClass('clicked');
+        $(this).css('background', 'red');
+        $(this).addClass('clicked');
+    });
 });
 
 function getMaxDate(days) {
@@ -112,7 +120,6 @@ function getMinDate(days) {
 }
 
 function getActionFromURL(url) {
-
     let start = url.indexOf("=");
     let end = url.indexOf("&");
 

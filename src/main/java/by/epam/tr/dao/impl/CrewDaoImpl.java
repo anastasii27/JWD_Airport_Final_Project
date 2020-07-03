@@ -42,6 +42,10 @@ public class CrewDaoImpl implements CrewDao, CloseOperation {
 
     private final static String ALL_CREWS = "SELECT `short-name` FROM airport.`flight-teams`;";
 
+    private final static String SET_CREW_FOR_FLIGHT = "UPDATE flights SET  `flight-team-id` =" +
+            "(SELECT id FROM `flight-teams` WHERE `short-name` = ?)\n" +
+            "WHERE `flight-number` = ?";
+
     @Override
     public boolean createCrew(String crewName, Map<String, User> users) throws DaoException {
         boolean flag;
@@ -243,5 +247,27 @@ public class CrewDaoImpl implements CrewDao, CloseOperation {
             closeAll(rs, st, pool, connection);
         }
         return countries;
+    }
+
+    @Override
+    public int setCrewForFlight(String crewName, String flightNumber) throws DaoException {
+        ConnectionPool pool = ConnectionPool.getInstance();
+        Connection connection = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        try {
+            connection = pool.takeConnection();
+
+            ps = connection.prepareStatement(SET_CREW_FOR_FLIGHT);
+            ps.setString(1, crewName);
+            ps.setString(2, flightNumber);
+
+            return ps.executeUpdate();
+        } catch (ConnectionPoolException | SQLException e) {
+            throw new DaoException("Exception during creating countries list!", e);
+        } finally {
+            closeAll(rs, ps, pool, connection);
+        }
     }
 }

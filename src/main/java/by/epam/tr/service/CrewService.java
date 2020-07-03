@@ -2,8 +2,6 @@ package by.epam.tr.service;
 
 import by.epam.tr.bean.Flight;
 import by.epam.tr.bean.User;
-import by.epam.tr.dao.DaoException;
-
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -15,4 +13,5 @@ public interface CrewService {
     User findMainPilot(String crewName) throws ServiceException;
     List<String> allCrews() throws ServiceException;
     Set<String> findFreeCrewsForFlight(Flight flight) throws ServiceException;
+    boolean setCrewForFlight(String crewName, String flightNumber) throws ServiceException;
 }

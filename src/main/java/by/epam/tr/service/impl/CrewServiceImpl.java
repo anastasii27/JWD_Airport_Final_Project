@@ -109,4 +109,13 @@ public class CrewServiceImpl implements CrewService {
 
         return lastFlightArrival.plusHours(3).isBefore(newFlightDeparture) ;
     }
+
+    @Override
+    public boolean setCrewForFlight(String crewName, String flightNumber) throws ServiceException {
+        try {
+            return dao.setCrewForFlight(crewName, flightNumber) != 0;
+        } catch (DaoException e) {
+            throw new ServiceException("Exception during crew to flight setting", e);
+        }
+    }
 }

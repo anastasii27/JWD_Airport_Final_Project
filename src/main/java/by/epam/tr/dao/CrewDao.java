@@ -10,4 +10,5 @@ public interface CrewDao {
     int deleteCrew(String crewName) throws DaoException;
     User findMainPilot(String crewName) throws DaoException;
     List<String> allCrews() throws DaoException;
+    int setCrewForFlight(String crewName, String flightNumber) throws DaoException;
 }

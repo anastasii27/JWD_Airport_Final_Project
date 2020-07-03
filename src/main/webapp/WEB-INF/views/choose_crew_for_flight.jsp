@@ -22,10 +22,37 @@
     </head>
     <body>
         <jsp:include page="parts/header.jsp"/>
-        <c:forEach items="${requestScope.crew}" var="crew_item">
-            <ul class="list-group crews">
-                <li class="list-group-item" value="${crew_item}">${crew_item}</li>
-            </ul>
-        </c:forEach>
+
+        <table class ="table" id="crew_table" border="2">
+            <tr>
+                <th>НАЗВАНИЕ ЭКИПАЖА</th><th>СОСТАВ ЭКИПАЖА</th>
+            </tr>
+            <c:forEach items="${requestScope.crew_members}" var="entry">
+                <tr>
+                    <td class="crew_name">${entry.key}</td>
+                    <td>
+                        <p><b>Pilots:</b>
+                            <c:forEach items="${entry.value}" var="user">
+                                <c:if test = "${user.role eq 'pilot'}">
+                                     ${user.name} ${user.surname}
+                                </c:if>
+                            </c:forEach>
+                        </p>
+                        <p><b>Stewards:</b>
+                            <c:forEach items="${entry.value}" var="user">
+                                <c:if test = "${user.role eq 'steward'}">
+                                    ${user.name} ${user.surname}
+                                </c:if>
+                            </c:forEach>
+                        </p>
+                    </td>
+                </tr>
+            </c:forEach>
+        </table>
+        <div id="choose_crew_btn">
+            <button type="button" class="btn btn-info">
+                <span class="edit">СОЗДАТЬ РЕЙС</span>
+            </button>
+        </div>
     </body>
 </html>

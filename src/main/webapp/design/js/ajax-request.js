@@ -200,6 +200,24 @@ $(document).ready(function ($) {
             }
         }
     });
+
+    $('#choose_crew_btn').on('click', function () {
+        let crewName = $('.clicked td').eq(0).text();
+
+        $.ajax({
+            type: "GET",
+            url: "/JWD_Task3_war/ajax",
+            dataType:'json',
+            data: {command: 'set_crew_for_flight',crew_name: crewName},
+
+            success: function (data) {
+               alert('created')
+            },
+            error: function (data) {
+               alert('not created')
+            }
+        });
+    })
 });
 
 function showCrewAjax(crewName) {

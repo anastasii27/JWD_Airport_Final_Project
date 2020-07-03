@@ -43,4 +43,5 @@ public final class RequestParameterName {
     public static final String DESTINATION_DATE = "destination_date";
     public static final String DESTINATION_TIME = "destination_time";
     public static final String DESTINATION_COUNTRY= "destination_country";
+    public static final String CREW_MEMBERS= "crew_members";
 }
