@@ -13,6 +13,7 @@ import java.io.IOException;
 
 @Log4j2
 public class SetCrewForFlight implements Command {
+    private static final String OPERATION_FAIL = "false";
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) {
@@ -24,15 +25,16 @@ public class SetCrewForFlight implements Command {
         try {
             if(flight!= null){
                 boolean operationResult = crewService.setCrewForFlight(crewName, flight.getFlightNumber());
+
                 response.getWriter().write(String.valueOf(operationResult));
                 request.getSession().removeAttribute(RequestParameterName.FLIGHT);
             }else {
-                response.getWriter().write("false");
+                response.getWriter().write(OPERATION_FAIL);
             }
         } catch (ServiceException e) {
             log.error("Cannot execute ajax command for crew to flight setting", e);
         } catch (IOException e) {
-            log.error("Cannot write json to response", e);
+            log.error("Cannot write response", e);
         }
     }
 }

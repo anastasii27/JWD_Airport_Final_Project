@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 @Log4j2
-public class FlightInformation implements Command {
+public class FlightInformation implements Command {//todo delete and make modal window
     private static final String ANSWER = "No information";
 
     @Override

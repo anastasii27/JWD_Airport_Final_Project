@@ -66,7 +66,7 @@ public class FlightServiceImpl implements FlightService {
         try {
             return dao.allFlightByDay(params.get("departure_date"));
         } catch (DaoException e) {
-            throw new ServiceException("Exception during flight creating", e);
+            throw new ServiceException("Exception during all flights by day getting", e);
         }
     }
 
@@ -75,7 +75,16 @@ public class FlightServiceImpl implements FlightService {
         try {
             return dao.doesFlightNumberExist(flightNumber);
         } catch (DaoException e) {
-            throw new ServiceException("Exception during flight creating", e);
+            throw new ServiceException("Exception during flight existence check", e);
+        }
+    }
+
+    @Override
+    public boolean deleteFlight(String flightNumber, String departureDate) throws ServiceException {
+        try {
+            return dao.deleteFlight(flightNumber, departureDate) != 0;
+        } catch (DaoException e) {
+            throw new ServiceException("Exception during flight deleting", e);
         }
     }
 }

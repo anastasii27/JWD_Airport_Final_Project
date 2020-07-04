@@ -29,7 +29,7 @@ public class FindFreePlane implements Command {
         try {
             planes = planeService.freePlanesAtAirport(airportName);
 
-            String planesGson = GsonConverter.convertListToGSON(planes);
+            String planesGson = GsonConverter.convertToGson(planes);
             response.getWriter().write(planesGson);
         } catch (ServiceException e) {
             log.error("Cannot execute ajax command for free planes searching", e);

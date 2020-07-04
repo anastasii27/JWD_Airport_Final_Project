@@ -23,20 +23,20 @@
         <c:set var = "result" value = "${requestScope.result}"/>
         <div id="table">
             <c:if test = "${result eq null}">
-                <table class ="table" border="2">
+                <table class ="table" border="2" id ="flights_table">
                     <tr>
                         <th>${flight_label}</th><th>${dep_time_label}</th>
                         <th>${dep_city_label}</th><th>${dest_city_label}</th>
                         <th>${plane_label}</th><th>${status_label}</th>
                     </tr>
                     <c:forEach items="${requestScope.flight}" var="flight_item">
-                        <tr onclick="document.location.href= '${pageContext.request.contextPath}/airport?action=show_flight_info&flight_number=${flight_item.flightNumber}&departure_date=${flight_item.departureDate}'">
-                            <td>${flight_item.flightNumber}</td>
-                            <td>${flight_item.departureTime}</td>
-                            <td>${flight_item.departureCity}(${flight_item.departureAirportShortName})</td>
-                            <td>${flight_item.destinationCity}(${flight_item.destinationAirportShortName})</td>
-                            <td>${flight_item.planeModel}</td>
-                            <td>${flight_item.status}</td>
+                        <tr class ="flights">
+                            <td onclick="document.location.href= '${pageContext.request.contextPath}/airport?action=show_flight_info&flight_number=${flight_item.flightNumber}&departure_date=${flight_item.departureDate}'">${flight_item.flightNumber}</td>
+                            <td onclick="document.location.href= '${pageContext.request.contextPath}/airport?action=show_flight_info&flight_number=${flight_item.flightNumber}&departure_date=${flight_item.departureDate}'">${flight_item.departureTime}</td>
+                            <td onclick="document.location.href= '${pageContext.request.contextPath}/airport?action=show_flight_info&flight_number=${flight_item.flightNumber}&departure_date=${flight_item.departureDate}'">${flight_item.departureCity}(${flight_item.departureAirportShortName})</td>
+                            <td onclick="document.location.href= '${pageContext.request.contextPath}/airport?action=show_flight_info&flight_number=${flight_item.flightNumber}&departure_date=${flight_item.departureDate}'">${flight_item.destinationCity}(${flight_item.destinationAirportShortName})</td>
+                            <td onclick="document.location.href= '${pageContext.request.contextPath}/airport?action=show_flight_info&flight_number=${flight_item.flightNumber}&departure_date=${flight_item.departureDate}'">${flight_item.planeModel}</td>
+                            <td onclick="document.location.href= '${pageContext.request.contextPath}/airport?action=show_flight_info&flight_number=${flight_item.flightNumber}&departure_date=${flight_item.departureDate}'">${flight_item.status}</td>
                         </tr>
                     </c:forEach>
                 </table>

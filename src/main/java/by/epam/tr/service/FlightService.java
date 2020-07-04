@@ -10,4 +10,5 @@ public interface FlightService {
     boolean createFlight(Flight flight) throws ServiceException;
     List<Flight> allFlightByDay(Map<String, String> params) throws ServiceException;
     boolean doesFlightNumberExist(String flightNumber) throws ServiceException;
+    boolean deleteFlight(String flightNumber, String departureDate) throws ServiceException;
 }

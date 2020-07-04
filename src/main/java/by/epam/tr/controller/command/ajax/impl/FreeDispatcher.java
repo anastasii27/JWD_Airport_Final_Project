@@ -34,7 +34,7 @@ public class FreeDispatcher implements Command {
         try {
             List<User> freeDispatchers = userService.freeDispatchers(date, time, airportName);
 
-            String freeDispatchersGson = GsonConverter.convertListToGSON(freeDispatchers);
+            String freeDispatchersGson = GsonConverter.convertToGson(freeDispatchers);
             response.getWriter().write(freeDispatchersGson);
         } catch (ServiceException e) {
             log.error("Cannot execute ajax command for free dispatcher searching", e);

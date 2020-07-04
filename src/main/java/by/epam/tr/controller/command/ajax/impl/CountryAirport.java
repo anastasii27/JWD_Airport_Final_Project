@@ -25,7 +25,7 @@ public class CountryAirport implements Command {
         try {
             countries = listCreatorService.createCityWithAirportList(country);
 
-            String countriesGson = GsonConverter.convertListToGSON(countries);
+            String countriesGson = GsonConverter.convertToGson(countries);
             response.getWriter().write(countriesGson);
         } catch (ServiceException e) {
             log.error("Cannot execute ajax command for country airport searching", e);

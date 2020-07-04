@@ -14,12 +14,12 @@ $(document).ready(function ($) {
         maxDate: getMaxDate(1)
     });
 
-    $('#dep_flights_piker').datepicker({
+    $('#dep_flights_piker, #edit_dep_flights_piker').datepicker({
         dateFormat: 'yyyy-mm-dd',
         firstDay: 1
     });
 
-    $('#dest_flights_piker').datepicker({
+    $('#dest_flights_piker, #edit_dest_flights_piker').datepicker({
         dateFormat: 'yyyy-mm-dd',
         firstDay: 1
     });
@@ -103,6 +103,10 @@ $(document).ready(function ($) {
         $(this).css('background', 'red');
         $(this).addClass('clicked');
     });
+
+    //admin flights
+    $('#flights_table .flights').append('<button type="button" class="delete_flight_btn" >&times;</button>' +
+        '<button type="button" class="edit_flight_btn" data-toggle="modal" data-target="#flight_edit_modal">&#9998;</button>')
 });
 
 function getMaxDate(days) {

@@ -11,7 +11,7 @@ $(document).ready(function ($) {
             departure_date:{
                 required: true,
                 date_pattern_check: true,
-                legal_date: true
+                legal_date_check: true
             }
         },
 

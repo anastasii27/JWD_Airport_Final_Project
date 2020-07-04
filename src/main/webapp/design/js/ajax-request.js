@@ -13,11 +13,11 @@ $(document).ready(function ($) {
     });
 
     //crew edition
-    $('.delete_crew_btn').on('click', function () {//todo переделать success
+    $('.delete_crew_btn').on('click', function () {
         let resultConfirm = confirm("Are you really want to delete?");
 
         if(resultConfirm===true){
-            $(this).parent().remove();
+            let liToDelete =  $(this).parent();
             $.ajax({
                 type: "POST",
                 url: "/JWD_Task3_war/ajax",
@@ -25,6 +25,12 @@ $(document).ready(function ($) {
                 data: {command: 'delete_crew',crew_name: crewName},
 
                 success: function (data) {
+                    if(data===true){
+                        $(liToDelete).remove();
+                        $('.crew_members ').hide();
+                    }else {
+                        //todo mes
+                    }
                 },
                 error: function (data) {
                     $('.crew_members ').hide();
@@ -210,11 +216,72 @@ $(document).ready(function ($) {
             dataType:'json',
             data: {command: 'set_crew_for_flight',crew_name: crewName},
 
-            success: function (data) {
-               alert('created')
+            success: function (data) {//todo modal
+                if(data === true){
+                    //
+                }else {
+
+                }
             },
             error: function (data) {
                alert('not created')
+            }
+        });
+    });
+
+    $(document).on('click', '.delete_flight_btn', function () {
+        let flightNumber = $(this).parent().find('td').eq(0).text();
+        let rowToDelete = $(this).parent();
+        let departureDate = $('#btn').attr('dep_date');
+
+        $.ajax({
+            type: "POST",
+            url: "/JWD_Task3_war/ajax",
+            dataType:'json',
+            data: {command: 'delete_flight', flight_number: flightNumber, departure_date:departureDate},
+
+            success: function (data) {
+                if(data === true){
+                    $(rowToDelete).remove();
+                }else {
+                    alert("fuck")// todo message
+                }
+            },
+            error: function (data) {
+                alert('fuck') // todo message
+            }
+        });
+    });
+
+    $(document).on('click', '.edit_flight_btn',  function () {
+        let flightNumber = $(this).parent().find('td').eq(0).text();
+        let departureDate = $('#btn').attr('dep_date');
+
+        $.ajax({
+            type: "GET",
+            url: "/JWD_Task3_war/ajax",
+            dataType:'json',
+            data: {command: 'flight_info', flight_number: flightNumber, departure_date:departureDate},
+
+            success: function (data) {
+                if(data.length!==0){
+                    $('#edit_flight_number').val(data.flightNumber);
+                    $('#edit_planes').append('<option selected>' + data.plane.model + '  ' + data.plane.number + '</option>');
+
+                    $('#edit_dep_flights_piker').val(data.departureDate.year + '-' + data.departureDate.month + '-' + data.departureDate.day);
+                    $('#edit_dep_time').val(data.departureTime.hour + ":" + data.departureTime.minute );
+                    $('#edit_dep_airport').append('<option selected>' + data.departureAirportShortName + '</option>');
+                    $('#edit_dep_country_edit').append('<p>' + data.departureCountry + '</p>');
+
+                    $('#edit_dest_flights_piker').val(data.destinationDate.year + '-' + data.destinationDate.month + '-' + data.destinationDate.day);
+                    $('#edit_dest_time').val(data.destinationTime.hour + ":" + data.destinationTime.minute);
+                    $('#edit_dest_airport').append('<option selected>' + data.destinationAirportShortName + '</option>');
+                    $('#edit_dest_country_edit').append('<p>' + data.destinationCountry + '</p>');
+
+                }
+            },
+            error: function (data) {
+                alert('fuck') // todo message
             }
         });
     })

@@ -1,6 +1,7 @@
 package by.epam.tr.dao.impl;
 
 import by.epam.tr.bean.Flight;
+import by.epam.tr.bean.Plane;
 import by.epam.tr.dao.DaoException;
 import by.epam.tr.dao.FlightDao;
 import by.epam.tr.dao.connectionpool.ConnectionPool;
@@ -31,15 +32,17 @@ public class FlightDaoImpl implements FlightDao, CloseOperation {
             "JOIN `plane-models` ON `plane-models`.id = (SELECT `model-id` FROM planes WHERE planes.id = `plane-id`)\n" +
             "WHERE `destination-date` = ? AND a1.`name-abbreviation` = ?;";
 
-    private final static String FLIGHT_INFO =   "SELECT `status`,`destination-date`, `destination-time`, a2.`name` AS `departure-airport`," +
+    private final static String FLIGHT_INFO =   "SELECT `flight-number`, `number` AS `plane-number`, title AS 'plane-model', `status`,`destination-date`, `destination-time`, a2.`name` AS `departure-airport`," +
             "c2.`name` AS `departure-city`, cnt2.`name` AS `departure-country`,  a2.`name-abbreviation` AS `dep-airport-short-name`, \n" +
             "`departure-date`, `departure-time`, a1.`name` AS `destination-airport`, c1.`name` AS `destination-city` , " +
             "cnt1.`name` AS `destination-country`, a1.`name-abbreviation` AS `dest-airport-short-name`\n" +
             "FROM flights\n" +
+            "JOIN `planes` ON  planes.id = `plane-id`\n" +
+            "JOIN `plane-models` ON `plane-models`.id = (SELECT `model-id` FROM planes WHERE planes.id = `plane-id`)\n"+
             "JOIN airports AS a1 ON  a1.id = flights.`destination-airport-id`\n" +
             "JOIN cities AS c1 ON c1.id = (SELECT `city-id` FROM airports WHERE airports.`name` = a1.`name`)\n" +
             "JOIN countries AS cnt1 ON cnt1.id = c1.`country-id`\n" +
-            "JOIN airports AS a2 ON \ta2.id = flights.`departure-airport-id`\n" +
+            "JOIN airports AS a2 ON a2.id = flights.`departure-airport-id`\n" +
             "JOIN cities AS c2 ON c2.id = (SELECT `city-id` FROM airports WHERE airports.`name` = a2.`name`)\n" +
             "JOIN countries AS cnt2 ON cnt2.id = c2.`country-id`\n" +
             "WHERE `flight-number` = ? AND `departure-date` = ?;\n";
@@ -65,6 +68,8 @@ public class FlightDaoImpl implements FlightDao, CloseOperation {
             "JOIN airports AS a2 ON a2.id = flights.`departure-airport-id`\n" +
             "JOIN cities AS c2 ON  c2.id = (SELECT `city-id` FROM airports WHERE airports.`name` = a2.`name`)" +
             "WHERE `departure-date` = ?;";
+
+    private final static String DELETE_FLIGHT = "DELETE FROM flights WHERE `flight-number` = ? AND `departure-date` = ?";
 
     @Override
     public List<Flight> airportArrivals(Map<String, String> params) throws DaoException {
@@ -131,6 +136,7 @@ public class FlightDaoImpl implements FlightDao, CloseOperation {
         Flight flight;
 
         try {
+            pool.poolInitialization();
             connection = pool.takeConnection();
             ps =  connection.prepareStatement(FLIGHT_INFO);
 
@@ -141,7 +147,8 @@ public class FlightDaoImpl implements FlightDao, CloseOperation {
             if(!rs.next()){
                 return null;
             }
-            flight = Flight.builder().status(rs.getString("status"))
+            flight = Flight.builder().flightNumber(rs.getString("flight-number"))
+                                    .status(rs.getString("status"))
                                     .destinationDate(rs.getDate("destination-date").toLocalDate())
                                     .destinationTime( rs.getTime("destination-time").toLocalTime())
                                     .destinationAirport( rs.getString("destination-airport"))
@@ -153,7 +160,9 @@ public class FlightDaoImpl implements FlightDao, CloseOperation {
                                     .departureAirport( rs.getString("departure-airport"))
                                     .departureCity( rs.getString("departure-city"))
                                     .departureCountry(rs.getString("departure-country"))
-                                    .departureAirportShortName( rs.getString("dep-airport-short-name")).build();
+                                    .departureAirportShortName( rs.getString("dep-airport-short-name"))
+                                    .plane(new Plane(rs.getString("plane-model"), rs.getString("plane-number")))
+                                    .build();
 
         } catch (ConnectionPoolException | SQLException e) {
             throw new DaoException("Exception during flight info selecting!", e);
@@ -247,5 +256,26 @@ public class FlightDaoImpl implements FlightDao, CloseOperation {
             closeAll(rs, ps, pool, connection);
         }
         return flights;
+    }
+
+    @Override
+    public int deleteFlight(String flightNumber, String departureDate) throws DaoException {
+        ConnectionPool pool = ConnectionPool.getInstance();
+        Connection connection = null;
+        PreparedStatement ps = null;
+
+        try {
+            connection = pool.takeConnection();
+            ps =  connection.prepareStatement(DELETE_FLIGHT);
+
+            ps.setString(1, flightNumber);
+            ps.setString(2, departureDate);
+
+            return ps.executeUpdate();
+        } catch (ConnectionPoolException | SQLException e) {
+            throw new DaoException("Exception during nearest flight selecting!", e);
+        }finally{
+            closeAll(ps, pool, connection);
+        }
     }
 }

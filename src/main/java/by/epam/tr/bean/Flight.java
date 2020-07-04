@@ -11,7 +11,7 @@ import java.util.Comparator;
 @Builder
 public class Flight implements Serializable {
     private String status;
-    private String planeModel;
+    private String planeModel;//todo продумать
     private String planeNumber;
     private LocalDate departureDate;
     private LocalTime departureTime;
@@ -28,6 +28,7 @@ public class Flight implements Serializable {
     private String flightNumber;
     private String crewName;
     private User dispatcher;
+    private Plane plane;
 
     public static final Comparator<Flight> SORT_BY_TIME_AND_DATE = new Comparator<Flight>() {
         @Override

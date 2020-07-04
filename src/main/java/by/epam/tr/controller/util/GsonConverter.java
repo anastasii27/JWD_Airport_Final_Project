@@ -5,8 +5,8 @@ import java.util.List;
 
 public class GsonConverter {
 
-    public static String convertListToGSON(List list){
+    public static String convertToGson(Object object){
         Gson gson = new Gson();
-        return gson.toJson(list);
+        return gson.toJson(object);
     }
 }
