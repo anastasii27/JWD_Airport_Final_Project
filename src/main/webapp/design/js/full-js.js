@@ -107,6 +107,10 @@ $(document).ready(function ($) {
     //admin flights
     $('#flights_table .flights').append('<button type="button" class="delete_flight_btn" >&times;</button>' +
         '<button type="button" class="edit_flight_btn" data-toggle="modal" data-target="#flight_edit_modal">&#9998;</button>')
+
+    $("#flight_edit_modal").on("hidden.bs.modal", function () {
+        $('#edit_dest_country p, #edit_dep_country p, #edit_planes option, #edit_dest_airport option, #edit_dep_airport option').remove()
+    });
 });
 
 function getMaxDate(days) {
@@ -152,4 +156,19 @@ function getCrewName(value){
 function getCrewMemberName(value){
     let end = value.lastIndexOf(" ");
     return value.substring(0, end);
+}
+
+function addZeroBeforeValue(value){
+    if(value.toString().length === 1){
+       return "0".concat(value);
+    }
+    return value;
+}
+
+function setFlightStatus(status) {
+    $('#edit_status').each(function () {
+        if($(this).text()=== status){
+            $(this).prop('selected', true);
+        }
+    });
 }

@@ -62,15 +62,12 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="exampleModalLongTitle">Изменение рейса</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
                     </div>
                     <div class="modal-body">
                         <form action="airport" method="post" id="edit_flight">
                             <div class="row">
                                 <div class="form-group">
-                                    <input type="hidden" name="action" value="create_flight" />
+                                    <input type="hidden" name="action" value="edit_flight" />
                                     <label for="edit_flight_number"> НОМЕР РЕЙСА</label>
                                     <input type="text" id="edit_flight_number" name="flight_number"/>
                                 </div>
@@ -78,6 +75,22 @@
                                     <label for="edit_planes">САМОЛЕТ</label>
                                     <select name= "planes" id="edit_planes">
 
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="edit_crew">ЭКИПАЖ</label>
+                                    <select name= "crews" id="edit_crew">
+
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="edit_status">СТАТУС</label>
+                                    <select name= "status" id="edit_status">
+                                        <option>Scheduled</option>
+                                        <option>Canceled</option>
+                                        <option>Arrived</option>
+                                        <option>Delayed</option>
+                                        <option>Departed</option>
                                     </select>
                                 </div>
                             </div>
@@ -93,7 +106,7 @@
                                         <label for="edit_dep_time">ВРЕМЯ ОТПРАВЛЕНИЯ</label>
                                         <input type='time' name="departure_time" id= "edit_dep_time"/>
                                     </div>
-                                    <div class="form-group row" id="edit_dep_country_edit">
+                                    <div class="form-group row" id="edit_dep_country">
                                         <label>СТРАНА ОТПРАВЛЕНИЯ</label>
 
                                     </div>
@@ -115,7 +128,7 @@
                                         <label for="edit_dest_time">ВРЕМЯ ПРИБЫТИЯ</label>
                                         <input type='time' name="destination_time" id= "edit_dest_time"/>
                                     </div>
-                                    <div class="form-group row" id="edit_dest_country_edit">
+                                    <div class="form-group row" id="edit_dest_country">
                                         <label>СТРАНА ПРИБЫТИЯ</label>
 
                                     </div>
@@ -127,7 +140,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <input type="submit" class="btn btn-primary" value="СОЗДАТЬ"/>
+                            <input type="submit" class="btn btn-primary" value="ИЗМЕНИТЬ"/>
                         </form>
                     </div>
                 </div>

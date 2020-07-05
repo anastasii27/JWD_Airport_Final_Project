@@ -16,7 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.Set;
 
 @Log4j2
-public class FreeCrewsForFlight implements Command {
+public class ChooseCrewForFlight implements Command {
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) {
@@ -33,7 +33,7 @@ public class FreeCrewsForFlight implements Command {
                 request.setAttribute(RequestParameterName.CREW_MEMBERS, freeCrewsWithMembers.asMap());
                 forwardTo(request, response, JSPPageName.FREE_CREWS_FOR_FLIGHT);
             }else {
-                //
+                //todo answer
             }
         } catch (ServiceException e) {
             log.error("Cannot execute command for free flight searching", e);

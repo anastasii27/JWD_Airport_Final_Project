@@ -17,13 +17,14 @@ public final class AjaxCommandProvider {
         commands.put(AjaxCommandName.DELETE_CREW_MEMBER, new DeleteCrewMember());
         commands.put(AjaxCommandName.ADD_CREW_MEMBER, new AddCrewMember());
         commands.put(AjaxCommandName.FIND_MAIN_PILOT, new CrewMainPilot());
-        commands.put(AjaxCommandName.FIND_FREE_PLANE, new FindFreePlane());
+        commands.put(AjaxCommandName.FIND_FREE_PLANE, new FreePlane());
         commands.put(AjaxCommandName.FIND_COUNTRY_AIRPORT, new CountryAirport());
         commands.put(AjaxCommandName.FIND_FREE_DISPATCHER, new FreeDispatcher());
         commands.put(AjaxCommandName.CHECK_FLIGHT_NUMBER, new FlightNumberExistence());
         commands.put(AjaxCommandName.SET_CREW_FOR_FLIGHT, new SetCrewForFlight());
         commands.put(AjaxCommandName.DELETE_FLIGHT, new DeleteFlight());
         commands.put(AjaxCommandName.FLIGHT_INFO, new FlightInformation());
+        commands.put(AjaxCommandName.FIND_FREE_CREW, new FreeCrew());
     }
 
     public Command getCommand(String name){

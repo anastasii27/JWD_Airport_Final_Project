@@ -15,7 +15,7 @@ import java.io.IOException;
 import java.util.List;
 
 @Log4j2
-public class FindFreePlane implements Command {
+public class FreePlane implements Command {
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) {

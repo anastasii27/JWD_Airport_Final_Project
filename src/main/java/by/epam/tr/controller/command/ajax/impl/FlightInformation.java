@@ -31,7 +31,6 @@ public class FlightInformation implements Command {
             if (flight != null) {
                 flightGson = GsonConverter.convertToGson(flight);
             }
-
             response.getWriter().write(flightGson);
         } catch (ServiceException e) {
             log.error("Cannot execute ajax command for flight information getting", e);
