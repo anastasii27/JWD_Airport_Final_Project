@@ -26,7 +26,7 @@ public class Flight implements Serializable {
     private String destinationAirportShortName;
     private String departureAirportShortName;
     private String flightNumber;
-    private String crewName;
+    private String crew;
     private User dispatcher;
     private Plane plane;
 

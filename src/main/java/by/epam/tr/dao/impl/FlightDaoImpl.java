@@ -54,8 +54,9 @@ public class FlightDaoImpl implements FlightDao, CloseOperation {
             "(SELECT id FROM airports WHERE `name-abbreviation` = ?), (SELECT id FROM airports WHERE `name-abbreviation` = ?), ?, ?,\n" +
             "?, ?, ?, (SELECT id FROM users WHERE `name` = ? AND surname = ?));";
 
-    private final static String DOES_FLIGHT_NUMBER_EXIST = "SELECT `destination-date` FROM airport.flights WHERE `flight-number` = ?" +
-            "AND `departure-date` = current_date() OR `destination-date` = current_date()";
+    private final static String DOES_FLIGHT_NUMBER_EXIST = "SELECT `destination-date` FROM airport.flights " +
+            "WHERE `flight-number` = ? AND `departure-date` = current_date() " +
+            "OR `flight-number` = ? AND `destination-date` = current_date()";
 
     private final static String ALL_FLIGHTS_BY_DAY = "SELECT `flight-number`, title AS `plane-model`, `departure-date`," +
             "`departure-time`, `destination-date`, `destination-time`, \n" +
@@ -136,7 +137,6 @@ public class FlightDaoImpl implements FlightDao, CloseOperation {
         Flight flight;
 
         try {
-            pool.poolInitialization();
             connection = pool.takeConnection();
             ps =  connection.prepareStatement(FLIGHT_INFO);
 
@@ -213,8 +213,10 @@ public class FlightDaoImpl implements FlightDao, CloseOperation {
             connection = pool.takeConnection();
             ps =  connection.prepareStatement(DOES_FLIGHT_NUMBER_EXIST);
             ps.setString(1, flightNumber);
+            ps.setString(2, flightNumber);
 
             rs = ps.executeQuery();
+
             return rs.next();
         }catch (ConnectionPoolException | SQLException e) {
             throw new DaoException("Exception during flight number existence checking!", e);

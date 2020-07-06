@@ -1,5 +1,6 @@
 package by.epam.tr.controller.command.ajax.impl;
 
+import by.epam.tr.bean.Flight;
 import by.epam.tr.bean.Plane;
 import by.epam.tr.controller.command.Command;
 import by.epam.tr.controller.constant_parameter.RequestParameterName;
@@ -12,10 +13,11 @@ import lombok.extern.log4j.Log4j2;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.List;
 
 @Log4j2
-public class FreePlane implements Command {
+public class FreePlane implements Command {//todo valid
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) {
@@ -23,11 +25,17 @@ public class FreePlane implements Command {
         List<Plane> planes;
         String cityWithAirport;
         String airportName;
+        String departureDate;
 
         cityWithAirport = request.getParameter(RequestParameterName.DEPARTURE_AIRPORT);
+        departureDate = request.getParameter(RequestParameterName.DEPARTURE_DATE);
         airportName = RequestParametersExtractor.airportName(cityWithAirport);
+
+        Flight flight = Flight.builder().departureAirportShortName(airportName)
+                                        .departureDate(LocalDate.parse(departureDate)).build();
+
         try {
-            planes = planeService.freePlanesAtAirport(airportName);
+            planes = planeService.freePlanesForFlight(flight);
 
             String planesGson = GsonConverter.convertToGson(planes);
             response.getWriter().write(planesGson);

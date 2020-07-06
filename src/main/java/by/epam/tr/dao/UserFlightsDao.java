@@ -10,5 +10,6 @@ public interface UserFlightsDao{
     List<Flight> userFlights(Map<String, String > params) throws DaoException;
     List<Flight> nearestUserFlights(String surname, String email, LocalDate lastDayOfRange) throws DaoException;
     List<Flight> dispatcherFlights(String surname, String email) throws DaoException;
-    Flight lastUserFlight(User user) throws DaoException;
+    Flight lastUserFlightBeforeDate(User user, LocalDate date) throws DaoException;
+    Flight firstUserFlightAfterDate(User user, LocalDate date) throws DaoException;
 }

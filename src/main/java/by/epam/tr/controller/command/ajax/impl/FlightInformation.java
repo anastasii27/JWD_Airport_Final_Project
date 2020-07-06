@@ -4,6 +4,7 @@ import by.epam.tr.bean.Flight;
 import by.epam.tr.controller.command.Command;
 import by.epam.tr.controller.constant_parameter.RequestParameterName;
 import by.epam.tr.controller.util.GsonConverter;
+import by.epam.tr.service.CrewService;
 import by.epam.tr.service.FlightService;
 import by.epam.tr.service.ServiceException;
 import by.epam.tr.service.ServiceFactory;
@@ -18,7 +19,7 @@ public class FlightInformation implements Command {
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) {
         FlightService flightService = ServiceFactory.getInstance().getFlightService();
-        Flight flight;
+        CrewService crewService = ServiceFactory.getInstance().getCrewService();
         String flightNumber;
         String departureDate;
         String flightGson = "";
@@ -26,9 +27,11 @@ public class FlightInformation implements Command {
         flightNumber = request.getParameter(RequestParameterName.FLIGHT_NUMBER);
         departureDate = request.getParameter(RequestParameterName.DEPARTURE_DATE);
         try {
-            flight = flightService.flightInfo(flightNumber, departureDate);
+            Flight flight = flightService.flightInfo(flightNumber, departureDate);
 
             if (flight != null) {
+                String flightCrew = crewService.flightCrew(flight);
+                flight.setCrew(flightCrew);
                 flightGson = GsonConverter.convertToGson(flight);
             }
             response.getWriter().write(flightGson);

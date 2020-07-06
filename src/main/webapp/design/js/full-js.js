@@ -96,6 +96,10 @@ $(document).ready(function ($) {
         }
     });
 
+    $('#dep_airport').on('change', function () {
+        $('#planes option').remove();
+    });
+
     //choose crew
     $('#crew_table').on('click','tr', function () {
         $('tr').css('background', '');
@@ -109,7 +113,7 @@ $(document).ready(function ($) {
         '<button type="button" class="edit_flight_btn" data-toggle="modal" data-target="#flight_edit_modal">&#9998;</button>')
 
     $("#flight_edit_modal").on("hidden.bs.modal", function () {
-        $('#edit_dest_country p, #edit_dep_country p, #edit_planes option, #edit_dest_airport option, #edit_dep_airport option').remove()
+        $('#edit_dest_country p, #edit_dep_country p, #edit_planes option, #edit_dest_airport option, #edit_dep_airport option, #edit_crew option').remove()
     });
 });
 

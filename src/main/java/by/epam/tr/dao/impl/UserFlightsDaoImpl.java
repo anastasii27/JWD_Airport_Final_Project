@@ -59,14 +59,26 @@ public class UserFlightsDaoImpl implements UserFlightsDao, CloseOperation {
             "AND `departure-date` BETWEEN current_date() AND date_add(current_date(), interval 1 day)\n" +
             "AND c2.`name`= 'Minsk';";
 
-    private final static String LAST_USER_FLIGHT = "SELECT `name-abbreviation` AS `dest-airport-short-name`, `destination-time`," +
-            "`destination-date`\n" +
+    private final static String LAST_USER_FLIGHT_BEFORE_DATE = "SELECT `name-abbreviation` AS `dest-airport-short-name`," +
+            "`destination-time`, `destination-date`\n" +
             "FROM flights\n" +
-            "JOIN airports AS a1 ON  a1.id = flights.`destination-airport-id`\n" +
+            "JOIN airports ON airports.id = flights.`destination-airport-id`\n" +
             "JOIN `flight-teams` ON  flights.`flight-team-id` = `flight-teams`.id\n" +
             "JOIN `flight-teams-m2m-users` ON   `flight-teams-m2m-users`.`flight-team-id` = `flight-teams`.id \n" +
-            "WHERE `user-id` = (SELECT id FROM users WHERE surname = ?  AND email = ?)  \n" +
+            "WHERE `user-id` = (SELECT id FROM users WHERE surname = ?  AND email = ?)\n" +
+            "AND `destination-date`< ?\n" +
             "ORDER BY `destination-date` DESC, `destination-time` DESC LIMIT 1";
+
+    private final static String FIRST_USER_FLIGHT_AFTER_DATE = "SELECT `name-abbreviation` AS `dep-airport-short-name`," +
+            "`departure-time`, `departure-date`\n" +
+            "FROM flights\n" +
+            "JOIN airports ON  airports.id = flights.`departure-airport-id`\n" +
+            "JOIN `flight-teams` ON  flights.`flight-team-id` = `flight-teams`.id\n" +
+            "JOIN `flight-teams-m2m-users` ON  `flight-teams-m2m-users`.`flight-team-id` = `flight-teams`.id \n" +
+            "WHERE `user-id` = (SELECT id FROM users WHERE surname = ?  AND email = ?)\n" +
+            "AND `departure-date` > ?\n" +
+            "ORDER BY `departure-date`, `departure-time` LIMIT 1";
+
     @Override
     public List<Flight> userFlights(Map<String, String> params) throws DaoException {
         ConnectionPool pool = ConnectionPool.getInstance();
@@ -183,7 +195,7 @@ public class UserFlightsDaoImpl implements UserFlightsDao, CloseOperation {
     }
 
     @Override
-    public Flight lastUserFlight(User user) throws DaoException {
+    public Flight lastUserFlightBeforeDate(User user, LocalDate departureDate) throws DaoException {
         ConnectionPool pool = ConnectionPool.getInstance();
         Connection connection = null;
         PreparedStatement ps = null;
@@ -192,16 +204,47 @@ public class UserFlightsDaoImpl implements UserFlightsDao, CloseOperation {
 
         try {
             connection = pool.takeConnection();
-            ps =  connection.prepareStatement(LAST_USER_FLIGHT);
+            ps =  connection.prepareStatement(LAST_USER_FLIGHT_BEFORE_DATE);
 
             ps.setString(1, user.getSurname());
             ps.setString(2, user.getEmail());
+            ps.setDate(3, Date.valueOf(departureDate));
 
             rs = ps.executeQuery();
             if(rs.next()) {
                 flight = Flight.builder().destinationDate(rs.getDate("destination-date").toLocalDate())
                         .destinationTime(rs.getTime("destination-time").toLocalTime())
                         .destinationAirportShortName(rs.getString("dest-airport-short-name")).build();
+            }
+        } catch (ConnectionPoolException | SQLException e) {
+            throw new DaoException("Exception during nearest flight selecting!", e);
+        }finally{
+            closeAll(rs, ps, pool, connection);
+        }
+        return flight;
+    }
+
+    @Override
+    public Flight firstUserFlightAfterDate(User user, LocalDate date) throws DaoException {
+        ConnectionPool pool = ConnectionPool.getInstance();
+        Connection connection = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        Flight flight = null;
+
+        try {
+            connection = pool.takeConnection();
+            ps =  connection.prepareStatement(FIRST_USER_FLIGHT_AFTER_DATE);
+
+            ps.setString(1, user.getSurname());
+            ps.setString(2, user.getEmail());
+            ps.setDate(3, Date.valueOf(date));
+
+            rs = ps.executeQuery();
+            if(rs.next()) {
+                flight = Flight.builder().departureDate(rs.getDate("departure-date").toLocalDate())
+                        .departureTime(rs.getTime("departure-time").toLocalTime())
+                        .departureAirportShortName(rs.getString("dep-airport-short-name")).build();
             }
         } catch (ConnectionPoolException | SQLException e) {
             throw new DaoException("Exception during nearest flight selecting!", e);

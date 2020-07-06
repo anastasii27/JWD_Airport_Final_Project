@@ -1,13 +1,14 @@
 package by.epam.tr.dao.impl;
 
+import by.epam.tr.bean.Flight;
 import by.epam.tr.bean.User;
 import by.epam.tr.dao.CrewDao;
 import by.epam.tr.dao.DaoException;
 import by.epam.tr.dao.connectionpool.ConnectionPool;
 import by.epam.tr.dao.connectionpool.ConnectionPoolException;
 import lombok.extern.log4j.Log4j2;
-
 import java.sql.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -45,6 +46,10 @@ public class CrewDaoImpl implements CrewDao, CloseOperation {
     private final static String SET_CREW_FOR_FLIGHT = "UPDATE flights SET  `flight-team-id` =" +
             "(SELECT id FROM `flight-teams` WHERE `short-name` = ?)\n" +
             "WHERE `flight-number` = ?";
+
+    private final static String FLIGHT_CREW = "SELECT  `short-name` FROM airport.flights\n" +
+            "JOIN `flight-teams` ON `flight-team-id` = `flight-teams`.id\n" +
+            "WHERE `departure-date` = ? AND `flight-number` = ?;";
 
     @Override
     public boolean createCrew(String crewName, Map<String, User> users) throws DaoException {
@@ -218,7 +223,7 @@ public class CrewDaoImpl implements CrewDao, CloseOperation {
             }
             user = User.builder().name(rs.getString("name")).surname(rs.getString("surname")).build();
         } catch (ConnectionPoolException | SQLException e) {
-            throw new DaoException("Exception during crew existence checking!", e);
+            throw new DaoException("Exception during main pilot searching!", e);
         } finally {
             closeAll(rs, ps, pool, connection);
         }
@@ -242,7 +247,7 @@ public class CrewDaoImpl implements CrewDao, CloseOperation {
                 countries.add(rs.getString("short-name"));
             }
         } catch (ConnectionPoolException | SQLException e) {
-            throw new DaoException("Exception during creating countries list!", e);
+            throw new DaoException("Exception during all crews getting!", e);
         } finally {
             closeAll(rs, st, pool, connection);
         }
@@ -265,7 +270,34 @@ public class CrewDaoImpl implements CrewDao, CloseOperation {
 
             return ps.executeUpdate();
         } catch (ConnectionPoolException | SQLException e) {
-            throw new DaoException("Exception during creating countries list!", e);
+            throw new DaoException("Exception during flight crew setting!", e);
+        } finally {
+            closeAll(rs, ps, pool, connection);
+        }
+    }
+
+    @Override
+    public String flightCrew(Flight flight) throws DaoException {
+        ConnectionPool pool = ConnectionPool.getInstance();
+        Connection connection = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        try {
+            connection = pool.takeConnection();
+
+            ps = connection.prepareStatement(FLIGHT_CREW);
+            ps.setDate(1, Date.valueOf(flight.getDepartureDate()));
+            ps.setString(2, flight.getFlightNumber());
+
+            rs = ps.executeQuery();
+
+            if (!rs.next()) {
+                return null;
+            }
+            return rs.getString("short-name");
+        } catch (ConnectionPoolException | SQLException e) {
+            throw new DaoException("Exception during flight crew searching!", e);
         } finally {
             closeAll(rs, ps, pool, connection);
         }
