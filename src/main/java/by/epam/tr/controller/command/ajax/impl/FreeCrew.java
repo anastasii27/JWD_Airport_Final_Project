@@ -3,6 +3,7 @@ package by.epam.tr.controller.command.ajax.impl;
 import by.epam.tr.bean.Flight;
 import by.epam.tr.controller.command.Command;
 import by.epam.tr.controller.constant_parameter.RequestParameterName;
+import static by.epam.tr.controller.util.RequestParametersExtractor.*;
 import by.epam.tr.controller.util.GsonConverter;
 import by.epam.tr.service.CrewService;
 import by.epam.tr.service.ServiceException;
@@ -35,10 +36,10 @@ public class FreeCrew implements Command {//todo доделать + validation
 
         Flight flight = Flight.builder().departureDate(LocalDate.parse(flightDepartureDate))
                                         .departureTime(LocalTime.parse(flightDepartureTime))
-                                        .departureAirportShortName(flightDepartureAirportName)
+                                        .departureAirportShortName(airportName(flightDepartureAirportName))
                                         .destinationDate(LocalDate.parse(flightDestinationDate))
                                         .destinationTime(LocalTime.parse(flightDestinationTime))
-                                        .destinationAirportShortName(flightDestinationAirportName)
+                                        .destinationAirportShortName(airportName(flightDestinationAirportName))
                                         .build();
         try {
             Set<String> freeCrews = crewService.findFreeCrewsForFlight(flight);

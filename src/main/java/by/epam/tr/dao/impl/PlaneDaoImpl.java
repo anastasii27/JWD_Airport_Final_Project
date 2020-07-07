@@ -1,5 +1,6 @@
 package by.epam.tr.dao.impl;
 
+import by.epam.tr.bean.Flight;
 import by.epam.tr.bean.Plane;
 import by.epam.tr.dao.DaoException;
 import by.epam.tr.dao.PlaneDao;
@@ -7,6 +8,7 @@ import by.epam.tr.dao.connectionpool.ConnectionPool;
 import by.epam.tr.dao.connectionpool.ConnectionPoolException;
 import java.sql.*;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,6 +33,14 @@ public class PlaneDaoImpl implements PlaneDao, CloseOperation{
 
     private final static String ALL_PLANES_NUMBERS = "SELECT `number`, title FROM airport.planes\n" +
             "JOIN `plane-models` ON `plane-models`.id = `model-id`";
+
+    private final static String FIRST_PLANE_FLIGHT_AFTER_DATE = "SELECT `departure-date`, `departure-time`,\n" +
+            "`name-abbreviation` AS `dep-airport-short-name`\n" +
+            "FROM airport.flights\n" +
+            "JOIN airports ON `departure-airport-id` = airports.id\n" +
+            "WHERE `plane-id` = (SELECT id FROM planes WHERE `number` = ?)\n" +
+            "AND `departure-date` > ? \n" +
+            "ORDER BY `departure-date`, `departure-time` LIMIT 1;";
 
     @Override
     public List<Plane> arrivedToAirportPlane(String airportName, LocalDate date) throws DaoException {
@@ -104,6 +114,38 @@ public class PlaneDaoImpl implements PlaneDao, CloseOperation{
             throw new DaoException("Exception during getting planes on flight list!", e);
         }finally {
             closeAll(st, pool, connection);
+        }
+    }
+
+    @Override
+    public Flight firstPlaneFlightAfterDate(String planeNumber, LocalDate date) throws DaoException {
+        ConnectionPool pool = ConnectionPool.getInstance();
+        Connection connection = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        try {
+            connection = pool.takeConnection();
+            ps =  connection.prepareStatement(FIRST_PLANE_FLIGHT_AFTER_DATE);
+
+            ps.setString(1, planeNumber);
+            ps.setDate(2, Date.valueOf(date));
+
+            rs = ps.executeQuery();
+            if(!rs.next()){
+                return null;
+            }
+
+            Flight flight = Flight.builder().departureDate(LocalDate.parse(rs.getString("departure-date")))
+                                            .departureTime(LocalTime.parse(rs.getString("departure-time")))
+                                            .departureAirportShortName(rs.getString("dep-airport-short-name"))
+                                            .build();
+
+            return flight;
+        }catch (ConnectionPoolException | SQLException e) {
+            throw new DaoException("Exception during searching first plane flight after date", e);
+        }finally {
+            closeAll(rs, ps, pool, connection);
         }
     }
 }

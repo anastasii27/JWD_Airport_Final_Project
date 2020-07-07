@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 
 @Log4j2
@@ -23,17 +24,28 @@ public class FreePlane implements Command {//todo valid
     public void execute(HttpServletRequest request, HttpServletResponse response) {
         PlaneService planeService = ServiceFactory.getInstance().getPlaneService();
         List<Plane> planes;
-        String cityWithAirport;
-        String airportName;
+        String departureCityWithAirport;
+        String destinationCityWithAirport;
+        String departureAirport;
         String departureDate;
+        String destinationAirport;
+        String destinationTime;
+        String destinationDate;
 
-        cityWithAirport = request.getParameter(RequestParameterName.DEPARTURE_AIRPORT);
+        departureCityWithAirport = request.getParameter(RequestParameterName.DEPARTURE_AIRPORT);
         departureDate = request.getParameter(RequestParameterName.DEPARTURE_DATE);
-        airportName = RequestParametersExtractor.airportName(cityWithAirport);
+        departureAirport = RequestParametersExtractor.airportName(departureCityWithAirport);
 
-        Flight flight = Flight.builder().departureAirportShortName(airportName)
-                                        .departureDate(LocalDate.parse(departureDate)).build();
+        destinationCityWithAirport = request.getParameter(RequestParameterName.DESTINATION_AIRPORT);
+        destinationAirport = RequestParametersExtractor.airportName(destinationCityWithAirport);
+        destinationTime = request.getParameter(RequestParameterName.DESTINATION_TIME);
+        destinationDate = request.getParameter(RequestParameterName.DESTINATION_DATE);
 
+        Flight flight = Flight.builder().departureAirportShortName(departureAirport)
+                                        .departureDate(LocalDate.parse(departureDate))
+                                        .destinationAirportShortName(destinationAirport)
+                                        .destinationDate(LocalDate.parse(destinationDate))
+                                        .destinationTime(LocalTime.parse(destinationTime)).build();
         try {
             planes = planeService.freePlanesForFlight(flight);
 

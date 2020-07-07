@@ -14,12 +14,12 @@ $(document).ready(function ($) {
         maxDate: getMaxDate(1)
     });
 
-    $('#dep_flights_piker, #edit_dep_flights_piker').datepicker({
+    $('#dep_flights_piker, #dest_flights_piker').datepicker({
         dateFormat: 'yyyy-mm-dd',
         firstDay: 1
     });
 
-    $('#dest_flights_piker, #edit_dest_flights_piker').datepicker({
+    $('#edit_dep_flights_piker, #edit_dest_flights_piker').datepicker({
         dateFormat: 'yyyy-mm-dd',
         firstDay: 1
     });
@@ -114,6 +114,11 @@ $(document).ready(function ($) {
 
     $("#flight_edit_modal").on("hidden.bs.modal", function () {
         $('#edit_dest_country p, #edit_dep_country p, #edit_planes option, #edit_dest_airport option, #edit_dep_airport option, #edit_crew option').remove()
+    });
+
+    //flight editing
+    $(document).on('change', '#edit_dest_airport ,#edit_dep_airport', function () {
+        $('#edit_planes option, #edit_crew option').remove()
     });
 });
 

@@ -8,6 +8,8 @@ import by.epam.tr.dao.PlaneDao;
 import by.epam.tr.service.PlaneService;
 import by.epam.tr.service.ServiceException;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 public class PlaneServiceImpl implements PlaneService {
@@ -16,38 +18,82 @@ public class PlaneServiceImpl implements PlaneService {
 
     public List<Plane> freePlanesForFlight(Flight flight) throws ServiceException {
         String airportName = flight.getDepartureAirportShortName();
-        LocalDate date = flight.getDepartureDate();
 
         try {
             if(airportName.equals(HOME_AIRPORT)){
-                return findFreePlanesForHomeAirport(airportName, date);
+                return freePlanesForHomeAirport(flight);
             }else{
-                return findFreePlanesForAirport(airportName, date);
+                return freePlanesForTransborderAirport(flight);
             }
         } catch (DaoException e) {
             throw new ServiceException("Exception during free planes searching!", e);
         }
     }
 
-    private List<Plane> findFreePlanesForHomeAirport(String airportName, LocalDate date) throws DaoException {
+    private List<Plane> freePlanesForHomeAirport(Flight newFlight) throws DaoException {
+        String airportName = newFlight.getDepartureAirportShortName();
+        LocalDate date = newFlight.getDepartureDate();
         List<Plane> allPlanes = dao.allPlanes();
-        List<Plane> planesInAirportNow = dao.arrivedToAirportPlane(airportName, date);
 
         removeTakenOnFlightPlanesFromList(allPlanes, airportName, date);
-        allPlanes.addAll(planesInAirportNow);
+        addArrivedToAirportPlanesToList(allPlanes, airportName, date);
+        removeUnsuitablePlanesFromList(allPlanes, newFlight);
 
         return allPlanes;
     }
 
-    private List<Plane> findFreePlanesForAirport(String airportName, LocalDate date) throws DaoException {
+    private List<Plane> freePlanesForTransborderAirport(Flight newFlight) throws DaoException {
+        String airportName = newFlight.getDepartureAirportShortName();
+        LocalDate date = newFlight.getDepartureDate();
         List<Plane> planesInAirport = dao.arrivedToAirportPlane(airportName, date);
+
         removeTakenOnFlightPlanesFromList(planesInAirport, airportName, date);
+        removeUnsuitablePlanesFromList(planesInAirport, newFlight);
 
         return planesInAirport;
+    }
+
+    private void addArrivedToAirportPlanesToList(List<Plane> planes, String airportName, LocalDate date) throws DaoException {
+        List<Plane> planesInAirportNow = dao.arrivedToAirportPlane(airportName, date);
+        planes.addAll(planesInAirportNow);
     }
 
     private void removeTakenOnFlightPlanesFromList(List<Plane> planes, String airportName, LocalDate date) throws DaoException {
         List<Plane> takenOnFlightPlanes = dao.takenOnFlightPlanes(airportName, date);
         planes.removeAll(takenOnFlightPlanes);
     }
+
+    private void removeUnsuitablePlanesFromList(List<Plane> planes, Flight newFlight) throws DaoException {
+        List<Plane> unsuitablePlanes = unsuitablePlanesForFlight(planes, newFlight);
+        planes.removeAll(unsuitablePlanes);
+    }
+
+    private List<Plane> unsuitablePlanesForFlight(List<Plane> planes, Flight newFlight) throws DaoException {
+        List<Plane> unsuitablePlanes = new ArrayList<>();
+        LocalDate newFlightDepartureDate = newFlight.getDepartureDate();
+
+        for (Plane plane: planes){
+            Flight planeNextFlight = dao.firstPlaneFlightAfterDate(plane.getNumber(), newFlightDepartureDate);
+            if(planeNextFlight == null){
+                continue;
+            }
+
+            if(!doesPlaneSuitForFlight(newFlight, planeNextFlight)){
+                unsuitablePlanes.add(plane);
+            }
+        }
+        return unsuitablePlanes;
+    }
+
+    private boolean doesPlaneSuitForFlight(Flight newPlaneFlight, Flight planeNextFlight){
+        LocalDateTime newFlightDate = LocalDateTime.of(newPlaneFlight.getDestinationDate(), newPlaneFlight.getDestinationTime());
+        LocalDateTime nextFlightDate = LocalDateTime.of(planeNextFlight.getDepartureDate(), planeNextFlight.getDepartureTime());
+
+        if(newPlaneFlight.getDestinationAirportShortName().equals(planeNextFlight.getDepartureAirportShortName())){
+            return newFlightDate.plusHours(4).isBefore(nextFlightDate);
+        }else {
+            return newFlightDate.plusHours(23).isBefore(nextFlightDate);
+        }
+    }
 }
+
