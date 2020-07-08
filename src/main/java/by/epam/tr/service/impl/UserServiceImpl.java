@@ -3,7 +3,6 @@ package by.epam.tr.service.impl;
 import by.epam.tr.bean.User;
 import by.epam.tr.dao.DaoException;
 import by.epam.tr.dao.DaoFactory;
-import by.epam.tr.dao.ListCreatorDao;
 import by.epam.tr.dao.UserDao;
 import by.epam.tr.service.ServiceException;
 import by.epam.tr.service.UserService;
@@ -35,10 +34,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<User> freeDispatchers(LocalDate date, LocalTime time, String airportName) throws ServiceException {
-        ListCreatorDao listCreatorDAO = DaoFactory.getInstance().getListCreatorDAO();
-
         try {
-            List<User> allDispatchers = listCreatorDAO.createUserByRoleList(USER_ROLE);
+            List<User> allDispatchers = userByRoleList(USER_ROLE);
             List<User> busyArrivalDispatchers = dao.busyArrivalDispatchers(date, time, airportName);
             List<User> busyDepartureDispatchers = dao.busyDepartureDispatchers(date, time, airportName);
 
@@ -53,5 +50,23 @@ public class UserServiceImpl implements UserService {
         allDispatchers.removeAll(busyDepartureDispatchers);
 
         return allDispatchers;
+    }
+
+    @Override
+    public List<String> rolesList() throws ServiceException {
+        try {
+            return dao.rolesList();
+        } catch (DaoException e) {
+            throw new ServiceException("Exception during roles list creation", e);
+        }
+    }
+
+    @Override
+    public List<User> userByRoleList(String role) throws ServiceException {
+        try {
+            return dao.userByRoleList(role);
+        } catch (DaoException e) {
+            throw new ServiceException("Exception during users by role list creation", e);
+        }
     }
 }

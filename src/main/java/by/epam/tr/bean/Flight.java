@@ -10,6 +10,7 @@ import java.util.Comparator;
 @Data
 @Builder
 public class Flight implements Serializable {
+    private int id;
     private String status;
     private String planeModel;//todo продумать
     private String planeNumber;

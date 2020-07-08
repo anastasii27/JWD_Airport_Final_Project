@@ -18,6 +18,7 @@ import java.util.Set;
 @Log4j2
 public class ChooseCrewForFlight implements Command {
 
+    private final static String ANSWER = "No crews were found";
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) {
         CrewService crewService = ServiceFactory.getInstance().getCrewService();
@@ -33,7 +34,7 @@ public class ChooseCrewForFlight implements Command {
                 request.setAttribute(RequestParameterName.CREW_MEMBERS, freeCrewsWithMembers.asMap());
                 forwardTo(request, response, JSPPageName.FREE_CREWS_FOR_FLIGHT);
             }else {
-                //todo answer
+                request.setAttribute(RequestParameterName.RESULT_INFO, ANSWER);
             }
         } catch (ServiceException e) {
             log.error("Cannot execute command for free flight searching", e);

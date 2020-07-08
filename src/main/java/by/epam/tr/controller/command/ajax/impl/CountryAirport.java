@@ -3,7 +3,7 @@ package by.epam.tr.controller.command.ajax.impl;
 import by.epam.tr.controller.command.Command;
 import by.epam.tr.controller.constant_parameter.RequestParameterName;
 import by.epam.tr.controller.util.GsonConverter;
-import by.epam.tr.service.ListCreatorService;
+import by.epam.tr.service.CityService;
 import by.epam.tr.service.ServiceException;
 import by.epam.tr.service.ServiceFactory;
 import lombok.extern.log4j.Log4j2;
@@ -17,13 +17,13 @@ public class CountryAirport implements Command {
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) {
-        ListCreatorService listCreatorService = ServiceFactory.getInstance().getListCreatorService();
+        CityService cityService = ServiceFactory.getInstance().getCityService();
         String country;
         List<String> countries;
 
         country = request.getParameter(RequestParameterName.COUNTRY);
         try {
-            countries = listCreatorService.createCityWithAirportList(country);
+            countries = cityService.cityWithAirportList(country);
 
             String countriesGson = GsonConverter.convertToGson(countries);
             response.getWriter().write(countriesGson);

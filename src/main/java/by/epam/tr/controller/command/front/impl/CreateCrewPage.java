@@ -4,9 +4,9 @@ import by.epam.tr.bean.User;
 import by.epam.tr.controller.command.Command;
 import by.epam.tr.controller.constant_parameter.JSPPageName;
 import by.epam.tr.controller.constant_parameter.RequestParameterName;
-import by.epam.tr.service.ListCreatorService;
 import by.epam.tr.service.ServiceException;
 import by.epam.tr.service.ServiceFactory;
+import by.epam.tr.service.UserService;
 import lombok.extern.log4j.Log4j2;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -19,13 +19,13 @@ public class CreateCrewPage implements Command {
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) {
-        ListCreatorService listCreatorService = ServiceFactory.getInstance().getListCreatorService();
+        UserService userService = ServiceFactory.getInstance().getUserService();
         List<User> pilots;
         List<User> stewards;
 
         try {
-            pilots = listCreatorService.createUserByRoleList(PILOT);
-            stewards = listCreatorService.createUserByRoleList(STEWARD);
+            pilots = userService.userByRoleList(PILOT);
+            stewards = userService.userByRoleList(STEWARD);
 
             request.setAttribute(RequestParameterName.PILOTS, pilots);
             request.setAttribute(RequestParameterName.STEWARDS, stewards);

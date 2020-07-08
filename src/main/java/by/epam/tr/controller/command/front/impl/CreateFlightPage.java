@@ -3,7 +3,7 @@ package by.epam.tr.controller.command.front.impl;
 import by.epam.tr.controller.command.Command;
 import by.epam.tr.controller.constant_parameter.JSPPageName;
 import by.epam.tr.controller.constant_parameter.RequestParameterName;
-import by.epam.tr.service.ListCreatorService;
+import by.epam.tr.service.CountryService;
 import by.epam.tr.service.ServiceException;
 import by.epam.tr.service.ServiceFactory;
 import lombok.extern.log4j.Log4j2;
@@ -16,11 +16,11 @@ public class CreateFlightPage implements Command {
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) {
-        ListCreatorService listCreatorService = ServiceFactory.getInstance().getListCreatorService();
+        CountryService countryService = ServiceFactory.getInstance().getCountryService();
         List<String> countries;
 
         try {
-            countries = listCreatorService.createCountriesList();
+            countries = countryService.countriesList();
 
             request.setAttribute(RequestParameterName.COUNTRIES, countries);
             forwardTo(request,response, JSPPageName.CREATE_FLIGHT_PAGE);

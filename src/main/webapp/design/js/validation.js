@@ -125,9 +125,9 @@ $(document).ready(function ($) {
 
         errorPlacement: function(error, element){
 
-            let id= element.attr("id");
+            let id = element.attr("id");
 
-            if(id==='inputPassword1' ||id==='inputStart'|| id ==="inputRole"){
+            if(id === 'inputPassword1' || id === 'inputStart'|| id  === "inputRole"){
                 $(element).after(error);
             }else{
                 $('label[for="'+ id +'"]').append(error);
@@ -194,20 +194,25 @@ $(document).ready(function ($) {
             flight_number:{
                 required: true,
                 flight_number_pattern_check: true,
-                remote:{
-                    url: '/JWD_Task3_war/ajax',
-                    type: 'GET',
-                    data:{command: 'check_flight_number', flight_number: function() {
-                            return $( "#flight_number" ).val();
-                        }
-                    },
-                    async:true
-                }
             },
             planes: 'required',
             departure_date:{
                 required:true,
                 date_pattern_check:true,
+                remote:{
+                    url: '/JWD_Task3_war/ajax',
+                    type: 'GET',
+                    data:{
+                        command: 'check_flight_number',
+                        flight_number: function() {
+                            return $( "#flight_number" ).val();
+                        },
+                        date: function() {
+                            return $( "#dep_flights_piker" ).val();
+                        }
+                    },
+                    async:true
+                }
             },
             departure_time:{
                 required:true,
@@ -222,6 +227,20 @@ $(document).ready(function ($) {
             destination_date:{
                 required:true,
                 date_pattern_check:true,
+                remote:{
+                    url: '/JWD_Task3_war/ajax',
+                    type: 'GET',
+                    data:{
+                        command: 'check_flight_number',
+                        flight_number: function() {
+                            return $( "#flight_number" ).val();
+                        },
+                        date: function() {
+                            return $( "#dest_flights_piker" ).val();
+                        }
+                    },
+                    async:true
+                }
             },
             destination_time:{
                 required:true,
@@ -236,6 +255,10 @@ $(document).ready(function ($) {
         messages:{
             flight_number:{
                 required: null,
+            },
+            planes: null,
+            departure_date:{
+                required: null,
                 remote: function () {
                     if(lang==="ru"){
                         return "\u0422\u0430\u043a\u043e\u0439\u0020\u0440\u0435\u0439\u0441\u0020\u0443\u0436\u0435\u0020\u0441\u0443\u0449\u0435\u0441\u0442\u0432\u0443\u0435\u0442\u0021";
@@ -243,10 +266,6 @@ $(document).ready(function ($) {
                         return "This flight name is already taken";
                     }
                 }
-            },
-            planes: null,
-            departure_date:{
-                required: null,
             },
             departure_time:{
                 required: null,
@@ -258,6 +277,13 @@ $(document).ready(function ($) {
 
             destination_date:{
                 required: null,
+                remote: function () {
+                    if(lang==="ru"){
+                        return "\u0422\u0430\u043a\u043e\u0439\u0020\u0440\u0435\u0439\u0441\u0020\u0443\u0436\u0435\u0020\u0441\u0443\u0449\u0435\u0441\u0442\u0432\u0443\u0435\u0442\u0021";
+                    }else{
+                        return "This flight name is already taken";
+                    }
+                }
             },
             destination_time:{
                 required: null,
@@ -265,6 +291,14 @@ $(document).ready(function ($) {
             destination_country: null,
             destination_airport:{
                 required: null,
+            }
+        },
+
+        errorPlacement: function(error, element){
+            let id = element.attr("id");
+
+            if(id === 'dest_flights_piker' || id === 'dep_flights_piker' ){
+                $('#flight_number').after(error);
             }
         }
 

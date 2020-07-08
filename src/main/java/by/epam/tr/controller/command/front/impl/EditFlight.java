@@ -10,7 +10,7 @@ public class EditFlight implements Command {
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) {//todo add validation
-        Map<String, String>  map = RequestToMapParser.toRequestParamsMap(request);
-        System.out.println(map);
+        Map<String, String>  params = RequestToMapParser.toRequestParamsMap(request);
+        System.out.println(params);
     }
 }

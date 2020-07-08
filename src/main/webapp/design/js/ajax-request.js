@@ -207,7 +207,7 @@ $(document).ready(function ($) {
         }
     });
 
-    $('#choose_crew_btn').on('click', function () { //todo modal
+    $('#choose_crew_btn').on('click', function () {
         let crewName = $('.clicked td').eq(0).text();
 
         $.ajax({

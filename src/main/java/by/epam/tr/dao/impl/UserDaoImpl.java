@@ -35,6 +35,11 @@ public class UserDaoImpl implements UserDao, CloseOperation {
             "AND `destination-date` = ?\n" +
             "AND `destination-airport-id` = (SELECT id FROM airports WHERE `name-abbreviation` = ?)";
 
+    private static final String USERS_ROLES = "SELECT title from airport.roles";
+    private static final String USERS_BY_ROLE = "SELECT `name`, surname FROM airport.users WHERE `role-id`= (" +
+            "SELECT id  FROM roles WHERE title = ?);";
+
+
     @Override
     public boolean addNewUser(User user, String login, String password) throws DaoException {
         ConnectionPool pool = ConnectionPool.getInstance();
@@ -196,5 +201,56 @@ public class UserDaoImpl implements UserDao, CloseOperation {
             }
             return dispatchers;
         }
+    }
+
+    @Override
+    public List<String> rolesList() throws DaoException {
+        ConnectionPool pool = ConnectionPool.getInstance();
+        Connection connection = null;
+        Statement st = null;
+        ResultSet rs = null;
+        List <String> roles = new ArrayList<>();
+
+        try {
+            connection = pool.takeConnection();
+            st = connection.createStatement();
+
+            rs = st.executeQuery(USERS_ROLES);
+            while (rs.next()) {
+                roles.add(rs.getString("title"));
+            }
+        } catch (ConnectionPoolException | SQLException e) {
+            throw new DaoException("Exception during creating roles list!", e);
+        }finally {
+            closeAll(rs, st, pool, connection);
+        }
+        return roles;
+    }
+
+    @Override
+    public List<User> userByRoleList(String role) throws DaoException {
+        ConnectionPool pool = ConnectionPool.getInstance();
+        Connection connection = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        List <User> users = new ArrayList<>();
+
+        try {
+            connection = pool.takeConnection();
+            ps =  connection.prepareStatement(USERS_BY_ROLE);
+
+            ps.setString(1, role);
+
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                users.add(User.builder().name(rs.getString("name")).surname(rs.getString("surname")).build());
+            }
+
+        } catch (ConnectionPoolException | SQLException e) {
+            throw new DaoException("Exception during creating users by role list!", e);
+        }finally {
+            closeAll(rs, ps, pool, connection);
+        }
+        return users;
     }
 }

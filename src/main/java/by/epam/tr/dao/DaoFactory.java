@@ -8,9 +8,10 @@ public final class DaoFactory {
     private final FlightDao flightDao = new FlightDaoImpl();
     private final CrewDao crewDao = new CrewDaoImpl();
     private final CrewMemberDao crewMemberDao = new CrewMemberDaoImpl();
-    private final ListCreatorDao listCreatorDao = new ListCreatorDaoImpl();
     private final UserFlightsDao userFlightsDao = new UserFlightsDaoImpl();
     private final PlaneDao planeDao = new PlaneDaoImpl();
+    private final CityDao cityDao = new CityDaoImpl();
+    private final CountryDao countryDao = new CountryDaoImpl();
 
     private DaoFactory(){}
 
@@ -30,10 +31,6 @@ public final class DaoFactory {
         return crewDao;
     }
 
-    public ListCreatorDao getListCreatorDAO() {
-        return listCreatorDao;
-    }
-
     public CrewMemberDao getCrewMemberDAO() {
         return crewMemberDao;
     }
@@ -44,5 +41,13 @@ public final class DaoFactory {
 
     public PlaneDao getPlaneDao() {
         return planeDao;
+    }
+
+    public CityDao getCityDao() {
+        return cityDao;
+    }
+
+    public CountryDao getCountryDao() {
+        return countryDao;
     }
 }

@@ -9,6 +9,7 @@ import lombok.extern.log4j.Log4j2;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.time.LocalDate;
 
 @Log4j2
 public class FlightNumberExistence implements Command {
@@ -17,10 +18,13 @@ public class FlightNumberExistence implements Command {
     public void execute(HttpServletRequest request, HttpServletResponse response) {
         FlightService flightService = ServiceFactory.getInstance().getFlightService();
         String flightNumber;
+        String date;
 
         flightNumber = request.getParameter(RequestParameterName.FLIGHT_NUMBER);
+        date = request.getParameter(RequestParameterName.DATE);
+
         try {
-            boolean operationResult = flightService.doesFlightNumberExist(flightNumber);
+            boolean operationResult = flightService.doesFlightNumberExist(flightNumber, LocalDate.parse(date));
 
             response.getWriter().write(String.valueOf(!operationResult));
         } catch (ServiceException e) {

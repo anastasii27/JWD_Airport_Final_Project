@@ -8,6 +8,7 @@ import by.epam.tr.service.FlightService;
 import by.epam.tr.service.ServiceException;
 import by.epam.tr.service.validation.ValidationFactory;
 import by.epam.tr.service.validation.Validator;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -71,9 +72,9 @@ public class FlightServiceImpl implements FlightService {
     }
 
     @Override
-    public boolean doesFlightNumberExist(String flightNumber) throws ServiceException {
+    public boolean doesFlightNumberExist(String flightNumber, LocalDate date) throws ServiceException {
         try {
-            return dao.doesFlightNumberExist(flightNumber);
+            return dao.doesFlightNumberExist(flightNumber, date);
         } catch (DaoException e) {
             throw new ServiceException("Exception during flight existence check", e);
         }
@@ -86,5 +87,10 @@ public class FlightServiceImpl implements FlightService {
         } catch (DaoException e) {
             throw new ServiceException("Exception during flight deleting", e);
         }
+    }
+
+    @Override
+    public boolean editFlight(Map<String, String> params) throws ServiceException {
+        return false;
     }
 }

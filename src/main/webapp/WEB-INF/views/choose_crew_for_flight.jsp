@@ -23,6 +23,8 @@
     <body>
         <jsp:include page="parts/header.jsp"/>
         <div id = "no_choose_mes" aria-hidden="true" style="background-color: red"> No choose</div>
+        <c:set var = "result" value = "${requestScope.result}"/>
+        <c:if test = "${result eq null}">
         <table class ="table" id="crew_table" border="2">
             <tr>
                 <th>НАЗВАНИЕ ЭКИПАЖА</th><th>СОСТАВ ЭКИПАЖА</th>
@@ -49,13 +51,17 @@
                 </tr>
             </c:forEach>
         </table>
+        </c:if>
+        <c:if test = "${result ne null}">
+            <c:out value="${result}"/>
+        </c:if>
         <div id="choose_crew_btn">
             <button type="button" class="btn btn-info">
                 <span class="edit">СОЗДАТЬ РЕЙС</span>
             </button>
         </div>
         <!-- Modal -->
-        <div class="modal fade" id="choose_crew_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal fade" id="choose_crew_modal" tabindex="-1" role="dialog" data-backdrop="static" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
                 <div class="modal-content">
                     <div class="modal-body">

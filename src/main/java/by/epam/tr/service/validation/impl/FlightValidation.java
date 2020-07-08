@@ -62,7 +62,11 @@ public class FlightValidation extends Validator {
         }
 
         try {
-            if(!flightNumberCheck(params.get(FLIGHT_NUMBER_PARAM))){
+            if(!flightNumberCheck(params.get(FLIGHT_NUMBER_PARAM), departureDate)){
+                validationResult.add("Illegal flight number");
+            }
+
+            if(!flightNumberCheck(params.get(FLIGHT_NUMBER_PARAM), destinationDate)){
                 validationResult.add("Illegal flight number");
             }
         } catch (DaoException e) {
@@ -101,10 +105,10 @@ public class FlightValidation extends Validator {
         return true;
     }
 
-    private boolean flightNumberCheck(String flightNumber) throws DaoException {
+    private boolean flightNumberCheck(String flightNumber, String date) throws DaoException {
         FlightDao flightDao = DaoFactory.getInstance().getFlightDAO();
 
-        if(flightDao.doesFlightNumberExist(flightNumber)){
+        if(flightDao.doesFlightNumberExist(flightNumber, LocalDate.parse(date))){
             return false;
         }
 

@@ -8,6 +8,7 @@ import by.epam.tr.dao.connectionpool.ConnectionPool;
 import by.epam.tr.dao.connectionpool.ConnectionPoolException;
 import java.sql.*;
 import java.sql.Date;
+import java.time.LocalDate;
 import java.util.*;
 
 public class FlightDaoImpl implements FlightDao, CloseOperation {
@@ -55,11 +56,11 @@ public class FlightDaoImpl implements FlightDao, CloseOperation {
             "?, ?, ?, (SELECT id FROM users WHERE `name` = ? AND surname = ?));";
 
     private final static String DOES_FLIGHT_NUMBER_EXIST = "SELECT `destination-date` FROM airport.flights " +
-            "WHERE `flight-number` = ? AND `departure-date` = current_date() " +
-            "OR `flight-number` = ? AND `destination-date` = current_date()";
+            "WHERE `flight-number` = ? AND `departure-date` = ? " +
+            "OR `flight-number` = ? AND `destination-date` = ?";
 
-    private final static String ALL_FLIGHTS_BY_DAY = "SELECT `flight-number`, title AS `plane-model`, `departure-date`," +
-            "`departure-time`, `destination-date`, `destination-time`, \n" +
+    private final static String ALL_FLIGHTS_BY_DAY = "SELECT flights.id AS `id`, `flight-number`, title AS `plane-model`," +
+            "`departure-date`, `departure-time`, `destination-date`, `destination-time`, \n" +
             "c1.`name` AS `destination-city` , a1.`name-abbreviation` AS `dest-airport-short-name`,\n" +
             "c2.`name` AS `departure-city`, a2.`name-abbreviation` AS `dep-airport-short-name`, `status`\n" +
             "FROM flights\n" +
@@ -203,7 +204,7 @@ public class FlightDaoImpl implements FlightDao, CloseOperation {
     }
 
     @Override
-    public boolean doesFlightNumberExist(String flightNumber) throws DaoException {
+    public boolean doesFlightNumberExist(String flightNumber, LocalDate date) throws DaoException {
         ConnectionPool pool = ConnectionPool.getInstance();
         Connection connection = null;
         PreparedStatement ps = null;
@@ -213,7 +214,9 @@ public class FlightDaoImpl implements FlightDao, CloseOperation {
             connection = pool.takeConnection();
             ps =  connection.prepareStatement(DOES_FLIGHT_NUMBER_EXIST);
             ps.setString(1, flightNumber);
-            ps.setString(2, flightNumber);
+            ps.setDate(2, Date.valueOf(date));
+            ps.setString(3, flightNumber);
+            ps.setDate(4, Date.valueOf(date));
 
             rs = ps.executeQuery();
 
@@ -240,7 +243,8 @@ public class FlightDaoImpl implements FlightDao, CloseOperation {
 
             rs = ps.executeQuery();
             while (rs.next()){
-                flights.add( Flight.builder().status(rs.getString("status"))
+                flights.add( Flight.builder().id(rs.getInt("id"))
+                        .status(rs.getString("status"))
                         .planeModel(rs.getString("plane-model"))
                         .departureDate(rs.getDate("departure-date").toLocalDate())
                         .departureTime(rs.getTime("departure-time").toLocalTime())
@@ -279,5 +283,11 @@ public class FlightDaoImpl implements FlightDao, CloseOperation {
         }finally{
             closeAll(ps, pool, connection);
         }
+    }
+
+    @Override
+    public int editFlight(Flight flight) throws DaoException {
+
+        return 0;
     }
 }

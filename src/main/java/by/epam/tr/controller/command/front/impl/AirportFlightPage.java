@@ -3,7 +3,7 @@ package by.epam.tr.controller.command.front.impl;
 import by.epam.tr.controller.command.Command;
 import by.epam.tr.controller.constant_parameter.JSPPageName;
 import by.epam.tr.controller.constant_parameter.RequestParameterName;
-import by.epam.tr.service.ListCreatorService;
+import by.epam.tr.service.CityService;
 import by.epam.tr.service.ServiceException;
 import by.epam.tr.service.ServiceFactory;
 import javax.servlet.http.HttpServletRequest;
@@ -16,13 +16,13 @@ public class AirportFlightPage implements Command {
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) {
-        ListCreatorService listCreatorService = ServiceFactory.getInstance().getListCreatorService();
+        CityService cityService = ServiceFactory.getInstance().getCityService();
         List<String> citiesWithAirports;
         String from;
 
         from = request.getParameter(RequestParameterName.FROM);
         try {
-            citiesWithAirports = listCreatorService.createCityWithAirportList();
+            citiesWithAirports = cityService.cityWithAirportList();
             request.setAttribute(RequestParameterName.CITY_WITH_AIRPORT, citiesWithAirports);
             request.setAttribute(RequestParameterName.FROM, from);
 

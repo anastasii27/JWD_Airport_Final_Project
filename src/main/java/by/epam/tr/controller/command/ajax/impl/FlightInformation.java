@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @Log4j2
-public class FlightInformation implements Command {
+public class FlightInformation implements Command {//todo продумать если нет инфы
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) {
