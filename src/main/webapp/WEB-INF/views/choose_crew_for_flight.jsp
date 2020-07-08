@@ -22,7 +22,7 @@
     </head>
     <body>
         <jsp:include page="parts/header.jsp"/>
-
+        <div id = "no_choose_mes" aria-hidden="true" style="background-color: red"> No choose</div>
         <table class ="table" id="crew_table" border="2">
             <tr>
                 <th>НАЗВАНИЕ ЭКИПАЖА</th><th>СОСТАВ ЭКИПАЖА</th>
@@ -53,6 +53,21 @@
             <button type="button" class="btn btn-info">
                 <span class="edit">СОЗДАТЬ РЕЙС</span>
             </button>
+        </div>
+        <!-- Modal -->
+        <div class="modal fade" id="choose_crew_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-body">
+                       Создание рейса успешно завершено!
+                        <jsp:useBean id="now" class="java.util.Date"/>
+                        <fmt:formatDate type="time" value="${now}" pattern="yyyy-MM-dd" var="depDate"/>
+                        <button type="button" class="btn btn-info" onclick="document.location.href= '${pageContext.request.contextPath}/airport?action=show_flight_management_page&departure_date=${depDate}'">
+                            <span class="back_to_flights">ВЕРНУТЬСЯ К СПИСКУ РЕЙСОВ</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
         </div>
     </body>
 </html>

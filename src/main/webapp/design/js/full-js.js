@@ -116,6 +116,12 @@ $(document).ready(function ($) {
         $('#edit_dest_country p, #edit_dep_country p, #edit_planes option, #edit_dest_airport option, #edit_dep_airport option, #edit_crew option').remove()
     });
 
+    $('#no_delete_mes, #no_choose_mes').hide();
+
+    $(document).mouseup(function (e){
+        $('#no_delete_mes, #no_choose_mes').fadeOut();
+    });
+
     //flight editing
     $(document).on('change', '#edit_dest_airport ,#edit_dep_airport', function () {
         $('#edit_planes option, #edit_crew option').remove()

@@ -8,6 +8,7 @@ let destinationTime;
 let departureTime;
 
 $(document).ready(function ($) {
+    const HOME_AIRPORT = 'Minsk(MSQ)';
     let crewName;
 
     //crews list
@@ -152,6 +153,10 @@ $(document).ready(function ($) {
     $('#dep_airport').on('change', function () {
         departureAirport = $(this).val();
 
+        if(departureAirport === HOME_AIRPORT){
+            freeDispatchersAjax(departureAirport);
+        }
+
         freePlanesAjax('#planes');
     });
 
@@ -161,26 +166,20 @@ $(document).ready(function ($) {
         freePlanesAjax('#planes');
     });
 
-
     $('#dep_time, #dest_time').on('change', function () {
         time = $(this).val();
 
-        if(departureAirport === 'Minsk(MSQ)'|| destinationAirport=== 'Minsk(MSQ)'){
-            if(time.length !== 0) {
-                createFreeDispatchersSelectAjax(date, time, departureAirport);
-            }
+        if(departureAirport === HOME_AIRPORT || destinationAirport === HOME_AIRPORT){
+            freeDispatchersAjax(HOME_AIRPORT);
         }
     });
 
     $('#dest_airport').on('change', function () {
         destinationAirport = $(this).val();
 
-        if(destinationAirport === 'Minsk(MSQ)'){
-            if(date !== undefined && time !== undefined) {
-                createFreeDispatchersSelectAjax(date, time, destinationAirport);
-            }
+        if(destinationAirport === HOME_AIRPORT){
+            freeDispatchersAjax(destinationAirport);
         }
-
         freePlanesAjax("#planes");
     });
 
@@ -189,10 +188,8 @@ $(document).ready(function ($) {
             date = $('#dep_flights_piker').val();
             departureDate = date;
 
-            if(departureAirport === 'Minsk(MSQ)'|| destinationAirport=== 'Minsk(MSQ)'){
-                if(date.length !== 0  && time !== undefined) {
-                    createFreeDispatchersSelectAjax(date, time, departureAirport);
-                }
+            if(departureAirport === HOME_AIRPORT || destinationAirport=== HOME_AIRPORT){
+                freeDispatchersAjax(HOME_AIRPORT);
             }
             freePlanesAjax('#planes');
         }
@@ -203,15 +200,14 @@ $(document).ready(function ($) {
             date = $('#dest_flights_piker').val();
             destinationDate = date;
 
-            if(departureAirport === 'Minsk(MSQ)'|| destinationAirport=== 'Minsk(MSQ)'){
-                if(date.length !== 0 && time !== undefined) {
-                    createFreeDispatchersSelectAjax(date, time, departureAirport);
-                }
+            if(departureAirport === HOME_AIRPORT|| destinationAirport=== HOME_AIRPORT){
+                freeDispatchersAjax(HOME_AIRPORT);
             }
+            freePlanesAjax('#planes');
         }
     });
 
-    $('#choose_crew_btn').on('click', function () {
+    $('#choose_crew_btn').on('click', function () { //todo modal
         let crewName = $('.clicked td').eq(0).text();
 
         $.ajax({
@@ -220,15 +216,15 @@ $(document).ready(function ($) {
             dataType:'json',
             data: {command: 'set_crew_for_flight',crew_name: crewName},
 
-            success: function (data) {//todo modal
+            success: function (data) {
                 if(data === true){
-                    //
+                    $('#choose_crew_modal').modal('show')
                 }else {
-
+                    $('#no_choose_mes').fadeIn();
                 }
             },
             error: function (data) {
-               alert('not created')
+                $('#no_choose_mes').fadeIn();
             }
         });
     });
@@ -248,17 +244,17 @@ $(document).ready(function ($) {
                 if(data === true){
                     $(rowToDelete).remove();
                 }else {
-                    alert("fuck")// todo message
+                    $('#no_delete_mes').fadeIn();
                 }
             },
             error: function (data) {
-                alert('fuck') // todo message
+                $('#no_delete_mes').fadeIn();
             }
         });
     });
 
     //flight editing
-    $('#edit_dep_airport').on('change', function (){//todo доделать
+    $('#edit_dep_airport').on('change', function (){
         departureAirport = $(this).val();
 
         freePlanesAjax('#edit_planes');
@@ -315,8 +311,7 @@ $(document).ready(function ($) {
             dataType:'json',
             data: {command: 'flight_info', flight_number: flightNumber, departure_date:depDate},
 
-            success: function (data) {
-                if(data.length!==0){
+            success: function (data) {//todo на пустоту проверка
                     let plane = data.plane.model + '  ' + data.plane.number;
                     departureAirport =  data.departureCity + '(' + data.departureAirportShortName + ')';
                     departureDate = data.departureDate.year + '-' + addZeroBeforeValue(data.departureDate.month) + '-' + addZeroBeforeValue(data.departureDate.day);
@@ -327,14 +322,18 @@ $(document).ready(function ($) {
 
                     $('#edit_flight_number').val(data.flightNumber);
                     $('#edit_planes').append('<option selected>' + plane + '</option>');
-                    $('#edit_crew').append('<option selected>' + data.crew + '</option>');
+
+                    if(typeof data.crew=== 'undefined'){
+                        $('#edit_crew').append('<option selected>' +  ' ' + '</option>');
+                    }else {
+                        $('#edit_crew').append('<option selected>' + data.crew + '</option>');
+                    }
                     setFlightStatus(data.status);
 
                     $('#edit_dep_flights_piker').val(departureDate);
                     $('#edit_dep_time').val(departureTime);
                     $('#edit_dep_airport').append('<option selected>' +  departureAirport +'</option>');
                     $('#edit_dep_country').append('<p>' + data.departureCountry + '</p>');
-
                     $('#edit_dest_flights_piker').val(destinationDate);
                     $('#edit_dest_time').val(destinationTime);
                     $('#edit_dest_airport').append('<option selected>' +  destinationAirport + '</option>');
@@ -344,10 +343,6 @@ $(document).ready(function ($) {
                     addAirportsToSelectAjax(data.destinationCountry, data.destinationAirportShortName, '#edit_dest_airport');
                     addPlanesToSelectAjax(data);
                     addFreeCrewsToSelectAjax(data);
-                }
-            },
-            error: function (data) {
-                alert('fuck') // todo message
             }
         });
     })
@@ -382,6 +377,66 @@ function freePlanesAjax(selector) {
 
                 $(selector).append(emptyOption);
                 $(selector).append(option);
+            }
+        });
+    }
+}
+
+function freeCrewsAjax() {
+    if(departureDate !== undefined && departureAirport !== undefined  && departureTime !== undefined
+        && destinationDate !== undefined && destinationTime !== undefined && destinationAirport !==undefined){
+
+        $('#edit_crew option').remove();
+
+        $.ajax({
+            type: "GET",
+            url: "/JWD_Task3_war/ajax",
+            dataType: 'json',
+            data: {
+                command: 'find_free_crew',
+                departure_date: departureDate,
+                departure_time: departureTime,
+                departure_airport: departureAirport,
+                destination_date: destinationDate,
+                destination_time: destinationTime,
+                destination_airport: destinationAirport
+            },
+
+            success: function (data) {
+                let option = '';
+
+                $.each(data, function (crew, crewInfo) {
+                    option += '<option>' + crewInfo + '</option>';
+                });
+                $('#edit_crew').append(option);
+            }
+        });
+    }
+}
+
+function freeDispatchersAjax(airport) {
+    let emptyOption = '<option selected>' + ' ' + '</option>';
+
+    if(date !== undefined && time !== undefined && airport.length !== 0){
+        $('#dispatcher option').remove();
+
+        $.ajax({
+            type: "GET",
+            url: "/JWD_Task3_war/ajax",
+            dataType:'json',
+            data: {
+                command: 'find_free_dispatcher', date: date, time: time, city_with_airport: airport
+            },
+
+            success: function (data) {
+                let option = '';
+
+                $.each(data, function (dispatcher, dispatcherInfo) {
+                    option += '<option>' + dispatcherInfo.name + ' ' + dispatcherInfo.surname + '</option>';
+                });
+
+                $('#dispatcher').append(emptyOption);
+                $('#dispatcher').append(option);
             }
         });
     }
@@ -459,41 +514,8 @@ function createAirportSelectAjax(country, airportSelect) {
 
             $(airportSelect).append(emptyOption);
             $(airportSelect).append(option);
-        },
-        error: function (data) {
-            $(airportSelect).append(emptyOption);
         }
     });
-}
-
-function createFreeDispatchersSelectAjax(date, time, airport) {
-    let emptyOption = '<option selected>' + ' ' + '</option>';
-    $('#dispatcher option').remove();
-
-    if(date !== null && time != null && airport != null){
-        $.ajax({
-            type: "GET",
-            url: "/JWD_Task3_war/ajax",
-            dataType:'json',
-            data: {
-                command: 'find_free_dispatcher', date: date, time: time, city_with_airport: airport
-            },
-
-            success: function (data) {
-                let option = '';
-
-                $.each(data, function (dispatcher, dispatcherInfo) {
-                    option += '<option>' + dispatcherInfo.name + ' ' + dispatcherInfo.surname + '</option>';
-                });
-
-                $('#dispatcher').append(emptyOption);
-                $('#dispatcher').append(option);
-            },
-            error: function (data) {
-                $('#dispatcher').append(emptyOption);
-            }
-        });
-    }
 }
 
 function addAirportsToSelectAjax(country, airportShortName, selector){
@@ -563,7 +585,7 @@ function addFreeCrewsToSelectAjax(data) {
                 command: 'find_free_crew',
                 departure_date: departureDate,
                 departure_time: departureTime,
-                departure_airport: departureAirport,/////todo
+                departure_airport: departureAirport,
                 destination_date: destinationDate,
                 destination_time: destinationTime,
                 destination_airport: destinationAirport
@@ -584,32 +606,3 @@ function addFreeCrewsToSelectAjax(data) {
     }
 }
 
-function freeCrewsAjax() {
-    if(departureDate !== undefined && departureAirport !== undefined  && departureTime !== undefined
-        && destinationDate !== undefined && destinationTime !== undefined && destinationAirport !==undefined){
-        $.ajax({
-            type: "GET",
-            url: "/JWD_Task3_war/ajax",
-            dataType: 'json',
-            data: {
-                command: 'find_free_crew',
-                departure_date: departureDate,
-                departure_time: departureTime,
-                departure_airport: departureAirport,
-                destination_date: destinationDate,
-                destination_time: destinationTime,
-                destination_airport: destinationAirport
-            },
-
-            success: function (data) {
-                let option = '';
-
-                $.each(data, function (crew, crewInfo) {
-                    option += '<option>' + crewInfo + '</option>';
-                });
-
-                $('#edit_crew').append(option);
-            }
-        });
-    }
-}
