@@ -3,25 +3,22 @@ $(document).ready(function ($) {
     $('#my_flights_piker').datepicker({
         dateFormat: 'yyyy-mm-dd',
         firstDay: 1,
-        minDate: getMinDate(10),
-        maxDate: getMaxDate(31)
+        todayButton: new Date(),
+        minDate: new Date(),
     });
 
     $('#dep_arr_piker').datepicker({
         dateFormat: 'yyyy-mm-dd',
         firstDay: 1,
+        todayButton: new Date(),
         minDate: getMinDate(1),
         maxDate: getMaxDate(1)
     });
 
-    $('#dep_flights_piker, #dest_flights_piker').datepicker({
+    $('#dep_flights_piker, #dest_flights_piker, #edit_dep_flights_piker, #edit_dest_flights_piker').datepicker({
         dateFormat: 'yyyy-mm-dd',
-        firstDay: 1
-    });
-
-    $('#edit_dep_flights_piker, #edit_dest_flights_piker').datepicker({
-        dateFormat: 'yyyy-mm-dd',
-        firstDay: 1
+        firstDay: 1,
+        minDate: new Date(),
     });
 
     //menu

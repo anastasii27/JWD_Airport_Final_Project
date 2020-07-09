@@ -312,6 +312,7 @@ $(document).ready(function ($) {
             data: {command: 'flight_info', flight_number: flightNumber, departure_date:depDate},
 
             success: function (data) {//todo на пустоту проверка
+                    let flightId = data.id;
                     let plane = data.plane.model + '  ' + data.plane.number;
                     departureAirport =  data.departureCity + '(' + data.departureAirportShortName + ')';
                     departureDate = data.departureDate.year + '-' + addZeroBeforeValue(data.departureDate.month) + '-' + addZeroBeforeValue(data.departureDate.day);
@@ -320,6 +321,7 @@ $(document).ready(function ($) {
                     destinationDate = addZeroBeforeValue(data.destinationDate.year) + '-' + addZeroBeforeValue(data.destinationDate.month) + '-' + addZeroBeforeValue(data.destinationDate.day);
                     destinationTime = addZeroBeforeValue(data.destinationTime.hour) + ":" + addZeroBeforeValue(data.destinationTime.minute)
 
+                    $('#flight_id').val(flightId);
                     $('#edit_flight_number').val(data.flightNumber);
                     $('#edit_planes').append('<option selected>' + plane + '</option>');
 

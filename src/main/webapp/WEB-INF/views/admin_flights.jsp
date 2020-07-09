@@ -66,9 +66,10 @@
                     </div>
                     <div class="modal-body">
                         <form action="airport" method="post" id="edit_flight">
+                            <input type="hidden" name="action" value="edit_flight" />
+                            <input type="hidden" name="id" id="flight_id"/>
                             <div class="row">
                                 <div class="form-group">
-                                    <input type="hidden" name="action" value="edit_flight" />
                                     <label for="edit_flight_number"> НОМЕР РЕЙСА</label>
                                     <input type="text" id="edit_flight_number" name="flight_number"/>
                                 </div>

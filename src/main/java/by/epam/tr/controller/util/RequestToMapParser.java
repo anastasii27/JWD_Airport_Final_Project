@@ -2,7 +2,7 @@ package by.epam.tr.controller.util;
 
 import by.epam.tr.bean.User;
 import by.epam.tr.controller.constant_parameter.RequestParameterName;
-import javax.servlet.http.HttpServletRequest;
+import javax.servlet.ServletRequest;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
@@ -13,7 +13,7 @@ public class RequestToMapParser {
     private static String key;
     private static int count = 1;
 
-    public static Map<String, String> toRequestParamsMap(HttpServletRequest request){
+    public static Map<String, String> toRequestParamsMap(ServletRequest request){
         Map<String, String> params =  new HashMap<>();
         Enumeration<java.lang.String> keys = request.getParameterNames();
 
@@ -24,7 +24,7 @@ public class RequestToMapParser {
         return params;
     }
 
-    public static Map<String, String> toFlightValidationParamsMap(HttpServletRequest request){
+    public static Map<String, String> toFlightValidationParamsMap(ServletRequest request){
         Map<String, String> params =  new HashMap<>();
         Enumeration<String> keys = request.getParameterNames();
 
@@ -39,7 +39,7 @@ public class RequestToMapParser {
         return params;
     }
 
-    public static Map<String, String> toCrewValidationMap(HttpServletRequest request){
+    public static Map<String, String> toCrewValidationMap(ServletRequest request){
         Map<String, String> params =  new HashMap<>();
         Enumeration<String> keys = request.getParameterNames();
 

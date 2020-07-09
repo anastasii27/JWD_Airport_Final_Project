@@ -33,7 +33,7 @@ public class FlightDaoImpl implements FlightDao, CloseOperation {
             "JOIN `plane-models` ON `plane-models`.id = (SELECT `model-id` FROM planes WHERE planes.id = `plane-id`)\n" +
             "WHERE `destination-date` = ? AND a1.`name-abbreviation` = ?;";
 
-    private final static String FLIGHT_INFO =   "SELECT `flight-number`, `number` AS `plane-number`, title AS 'plane-model', `status`,`destination-date`, `destination-time`, a2.`name` AS `departure-airport`," +
+    private final static String FLIGHT_INFO =   "SELECT flights.id AS `id`, `flight-number`, `number` AS `plane-number`, title AS 'plane-model', `status`,`destination-date`, `destination-time`, a2.`name` AS `departure-airport`," +
             "c2.`name` AS `departure-city`, cnt2.`name` AS `departure-country`,  a2.`name-abbreviation` AS `dep-airport-short-name`, \n" +
             "`departure-date`, `departure-time`, a1.`name` AS `destination-airport`, c1.`name` AS `destination-city` , " +
             "cnt1.`name` AS `destination-country`, a1.`name-abbreviation` AS `dest-airport-short-name`\n" +
@@ -59,7 +59,7 @@ public class FlightDaoImpl implements FlightDao, CloseOperation {
             "WHERE `flight-number` = ? AND `departure-date` = ? " +
             "OR `flight-number` = ? AND `destination-date` = ?";
 
-    private final static String ALL_FLIGHTS_BY_DAY = "SELECT flights.id AS `id`, `flight-number`, title AS `plane-model`," +
+    private final static String ALL_FLIGHTS_BY_DAY = "SELECT `flight-number`, title AS `plane-model`," +
             "`departure-date`, `departure-time`, `destination-date`, `destination-time`, \n" +
             "c1.`name` AS `destination-city` , a1.`name-abbreviation` AS `dest-airport-short-name`,\n" +
             "c2.`name` AS `departure-city`, a2.`name-abbreviation` AS `dep-airport-short-name`, `status`\n" +
@@ -72,6 +72,15 @@ public class FlightDaoImpl implements FlightDao, CloseOperation {
             "WHERE `departure-date` = ?;";
 
     private final static String DELETE_FLIGHT = "DELETE FROM flights WHERE `flight-number` = ? AND `departure-date` = ?";
+
+    private final static String EDIT_FLIGHT = "UPDATE flights SET `flight-number` = ?, \n" +
+            "`plane-id` = (SELECT id FROM planes WHERE `number` = ?),\n" +
+            "`flight-team-id` = (SELECT id FROM `flight-teams` WHERE `short-name` = ?),\n" +
+            "`departure-airport-id` = (SELECT id FROM airports WHERE `name-abbreviation` = ?),\n" +
+            "`destination-airport-id` = (SELECT id FROM airports WHERE `name-abbreviation` = ?),\n" +
+            "`departure-date` = ?, `destination-date` = ?, `departure-time` = ?,\n" +
+            "`status` = ?, `destination-time` = ?\n" +
+            "WHERE  id = ?";
 
     @Override
     public List<Flight> airportArrivals(Map<String, String> params) throws DaoException {
@@ -148,7 +157,8 @@ public class FlightDaoImpl implements FlightDao, CloseOperation {
             if(!rs.next()){
                 return null;
             }
-            flight = Flight.builder().flightNumber(rs.getString("flight-number"))
+            flight = Flight.builder().id(rs.getInt("id"))
+                                    .flightNumber(rs.getString("flight-number"))
                                     .status(rs.getString("status"))
                                     .destinationDate(rs.getDate("destination-date").toLocalDate())
                                     .destinationTime( rs.getTime("destination-time").toLocalTime())
@@ -243,8 +253,7 @@ public class FlightDaoImpl implements FlightDao, CloseOperation {
 
             rs = ps.executeQuery();
             while (rs.next()){
-                flights.add( Flight.builder().id(rs.getInt("id"))
-                        .status(rs.getString("status"))
+                flights.add( Flight.builder().status(rs.getString("status"))
                         .planeModel(rs.getString("plane-model"))
                         .departureDate(rs.getDate("departure-date").toLocalDate())
                         .departureTime(rs.getTime("departure-time").toLocalTime())
@@ -279,7 +288,7 @@ public class FlightDaoImpl implements FlightDao, CloseOperation {
 
             return ps.executeUpdate();
         } catch (ConnectionPoolException | SQLException e) {
-            throw new DaoException("Exception during nearest flight selecting!", e);
+            throw new DaoException("Exception during flight deleting!", e);
         }finally{
             closeAll(ps, pool, connection);
         }
@@ -287,7 +296,31 @@ public class FlightDaoImpl implements FlightDao, CloseOperation {
 
     @Override
     public int editFlight(Flight flight) throws DaoException {
+        ConnectionPool pool = ConnectionPool.getInstance();
+        Connection connection = null;
+        PreparedStatement ps = null;
 
-        return 0;
+        try {
+            connection = pool.takeConnection();
+            ps =  connection.prepareStatement(EDIT_FLIGHT);
+
+            ps.setString(1, flight.getFlightNumber());
+            ps.setString(2, flight.getPlaneNumber());
+            ps.setString(3, flight.getCrew());
+            ps.setString(4, flight.getDepartureAirportShortName());
+            ps.setString(5, flight.getDestinationAirportShortName());
+            ps.setDate(6, Date.valueOf(flight.getDepartureDate()));
+            ps.setDate(7, Date.valueOf(flight.getDestinationDate()));
+            ps.setTime(8, Time.valueOf(flight.getDepartureTime()));
+            ps.setString(9,flight.getStatus());
+            ps.setTime(10, Time.valueOf(flight.getDestinationTime()));
+            ps.setInt(11, flight.getId());
+
+            return ps.executeUpdate();
+        } catch (ConnectionPoolException | SQLException e) {
+            throw new DaoException("Exception during flight editing!", e);
+        }finally{
+            closeAll(ps, pool, connection);
+        }
     }
 }

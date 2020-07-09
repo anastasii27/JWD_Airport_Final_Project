@@ -90,7 +90,11 @@ public class FlightServiceImpl implements FlightService {
     }
 
     @Override
-    public boolean editFlight(Map<String, String> params) throws ServiceException {
-        return false;
+    public boolean editFlight(Flight flight) throws ServiceException {
+        try {
+            return dao.editFlight(flight) != 0;
+        } catch (DaoException e) {
+            throw new ServiceException("Exception during flight deleting", e);
+        }
     }
 }

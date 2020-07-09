@@ -304,6 +304,116 @@ $(document).ready(function ($) {
 
     });
 
+    $('#edit_flight').validate({
+        rules:{
+            flight_number:{
+                required: true,
+                flight_number_pattern_check: true,
+            },
+            planes: 'required',
+            departure_date:{
+                required:true,
+                date_pattern_check:true,//
+                remote:{
+                    url: '/JWD_Task3_war/ajax',
+                    type: 'GET',
+                    data:{
+                        command: 'check_flight_number',
+                        flight_number: function() {
+                            return $( "#edit_flight_number" ).val();
+                        },
+                        date: function() {
+                            return $( "#edit_dep_flights_piker" ).val();
+                        }
+                    },
+                    async:true
+                }
+            },
+            departure_time:{
+                required:true,
+                same_date_time_check_for_edit: true
+            },
+            departure_airport:{
+                required: true,
+                not_equal_airports_check: true
+            },
+
+            destination_date:{
+                required:true,
+                date_pattern_check:true,
+                remote:{
+                    url: '/JWD_Task3_war/ajax',
+                    type: 'GET',
+                    data:{
+                        command: 'check_flight_number',
+                        flight_number: function() {
+                            return $( "#edit_flight_number" ).val();
+                        },
+                        date: function() {
+                            return $( "#edit_dest_flights_piker" ).val();
+                        }
+                    },
+                    async:true
+                }
+            },
+            destination_time:{
+                required:true,
+                same_date_time_check_for_edit: true
+            },
+            destination_airport:{
+                required: true,
+                not_equal_airports_check: true
+            }
+        },
+        messages:{
+            flight_number:{
+                required: null,
+            },
+            planes: null,
+            departure_date:{
+                required: null,
+                remote: function () {
+                    if(lang==="ru"){
+                        return "\u0422\u0430\u043a\u043e\u0439\u0020\u0440\u0435\u0439\u0441\u0020\u0443\u0436\u0435\u0020\u0441\u0443\u0449\u0435\u0441\u0442\u0432\u0443\u0435\u0442\u0021";
+                    }else{
+                        return "This flight name is already taken";
+                    }
+                }
+            },
+            departure_time:{
+                required: null,
+            },
+            departure_airport:{
+                required: null,
+            },
+            destination_date:{
+                required: null,
+                remote: function () {
+                    if(lang==="ru"){
+                        return "\u0422\u0430\u043a\u043e\u0439\u0020\u0440\u0435\u0439\u0441\u0020\u0443\u0436\u0435\u0020\u0441\u0443\u0449\u0435\u0441\u0442\u0432\u0443\u0435\u0442\u0021";
+                    }else{
+                        return "This flight name is already taken";
+                    }
+                }
+            },
+            destination_time:{
+                required: null,
+            },
+            destination_airport:{
+                required: null,
+            }
+        },
+
+        errorPlacement: function(error, element){
+            let id = element.attr("id");
+
+            if(id === 'edit_dest_flights_piker' || id === 'edit_dep_flights_piker' ){
+                $('#edit_flight_number').after(error);
+            }
+        }
+
+    });
+
     $.validator.addMethod('required_value', function(value) {
         return value.length !== 0;
     }, function ( ) {
@@ -454,9 +564,32 @@ $(document).ready(function ($) {
         }
     });
 
+    $.validator.addMethod('same_date_time_check_for_edit', function(value) {
+        let departure_date = $('#edit_dep_flights_piker').val();
+        let departure_time = $('#edit_dep_time').val();
+        let destination_date = $('#edit_dest_flights_piker').val();
+        let destination_time = $('#edit_dest_time').val();
+
+        if(departure_date.length!==0 && departure_time.length!==0
+            && destination_date.length!==0 && destination_time.length!==0){
+            let departure = new Date(departure_date + 'T' + departure_time);
+            let arrival = new Date(destination_date + 'T' + destination_time);
+
+            return departure<arrival;
+        }else {
+            return true;
+        }
+    }, function () {
+        if(lang=='en'){
+            return "Departure is before arrival!";
+        }else{
+            return "\u041f\u0440\u0438\u043b\u0435\u0442\u0020\u0440\u0430\u043d\u044c\u0448\u0435\u0020\u0432\u044b\u043b\u0435\u0442\u0430\u0021";
+        }
+    });
+
     $.validator.addMethod('not_equal_airports_check', function(value) {
-        let departure_airport = $('#dep_airport').val();
-        let destination_airport = $('#dest_airport').val();
+        let departure_airport = $('select[name = "departure_airport"]').val();
+        let destination_airport = $('select[name = "destination_airport"]').val();
 
         if(departure_airport.length!==0 && destination_airport.length!==0){
             return departure_airport !==destination_airport;
@@ -472,6 +605,7 @@ $(document).ready(function ($) {
     });
 
     $.validator.addMethod('flight_number_pattern_check', function(value) {
+        console.log(value)
         return value.match(new RegExp("^" + "[A-Z]{2} \\d{4}" + "$"));
     }, function () {
         if(lang=='en'){
