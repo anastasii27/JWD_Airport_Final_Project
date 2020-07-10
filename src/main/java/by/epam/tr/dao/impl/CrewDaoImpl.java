@@ -51,6 +51,10 @@ public class CrewDaoImpl implements CrewDao, CloseOperation {
             "JOIN `flight-teams` ON `flight-team-id` = `flight-teams`.id\n" +
             "WHERE `departure-date` = ? AND `flight-number` = ?;";
 
+    private final static String TAKEN_ON_FLIGHTS_CREWS = "SELECT DISTINCT `short-name` \n" +
+            "FROM airport.flights\n" +
+            "JOIN `flight-teams` ON `flight-team-id` = `flight-teams`.id;";
+
     @Override
     public boolean createCrew(String crewName, Map<String, User> users) throws DaoException {
         boolean flag;
@@ -301,5 +305,29 @@ public class CrewDaoImpl implements CrewDao, CloseOperation {
         } finally {
             closeAll(rs, ps, pool, connection);
         }
+    }
+
+    @Override
+    public List<String> takenOnFlightsCrews() throws DaoException {//todo  redo! same with allCrews()
+        ConnectionPool pool = ConnectionPool.getInstance();
+        Connection connection = null;
+        Statement st = null;
+        ResultSet rs = null;
+        List<String> countries = new ArrayList<>();
+
+        try {
+            connection = pool.takeConnection();
+            st = connection.createStatement();
+
+            rs = st.executeQuery(TAKEN_ON_FLIGHTS_CREWS);
+            while (rs.next()) {
+                countries.add(rs.getString("short-name"));
+            }
+        } catch (ConnectionPoolException | SQLException e) {
+            throw new DaoException("Exception during taken on flights crews getting!", e);
+        } finally {
+            closeAll(rs, st, pool, connection);
+        }
+        return countries;
     }
 }

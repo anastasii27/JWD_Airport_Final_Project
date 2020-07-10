@@ -10,8 +10,8 @@ import java.time.LocalDateTime;
 import java.util.*;
 
 public class CrewServiceImpl implements CrewService {
-    private final static int TIME_BETWEEN_FLIGHTS_FROM_ONE_AIRPORT = 3;
-    private final static int TIME_BETWEEN_FLIGHTS_FROM_DIFFERENT_AIRPORTS = 23;
+    private final static int MIN_TIME_BETWEEN_FLIGHTS = 3;
+    private final static String HOME_AIRPORT = "MSQ";
     private CrewDao dao = DaoFactory.getInstance().getCrewDAO();
 
     @Override
@@ -61,29 +61,44 @@ public class CrewServiceImpl implements CrewService {
 
     @Override
     public Set<String> findFreeCrewsForFlight(Flight flight) throws ServiceException {
-        CrewMemberDao crewMemberDao = DaoFactory.getInstance().getCrewMemberDAO();
-        Set<String> freeCrews = new HashSet<>();
+        if(flight == null){
+            return Collections.emptySet();
+        }
 
         try {
-            List<String> allCrews = dao.allCrews();
-            List <User> crewMembers;
-
-            for (String crewName: allCrews) {
-                crewMembers = crewMemberDao.crewMembers(crewName);
-                if(areAllCrewMembersFree(crewMembers, flight)){
-                    freeCrews.add(crewName);
-                }
-            }
+            List<String> crews = crewsListByAirport(flight.getDepartureAirportShortName());//todo check with null
+            return flightFreeCrewsSet(crews, flight);
         } catch (DaoException e) {
             throw new ServiceException("Exception during free crews searching", e);
+        }
+    }
+    private List<String> crewsListByAirport(String airportShortName) throws DaoException {
+        if(airportShortName.equals(HOME_AIRPORT)) {
+            return dao.allCrews();
+        }else {
+            return dao.takenOnFlightsCrews();
+        }
+    }
+
+    private Set<String> flightFreeCrewsSet(List<String> crews, Flight flight) throws DaoException {
+        CrewMemberDao crewMemberDao = DaoFactory.getInstance().getCrewMemberDAO();
+        Set<String> freeCrews = new HashSet<>();
+        List <User> crewMembers;
+
+        for (String crewName: crews) {
+            crewMembers = crewMemberDao.crewMembers(crewName);
+
+            if(areAllCrewMembersFree(crewMembers, flight)){
+                freeCrews.add(crewName);
+            }
         }
         return freeCrews;
     }
 
     private boolean areAllCrewMembersFree(List<User> crewMembers, Flight newFlight) throws DaoException {
         for(User crewMember:crewMembers){
-            Flight lastFlight = findCrewMemberLastFlight(crewMember, newFlight.getDepartureDate());
-            Flight nextUserFlightAfterNewOne = findCrewMemberNextFlight(crewMember, newFlight.getDestinationDate());
+            Flight lastFlight = crewMemberLastFlight(crewMember, newFlight);
+            Flight nextUserFlightAfterNewOne = crewMemberNextFlight(crewMember, newFlight);
 
              if(!isCrewMemberFree(newFlight, lastFlight, nextUserFlightAfterNewOne)){
                 return  false;
@@ -92,53 +107,49 @@ public class CrewServiceImpl implements CrewService {
         return true;
     }
 
-    private Flight findCrewMemberLastFlight(User user, LocalDate newFlightDepartureDate) throws DaoException {
+    private Flight crewMemberLastFlight(User user, Flight newFlight) throws DaoException {
         UserFlightsDao userFlightsDao = DaoFactory.getInstance().getUserFlightsDao();
-        return userFlightsDao.lastUserFlightBeforeDate(user, newFlightDepartureDate);
+        LocalDate departureDate = newFlight.getDepartureDate();
+
+        return userFlightsDao.lastUserFlightBeforeDate(user, departureDate);
     }
 
-    private Flight findCrewMemberNextFlight(User user,LocalDate newFlightDepartureDate) throws DaoException {
+    private Flight crewMemberNextFlight(User user, Flight newFlight) throws DaoException {
         UserFlightsDao userFlightsDao = DaoFactory.getInstance().getUserFlightsDao();
-        return userFlightsDao.firstUserFlightAfterDate(user, newFlightDepartureDate);
+        LocalDate destinationDate = newFlight.getDestinationDate();
+
+        return userFlightsDao.firstUserFlightAfterDate(user, destinationDate);
     }
 
-    private boolean isCrewMemberFree(Flight newUserFlight, Flight lastUserFlight, Flight nextUserFlightAfterNewOne){
-        if(!isSecondFlightAfterFirstOne(newUserFlight, nextUserFlightAfterNewOne)){
-            return false;
-        }
-
-        if(lastUserFlight == null){
-            return false;
-        }
-
-        if(!newUserFlight.getDepartureAirportShortName().equals(lastUserFlight.getDestinationAirportShortName())){
-            return false;
-        }else if(!isSecondFlightBeforeFirstOne(newUserFlight, lastUserFlight)){
-            return false;
-        }
-
-        return true;
+    private boolean isCrewMemberFree(Flight newFlight, Flight lastFlight, Flight nextFlight){
+        return  isNextFlightAfterNew(newFlight, nextFlight)
+                    && isLastFlightBeforeNew(newFlight, lastFlight);
     }
 
-    private boolean isSecondFlightAfterFirstOne(Flight firstFlight, Flight secondFlight){
-        if(secondFlight == null){
+    private boolean isNextFlightAfterNew(Flight newFlight, Flight nextFlight){
+        if(nextFlight == null){
             return true;
         }
-        LocalDateTime firstFlightArrival = LocalDateTime.of(firstFlight.getDestinationDate(), firstFlight.getDestinationTime());
-        LocalDateTime secondFlightDeparture = LocalDateTime.of(secondFlight.getDepartureDate(), secondFlight.getDepartureTime());
+        LocalDateTime newFlightArrival = LocalDateTime.of(newFlight.getDestinationDate(), newFlight.getDestinationTime());
+        LocalDateTime nextFlightDeparture = LocalDateTime.of(nextFlight.getDepartureDate(), nextFlight.getDepartureTime());
 
-        if(firstFlight.getDestinationAirportShortName().equals(secondFlight.getDepartureAirportShortName())) {
-            return secondFlightDeparture.minusHours(TIME_BETWEEN_FLIGHTS_FROM_ONE_AIRPORT).isAfter(firstFlightArrival);
-        }else {
-            return secondFlightDeparture.minusHours(TIME_BETWEEN_FLIGHTS_FROM_DIFFERENT_AIRPORTS).isAfter(firstFlightArrival);
+        if(newFlight.getDestinationAirportShortName().equals(nextFlight.getDepartureAirportShortName())) {
+            return nextFlightDeparture.minusHours(MIN_TIME_BETWEEN_FLIGHTS).isAfter(newFlightArrival);
         }
+        return false;
     }
 
-    private boolean isSecondFlightBeforeFirstOne(Flight firstFlight, Flight secondFlight){
-        LocalDateTime firstFlightDeparture = LocalDateTime.of(firstFlight.getDepartureDate(), firstFlight.getDepartureTime());
-        LocalDateTime secondFlightArrival = LocalDateTime.of(secondFlight.getDestinationDate(), secondFlight.getDestinationTime());
+    private boolean isLastFlightBeforeNew(Flight newFlight, Flight lastFlight){
+        if(lastFlight == null){
+            return true;
+        }
+        LocalDateTime newFlightDeparture = LocalDateTime.of(newFlight.getDepartureDate(), newFlight.getDepartureTime());
+        LocalDateTime lastFlightArrival = LocalDateTime.of(lastFlight.getDestinationDate(), lastFlight.getDestinationTime());
 
-        return secondFlightArrival.plusHours(TIME_BETWEEN_FLIGHTS_FROM_ONE_AIRPORT).isBefore(firstFlightDeparture) ;
+        if(newFlight.getDepartureAirportShortName().equals(lastFlight.getDestinationAirportShortName())){
+            return lastFlightArrival.plusHours(MIN_TIME_BETWEEN_FLIGHTS).isBefore(newFlightDeparture);
+        }
+        return false;
     }
 
     @Override

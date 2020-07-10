@@ -8,6 +8,7 @@ import by.epam.tr.dao.connectionpool.ConnectionPool;
 import by.epam.tr.dao.connectionpool.ConnectionPoolException;
 import java.sql.*;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -59,24 +60,24 @@ public class UserFlightsDaoImpl implements UserFlightsDao, CloseOperation {
             "AND `departure-date` BETWEEN current_date() AND date_add(current_date(), interval 1 day)\n" +
             "AND c2.`name`= 'Minsk';";
 
-    private final static String LAST_USER_FLIGHT_BEFORE_DATE = "SELECT `name-abbreviation` AS `dest-airport-short-name`," +
+    private final static String LAST_USER_FLIGHT = "SELECT `name-abbreviation` AS `dest-airport-short-name`," +
             "`destination-time`, `destination-date`\n" +
             "FROM flights\n" +
             "JOIN airports ON airports.id = flights.`destination-airport-id`\n" +
             "JOIN `flight-teams` ON  flights.`flight-team-id` = `flight-teams`.id\n" +
             "JOIN `flight-teams-m2m-users` ON   `flight-teams-m2m-users`.`flight-team-id` = `flight-teams`.id \n" +
             "WHERE `user-id` = (SELECT id FROM users WHERE surname = ?  AND email = ?)\n" +
-            "AND `destination-date`< ?\n" +
+            "AND `destination-date` <= ? \n" +
             "ORDER BY `destination-date` DESC, `destination-time` DESC LIMIT 1";
 
-    private final static String FIRST_USER_FLIGHT_AFTER_DATE = "SELECT `name-abbreviation` AS `dep-airport-short-name`," +
+    private final static String FIRST_USER_FLIGHT = "SELECT `name-abbreviation` AS `dep-airport-short-name`," +
             "`departure-time`, `departure-date`\n" +
             "FROM flights\n" +
             "JOIN airports ON  airports.id = flights.`departure-airport-id`\n" +
             "JOIN `flight-teams` ON  flights.`flight-team-id` = `flight-teams`.id\n" +
             "JOIN `flight-teams-m2m-users` ON  `flight-teams-m2m-users`.`flight-team-id` = `flight-teams`.id \n" +
             "WHERE `user-id` = (SELECT id FROM users WHERE surname = ?  AND email = ?)\n" +
-            "AND `departure-date` > ?\n" +
+            "AND `departure-date` >= ?\n" +
             "ORDER BY `departure-date`, `departure-time` LIMIT 1";
 
     @Override
@@ -195,7 +196,7 @@ public class UserFlightsDaoImpl implements UserFlightsDao, CloseOperation {
     }
 
     @Override
-    public Flight lastUserFlightBeforeDate(User user, LocalDate departureDate) throws DaoException {
+    public Flight lastUserFlightBeforeDate(User user, LocalDate date) throws DaoException {
         ConnectionPool pool = ConnectionPool.getInstance();
         Connection connection = null;
         PreparedStatement ps = null;
@@ -204,11 +205,11 @@ public class UserFlightsDaoImpl implements UserFlightsDao, CloseOperation {
 
         try {
             connection = pool.takeConnection();
-            ps =  connection.prepareStatement(LAST_USER_FLIGHT_BEFORE_DATE);
+            ps =  connection.prepareStatement(LAST_USER_FLIGHT);
 
             ps.setString(1, user.getSurname());
             ps.setString(2, user.getEmail());
-            ps.setDate(3, Date.valueOf(departureDate));
+            ps.setDate(3, Date.valueOf(date));
 
             rs = ps.executeQuery();
             if(rs.next()) {
@@ -234,7 +235,7 @@ public class UserFlightsDaoImpl implements UserFlightsDao, CloseOperation {
 
         try {
             connection = pool.takeConnection();
-            ps =  connection.prepareStatement(FIRST_USER_FLIGHT_AFTER_DATE);
+            ps =  connection.prepareStatement(FIRST_USER_FLIGHT);
 
             ps.setString(1, user.getSurname());
             ps.setString(2, user.getEmail());

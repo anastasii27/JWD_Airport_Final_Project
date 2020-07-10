@@ -306,10 +306,6 @@ $(document).ready(function ($) {
 
     $('#edit_flight').validate({
         rules:{
-            flight_number:{
-                required: true,
-                flight_number_pattern_check: true,
-            },
             planes: 'required',
             departure_date:{
                 required:true,
@@ -366,9 +362,6 @@ $(document).ready(function ($) {
             }
         },
         messages:{
-            flight_number:{
-                required: null,
-            },
             planes: null,
             departure_date:{
                 required: null,

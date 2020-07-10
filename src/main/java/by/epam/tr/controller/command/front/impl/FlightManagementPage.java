@@ -4,15 +4,14 @@ import by.epam.tr.bean.Flight;
 import by.epam.tr.controller.command.Command;
 import by.epam.tr.controller.constant_parameter.JSPPageName;
 import by.epam.tr.controller.constant_parameter.RequestParameterName;
-import by.epam.tr.controller.util.RequestToMapParser;
 import by.epam.tr.service.FlightService;
 import by.epam.tr.service.ServiceException;
 import by.epam.tr.service.ServiceFactory;
 import lombok.extern.log4j.Log4j2;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.time.LocalDate;
 import java.util.List;
-import java.util.Map;
 
 @Log4j2
 public class FlightManagementPage implements Command {
@@ -26,8 +25,7 @@ public class FlightManagementPage implements Command {
 
         departureDate = request.getParameter(RequestParameterName.DEPARTURE_DATE);
         try {
-            Map<String, String> params = RequestToMapParser.toRequestParamsMap(request);
-            flights = userFlightsService.allFlightByDay(params);
+            flights = userFlightsService.allFlightByDay(LocalDate.parse(departureDate));
 
             if(flights.size()!= 0){
                 flights.sort(Flight.SORT_BY_TIME_AND_DATE);

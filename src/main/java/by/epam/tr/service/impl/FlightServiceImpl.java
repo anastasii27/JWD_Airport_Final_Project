@@ -6,25 +6,18 @@ import by.epam.tr.dao.DaoFactory;
 import by.epam.tr.dao.FlightDao;
 import by.epam.tr.service.FlightService;
 import by.epam.tr.service.ServiceException;
-import by.epam.tr.service.validation.ValidationFactory;
-import by.epam.tr.service.validation.Validator;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
 public class FlightServiceImpl implements FlightService {
     private FlightDao dao = DaoFactory.getInstance().getFlightDAO();
-    private Validator dateValidation = ValidationFactory.getInstance().getDateValidation();
     private final static String ARRIVAL = "arrival";
     private final static String DEPARTURE = "departure";
 
     @Override
     public List<Flight> airportFlightsByDay(Map<String, String> params) throws ServiceException {
-        if(dateValidation.validate(params).size()!= 0){
-            return Collections.emptyList();
-        }
         String flightType = params.get("type");
         List<Flight> flights = new ArrayList<>();
 
@@ -42,7 +35,7 @@ public class FlightServiceImpl implements FlightService {
     }
 
     @Override
-    public Flight flightInfo(String flightNumber, String departureDate) throws ServiceException {
+    public Flight flightInfo(String flightNumber, LocalDate departureDate) throws ServiceException {
         try {
             return dao.flightInfo(flightNumber,  departureDate);
         } catch (DaoException e) {
@@ -60,12 +53,9 @@ public class FlightServiceImpl implements FlightService {
     }
 
     @Override
-    public List<Flight> allFlightByDay(Map<String, String> params) throws ServiceException {
-        if(dateValidation.validate(params).size() != 0){
-            return Collections.emptyList();
-        }
+    public List<Flight> allFlightByDay(LocalDate departureDate) throws ServiceException {
         try {
-            return dao.allFlightByDay(params.get("departure_date"));
+            return dao.allFlightByDay(departureDate);
         } catch (DaoException e) {
             throw new ServiceException("Exception during all flights by day getting", e);
         }
@@ -81,7 +71,7 @@ public class FlightServiceImpl implements FlightService {
     }
 
     @Override
-    public boolean deleteFlight(String flightNumber, String departureDate) throws ServiceException {
+    public boolean deleteFlight(String flightNumber, LocalDate departureDate) throws ServiceException {
         try {
             return dao.deleteFlight(flightNumber, departureDate) != 0;
         } catch (DaoException e) {

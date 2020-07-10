@@ -69,9 +69,9 @@
                             <input type="hidden" name="action" value="edit_flight" />
                             <input type="hidden" name="id" id="flight_id"/>
                             <div class="row">
-                                <div class="form-group">
-                                    <label for="edit_flight_number"> НОМЕР РЕЙСА</label>
-                                    <input type="text" id="edit_flight_number" name="flight_number"/>
+                                <div class="form-group" id="edit_flight_number">
+                                    <label> НОМЕР РЕЙСА</label>
+
                                 </div>
                                 <div class="form-group">
                                     <label for="edit_planes">САМОЛЕТ</label>

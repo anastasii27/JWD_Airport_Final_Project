@@ -7,10 +7,10 @@ import java.util.Map;
 
 public interface FlightService {
     List <Flight> airportFlightsByDay(Map<String, String> params) throws ServiceException;
-    Flight flightInfo(String flightNumber, String departureDate) throws ServiceException;
+    Flight flightInfo(String flightNumber, LocalDate departureDate) throws ServiceException;
     boolean createFlight(Flight flight) throws ServiceException;
-    List<Flight> allFlightByDay(Map<String, String> params) throws ServiceException;
+    List<Flight> allFlightByDay(LocalDate departureDate) throws ServiceException;
     boolean doesFlightNumberExist(String flightNumber, LocalDate date) throws ServiceException;
-    boolean deleteFlight(String flightNumber, String departureDate) throws ServiceException;
+    boolean deleteFlight(String flightNumber, LocalDate departureDate) throws ServiceException;
     boolean editFlight(Flight flight) throws ServiceException;
 }

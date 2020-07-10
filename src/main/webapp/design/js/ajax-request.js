@@ -322,7 +322,7 @@ $(document).ready(function ($) {
                     destinationTime = addZeroBeforeValue(data.destinationTime.hour) + ":" + addZeroBeforeValue(data.destinationTime.minute)
 
                     $('#flight_id').val(flightId);
-                    $('#edit_flight_number').val(data.flightNumber);
+                    $('#edit_flight_number').append('<p>' + data.flightNumber + '</p>');
                     $('#edit_planes').append('<option selected>' + plane + '</option>');
 
                     if(typeof data.crew=== 'undefined'){

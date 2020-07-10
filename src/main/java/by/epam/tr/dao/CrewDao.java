@@ -13,4 +13,5 @@ public interface CrewDao {
     List<String> allCrews() throws DaoException;
     int setCrewForFlight(String crewName, String flightNumber) throws DaoException;
     String flightCrew(Flight flight) throws DaoException;
+    List<String> takenOnFlightsCrews() throws DaoException;
 }

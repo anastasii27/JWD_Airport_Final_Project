@@ -9,6 +9,7 @@ import lombok.extern.log4j.Log4j2;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.time.LocalDate;
 
 @Log4j2
 public class DeleteFlight implements Command {
@@ -22,7 +23,7 @@ public class DeleteFlight implements Command {
         flightNumber = request.getParameter(RequestParameterName.FLIGHT_NUMBER);
         departureDate = request.getParameter(RequestParameterName.DEPARTURE_DATE);
         try{
-            boolean operationResult = flightService.deleteFlight(flightNumber, departureDate);
+            boolean operationResult = flightService.deleteFlight(flightNumber, LocalDate.parse(departureDate));
 
             response.getWriter().write(String.valueOf(operationResult));
         } catch (ServiceException e) {

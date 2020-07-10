@@ -5,7 +5,6 @@ import by.epam.tr.dao.DaoException;
 import by.epam.tr.dao.DaoFactory;
 import by.epam.tr.service.CityService;
 import by.epam.tr.service.ServiceException;
-
 import java.util.List;
 
 public class CityServiceImpl implements CityService {

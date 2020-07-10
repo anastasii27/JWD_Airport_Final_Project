@@ -6,24 +6,17 @@ import by.epam.tr.dao.DaoFactory;
 import by.epam.tr.dao.UserFlightsDao;
 import by.epam.tr.service.ServiceException;
 import by.epam.tr.service.UserFlightsService;
-import by.epam.tr.service.validation.ValidationFactory;
-import by.epam.tr.service.validation.Validator;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
 public class UserFlightsServiceImpl implements UserFlightsService {
     private UserFlightsDao dao = DaoFactory.getInstance().getUserFlightsDao();
-    private Validator dateValidation = ValidationFactory.getInstance().getDateValidation();
 
     @Override
     public List<Flight> userFlights(Map<String, String> params) throws ServiceException {
-        if(dateValidation.validate(params).size()!= 0){
-            return Collections.emptyList();
-        }
         try {
             return dao.userFlights(params);
         } catch (DaoException e) {
@@ -34,6 +27,7 @@ public class UserFlightsServiceImpl implements UserFlightsService {
     @Override
     public List<Flight> nearestUserFlights(String surname, String email) throws ServiceException {
         LocalDate lastDayOfRange = LocalDate.now().plusDays(30);
+
         try {
             return dao.nearestUserFlights(surname, email, lastDayOfRange);
         } catch (DaoException e) {
@@ -54,7 +48,7 @@ public class UserFlightsServiceImpl implements UserFlightsService {
         }
     }
 
-    private List<Flight> deleteInappropriateDispatcherFlights(List<Flight> flights){
+    private List<Flight> deleteInappropriateDispatcherFlights(List<Flight> flights){//todo refactor
         List <Flight> deleteFromFlights = new ArrayList<>();
         LocalDateTime dateTime;
 

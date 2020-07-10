@@ -6,7 +6,6 @@ import by.epam.tr.dao.UserDao;
 import by.epam.tr.service.validation.ValidationPattern;
 import by.epam.tr.service.validation.Validator;
 import lombok.extern.log4j.Log4j2;
-
 import java.util.*;
 
 @Log4j2

@@ -15,14 +15,13 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 
 @Log4j2
-public class EditFlight implements Command {
+public class EditFlight implements Command {// todo validation
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) {
         FlightService flightService = ServiceFactory.getInstance().getFlightService();
 
         String flightId = request.getParameter(RequestParameterName.ID);
-        String flightNumber = request.getParameter(RequestParameterName.FLIGHT_NUMBER);
         String plane = request.getParameter(RequestParameterName.PLANE);
         String crew = request.getParameter(RequestParameterName.CREWS);
         String status = request.getParameter(RequestParameterName.STATUS);
@@ -35,7 +34,6 @@ public class EditFlight implements Command {
 
         Flight flight = Flight.builder().id(Integer.parseInt(flightId))
                                         .planeNumber(planeNumber(plane))
-                                        .flightNumber(flightNumber)
                                         .crew(crew)
                                         .status(status)
                                         .departureDate(LocalDate.parse(departureDate))

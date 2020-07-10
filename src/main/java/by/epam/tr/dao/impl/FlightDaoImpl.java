@@ -73,8 +73,8 @@ public class FlightDaoImpl implements FlightDao, CloseOperation {
 
     private final static String DELETE_FLIGHT = "DELETE FROM flights WHERE `flight-number` = ? AND `departure-date` = ?";
 
-    private final static String EDIT_FLIGHT = "UPDATE flights SET `flight-number` = ?, \n" +
-            "`plane-id` = (SELECT id FROM planes WHERE `number` = ?),\n" +
+    private final static String EDIT_FLIGHT = "UPDATE flights " +
+            "SET `plane-id` = (SELECT id FROM planes WHERE `number` = ?),\n" +
             "`flight-team-id` = (SELECT id FROM `flight-teams` WHERE `short-name` = ?),\n" +
             "`departure-airport-id` = (SELECT id FROM airports WHERE `name-abbreviation` = ?),\n" +
             "`destination-airport-id` = (SELECT id FROM airports WHERE `name-abbreviation` = ?),\n" +
@@ -139,7 +139,7 @@ public class FlightDaoImpl implements FlightDao, CloseOperation {
     }
 
     @Override
-    public Flight flightInfo(String flightNumber, String departureDate) throws DaoException {
+    public Flight flightInfo(String flightNumber, LocalDate departureDate) throws DaoException {
         ConnectionPool pool = ConnectionPool.getInstance();
         Connection connection = null;
         PreparedStatement ps = null;
@@ -151,7 +151,7 @@ public class FlightDaoImpl implements FlightDao, CloseOperation {
             ps =  connection.prepareStatement(FLIGHT_INFO);
 
             ps.setString(1,flightNumber);
-            ps.setString(2,departureDate);
+            ps.setDate(2,Date.valueOf(departureDate));
 
             rs = ps.executeQuery();
             if(!rs.next()){
@@ -239,7 +239,7 @@ public class FlightDaoImpl implements FlightDao, CloseOperation {
     }
 
     @Override
-    public List<Flight> allFlightByDay(String departureDate) throws DaoException {
+    public List<Flight> allFlightByDay(LocalDate departureDate) throws DaoException {
         ConnectionPool pool = ConnectionPool.getInstance();
         Connection connection = null;
         PreparedStatement ps = null;
@@ -274,7 +274,7 @@ public class FlightDaoImpl implements FlightDao, CloseOperation {
     }
 
     @Override
-    public int deleteFlight(String flightNumber, String departureDate) throws DaoException {
+    public int deleteFlight(String flightNumber, LocalDate departureDate) throws DaoException {
         ConnectionPool pool = ConnectionPool.getInstance();
         Connection connection = null;
         PreparedStatement ps = null;
@@ -284,7 +284,7 @@ public class FlightDaoImpl implements FlightDao, CloseOperation {
             ps =  connection.prepareStatement(DELETE_FLIGHT);
 
             ps.setString(1, flightNumber);
-            ps.setString(2, departureDate);
+            ps.setDate(2, Date.valueOf(departureDate));
 
             return ps.executeUpdate();
         } catch (ConnectionPoolException | SQLException e) {
@@ -304,17 +304,16 @@ public class FlightDaoImpl implements FlightDao, CloseOperation {
             connection = pool.takeConnection();
             ps =  connection.prepareStatement(EDIT_FLIGHT);
 
-            ps.setString(1, flight.getFlightNumber());
-            ps.setString(2, flight.getPlaneNumber());
-            ps.setString(3, flight.getCrew());
-            ps.setString(4, flight.getDepartureAirportShortName());
-            ps.setString(5, flight.getDestinationAirportShortName());
-            ps.setDate(6, Date.valueOf(flight.getDepartureDate()));
-            ps.setDate(7, Date.valueOf(flight.getDestinationDate()));
-            ps.setTime(8, Time.valueOf(flight.getDepartureTime()));
-            ps.setString(9,flight.getStatus());
-            ps.setTime(10, Time.valueOf(flight.getDestinationTime()));
-            ps.setInt(11, flight.getId());
+            ps.setString(1, flight.getPlaneNumber());
+            ps.setString(2, flight.getCrew());
+            ps.setString(3, flight.getDepartureAirportShortName());
+            ps.setString(4, flight.getDestinationAirportShortName());
+            ps.setDate(5, Date.valueOf(flight.getDepartureDate()));
+            ps.setDate(6, Date.valueOf(flight.getDestinationDate()));
+            ps.setTime(7, Time.valueOf(flight.getDepartureTime()));
+            ps.setString(8,flight.getStatus());
+            ps.setTime(9, Time.valueOf(flight.getDestinationTime()));
+            ps.setInt(10, flight.getId());
 
             return ps.executeUpdate();
         } catch (ConnectionPoolException | SQLException e) {

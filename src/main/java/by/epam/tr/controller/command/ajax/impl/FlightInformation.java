@@ -12,6 +12,7 @@ import lombok.extern.log4j.Log4j2;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.time.LocalDate;
 
 @Log4j2
 public class FlightInformation implements Command {//todo продумать если нет инфы
@@ -27,7 +28,7 @@ public class FlightInformation implements Command {//todo продумать е�
         flightNumber = request.getParameter(RequestParameterName.FLIGHT_NUMBER);
         departureDate = request.getParameter(RequestParameterName.DEPARTURE_DATE);
         try {
-            Flight flight = flightService.flightInfo(flightNumber, departureDate);
+            Flight flight = flightService.flightInfo(flightNumber, LocalDate.parse(departureDate));
 
             if (flight != null) {
                 String flightCrew = crewService.flightCrew(flight);

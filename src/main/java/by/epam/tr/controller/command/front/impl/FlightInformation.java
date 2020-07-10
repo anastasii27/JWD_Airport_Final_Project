@@ -11,6 +11,7 @@ import by.epam.tr.service.ServiceFactory;
 import lombok.extern.log4j.Log4j2;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.time.LocalDate;
 
 @Log4j2
 public class FlightInformation implements Command {//todo delete and make modal window
@@ -26,7 +27,7 @@ public class FlightInformation implements Command {//todo delete and make modal 
         flightNumber = request.getParameter(RequestParameterName.FLIGHT_NUMBER);
         departureDate = request.getParameter(RequestParameterName.DEPARTURE_DATE);
         try {
-            flight = flightService.flightInfo(flightNumber, departureDate);
+            flight = flightService.flightInfo(flightNumber, LocalDate.parse(departureDate));
 
             if (flight != null){
                 request.setAttribute(RequestParameterName.FLIGHT, flight);
