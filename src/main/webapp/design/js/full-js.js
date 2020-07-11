@@ -110,7 +110,8 @@ $(document).ready(function ($) {
         '<button type="button" class="edit_flight_btn" data-toggle="modal" data-target="#flight_edit_modal">&#9998;</button>')
 
     $("#flight_edit_modal").on("hidden.bs.modal", function () {
-        $('#edit_dest_country p, #edit_dep_country p, #edit_planes option, #edit_dest_airport option, #edit_dep_airport option, #edit_crew option').remove()
+        $('#edit_dest_country p, #edit_dep_country p, #edit_planes option, #edit_dest_airport option,' +
+            ' #edit_dep_airport option, #edit_crew option, #edit_flight_number p').remove()
     });
 
     $('#no_delete_mes, #no_choose_mes').hide();

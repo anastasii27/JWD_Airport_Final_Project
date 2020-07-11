@@ -17,22 +17,18 @@ import java.time.LocalTime;
 import java.util.Set;
 
 @Log4j2
-public class FreeCrew implements Command {//todo доделать + validation
+public class FreeCrew implements Command {
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) {
         CrewService crewService = ServiceFactory.getInstance().getCrewService();
-        String flightDepartureDate;
-        String flightDepartureTime;
-        String flightDepartureAirportName;
 
-        flightDepartureDate = request.getParameter(RequestParameterName.DEPARTURE_DATE);
-        flightDepartureTime = request.getParameter(RequestParameterName.DEPARTURE_TIME);
-        flightDepartureAirportName = request.getParameter(RequestParameterName.DEPARTURE_AIRPORT);
-
-       String flightDestinationDate = request.getParameter(RequestParameterName.DESTINATION_DATE);
-       String flightDestinationTime = request.getParameter(RequestParameterName.DESTINATION_TIME);
-       String flightDestinationAirportName = request.getParameter(RequestParameterName.DESTINATION_AIRPORT);
+        String flightDepartureDate = request.getParameter(RequestParameterName.DEPARTURE_DATE);
+        String flightDepartureTime = request.getParameter(RequestParameterName.DEPARTURE_TIME);
+        String flightDepartureAirportName = request.getParameter(RequestParameterName.DEPARTURE_AIRPORT);
+        String flightDestinationDate = request.getParameter(RequestParameterName.DESTINATION_DATE);
+        String flightDestinationTime = request.getParameter(RequestParameterName.DESTINATION_TIME);
+        String flightDestinationAirportName = request.getParameter(RequestParameterName.DESTINATION_AIRPORT);
 
         Flight flight = Flight.builder().departureDate(LocalDate.parse(flightDepartureDate))
                                         .departureTime(LocalTime.parse(flightDepartureTime))
@@ -54,3 +50,4 @@ public class FreeCrew implements Command {//todo доделать + validation
         }
     }
 }
+

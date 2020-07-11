@@ -3,10 +3,9 @@ package by.epam.tr.service;
 import by.epam.tr.bean.Flight;
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Map;
 
 public interface FlightService {
-    List <Flight> airportFlightsByDay(Map<String, String> params) throws ServiceException;
+    List <Flight> airportFlightsByDay(String flightType, LocalDate departureDate, String airportShortName) throws ServiceException;
     Flight flightInfo(String flightNumber, LocalDate departureDate) throws ServiceException;
     boolean createFlight(Flight flight) throws ServiceException;
     List<Flight> allFlightByDay(LocalDate departureDate) throws ServiceException;

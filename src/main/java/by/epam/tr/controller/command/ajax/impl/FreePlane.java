@@ -18,28 +18,20 @@ import java.time.LocalTime;
 import java.util.List;
 
 @Log4j2
-public class FreePlane implements Command {//todo valid
+public class FreePlane implements Command {
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) {
         PlaneService planeService = ServiceFactory.getInstance().getPlaneService();
         List<Plane> planes;
-        String departureCityWithAirport;
-        String destinationCityWithAirport;
-        String departureAirport;
-        String departureDate;
-        String destinationAirport;
-        String destinationTime;
-        String destinationDate;
 
-        departureCityWithAirport = request.getParameter(RequestParameterName.DEPARTURE_AIRPORT);
-        departureDate = request.getParameter(RequestParameterName.DEPARTURE_DATE);
-        departureAirport = RequestParametersExtractor.airportName(departureCityWithAirport);
-
-        destinationCityWithAirport = request.getParameter(RequestParameterName.DESTINATION_AIRPORT);
-        destinationAirport = RequestParametersExtractor.airportName(destinationCityWithAirport);
-        destinationTime = request.getParameter(RequestParameterName.DESTINATION_TIME);
-        destinationDate = request.getParameter(RequestParameterName.DESTINATION_DATE);
+        String departureCityWithAirport = request.getParameter(RequestParameterName.DEPARTURE_AIRPORT);
+        String departureDate = request.getParameter(RequestParameterName.DEPARTURE_DATE);
+        String departureAirport = RequestParametersExtractor.airportName(departureCityWithAirport);
+        String destinationCityWithAirport = request.getParameter(RequestParameterName.DESTINATION_AIRPORT);
+        String destinationAirport = RequestParametersExtractor.airportName(destinationCityWithAirport);
+        String destinationTime = request.getParameter(RequestParameterName.DESTINATION_TIME);
+        String destinationDate = request.getParameter(RequestParameterName.DESTINATION_DATE);
 
         Flight flight = Flight.builder().departureAirportShortName(departureAirport)
                                         .departureDate(LocalDate.parse(departureDate))

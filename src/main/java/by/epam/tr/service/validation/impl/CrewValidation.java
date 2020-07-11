@@ -9,7 +9,7 @@ import lombok.extern.log4j.Log4j2;
 import java.util.*;
 
 @Log4j2
-public class CrewValidation extends Validator {
+public class CrewValidation implements Validator {
     private final static String CREW_NAME_PARAM = "crew_name";
 
     @Override

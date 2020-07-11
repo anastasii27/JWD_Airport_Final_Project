@@ -83,13 +83,13 @@ public class FlightDaoImpl implements FlightDao, CloseOperation {
             "WHERE  id = ?";
 
     @Override
-    public List<Flight> airportArrivals(Map<String, String> params) throws DaoException {
+    public List<Flight> airportArrivals(LocalDate departureDate, String airportShortName) throws DaoException {
         ConnectionPool pool = ConnectionPool.getInstance();
         Connection connection = null;
 
         try {
             connection = pool.takeConnection();
-            return makeFlightList(AIRPORT_ARRIVAL, params.get("departure_date"), params.get("airport_short_name"), connection);
+            return makeFlightList(AIRPORT_ARRIVAL, departureDate, airportShortName, connection);
         } catch (SQLException | ConnectionPoolException e) {
             throw new DaoException("Exception during arrivals selecting!", e);
         }finally {
@@ -100,13 +100,13 @@ public class FlightDaoImpl implements FlightDao, CloseOperation {
     }
 
     @Override
-    public List<Flight> airportDepartures(Map<String, String> params) throws DaoException {
+    public List<Flight> airportDepartures(LocalDate departureDate, String airportShortName) throws DaoException {
         ConnectionPool pool = ConnectionPool.getInstance();
         Connection connection = null;
 
         try {
             connection = pool.takeConnection();
-            return makeFlightList(AIRPORT_DEPARTURE, params.get("departure_date"), params.get("airport_short_name"), connection);
+            return makeFlightList(AIRPORT_DEPARTURE, departureDate, airportShortName, connection);
         } catch (SQLException | ConnectionPoolException e) {
             throw new DaoException("Exception during arrivals selecting!", e);
         }finally {
@@ -116,7 +116,7 @@ public class FlightDaoImpl implements FlightDao, CloseOperation {
         }
     }
 
-    private List<Flight> makeFlightList(String query, String departureDate, String airport, Connection connection) throws SQLException {
+    private List<Flight> makeFlightList(String query, LocalDate departureDate, String airport, Connection connection) throws SQLException {
         List <Flight> flights = new ArrayList<>();
         ResultSet rs;
 

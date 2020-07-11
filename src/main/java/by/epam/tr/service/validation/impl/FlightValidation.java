@@ -14,8 +14,8 @@ import java.util.List;
 import java.util.Map;
 
 @Log4j2
-public class FlightValidation extends Validator {
-    private final static String FLIGHT_DEPARTURE_DATE_PARAM = "departure_date";
+public class FlightValidation implements Validator {
+    private final static String FLIGHT_DEPARTURE_DATE_PARAM = "departure_date";//todo public?
     private final static String FLIGHT_DEPARTURE_TIME_PARAM = "departure_time";
     private final static String FLIGHT_DEPARTURE_AIRPORT_PARAM = "departure_airport";
     private final static String FLIGHT_DESTINATION_DATE_PARAM = "destination_date";
@@ -75,7 +75,7 @@ public class FlightValidation extends Validator {
         return validationResult;
     }
 
-    private boolean timeFormatCheck(String...timeArr){
+    public boolean timeFormatCheck(String...timeArr){
         for (String time: timeArr) {
             if(!checkWithPattern(ValidationPattern.TIME_PATTERN, time)){
                 return false;
@@ -84,7 +84,7 @@ public class FlightValidation extends Validator {
         return true;
     }
 
-    private boolean dateFormatCheck(String...dateArr){
+    public boolean dateFormatCheck(String...dateArr){
         for (String date: dateArr) {
             if(!checkWithPattern(ValidationPattern.DATE_PATTERN, date)){
                 return false;
@@ -93,7 +93,7 @@ public class FlightValidation extends Validator {
         return true;
     }
 
-    private boolean dateRangeCheck(String...dateArr){
+    public boolean dateRangeCheck(String...dateArr){
         LocalDate localDate;
 
         for (String date: dateArr) {
@@ -118,7 +118,7 @@ public class FlightValidation extends Validator {
         return true;
     }
 
-    private boolean areDatesValid(String departureDate, String destinationDate, String departureTime, String destinationTime){
+    public boolean areDatesValid(String departureDate, String destinationDate, String departureTime, String destinationTime){
         LocalDateTime departure = uniteDateAndTime(departureDate, departureTime);
         LocalDateTime arrival = uniteDateAndTime(destinationDate, destinationTime);
 

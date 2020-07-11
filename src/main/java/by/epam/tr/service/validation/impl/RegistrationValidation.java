@@ -9,7 +9,7 @@ import lombok.extern.log4j.Log4j2;
 import java.util.*;
 
 @Log4j2
-public class RegistrationValidation extends Validator {
+public class RegistrationValidation implements Validator {
     private final static String USER_NAME_PARAM = "user_name";
     private final static String USER_SURNAME_PARAM = "surname";
     private final static String USER_EMAIL_PARAM = "email";

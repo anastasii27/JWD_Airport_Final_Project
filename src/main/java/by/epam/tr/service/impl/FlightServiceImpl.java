@@ -9,7 +9,6 @@ import by.epam.tr.service.ServiceException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class FlightServiceImpl implements FlightService {
     private FlightDao dao = DaoFactory.getInstance().getFlightDAO();
@@ -17,16 +16,15 @@ public class FlightServiceImpl implements FlightService {
     private final static String DEPARTURE = "departure";
 
     @Override
-    public List<Flight> airportFlightsByDay(Map<String, String> params) throws ServiceException {
-        String flightType = params.get("type");
+    public List<Flight> airportFlightsByDay(String flightType, LocalDate departureDate, String airportShortName) throws ServiceException {
         List<Flight> flights = new ArrayList<>();
 
         try {
             if(flightType.equals(ARRIVAL)){
-                flights = dao.airportArrivals(params);
+                flights = dao.airportArrivals(departureDate, airportShortName);
             }
             if(flightType.equals(DEPARTURE)){
-               flights = dao.airportDepartures(params);
+               flights = dao.airportDepartures(departureDate, airportShortName);
             }
         } catch (DaoException e) {
             throw new ServiceException("Exception during getting arrivals/departures", e);

@@ -22,7 +22,7 @@ import java.util.List;
 import java.util.Map;
 
 @Log4j2
-public class CreateFlight implements Command {//todo validation
+public class CreateFlight implements Command {
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) {
@@ -75,12 +75,10 @@ public class CreateFlight implements Command {//todo validation
     }
 
     private List<String> initialValidation(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        List<String> validationResults;
         Validator validator = ValidationFactory.getInstance().getFlightValidation();
-        Map<String, String> params;
 
-        params = RequestToMapParser.toRequestParamsMap(request);
-        validationResults = validator.validate(params);
+        Map<String, String> params = RequestToMapParser.toRequestParamsMap(request);
+        List<String>  validationResults = validator.validate(params);
 
         if(validationResults.size() != 0){
             request.getSession().setAttribute(RequestParameterName.RESULT_INFO, validationResults);
