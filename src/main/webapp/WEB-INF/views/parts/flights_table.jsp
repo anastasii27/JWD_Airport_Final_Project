@@ -30,13 +30,13 @@
                         <th>${plane_label}</th><th>${status_label}</th>
                     </tr>
                     <c:forEach items="${requestScope.flight}" var="flight_item">
-                        <tr class ="flights">
-                            <td onclick="document.location.href= '${pageContext.request.contextPath}/airport?action=show_flight_info&flight_number=${flight_item.flightNumber}&departure_date=${flight_item.departureDate}'">${flight_item.flightNumber}</td>
-                            <td onclick="document.location.href= '${pageContext.request.contextPath}/airport?action=show_flight_info&flight_number=${flight_item.flightNumber}&departure_date=${flight_item.departureDate}'">${flight_item.departureTime}</td>
-                            <td onclick="document.location.href= '${pageContext.request.contextPath}/airport?action=show_flight_info&flight_number=${flight_item.flightNumber}&departure_date=${flight_item.departureDate}'">${flight_item.departureCity}(${flight_item.departureAirportShortName})</td>
-                            <td onclick="document.location.href= '${pageContext.request.contextPath}/airport?action=show_flight_info&flight_number=${flight_item.flightNumber}&departure_date=${flight_item.departureDate}'">${flight_item.destinationCity}(${flight_item.destinationAirportShortName})</td>
-                            <td onclick="document.location.href= '${pageContext.request.contextPath}/airport?action=show_flight_info&flight_number=${flight_item.flightNumber}&departure_date=${flight_item.departureDate}'">${flight_item.planeModel}</td>
-                            <td onclick="document.location.href= '${pageContext.request.contextPath}/airport?action=show_flight_info&flight_number=${flight_item.flightNumber}&departure_date=${flight_item.departureDate}'">${flight_item.status}</td>
+                        <tr class ="flights" depDate="${flight_item.departureDate}">
+                            <td class="info">${flight_item.flightNumber}</td>
+                            <td class="info">${flight_item.departureTime}</td>
+                            <td class="info">${flight_item.departureCity}(${flight_item.departureAirportShortName})</td>
+                            <td class="info">${flight_item.destinationCity}(${flight_item.destinationAirportShortName})</td>
+                            <td class="info">${flight_item.planeModel}</td>
+                            <td class="info">${flight_item.status}</td>
                         </tr>
                     </c:forEach>
                 </table>

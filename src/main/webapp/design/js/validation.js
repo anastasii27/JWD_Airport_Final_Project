@@ -356,6 +356,63 @@ $(document).ready(function ($) {
         }
     });
 
+    $('#flight_search_form').validate({
+        rules:{
+            dep_city: 'required',
+            dest_ciy: 'required'
+        },
+
+        messages:{
+            dep_city: null,
+            dest_ciy: null
+        },
+
+        submitHandler: function(form) {
+
+            let departureAirport = $('select[name="dep_city"]').val();
+            let destinationAirport = $('select[name="dest_city"]').val();
+
+            $.ajax({
+                type: "GET",
+                url: "/JWD_Task3_war/ajax",
+                dataType:'json',
+                data: {command: 'find_flight',departure_airport: departureAirport, destination_airport: destinationAirport},
+
+                success: function (data) {
+
+                    let tableLine = '';
+                    let count =0;
+
+                    $('#search_table, #no_flights').hide();
+                    $('#timetable tr td').remove();
+
+                    $.each(data, function (flight, flightInfo) {
+
+                        tableLine += '<tr><td>' + flightInfo.flightNumber + '</td>'+
+                            '<td>' +flightInfo.departureTime.hour +':' + flightInfo.departureTime.minute + '</td>'+
+                            '<td>' +addZeroBeforeValue(flightInfo.destinationTime.hour) +':'
+                            + addZeroBeforeValue(flightInfo.destinationTime.minute) + '</td>'+
+                            '<td>' + flightInfo.departureDate.year + '-' + addZeroBeforeValue(flightInfo.departureDate.month) + '-'
+                            + addZeroBeforeValue(flightInfo.departureDate.day) + '</td>'+
+                            '<td>' +flightInfo.planeModel + '</td></tr>';
+                        count++;
+                    });
+
+                    if(count===0){
+                        $('#no_flights').show();
+                    }else {
+                        $('#search_table').show();
+                        $('#timetable').append(tableLine);
+                    }
+                },
+                error: function (data) {
+                    $('#no_flights').show();
+                }
+            });
+            return false;
+        }
+    });
+
     $.validator.addMethod('required_value', function(value) {
         return value.length !== 0;
     }, function ( ) {

@@ -27,6 +27,7 @@
         <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
         <script src="${pageContext.request.contextPath}/design/js/full-js.js" charset="UTF-8"></script>
+        <script src="${pageContext.request.contextPath}/design/js/ajax-request.js" charset="UTF-8"></script>
 
         <script>
             $(document).ready(function () {
@@ -47,13 +48,12 @@
         <p>${role_label}: <c:out value= "${sessionScope.user.role}" /></p>
         <p>${start_label}: <c:out value= "${sessionScope.user.careerStartYear}" /></p>
 
-
         <c:if test = "${sessionScope.user.role eq 'pilot' || sessionScope.user.role eq 'steward'}">
             <h3>${near_flight_label}</h3>
-            <table class ="table" border="2">
+            <table class ="table" id="nearest_flight" border="2">
                 <tr><th>${flight_label}</th><th>${date_label}</th><th>${dest_label}</th><th>${dep_time_label}</th></tr>
                     <c:forEach items="${flight}" var="flight_item">
-                        <tr onclick="document.location.href= '${pageContext.request.contextPath}/airport?action=show_flight_info&flight_number=${flight_item.flightNumber}&departure_date=${flight_item.departureDate}'">
+                        <tr>
                             <td>${flight_item.flightNumber}</td>
                             <td>${flight_item.departureDate}</td>
                             <td>${flight_item.destinationCity}</td>

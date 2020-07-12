@@ -18,7 +18,7 @@ $(document).ready(function ($) {
         showCrewAjax(crewName);
     });
 
-    //crew edition
+    //crew editing
     $('.delete_crew_btn').on('click', function () {
         let resultConfirm = confirm("Are you really want to delete?");
 
@@ -137,6 +137,44 @@ $(document).ready(function ($) {
             error: function (data) {
                 $('.choose_crew_members ').hide();
                 $('#crews_error').show();
+            }
+        });
+    });
+
+    //flight info
+    $('#flights_table .flights .info').click( function () {
+        let flightNumber = $(this).parent().find('td').eq(0).text();
+        let depDate = $('.flights').attr('depDate');
+
+        $.ajax({
+            type: "GET",
+            url: "/JWD_Task3_war/ajax",
+            dataType:'json',
+            data: {command: 'flight_info', flight_number: flightNumber, departure_date:depDate},
+
+            success: function (data) {//todo на пустоту проверка
+                departureAirport =  data.departureAirport + '(' + data.departureAirportShortName + ')';
+                departureDate = data.departureDate.year + '-' + addZeroBeforeValue(data.departureDate.month) + '-' + addZeroBeforeValue(data.departureDate.day);
+                departureTime = addZeroBeforeValue(data.departureTime.hour) + ":" + addZeroBeforeValue(data.departureTime.minute);
+
+                destinationAirport = data.destinationAirport + '(' + data.destinationAirportShortName + ')';
+                destinationDate = addZeroBeforeValue(data.destinationDate.year) + '-' + addZeroBeforeValue(data.destinationDate.month) + '-' + addZeroBeforeValue(data.destinationDate.day);
+                destinationTime = addZeroBeforeValue(data.destinationTime.hour) + ":" + addZeroBeforeValue(data.destinationTime.minute)
+
+                $('#info_flight_number').append('<p>' + data.flightNumber + '</p>');
+                $('#info_plane_model').append('<p>' + data.plane.model + '<p>');
+                $('#info_dep_date').append('<p>' + departureDate + '<p>');
+                $('#info_dep_time').append('<p>' + departureTime + '<p>');
+                $('#info_dep_country').append('<p>' + data.departureCountry + '<p>');
+                $('#info_dep_city').append('<p>' + data.departureCity + '<p>');
+                $('#info_dep_airport').append('<p>' + departureAirport + '<p>');
+                $('#info_dest_date').append('<p>' + destinationDate + '<p>');
+                $('#info_dest_time').append('<p>' + destinationTime + '<p>');
+                $('#info_dest_country').append('<p>' + data.destinationCountry + '<p>');
+                $('#info_dest_city').append('<p>' + data.destinationCity + '<p>');
+                $('#info_dest_airport').append('<p>' + destinationAirport + '<p>');
+
+                $('#flight_info_modal').modal('show');
             }
         });
     });

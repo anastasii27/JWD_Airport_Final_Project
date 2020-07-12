@@ -13,5 +13,6 @@ public interface FlightDao {
     List<Flight> allFlightByDay(LocalDate departureDate) throws DaoException;
     int deleteFlight(String flightNumber, LocalDate departureDate) throws DaoException;
     int editFlight(Flight flight) throws DaoException;
+    List<Flight> findFlight(String departureAirport, String destinationAirport, LocalDate lastDayOfRange) throws DaoException;
 }
 

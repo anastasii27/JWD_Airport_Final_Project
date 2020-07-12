@@ -25,6 +25,7 @@ public final class AjaxCommandProvider {
         commands.put(AjaxCommandName.DELETE_FLIGHT, new DeleteFlight());
         commands.put(AjaxCommandName.FLIGHT_INFO, new FlightInformation());
         commands.put(AjaxCommandName.FIND_FREE_CREW, new FreeCrew());
+        commands.put(AjaxCommandName.FIND_FLIGHT, new FindFlight());
     }
 
     public Command getCommand(String name){

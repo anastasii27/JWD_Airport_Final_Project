@@ -82,6 +82,14 @@ public class FlightDaoImpl implements FlightDao, CloseOperation {
             "`status` = ?, `destination-time` = ?\n" +
             "WHERE  id = ?";
 
+    private final static String FIND_FLIGHT = "SELECT `flight-number`, `departure-time`, `destination-time`," +
+            "`departure-date`, title AS `plane-model`\n" +
+            "FROM airport.flights\n" +
+            "JOIN `plane-models` ON `plane-models`.id = (SELECT `model-id` FROM planes WHERE id = `plane-id`)\n" +
+            "WHERE `departure-airport-id` = (SELECT id FROM airports WHERE `name-abbreviation` = ?)\n" +
+            "AND `destination-airport-id` = (SELECT id FROM airports WHERE `name-abbreviation` = ?)\n" +
+            "AND `departure-date` BETWEEN adddate(current_date(), INTERVAL 1 day) AND ?";
+
     @Override
     public List<Flight> airportArrivals(LocalDate departureDate, String airportShortName) throws DaoException {
         ConnectionPool pool = ConnectionPool.getInstance();
@@ -321,5 +329,36 @@ public class FlightDaoImpl implements FlightDao, CloseOperation {
         }finally{
             closeAll(ps, pool, connection);
         }
+    }
+
+    @Override
+    public List<Flight> findFlight(String departureAirport, String destinationAirport, LocalDate lastDayOfRange) throws DaoException {
+        ConnectionPool pool = ConnectionPool.getInstance();
+        Connection connection = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        List <Flight> flights = new ArrayList<>();
+
+        try {
+            connection = pool.takeConnection();
+            ps =  connection.prepareStatement(FIND_FLIGHT);
+            ps.setString(1, departureAirport);
+            ps.setString(2, destinationAirport);
+            ps.setDate(3, Date.valueOf(lastDayOfRange));
+
+            rs = ps.executeQuery();
+            while (rs.next()){
+                flights.add( Flight.builder().planeModel(rs.getString("plane-model"))
+                                            .departureDate(rs.getDate("departure-date").toLocalDate())
+                                            .destinationTime( rs.getTime("destination-time").toLocalTime())
+                                            .departureTime(rs.getTime("departure-time").toLocalTime())
+                                            .flightNumber(rs.getString("flight-number")).build());
+            }
+        } catch (ConnectionPoolException | SQLException e) {
+            throw new DaoException("Exception during flight selecting!", e);
+        }finally{
+            closeAll(rs, ps, pool, connection);
+        }
+        return flights;
     }
 }

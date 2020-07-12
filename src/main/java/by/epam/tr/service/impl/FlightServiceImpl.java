@@ -82,7 +82,21 @@ public class FlightServiceImpl implements FlightService {
         try {
             return dao.editFlight(flight) != 0;
         } catch (DaoException e) {
-            throw new ServiceException("Exception during flight deleting", e);
+            throw new ServiceException("Exception during flight editing", e);
         }
+    }
+
+    @Override
+    public List<Flight> findFlight(String departureAirport, String destinationAirport) throws ServiceException {
+        try {
+            return dao.findFlight(departureAirport, destinationAirport, lastDayOfYear());
+        } catch (DaoException e) {
+            throw new ServiceException("Exception during flight editing", e);
+        }
+    }
+
+    private LocalDate lastDayOfYear(){
+        LocalDate today = LocalDate.now();
+        return today.withDayOfYear(today.lengthOfYear());
     }
 }

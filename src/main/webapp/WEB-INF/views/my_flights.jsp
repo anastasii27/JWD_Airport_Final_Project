@@ -24,6 +24,7 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.13.0/moment.min.js"></script>
         <script src="${pageContext.request.contextPath}/design/js/i18n/datepicker.en.js" charset="UTF-8"></script>
         <script src="${pageContext.request.contextPath}/design/js/i18n/datepicker.ru.js" charset="UTF-8"></script>
+        <script src="${pageContext.request.contextPath}/design/js/ajax-request.js" charset="UTF-8"></script>
         <script src="${pageContext.request.contextPath}/design/js/full-js.js" charset="UTF-8"></script>
         <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.2/dist/jquery.validate.min.js"></script>
         <script src="${pageContext.request.contextPath}/design/js/validation.js" charset="UTF-8"></script>
@@ -56,5 +57,6 @@
             </form>
         </div>
         <jsp:include page="parts/flights_table.jsp"/>
+        <jsp:include page="parts/flight_info_modal.jsp"/>
     </body>
 </html>

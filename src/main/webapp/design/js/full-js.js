@@ -30,7 +30,7 @@ $(document).ready(function ($) {
             let menu_url = $(this).find('a').attr('href');
             let menu_action = getActionFromURL(menu_url);
 
-            if (action ==menu_action) {
+            if (action.includes(menu_action)) {
                 $(this).addClass('active');
             }
         });
@@ -75,6 +75,11 @@ $(document).ready(function ($) {
         $('.crew_members').show();
 
     });
+    //flight info
+
+    $("#flight_info_modal").on("hidden.bs.modal", function () {
+        $('p').remove()
+    });
 
     //create_flight
     $('#dep_country').change(function () {
@@ -106,7 +111,7 @@ $(document).ready(function ($) {
     });
 
     //admin flights
-    $('#flights_table .flights').append('<button type="button" class="delete_flight_btn" >&times;</button>' +
+    $('#admin_flights #flights_table .flights').append('<button type="button" class="delete_flight_btn" >&times;</button>' +
         '<button type="button" class="edit_flight_btn" data-toggle="modal" data-target="#flight_edit_modal">&#9998;</button>')
 
     $("#flight_edit_modal").on("hidden.bs.modal", function () {
@@ -124,6 +129,9 @@ $(document).ready(function ($) {
     $(document).on('change', '#edit_dest_airport ,#edit_dep_airport', function () {
         $('#edit_planes option, #edit_crew option').remove()
     });
+
+    //flight timetable
+    $('#search_table, #no_flights').hide();
 });
 
 function getMaxDate(days) {

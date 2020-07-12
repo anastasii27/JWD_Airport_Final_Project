@@ -12,4 +12,5 @@ public interface FlightService {
     boolean doesFlightNumberExist(String flightNumber, LocalDate date) throws ServiceException;
     boolean deleteFlight(String flightNumber, LocalDate departureDate) throws ServiceException;
     boolean editFlight(Flight flight) throws ServiceException;
+    List<Flight> findFlight(String departureAirport, String destinationAirport) throws ServiceException;
 }

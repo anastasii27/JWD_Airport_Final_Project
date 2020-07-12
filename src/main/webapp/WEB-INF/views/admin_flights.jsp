@@ -49,7 +49,9 @@
                 </div>
             </form>
         </div>
-        <jsp:include page="parts/flights_table.jsp"/>
+        <div id="admin_flights">
+            <jsp:include page="parts/flights_table.jsp"/>
+        </div>
         <div id="create_flight_btn">
             <form>
                 <input type="button" class="btn btn-primary"  value="СОЗДАТЬ" onClick='location.href="${pageContext.request.contextPath}/airport?action=show_create_flight_page"'>
@@ -148,5 +150,6 @@
                 </div>
             </div>
         </div>
+        <jsp:include page="parts/flight_info_modal.jsp"/>
     </body>
 </html>

@@ -29,8 +29,8 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav mr-auto mt-2 mt-lg-0" id="menu">
-                    <li class="nav-item active">
-                        <a class="nav-link" href="#">${main_label}</a>
+                    <li class="nav-item">
+                        <a class="nav-link" href="${pageContext.request.contextPath}">${main_label}</a>
                     </li>
                     <li class="nav-item ">
                         <a class="nav-link" href="${pageContext.request.contextPath}/airport?action=show_departures_arrivals&from=main">${arr_dep_label}</a>
@@ -39,7 +39,7 @@
                         <a class="nav-link" href="#">${about_label}</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">${timetable_label}</a>
+                        <a class="nav-link" href="${pageContext.request.contextPath}/airport?action=show_flight_timetable_page">${timetable_label}</a>
                     </li>
                 </ul>
 

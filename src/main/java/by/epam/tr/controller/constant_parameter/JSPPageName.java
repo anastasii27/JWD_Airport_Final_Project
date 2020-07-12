@@ -20,4 +20,5 @@ public final class JSPPageName {
     public static final String FLIGHT_MANAGEMENT_PAGE = "WEB-INF/views/admin_flights.jsp";
     public static final String CREATE_FLIGHT_PAGE = "WEB-INF/views/create_flight.jsp";
     public static final String FREE_CREWS_FOR_FLIGHT = "WEB-INF/views/choose_crew_for_flight.jsp";
+    public static final String FLIGHT_TIMETABLE_PAGE = "jsp/flights_timetable.jsp";
 }

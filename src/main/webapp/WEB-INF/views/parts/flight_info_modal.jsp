@@ -22,40 +22,40 @@
                                 <label>САМОЛЕТ</label>
 
                             </div>
-                            <div class="row">
-                                <div class = "info_departure">
-                                    <div id="info_dep_date">
-                                        <label> ДАТА ОТП</label>
-                                    </div>
-                                    <div id="info_dep_time">
-                                        <label> ВРЕМЯ ОТПР</label>
-                                    </div>
-                                    <div id="info_dep_country">
-                                        <label> СТРАНА ОТПР</label>
-                                    </div>
-                                    <div id="info_dep_city">
-                                        <label> ГОРОД ОТПР</label>
-                                    </div>
-                                    <div id="info_dep_airport">
-                                        <label> СТРАНА ОТПР</label>
-                                    </div>
+                        </div>
+                        <div class="row">
+                            <div class = "info_departure col-md-6">
+                                <div class="row" id="info_dep_date">
+                                    <label> ДАТА ОТП</label>
                                 </div>
-                                <div class = "info_arrival">
-                                    <div id="info_dest_date">
-                                        <label> ДАТА ПР</label>
-                                    </div>
-                                    <div id="info_dest_time">
-                                        <label> ВРЕМЯ ПР</label>
-                                    </div>
-                                    <div id="info_dest_country">
-                                        <label> СТРАНА ПР</label>
-                                    </div>
-                                    <div id="info_dest_city">
-                                        <label> ГОРОД ПР</label>
-                                    </div>
-                                    <div id="info_dest_airport">
-                                        <label> АЭРОПОРТ ПР</label>
-                                    </div>
+                                <div id="info_dep_time">
+                                    <label> ВРЕМЯ ОТПР</label>
+                                </div>
+                                <div id="info_dep_country">
+                                    <label> СТРАНА ОТПР</label>
+                                </div>
+                                <div id="info_dep_city">
+                                    <label> ГОРОД ОТПР</label>
+                                </div>
+                                <div id="info_dep_airport">
+                                    <label> АЭРОПОРТ ОТПР</label>
+                                </div>
+                            </div>
+                            <div class = "info_arrival col-md-6">
+                                <div id="info_dest_date">
+                                    <label> ДАТА ПР</label>
+                                </div>
+                                <div id="info_dest_time">
+                                    <label> ВРЕМЯ ПР</label>
+                                </div>
+                                <div id="info_dest_country">
+                                    <label> СТРАНА ПР</label>
+                                </div>
+                                <div id="info_dest_city">
+                                    <label> ГОРОД ПР</label>
+                                </div>
+                                <div id="info_dest_airport">
+                                    <label> АЭРОПОРТ ПР</label>
                                 </div>
                             </div>
                         </div>
