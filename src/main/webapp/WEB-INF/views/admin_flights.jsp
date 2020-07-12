@@ -8,10 +8,12 @@
         <fmt:setBundle basename="localization.local" var="loc" />
         <fmt:message bundle="${loc}" key="local.js.lang" var="lang" />
         <fmt:message bundle="${loc}" key="local.label.menu_user_my_flights" var="my_flights_label" />
-        <fmt:message bundle="${loc}" key="local.send_button" var="send_button" />
         <fmt:message bundle="${loc}" key="local.label.flight_info.date" var="date_label" />
+        <fmt:message bundle="${loc}" key="local.button.search.show" var="show_button" />
+        <fmt:message bundle="${loc}" key="local.button.create_flight.create" var="create_button" />
+        <fmt:message bundle="${loc}" key="local.label.admin_menu" var="title_label" />
 
-        <title>ADMIN FLIGHT</title>
+        <title>${title_label}</title>
 
         <link rel="stylesheet" href="${pageContext.request.contextPath}/design/css/flights-table.css"/>
         <link rel="stylesheet" href="${pageContext.request.contextPath}/design/css/validation-plug-in.css"/>
@@ -30,6 +32,14 @@
         <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.2/dist/jquery.validate.min.js"></script>
         <script src="${pageContext.request.contextPath}/design/js/validation.js" charset="UTF-8"></script>
 
+        <script>
+            $(document).ready(function () {
+                $('.lang').on('click', function (){
+                    $('.lang').append('<input impl="hidden" name="url" value="${pageContext.request.contextPath}/airport?action=show_flight_management_page&departure_date=2020-07-12"/>').hide();//todo date
+                });
+            });
+        </script>
+
     </head>
     <body>
         <jsp:include page="parts/header.jsp"/>
@@ -44,7 +54,7 @@
                     <input type='text' name="departure_date" id= "my_flights_piker" class="datepicker-here"
                            data-language="${lang}"/>
                     <div id="btn" dep_date = "${requestScope.departure_date}">
-                        <button type="submit" class="btn btn-primary">${send_button}</button>
+                        <button type="submit" class="btn btn-primary">${show_button}</button>
                     </div>
                 </div>
             </form>
@@ -54,102 +64,10 @@
         </div>
         <div id="create_flight_btn">
             <form>
-                <input type="button" class="btn btn-primary"  value="СОЗДАТЬ" onClick='location.href="${pageContext.request.contextPath}/airport?action=show_create_flight_page"'>
+                <input type="button" class="btn btn-primary"  value="${create_button}" onClick='location.href="${pageContext.request.contextPath}/airport?action=show_create_flight_page"'>
             </form>
         </div>
-
-        <!-- Modal -->
-        <div class="modal fade" id="flight_edit_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-
-            <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLongTitle">Изменение рейса</h5>
-                    </div>
-                    <div class="modal-body">
-                        <form action="airport" method="post" id="edit_flight">
-                            <input type="hidden" name="action" value="edit_flight" />
-                            <input type="hidden" name="id" id="flight_id"/>
-                            <div class="row">
-                                <div class="form-group" id="edit_flight_number">
-                                    <label> НОМЕР РЕЙСА</label>
-
-                                </div>
-                                <div class="form-group">
-                                    <label for="edit_planes">САМОЛЕТ</label>
-                                    <select name= "planes" id="edit_planes">
-
-                                    </select>
-                                </div>
-                                <div class="form-group">
-                                    <label for="edit_crew">ЭКИПАЖ</label>
-                                    <select name= "crews" id="edit_crew">
-
-                                    </select>
-                                </div>
-                                <div class="form-group">
-                                    <label for="edit_status">СТАТУС</label>
-                                    <select name= "status" id="edit_status">
-                                        <option>Scheduled</option>
-                                        <option>Canceled</option>
-                                        <option>Arrived</option>
-                                        <option>Delayed</option>
-                                        <option>Departed</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div id="departure" class="col-md-5">
-                                    <h3>ОТПРАВЛЕНИЕ</h3>
-                                    <div class="form-group">
-                                        <label for="edit_dep_flights_piker">ДАТА ОТПРАВЛЕНИЯ</label>
-                                        <input type="text" name="departure_date" id= "edit_dep_flights_piker" class="datepicker-here admin_picker"
-                                               data-language="${lang}"/>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="edit_dep_time">ВРЕМЯ ОТПРАВЛЕНИЯ</label>
-                                        <input type='time' name="departure_time" id= "edit_dep_time"/>
-                                    </div>
-                                    <div class="form-group row" id="edit_dep_country">
-                                        <label>СТРАНА ОТПРАВЛЕНИЯ</label>
-
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="edit_dep_airport">АЭРОПОРТ ОТПРАВЛЕНИЯ</label>
-                                        <select name= "departure_airport" id="edit_dep_airport">
-
-                                        </select>
-                                    </div>
-                                </div>
-                                <div id="arrival" class="col-md-5">
-                                    <h3>ПРИБЫТИЕ</h3>
-                                    <div class="form-group">
-                                        <label for="edit_dest_flights_piker">ДАТА ПРИБЫТИЯ</label>
-                                        <input type='text' name="destination_date" id= "edit_dest_flights_piker" class="datepicker-here admin_picker"
-                                               data-language="${lang}"/>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="edit_dest_time">ВРЕМЯ ПРИБЫТИЯ</label>
-                                        <input type='time' name="destination_time" id= "edit_dest_time"/>
-                                    </div>
-                                    <div class="form-group row" id="edit_dest_country">
-                                        <label>СТРАНА ПРИБЫТИЯ</label>
-
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="edit_dest_airport">АЭРОПОРТ ПРИБЫТИЯ</label>
-                                        <select name= "destination_airport" id="edit_dest_airport">
-
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-                            <input type="submit" class="btn btn-primary" value="ИЗМЕНИТЬ"/>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <jsp:include page="parts/edit_flight_modal.jsp"/>
         <jsp:include page="parts/flight_info_modal.jsp"/>
     </body>
 </html>

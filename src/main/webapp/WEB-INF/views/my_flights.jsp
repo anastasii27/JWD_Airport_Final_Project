@@ -8,7 +8,7 @@
         <fmt:setBundle basename="localization.local" var="loc" />
         <fmt:message bundle="${loc}" key="local.js.lang" var="lang" />
         <fmt:message bundle="${loc}" key="local.label.menu_user_my_flights" var="my_flights_label" />
-        <fmt:message bundle="${loc}" key="local.send_button" var="send_button" />
+        <fmt:message bundle="${loc}" key="local.button.search.show" var="show_button" />
         <fmt:message bundle="${loc}" key="local.label.flight_info.date" var="date_label" />
 
         <title>${my_flights_label}</title>
@@ -51,7 +51,7 @@
                     <input type='text' name="departure_date" id= "my_flights_piker" class="datepicker-here"
                            data-language="${lang}" value = "${requestScope.departure_date}"/>
                     <div id="btn">
-                        <button type="submit" class="btn btn-primary">${send_button}</button>
+                        <button type="submit" class="btn btn-primary">${show_button}</button>
                     </div>
                 </div>
             </form>

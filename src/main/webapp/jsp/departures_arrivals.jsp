@@ -11,7 +11,7 @@
         <fmt:message bundle="${loc}" key="local.label.menu_main_arr_and_dep" var="arr_dep_label" />
         <fmt:message bundle="${loc}" key="local.label.flight_info.arrivals" var="arr_button" />
         <fmt:message bundle="${loc}" key="local.label.flight_info.departures" var="dep_button" />
-        <fmt:message bundle="${loc}" key="local.send_button" var="send_button" />
+        <fmt:message bundle="${loc}" key="local.button.search.show" var="show_button" />
         <fmt:message bundle="${loc}" key="local.message.no_flights" var="no_flights_mes" />
         <fmt:message bundle="${loc}" key="local.js.lang" var="lang" />
         <fmt:message bundle="${loc}" key="local.label.arr_dep.airport" var="airport_label" />
@@ -82,7 +82,7 @@
                     <input type="radio" id="departure_type" name="type" value="arrival">
                 </div>
                 <div>
-                    <button type="submit" id="arr_dep_submit" class="btn btn-primary">${send_button}</button>
+                    <button type="submit" id="arr_dep_submit" class="btn btn-primary">${show_button}</button>
                 </div>
             </form>
         </div>

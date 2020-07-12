@@ -4,7 +4,18 @@
 <%@ page isELIgnored ="false" %>
 <html>
     <head>
-        <title>CHOOSE CREW</title>
+        <fmt:setLocale value="${sessionScope.local}" />
+        <fmt:setBundle basename="localization.local" var="loc" />
+        <fmt:message bundle="${loc}" key="local.label.choose_crew.title" var="choose_label" />
+        <fmt:message bundle="${loc}" key="local.label.crew.name" var="crews_label"/>
+        <fmt:message bundle="${loc}" key="local.label.choose_crew.members" var="crew_memb_label"/>
+        <fmt:message bundle="${loc}" key="local.label.create_flight.finish" var="finish_label"/>
+        <fmt:message bundle="${loc}" key="local.label.create_flight.back" var="back_label"/>
+        <fmt:message bundle="${loc}" key="local.label.create_flight.create" var="create_label"/>
+        <fmt:message bundle="${loc}" key="local.label.crew.pilot" var="pilot_label"/>
+        <fmt:message bundle="${loc}" key="local.label.crew.steward" var="steward_label"/>
+
+        <title>${choose_label}</title>
 
         <link rel="stylesheet" href="${pageContext.request.contextPath}/design/css/validation-plug-in.css"/>
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
@@ -18,7 +29,13 @@
         <script src="${pageContext.request.contextPath}/design/js/validation.js" charset="UTF-8"></script>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/css/bootstrap-select.css" />
         <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/js/bootstrap-select.min.js"></script>
-
+        <script>
+            $(document).ready(function () {
+                $('.lang').on('click', function (){
+                    $('.lang').append('<input impl="hidden" name="url" value="${pageContext.request.contextPath}/airport?action=free_crews_for_flight"/>').hide();
+                });
+            });
+        </script>
     </head>
     <body>
         <jsp:include page="parts/header.jsp"/>
@@ -27,20 +44,20 @@
         <c:if test = "${result eq null}">
         <table class ="table" id="crew_table" border="2">
             <tr>
-                <th>НАЗВАНИЕ ЭКИПАЖА</th><th>СОСТАВ ЭКИПАЖА</th>
+                <th>${crews_label}</th><th>${crew_memb_label}</th>
             </tr>
             <c:forEach items="${requestScope.crew_members}" var="entry">
                 <tr>
                     <td class="crew_name">${entry.key}</td>
                     <td>
-                        <p><b>Pilots:</b>
+                        <p><b>${pilot_label}:</b>
                             <c:forEach items="${entry.value}" var="user">
                                 <c:if test = "${user.role eq 'pilot'}">
                                      ${user.name} ${user.surname}
                                 </c:if>
                             </c:forEach>
                         </p>
-                        <p><b>Stewards:</b>
+                        <p><b>${steward_label}:</b>
                             <c:forEach items="${entry.value}" var="user">
                                 <c:if test = "${user.role eq 'steward'}">
                                     ${user.name} ${user.surname}
@@ -57,7 +74,7 @@
         </c:if>
         <div id="choose_crew_btn">
             <button type="button" class="btn btn-info">
-                <span class="edit">СОЗДАТЬ РЕЙС</span>
+                <span class="edit">${create_label}</span>
             </button>
         </div>
         <!-- Modal -->
@@ -65,11 +82,11 @@
             <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
                 <div class="modal-content">
                     <div class="modal-body">
-                       Создание рейса успешно завершено!
+                       ${finish_label}
                         <jsp:useBean id="now" class="java.util.Date"/>
                         <fmt:formatDate type="time" value="${now}" pattern="yyyy-MM-dd" var="depDate"/>
                         <button type="button" class="btn btn-info" onclick="document.location.href= '${pageContext.request.contextPath}/airport?action=show_flight_management_page&departure_date=${depDate}'">
-                            <span class="back_to_flights">ВЕРНУТЬСЯ К СПИСКУ РЕЙСОВ</span>
+                            <span class="back_to_flights">${back_label}</span>
                         </button>
                     </div>
                 </div>
