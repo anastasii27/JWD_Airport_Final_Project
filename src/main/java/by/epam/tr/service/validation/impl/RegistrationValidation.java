@@ -72,9 +72,10 @@ public class RegistrationValidation implements Validator {
             return false;
         }
 
-        if(!lengthCheck(6,15, login)){
+        if(!lengthCheck(4,15, login)){
             return false;
         }
         return true;
     }
 }
+

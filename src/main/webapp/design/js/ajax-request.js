@@ -385,7 +385,7 @@ $(document).ready(function ($) {
                     addFreeCrewsToSelectAjax(data);
             }
         });
-    })
+    });
 });
 
 function freePlanesAjax(selector) {

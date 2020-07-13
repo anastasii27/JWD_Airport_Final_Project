@@ -18,6 +18,7 @@
         <fmt:message bundle="${loc}" key="local.label.menu_main_lang" var="lang_label" />
         <fmt:message bundle="${loc}" key="local.label.menu_user_my_flights" var="my_fl_label" />
         <fmt:message bundle="${loc}" key="local.label.admin_menu" var="fl_manage_label" />
+        <fmt:message bundle="${loc}" key="local.label.create_flight.create" var="fl_create_label"/>
 
         <link rel="stylesheet" href="${pageContext.request.contextPath}/design/css/header.css"/>
 
@@ -61,11 +62,11 @@
                             </li>
                         </c:when>
                         <c:when test = "${role eq 'admin'}">
-                            <li class="nav-item active">
+                            <li class="nav-item">
                                 <a class="nav-link" href="${pageContext.request.contextPath}/airport?action=show_flight_management_page&departure_date=${depDate}">${fl_manage_label}</a>
                             </li>
                             <li class="nav-item ">
-                                <a class="nav-link" href="#">УПРАВЛЕНИЕ СОТР</a>
+                                <a class="nav-link" href="${pageContext.request.contextPath}/airport?action=show_create_flight_page">${fl_create_label}</a>
                             </li>
                         </c:when>
                     </c:choose>

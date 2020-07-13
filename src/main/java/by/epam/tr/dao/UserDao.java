@@ -6,10 +6,9 @@ import java.time.LocalTime;
 import java.util.List;
 
 public interface UserDao {
-    boolean addNewUser(User user, String login, String password) throws DaoException;
-    User signIn(String login, String password) throws DaoException;
+    boolean signUpUser(User user) throws DaoException;
+    User getUserByLogin(String login) throws DaoException;
     boolean doesUserExist(String login) throws DaoException;
-    List<User> allUsers() throws DaoException;
     List<User> busyDepartureDispatchers(LocalDate date, LocalTime time, String airportName) throws DaoException;
     List<User> busyArrivalDispatchers(LocalDate date, LocalTime time, String airportName) throws DaoException;
     List<String> rolesList() throws DaoException;

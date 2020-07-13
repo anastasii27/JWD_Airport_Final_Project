@@ -15,18 +15,18 @@ public class UserServiceImpl implements UserService {
     private UserDao dao = DaoFactory.getInstance().getUserDAO();
 
     @Override
-    public User signIn(String login, String password) throws ServiceException {
+    public User getUserByLogin(String login) throws ServiceException {
         try {
-            return dao.signIn(login,password);
+            return dao.getUserByLogin(login);
         } catch (DaoException e) {
             throw new ServiceException("Exception during signing in!", e);
         }
     }
 
     @Override
-    public boolean userRegistration(User user, String login, String password) throws ServiceException {
+    public boolean signUpUser(User user) throws ServiceException {
         try {
-           return dao.addNewUser(user, login, password);
+           return dao.signUpUser(user);
         } catch (DaoException e) {
             throw new ServiceException("Exception during registration!", e);
         }

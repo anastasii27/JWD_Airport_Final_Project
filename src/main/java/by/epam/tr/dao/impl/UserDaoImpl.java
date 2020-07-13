@@ -15,13 +15,10 @@ public class UserDaoImpl implements UserDao, CloseOperation {
     private final static String INSERT_USER =  "INSERT INTO airport.users (`role-id`, login, `password`, `name`, surname, email, `career-start-year`)" +
             "VALUES((SELECT id FROM airport.roles WHERE title = ?),?,?,?,?,?,?);";
 
-    private final static String SING_IN = "SELECT title  AS `role` , `name`, surname, email, `career-start-year` " +
-            "FROM users JOIN roles ON users.`role-id` = roles.id WHERE login = ? AND `password`=?;";
+    private final static String USER_BY_LOGIN = "SELECT title  AS `role`, `password`, `name`, surname, email, `career-start-year` " +
+            "FROM users JOIN roles ON users.`role-id` = roles.id WHERE login = ?;";
 
     private final static String CHECK_USER_EXISTENCE_1 = "SELECT `name` FROM users WHERE login = ?;";
-
-    private final static String SELECT_ALL_USERS = "SELECT `name`, surname, title FROM airport.users " +
-            "JOIN roles ON roles.id = users.`role-id`;";
 
     private final static String BUSY_DEPARTURE_DISPATCHERS = "SELECT `name`, surname FROM airport.flights\n" +
             "JOIN users ON `dispatcher-id` = users.id\n" +
@@ -41,7 +38,7 @@ public class UserDaoImpl implements UserDao, CloseOperation {
 
 
     @Override
-    public boolean addNewUser(User user, String login, String password) throws DaoException {
+    public boolean signUpUser(User user) throws DaoException {
         ConnectionPool pool = ConnectionPool.getInstance();
         Connection connection = null;
         PreparedStatement ps = null;
@@ -52,8 +49,8 @@ public class UserDaoImpl implements UserDao, CloseOperation {
             ps =  connection.prepareStatement(INSERT_USER);
 
             ps.setString(1,user.getRole());
-            ps.setString(2,login);
-            ps.setString(3,password);
+            ps.setString(2,user.getLogin());
+            ps.setString(3,user.getPassword());
             ps.setString(4,user.getName());
             ps.setString(5,user.getSurname());
             ps.setString(6,user.getEmail());
@@ -70,7 +67,7 @@ public class UserDaoImpl implements UserDao, CloseOperation {
     }
 
     @Override
-    public User signIn(String login, String password) throws DaoException {
+    public User getUserByLogin(String login) throws DaoException {
         ConnectionPool pool = ConnectionPool.getInstance();
         Connection connection = null;
         PreparedStatement ps = null;
@@ -79,21 +76,20 @@ public class UserDaoImpl implements UserDao, CloseOperation {
 
         try {
             connection = pool.takeConnection();
-            ps =  connection.prepareStatement(SING_IN);
+            ps =  connection.prepareStatement(USER_BY_LOGIN);
 
             ps.setString(1, login);
-            ps.setString(2,password);
 
             rs = ps.executeQuery();
             if(!rs.next()){
                 return null;
             }
             user = User.builder().role(rs.getString("role"))
+                                .password(rs.getString("password"))
                                 .name(rs.getString("name"))
                                 .surname(rs.getString("surname"))
                                 .email(rs.getString("email"))
                                 .careerStartYear(rs.getString("career-start-year")).build();
-
         }catch (ConnectionPoolException | SQLException e) {
             throw new DaoException("Exception during signing in!", e);
         }finally {
@@ -122,32 +118,6 @@ public class UserDaoImpl implements UserDao, CloseOperation {
         }finally {
             closeAll(rs, ps, pool, connection);
         }
-    }
-
-    @Override
-    public List<User> allUsers() throws DaoException {
-        ConnectionPool pool = ConnectionPool.getInstance();
-        Connection connection = null;
-        PreparedStatement ps = null;
-        ResultSet rs = null;
-        List<User> users = new ArrayList<>();
-
-        try {
-            connection = pool.takeConnection();
-            ps =  connection.prepareStatement(SELECT_ALL_USERS);
-
-            rs = ps.executeQuery();
-            while (rs.next()){
-                users.add( User.builder().name(rs.getString("name"))
-                                        .surname(rs.getString("surname"))
-                                        .role( rs.getString("title")).build());
-            }
-        } catch (ConnectionPoolException | SQLException e) {
-            throw new DaoException("Exception during all users getting!", e);
-        }finally {
-            closeAll(rs, ps, pool, connection);
-        }
-        return users;
     }
 
     @Override

@@ -1,9 +1,10 @@
-<%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
+<%@ page  contentType="text/html; charset=utf-8" pageEncoding="utf-8" language="java"%>
 <%@ taglib uri= "http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page isELIgnored ="false" %>
 <html>
     <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
         <fmt:setLocale value="${sessionScope.local}" />
         <fmt:setBundle basename="localization.local" var="loc" />
@@ -54,7 +55,7 @@
 <%--      <c:set var = "url" scope = "session" value = "${pageContext.request.contextPath}/airport?action=show_register_page"/>--%>
 
         <div class="form col-md-5">
-            <form action="airport" method="post" id ="sign_up">
+            <form action="airport" method="post" id ="sign_up" accept-charset="UTF-8">
                 <input type="hidden" name="action" value="register"/>
                 <div class="reg">
                     <h3>${register_label}</h3>

@@ -11,6 +11,7 @@ import by.epam.tr.service.UserService;
 import by.epam.tr.service.validation.ValidationFactory;
 import by.epam.tr.service.validation.Validator;
 import lombok.extern.log4j.Log4j2;
+import org.mindrot.jbcrypt.BCrypt;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -21,42 +22,38 @@ import java.util.Map;
 @Log4j2
 public class Registration implements Command{
     private final static String ANSWER = "You are registered";
+    private final static int LOG_ROUNDS = 12;
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) {
         UserService service = ServiceFactory.getInstance().getUserService();
         HttpSession session = request.getSession(true);
         Validator validator = ValidationFactory.getInstance().getRegistrationValidation();
-        String role;
-        String login;
-        String password;
-        String name;
-        String surname;
-        String email;
-        String careerStartYear;
-        Map<String, String> params;
-        List <String> validationResults;
 
-        role = request.getParameter(RequestParameterName.ROLE);
-        login = request.getParameter(RequestParameterName.LOGIN);
-        password = request.getParameter(RequestParameterName.PASSWORD);
-        name = request.getParameter(RequestParameterName.NAME);
-        surname = request.getParameter(RequestParameterName.SURNAME);
-        email = request.getParameter(RequestParameterName.EMAIL);
-        careerStartYear = request.getParameter(RequestParameterName.CAREER_START_YEAR);
+        String role = request.getParameter(RequestParameterName.ROLE);
+        String login = request.getParameter(RequestParameterName.LOGIN);
+        String password = request.getParameter(RequestParameterName.PASSWORD);
+        String name = request.getParameter(RequestParameterName.NAME);
+        System.out.println(name);
+        String surname = request.getParameter(RequestParameterName.SURNAME);
+        String email = request.getParameter(RequestParameterName.EMAIL);
+        String careerStartYear = request.getParameter(RequestParameterName.CAREER_START_YEAR);
 
-        params = RequestToMapParser.toRequestParamsMap(request);
-        validationResults = validator.validate(params);
+        Map<String, String> params = RequestToMapParser.toRequestParamsMap(request);
+        List<String> validationResults = validator.validate(params);
+
         try {
             boolean result = false;
             if(validationResults.size()==0){
                 User user =  User.builder().role(role)
+                                            .login(login)
+                                            .password(hashPassword(password))
                                             .name(name)
                                             .surname(surname)
                                             .email(email)
                                             .careerStartYear(careerStartYear).build();
 
-                result = service.userRegistration(user, login, password);
+                result = service.signUpUser(user);
             }else {
                 session.setAttribute(RequestParameterName.RESULT_INFO, validationResults);
             }
@@ -71,4 +68,11 @@ public class Registration implements Command{
             errorPage(response);
         }
     }
+
+    private String hashPassword(String password) {
+        String salt = BCrypt.gensalt(LOG_ROUNDS);
+
+        return BCrypt.hashpw(password, salt);
+    }
 }
+

@@ -6,6 +6,7 @@ import by.epam.tr.controller.constant_parameter.RequestParameterName;
 import by.epam.tr.controller.command.Command;
 import by.epam.tr.service.*;
 import lombok.extern.log4j.Log4j2;
+import org.mindrot.jbcrypt.BCrypt;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -31,9 +32,9 @@ public class SignIn implements Command {
 
         User user;
         try {
-            user = userService.signIn(login, password);
+            user = userService.getUserByLogin(login);
 
-            if(user != null){
+            if(user != null && BCrypt.checkpw( password, user.getPassword())){
                 session.setAttribute(RequestParameterName.USER, user);
                 response.sendRedirect(request.getContextPath() + findPathForRedirect(user.getRole()));
             }else {

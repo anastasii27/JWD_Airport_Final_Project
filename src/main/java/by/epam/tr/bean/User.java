@@ -7,6 +7,8 @@ import java.io.Serializable;
 @Data
 @Builder
 public class User implements Serializable{
+    private String login;
+    private String password;
     private String role;
     private String name;
     private String surname;

@@ -3,9 +3,9 @@
 <%@ taglib uri= "http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page isELIgnored ="false" %>
-
 <html>
     <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
         <fmt:setLocale value="${sessionScope.local}" />
         <fmt:setBundle basename="localization.local" var="loc" />
