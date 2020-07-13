@@ -1,10 +1,8 @@
 package by.epam.tr.controller.filter;
 
 import javax.servlet.*;
-import javax.servlet.annotation.WebFilter;
 import java.io.IOException;
 
-@WebFilter(urlPatterns = {"/ajax"})
 public class AjaxContentTypeFilter implements Filter {
     private final static String RESPONSE_CONTENT_TYPE = "application/json";
 

@@ -1,12 +1,10 @@
 package by.epam.tr.controller.filter;
 
 import javax.servlet.*;
-import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
 import java.io.IOException;
 
-@WebFilter("/*")
 public class ParametersFormatFilter implements Filter {
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {

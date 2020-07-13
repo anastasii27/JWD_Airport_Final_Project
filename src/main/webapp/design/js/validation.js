@@ -424,7 +424,7 @@ $(document).ready(function ($) {
     });
 
     $.validator.addMethod('user_name_surname_check', function(value) {
-        return value.match(new RegExp("^" + "[а-яА-ЯA-Za-z]+" + "$"));
+        return value.match(new RegExp("^" + "[\u0410-\u042f\u0430-\u044fA-Za-z]+" + "$"));
     }, function () {
         if(lang=='en'){
             return "Invalid input";

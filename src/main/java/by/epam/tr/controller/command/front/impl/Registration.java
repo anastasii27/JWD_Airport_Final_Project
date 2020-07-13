@@ -34,7 +34,6 @@ public class Registration implements Command{
         String login = request.getParameter(RequestParameterName.LOGIN);
         String password = request.getParameter(RequestParameterName.PASSWORD);
         String name = request.getParameter(RequestParameterName.NAME);
-        System.out.println(name);
         String surname = request.getParameter(RequestParameterName.SURNAME);
         String email = request.getParameter(RequestParameterName.EMAIL);
         String careerStartYear = request.getParameter(RequestParameterName.CAREER_START_YEAR);
