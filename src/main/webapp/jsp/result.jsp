@@ -7,5 +7,8 @@
     </head>
     <body>
         <c:out value= "${result}" />
+        <button type="button" class="btn btn-info" onclick="document.location.href= '${sessionScope.previous_page_url}'">
+            Назад
+        </button>
     </body>
 </html>

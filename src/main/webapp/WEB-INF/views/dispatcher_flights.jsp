@@ -1,6 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri= "http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib uri="/WEB-INF/custom_tags/customTags" prefix="ct"%>
 <%@ page isELIgnored ="false" %>
 <html>
     <head>
@@ -38,6 +39,11 @@
     </head>
     <body>
         <jsp:include page="parts/header.jsp"/>
+
+        <jsp:useBean id="now" class="java.util.Date" />
+        <fmt:formatDate var="today" value="${now}" pattern="yyyy-MM-dd"/>
+        <ct:date-range startDate="${today}" rangeLength="1"/>
+
         <c:set var = "result" value = "${requestScope.result}"/>
         <c:if test = "${result eq null}">
             <table class ="table" border="2">

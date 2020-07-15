@@ -29,6 +29,5 @@
     </head>
     <body>
         <jsp:include page="jsp/parts/header.jsp"/>
-<%--        <c:set var = "url" scope = "session" value = "${pageContext.request.requestURL}"/>--%>
     </body>
 </html>

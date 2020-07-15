@@ -10,16 +10,19 @@ import by.epam.tr.service.ServiceFactory;
 import lombok.extern.log4j.Log4j2;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.time.LocalDate;
 import java.util.List;
 
 @Log4j2
 public class FlightManagementPage implements Command {
     private static final String ANSWER = "Sorry, no flights were found";
+    private final static String CURRENT_PAGE_PATH = "/airport?action=show_flight_management_page&departure_date=";
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) {
         FlightService userFlightsService = ServiceFactory.getInstance().getFlightService();
+        HttpSession session = request.getSession(true);
         String departureDate;
         List<Flight> flights;
 
@@ -34,6 +37,7 @@ public class FlightManagementPage implements Command {
                 request.setAttribute(RequestParameterName.RESULT_INFO, ANSWER);
             }
             request.setAttribute(RequestParameterName.DEPARTURE_DATE, departureDate);
+            session.setAttribute(RequestParameterName.PREVIOUS_PAGE, request.getContextPath()+ CURRENT_PAGE_PATH + LocalDate.now());
 
             forwardTo(request,response, JSPPageName.FLIGHT_MANAGEMENT_PAGE);
         } catch (ServiceException e) {

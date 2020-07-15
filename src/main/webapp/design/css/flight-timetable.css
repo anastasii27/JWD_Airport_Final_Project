@@ -1,0 +1,60 @@
+#title{
+    width: 35vw;
+    margin-left: 21vw;
+    margin-top: 4vh;
+}
+.form{
+    background-color: #d6e5f17a;
+    margin-left: auto;
+    margin-right: auto;
+    padding-top: 2vh;
+    height:15vh;
+    border: solid 0.5px #6c757d52;
+}
+.form-group{
+    margin-top:3vh;
+
+}
+.label{
+    margin-left:2vw;
+}
+label[for="dep_city"]{
+    margin-left:1vw;
+}
+label{
+    margin-top:0.5vw;
+    margin-right:1vw;
+    font-size:17px;
+}
+select{
+    width: 15vw;
+    height: 5vh;
+    border: solid 2px #6c757d52;
+    border-radius:7px;
+}
+#btn{
+    margin-left:2vw;
+}
+td{
+    text-align: center;
+    border-bottom: 2px solid #6c757d52;
+}
+th{
+    text-align: center;
+    border-bottom: 2px solid #6c757d52;
+    background-color:#d6e5f17a;
+}
+#search_table{
+    margin-top: 3vh;
+    margin-left: auto;
+    margin-right: auto;
+}
+table{
+    border: 2px solid white;
+}
+#no_flights{
+    width: 26vw;
+    margin-top:3vh;
+    margin-left: auto;
+    margin-right: auto;
+}

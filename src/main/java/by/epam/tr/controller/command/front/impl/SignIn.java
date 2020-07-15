@@ -18,6 +18,7 @@ public class SignIn implements Command {
     private final static String ANSWER = "There is no such a user";
     private final static String USER_PATH = "/airport?action=show_user_page";
     private final static String ADMIN_PATH = "/airport?action=show_flight_management_page&departure_date=";
+    private final static String CURRENT_PAGE_PATH = "/airport?action=show_sign_in_page";
     private final static String ADMIN_ROLE = "admin";
 
     @Override
@@ -39,6 +40,7 @@ public class SignIn implements Command {
                 response.sendRedirect(request.getContextPath() + findPathForRedirect(user.getRole()));
             }else {
                 request.setAttribute(RequestParameterName.RESULT_INFO, ANSWER);
+                session.setAttribute(RequestParameterName.PREVIOUS_PAGE, request.getContextPath()+ CURRENT_PAGE_PATH);
                 forwardTo(request,response, JSPPageName.RESULT_PAGE);
             }
         } catch (ServiceException | IOException e) {

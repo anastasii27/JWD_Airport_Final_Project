@@ -50,8 +50,6 @@
 
             </div>
         </nav>
-<%--       <c:set var = "url" scope = "session" value = "${pageContext.request.contextPath}/airport?action=show_sign_in_page"/>--%>
-
         <div class="form">
             <h4 class = "label">${sign_in_label}</h4>
 

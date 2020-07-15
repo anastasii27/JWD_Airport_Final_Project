@@ -22,6 +22,7 @@ import java.util.Map;
 @Log4j2
 public class Registration implements Command{
     private final static String ANSWER = "You are registered";
+    private final static String CURRENT_PAGE_PATH = "/airport?action=show_register_page";
     private final static int LOG_ROUNDS = 12;
 
     @Override
@@ -61,6 +62,7 @@ public class Registration implements Command{
                 session.setAttribute(RequestParameterName.RESULT_INFO, ANSWER);
             }
 
+            session.setAttribute(RequestParameterName.PREVIOUS_PAGE, request.getContextPath()+ CURRENT_PAGE_PATH);
             response.sendRedirect(JSPPageName.RESULT_PAGE);
         } catch (ServiceException| IOException e) {
             log.error("Cannot execute command for registration", e);

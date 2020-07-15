@@ -51,8 +51,6 @@
                 </form>
             </div>
         </nav>
-<%--      <c:set var = "url" scope = "session" value = "${pageContext.request.contextPath}/airport?action=show_register_page"/>--%>
-
         <div class="form col-md-5">
             <form action="airport" method="post" id ="sign_up">
                 <input type="hidden" name="action" value="register"/>

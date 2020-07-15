@@ -19,6 +19,7 @@
 
         <title>${timetable_label}</title>
 
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/design/css/flight-timetable.css"/>
         <link rel="stylesheet" href="${pageContext.request.contextPath}/design/css/validation-plug-in.css"/>
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
         <link href="${pageContext.request.contextPath}/design/css/datepicker.min.css" rel="stylesheet" type="text/css">
@@ -44,28 +45,33 @@
     </head>
     <body>
         <jsp:include page="parts/header.jsp"/>
-        <form action="" method="get" id="flight_search_form">
-            <div class="form-group row">
-                <label for="dep_city">${from_label}</label>
-                <select name= "dep_city" id="dep_city" >
-                    <option selected></option>
-                    <c:forEach var="city" items="${city_with_airport}">
-                        <option>${city}</option>
-                    </c:forEach>
-                </select>
-                <label for="dest_city" class="label">${to_label}</label>
-                <select name= "dest_city" id="dest_city">
-                    <option selected></option>
-                    <c:forEach var="city" items="${city_with_airport}">
-                        <option>${city}</option>
-                    </c:forEach>
-                </select>
-            </div>
-            <div>
-                <button type="submit" id="search_submit" class="btn btn-primary">${show_btn}</button>
-            </div>
-        </form>
-        <div id="search_table">
+        <div id="title">
+            <h2>${timetable_label}</h2>
+        </div>
+        <div class="form col-md-7">
+            <form action="" method="get" id="flight_search_form">
+                <div class="form-group row">
+                    <label for="dep_city">${from_label}</label>
+                    <select name= "dep_city" id="dep_city" >
+                        <option selected></option>
+                        <c:forEach var="city" items="${city_with_airport}">
+                            <option>${city}</option>
+                        </c:forEach>
+                    </select>
+                    <label for="dest_city" class="label">${to_label}</label>
+                    <select name= "dest_city" id="dest_city">
+                        <option selected></option>
+                        <c:forEach var="city" items="${city_with_airport}">
+                            <option>${city}</option>
+                        </c:forEach>
+                    </select>
+                    <div id="btn">
+                        <button type="submit" id="search_submit" class="btn btn-primary">${show_btn}</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div  class="col-md-7" id="search_table">
             <table class ="table" id="timetable" border="2">
                 <tr>
                     <th>${flight_label}</th><th>${dep_time_label}</th><th>${dest_time_label}</th>
