@@ -5,6 +5,7 @@ import by.epam.tr.bean.User;
 import by.epam.tr.controller.command.Command;
 import by.epam.tr.controller.constant_parameter.JSPPageName;
 import by.epam.tr.controller.constant_parameter.RequestParameterName;
+import by.epam.tr.controller.util.ResponseMessageManager;
 import by.epam.tr.service.CrewMemberService;
 import by.epam.tr.service.CrewService;
 import by.epam.tr.service.ServiceException;
@@ -16,9 +17,9 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.Set;
 
 @Log4j2
-public class ChooseCrewForFlight implements Command {
+public class ChooseCrewForFlight implements Command {//todo result on jsp
+    private final static String ANSWER = "local.message.choose_crews.1";
 
-    private final static String ANSWER = "No crews were found";
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) {
         CrewService crewService = ServiceFactory.getInstance().getCrewService();
@@ -34,7 +35,10 @@ public class ChooseCrewForFlight implements Command {
                 request.setAttribute(RequestParameterName.CREW_MEMBERS, freeCrewsWithMembers.asMap());
                 forwardTo(request, response, JSPPageName.FREE_CREWS_FOR_FLIGHT);
             }else {
-                request.setAttribute(RequestParameterName.RESULT_INFO, ANSWER);
+                String language = String.valueOf(request.getSession().getAttribute(RequestParameterName.LOCAL));
+                ResponseMessageManager resourceManager = new ResponseMessageManager(language);
+
+                request.setAttribute(RequestParameterName.RESULT_INFO, resourceManager.getValue(ANSWER));
             }
         } catch (ServiceException e) {
             log.error("Cannot execute command for free flight searching", e);

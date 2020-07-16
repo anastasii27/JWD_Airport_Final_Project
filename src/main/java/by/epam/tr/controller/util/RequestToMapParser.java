@@ -9,7 +9,6 @@ import java.util.Map;
 import static by.epam.tr.controller.util.RequestParametersExtractor.*;
 
 public class RequestToMapParser {
-    private final static String AIRPORT_SHORT_NAME  = "airport_short_name";
     private static String key;
     private static int count = 1;
 
@@ -24,20 +23,6 @@ public class RequestToMapParser {
         return params;
     }
 
-    public static Map<String, String> toFlightValidationParamsMap(ServletRequest request){
-        Map<String, String> params =  new HashMap<>();
-        Enumeration<String> keys = request.getParameterNames();
-
-        while (keys.hasMoreElements()){
-            key = keys.nextElement();
-            if(key.equals(RequestParameterName.CITY)){
-                params.put(AIRPORT_SHORT_NAME, airportName(request.getParameter(RequestParameterName.CITY)));
-            }
-
-            params.put(key, request.getParameter(key));
-        }
-        return params;
-    }
 
     public static Map<String, String> toCrewValidationMap(ServletRequest request){
         Map<String, String> params =  new HashMap<>();

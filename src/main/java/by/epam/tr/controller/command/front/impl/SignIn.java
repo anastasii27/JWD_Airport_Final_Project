@@ -4,6 +4,7 @@ import by.epam.tr.bean.User;
 import by.epam.tr.controller.constant_parameter.JSPPageName;
 import by.epam.tr.controller.constant_parameter.RequestParameterName;
 import by.epam.tr.controller.command.Command;
+import by.epam.tr.controller.util.ResponseMessageManager;
 import by.epam.tr.service.*;
 import lombok.extern.log4j.Log4j2;
 import org.mindrot.jbcrypt.BCrypt;
@@ -15,31 +16,31 @@ import java.time.LocalDate;
 
 @Log4j2
 public class SignIn implements Command {
-    private final static String ANSWER = "There is no such a user";
     private final static String USER_PATH = "/airport?action=show_user_page";
     private final static String ADMIN_PATH = "/airport?action=show_flight_management_page&departure_date=";
     private final static String CURRENT_PAGE_PATH = "/airport?action=show_sign_in_page";
     private final static String ADMIN_ROLE = "admin";
+    private final static String ANSWER = "local.message.sign_in.1";
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) {
         UserService userService = ServiceFactory.getInstance().getUserService();
         HttpSession session = request.getSession(true);
-        String login;
-        String password;
 
-        login = request.getParameter(RequestParameterName.LOGIN);
-        password = request.getParameter(RequestParameterName.PASSWORD);
+        String login = request.getParameter(RequestParameterName.LOGIN);
+        String password = request.getParameter(RequestParameterName.PASSWORD);
 
-        User user;
         try {
-            user = userService.getUserByLogin(login);
+            User user = userService.getUserByLogin(login);
 
             if(user != null && BCrypt.checkpw( password, user.getPassword())){
                 session.setAttribute(RequestParameterName.USER, user);
                 response.sendRedirect(request.getContextPath() + findPathForRedirect(user.getRole()));
             }else {
-                request.setAttribute(RequestParameterName.RESULT_INFO, ANSWER);
+                String language = String.valueOf(session.getAttribute(RequestParameterName.LOCAL));
+                ResponseMessageManager resourceManager = new ResponseMessageManager(language);
+
+                request.setAttribute(RequestParameterName.RESULT_INFO, resourceManager.getValue(ANSWER));
                 session.setAttribute(RequestParameterName.PREVIOUS_PAGE, request.getContextPath()+ CURRENT_PAGE_PATH);
                 forwardTo(request,response, JSPPageName.RESULT_PAGE);
             }

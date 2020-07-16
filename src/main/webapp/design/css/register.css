@@ -3,22 +3,19 @@ body {
     background-size: cover;
     background-repeat:  no-repeat;
 }
-
 .lang{
     margin-left: 90vw;
 }
-
 .btn-md {
     color: black;
     background: ghostwhite;
     border: solid 1px black;
+    outline: none;
 }
-
 .reg{
     margin-left: 15vw;
     margin-top: 2vh;
 }
-
 .form{
     height: 81vh;
     margin-top: 4vh;
@@ -28,38 +25,51 @@ body {
     background: ghostwhite;
     opacity: 0.95;
 }
-
 .form-row{
     padding-left: 6vw;
     margin-top: 1px;
 }
-
 .button{
     margin-left: 2.5vw;
     margin-top: 3vh;
 }
-
 .btn-primary{
     width: 11vw;
 }
-
 p{
     font-size: 10pt;
     color: darkslategray;
     font-weight: lighter;
 }
-
 #sign_up label.error {
     font-size: 0.8em;
     color: #0f1970;
     font-weight: lighter;
 }
-
 #sign_up input.error, #sign_up select.error {
     background: #a6c5ff;
     border: 1px solid #0f1970;
 }
-
 input[class^="form"]{
     font-size: 15px;
+}
+#forms{
+    margin-left: 85vw;
+}
+#back_btn{
+    margin-left: 2vw;
+}
+.buttons{
+    margin-top:1vh;
+    width: 100vw;
+}
+#back_btn button{
+    background-color:transparent;
+    color:#a1bbbd;
+    border: solid 1px transparent;
+    border-radius:0px;
+}
+#back_btn> button:hover{
+    border: solid 1px #a1bbbd;
+    outline: none;
 }

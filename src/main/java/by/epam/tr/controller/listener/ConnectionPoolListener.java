@@ -1,4 +1,4 @@
-package by.epam.tr.controller;
+package by.epam.tr.controller.listener;
 
 import by.epam.tr.dao.connectionpool.ConnectionPool;
 import by.epam.tr.dao.connectionpool.ConnectionPoolException;

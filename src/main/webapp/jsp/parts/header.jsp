@@ -4,9 +4,6 @@
 <%@ page isELIgnored ="false" %>
 <html>
     <head>
-
-        <title>Header</title>
-
         <fmt:setLocale value="${sessionScope.local}" />
         <fmt:setBundle basename="localization.local" var="loc" />
         <fmt:message bundle="${loc}" key="local.button.name.ru" var="ru_button" />
@@ -18,12 +15,14 @@
         <fmt:message bundle="${loc}" key="local.label.menu_main" var="main_label" />
         <fmt:message bundle="${loc}" key="local.enter_button" var="enter_label" />
 
+        <title>Header</title>
+
         <link rel="stylesheet" href="${pageContext.request.contextPath}/design/css/header.css"/>
 
     </head>
     <body>
         <nav class="navbar navbar-expand-lg ">
-            <a class="navbar-brand" href="#">Navbar</a>
+            <a class="navbar-brand" href="${pageContext.request.contextPath}">Navbar</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -55,10 +54,29 @@
                     <input class = "btn-md  my-2 my-sm-0 mr-2"  type="submit" value="${en_button}" /><br />
                 </form>
 
-                <form class="form-inline my-2 my-lg-0" action="airport" method="get">
-                    <input type="hidden" name="action" value="show_sign_in_page"/>
-                    <input class = "btn-md  my-2 my-sm-0 mr-2" type="submit" value="${enter_label}"/> <br/>
-                </form>
+                <c:if test="${sessionScope.user eq null}">
+                    <form class="form-inline my-2 my-lg-0" action="airport" method="get">
+                        <input type="hidden" name="action" value="show_sign_in_page"/>
+                        <input class = "btn-md  my-2 my-sm-0 mr-2" type="submit" value="${enter_label}"/> <br/>
+                    </form>
+                </c:if>
+                <c:if test="${sessionScope.user ne null}">
+                    <c:set var = "role" scope = "session" value = "${user.role}"/>
+                    <c:choose>
+                        <c:when test = "${role eq 'pilot' || role eq 'steward' || role eq 'dispatcher'}">
+                            <button type="button" class="btn-lg back" onclick="document.location.href= '${pageContext.request.contextPath}/airport?action=show_user_page'">
+                                    ${user.name} ${user.surname}
+                            </button>
+                        </c:when>
+                        <c:when test = "${role eq 'admin'}">
+                            <jsp:useBean id="now" class="java.util.Date"/>
+                            <fmt:formatDate type="time" value="${now}" pattern="yyyy-MM-dd" var="today"/>
+                            <button type="button" class="btn-lg back" onclick="document.location.href= '${pageContext.request.contextPath}/airport?action=show_flight_management_page&departure_date=${today}'">
+                                    ${user.name} ${user.surname}
+                            </button>
+                        </c:when>
+                    </c:choose>
+                </c:if>
             </div>
         </nav>
     </body>

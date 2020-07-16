@@ -2,7 +2,6 @@
 <%@ taglib uri= "http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page isELIgnored ="false" %>
-
 <html>
     <head>
         <fmt:setLocale value="${sessionScope.local}" />
@@ -22,6 +21,7 @@
         <fmt:message bundle="${loc}" key="local.register_button" var="register_button" />
         <fmt:message bundle="${loc}" key="local.js.lang" var="lang" />
         <fmt:message bundle="${loc}" key="local.label.title.registration" var="register_label" />
+        <fmt:message bundle="${loc}" key="local.back_button" var="back_btn"/>
 
         <title>${register_label}</title>
 
@@ -35,22 +35,31 @@
 
     </head>
     <body lang="${lang}">
-        <nav class="navbar navbar-expand-lg">
-            <div class="collapse navbar-collapse lang">
-                <form class="my-2 mr-1" action="airport" method="get">
-                    <input type="hidden" name="action" value="change_language" />
-                    <input type="hidden" name="local" value="ru" />
-                    <input type="hidden" name="url" value="${pageContext.request.contextPath}/airport?action=show_register_page" />
-                    <input class="btn-md  my-2 my-sm-0 mr-2" type="submit" value="${ru_button}" /><br />
-                </form>
-                <form class="my-2 mr-1" action="airport" method="get">
-                    <input type="hidden" name="action" value="change_language"/>
-                    <input type="hidden" name="local" value="en" />
-                    <input type="hidden" name="url" value="${pageContext.request.contextPath}/airport?action=show_register_page" />
-                    <input class="btn-md  my-2 my-sm-0 mr-2" type="submit" value="${en_button}" /><br />
-                </form>
+        <div class="row buttons">
+            <div id="back_btn">
+                <button type="button" class="btn-lg btn-info" onclick="document.location.href= '${pageContext.request.contextPath}/airport?action=show_sign_in_page'">
+                    ${back_btn}
+                </button>
             </div>
-        </nav>
+            <div id="forms" class="row">
+                <div id="form1">
+                    <form class="my-2 mr-1" action="airport" method="get">
+                        <input type="hidden" name="action" value="change_language" />
+                        <input type="hidden" name="local" value="ru" />
+                        <input type="hidden" name="url" value="${pageContext.request.contextPath}/airport?action=show_register_page"/>
+                        <input class="btn-md  my-2 my-sm-0 mr-2" type="submit" value="${ru_button}" /><br />
+                    </form>
+                </div>
+                <div id="form2">
+                    <form class="my-2 mr-1" action="airport" method="get">
+                        <input type="hidden" name="action" value="change_language"/>
+                        <input type="hidden" name="local" value="en" />
+                        <input type="hidden" name="url" value="${pageContext.request.contextPath}/airport?action=show_register_page"/>
+                        <input class="btn-md  my-2 my-sm-0 mr-2" type="submit" value="${en_button}" /><br />
+                    </form>
+                </div>
+            </div>
+        </div>
         <div class="form col-md-5">
             <form action="airport" method="post" id ="sign_up">
                 <input type="hidden" name="action" value="register"/>

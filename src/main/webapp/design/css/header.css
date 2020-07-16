@@ -18,4 +18,27 @@
     color: beige;
     background: #0f1970;
     border: solid 1px beige;
+    outline: none;
 }
+.btn-md:hover,
+.btn-md:focus{
+    color: royalblue;
+    border: solid 1px royalblue;
+}
+.back{
+    color: beige;
+    background: transparent;
+    border: solid 1px transparent;
+    border-radius:0;
+    outline: none !important;
+}
+.back:hover,
+.back:focus{
+    background: transparent;
+    border: solid 1px transparent;
+    color: royalblue;
+    outline: none !important;
+    box-shadow:none;
+}
+
+

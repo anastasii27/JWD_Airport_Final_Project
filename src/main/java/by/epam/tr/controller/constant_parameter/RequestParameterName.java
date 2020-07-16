@@ -47,4 +47,6 @@ public final class RequestParameterName {
     public static final String ID = "id";
     public static final String CREWS = "crews";
     public static final String PREVIOUS_PAGE = "previous_page_url";
+    public static final String LOCAL = "local";
+    public static final String URL = "url";
 }

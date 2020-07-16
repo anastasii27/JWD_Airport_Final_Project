@@ -5,6 +5,7 @@ import by.epam.tr.controller.constant_parameter.JSPPageName;
 import by.epam.tr.controller.constant_parameter.RequestParameterName;
 import by.epam.tr.controller.command.Command;
 import by.epam.tr.controller.util.RequestToMapParser;
+import by.epam.tr.controller.util.ResponseMessageManager;
 import by.epam.tr.service.ServiceException;
 import by.epam.tr.service.ServiceFactory;
 import by.epam.tr.service.UserService;
@@ -21,7 +22,7 @@ import java.util.Map;
 
 @Log4j2
 public class Registration implements Command{
-    private final static String ANSWER = "You are registered";
+    private final static String ANSWER = "local.message.sign_up.1";
     private final static String CURRENT_PAGE_PATH = "/airport?action=show_register_page";
     private final static int LOG_ROUNDS = 12;
 
@@ -59,7 +60,10 @@ public class Registration implements Command{
             }
 
             if(result){
-                session.setAttribute(RequestParameterName.RESULT_INFO, ANSWER);
+                String language = String.valueOf(session.getAttribute(RequestParameterName.LOCAL));
+                ResponseMessageManager resourceManager = new ResponseMessageManager(language);
+
+                session.setAttribute(RequestParameterName.RESULT_INFO, resourceManager.getValue(ANSWER));
             }
 
             session.setAttribute(RequestParameterName.PREVIOUS_PAGE, request.getContextPath()+ CURRENT_PAGE_PATH);

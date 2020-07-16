@@ -1,7 +1,6 @@
 package by.epam.tr.controller.util;
 
 import com.google.gson.Gson;
-import java.util.List;
 
 public class GsonConverter {
 

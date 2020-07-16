@@ -3,17 +3,15 @@ body{
     background-size: cover;
     background-repeat:  no-repeat;
 }
-
 .btn-md {
     color: black;
     background: white;
     border: solid 1px black;
+    outline: none;
 }
-
 .lang{
     margin-left: 90vw;
 }
-
 .form{
     height: 35vh;
     width: 25vw;
@@ -63,4 +61,24 @@ body{
 #sign_in input.error, #sign_in select.error {
     background: #a6c5ff;
     border: 1px solid #0f1970;
+}
+#forms{
+     margin-left: 85vw;
+ }
+#back_btn{
+    margin-left: 2vw;
+}
+.buttons{
+    margin-top:1vh;
+    width: 100vw;
+}
+#back_btn button{
+    background-color:transparent;
+    color:#a1bbbd;
+    border: solid 1px transparent;
+    border-radius:0px;
+}
+#back_btn> button:hover{
+    border: solid 1px #a1bbbd;
+    outline: none;
 }

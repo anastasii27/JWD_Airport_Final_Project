@@ -15,7 +15,7 @@ import java.util.List;
 
 @Log4j2
 public class UserPage implements Command {
-    private static final String ANSWER = "No flight for next 30 days";
+    private static final String ANSWER = "local.message.user_page.1";
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) {

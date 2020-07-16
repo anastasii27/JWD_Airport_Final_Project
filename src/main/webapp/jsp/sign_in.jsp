@@ -17,6 +17,7 @@
         <fmt:message bundle="${loc}" key="local.button.name.ru" var="ru_button" />
         <fmt:message bundle="${loc}" key="local.button.name.en" var="en_button" />
         <fmt:message bundle="${loc}" key="local.label.title.sign_in" var="sign_in" />
+        <fmt:message bundle="${loc}" key="local.back_button" var="back_btn"/>
 
         <title>${sign_in}</title>
 
@@ -30,29 +31,33 @@
 
     </head>
     <body>
-        <nav class="navbar navbar-expand-lg">
-            <div class="collapse navbar-collapse lang">
-
-                <form class="my-2 mr-1" action="airport" method="get">
-                    <input type="hidden" name="action" value="change_language" />
-                    <input type="hidden" name="local" value="ru" />
-                    <input type="hidden" name="url" value="${pageContext.request.contextPath}/airport?action=show_sign_in_page" />
-                    <input class="btn-md  my-2 my-sm-0 mr-2" type="submit" value="${ru_button}" /><br />
-                </form>
-
-
-                <form class="my-2 mr-1" action="airport" method="get">
-                    <input type="hidden" name="action" value="change_language"/>
-                    <input type="hidden" name="local" value="en" />
-                    <input type="hidden" name="url" value="${pageContext.request.contextPath}/airport?action=show_sign_in_page" />
-                    <input class="btn-md  my-2 my-sm-0 mr-2" type="submit" value="${en_button}" /><br />
-                </form>
-
+        <div class="row buttons">
+            <div id="back_btn">
+                <button type="button" class="btn-lg btn-info" onclick="document.location.href= '${pageContext.request.contextPath}'">
+                    ${back_btn}
+                </button>
             </div>
-        </nav>
+            <div id="forms" class="row">
+                <div id="form1">
+                    <form class="my-2 mr-1" action="airport" method="get">
+                        <input type="hidden" name="action" value="change_language" />
+                        <input type="hidden" name="local" value="ru" />
+                        <input type="hidden" name="url" value="${pageContext.request.contextPath}/airport?action=show_sign_in_page" />
+                        <input class="btn-md  my-2 my-sm-0 mr-2" type="submit" value="${ru_button}" /><br />
+                    </form>
+                </div>
+                <div id="form2">
+                    <form class="my-2 mr-1" action="airport" method="get">
+                        <input type="hidden" name="action" value="change_language"/>
+                        <input type="hidden" name="local" value="en" />
+                        <input type="hidden" name="url" value="${pageContext.request.contextPath}/airport?action=show_sign_in_page" />
+                        <input class="btn-md  my-2 my-sm-0 mr-2" type="submit" value="${en_button}" /><br />
+                    </form>
+                </div>
+            </div>
+        </div>
         <div class="form">
             <h4 class = "label">${sign_in_label}</h4>
-
             <form id="sign_in" action="airport" method="post">
                 <input type="hidden" name="action" value="sign_in"/>
                 <div class="form-group log row">

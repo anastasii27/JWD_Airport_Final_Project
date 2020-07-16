@@ -6,6 +6,7 @@ import by.epam.tr.controller.command.Command;
 import by.epam.tr.controller.constant_parameter.JSPPageName;
 import by.epam.tr.controller.constant_parameter.RequestParameterName;
 import by.epam.tr.controller.util.RequestToMapParser;
+import by.epam.tr.controller.util.ResponseMessageManager;
 import by.epam.tr.service.FlightService;
 import by.epam.tr.service.ServiceException;
 import by.epam.tr.service.ServiceFactory;
@@ -15,6 +16,7 @@ import lombok.extern.log4j.Log4j2;
 import static by.epam.tr.controller.util.RequestParametersExtractor.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -23,9 +25,12 @@ import java.util.Map;
 
 @Log4j2
 public class CreateFlight implements Command {
+    private static final String ANSWER = "local.message.create_flight.1";
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) {
+        HttpSession session = request.getSession(true);
+
         try {
             List<String> validationResults = initialValidation(request, response);
 
@@ -61,10 +66,13 @@ public class CreateFlight implements Command {
                 boolean operationResult = flightService.createFlight(flight);
 
                 if(operationResult){
-                    request.getSession().setAttribute(RequestParameterName.FLIGHT, flight);
+                    session.setAttribute(RequestParameterName.FLIGHT, flight);
                     response.sendRedirect(request.getContextPath()+ "/airport?action=free_crews_for_flight");
                 }else {
-                    request.getSession().setAttribute(RequestParameterName.RESULT_INFO,"No");
+                    String language = String.valueOf(session.getAttribute(RequestParameterName.LOCAL));
+                    ResponseMessageManager resourceManager = new ResponseMessageManager(language);
+
+                    session.setAttribute(RequestParameterName.RESULT_INFO,resourceManager.getValue(ANSWER));
                     response.sendRedirect(JSPPageName.RESULT_PAGE);
                 }
             }
