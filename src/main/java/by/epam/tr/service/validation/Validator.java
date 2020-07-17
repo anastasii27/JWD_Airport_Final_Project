@@ -3,7 +3,6 @@ package by.epam.tr.service.validation;
 import java.util.Map;
 
 public interface Validator {
-
     ValidationResult validate(Map<String, String> params);
 
     default boolean checkWithPattern(String pattern,String value) {

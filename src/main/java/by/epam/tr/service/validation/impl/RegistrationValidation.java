@@ -26,39 +26,38 @@ public class RegistrationValidation implements Validator {
     private final static String KEY6= "local.validation.user.5";
     private final static String KEY7= "local.validation.user.7";
 
-
     @Override
     public ValidationResult validate(Map<String, String> params) {
         ValidationResult result = getValidationResult(params);
 
         if(!emptyValueCheck(params)){
-            result.addMessage(KEY1);
+            result.addError(KEY1);
             return result;
         }
 
         if(!checkWithPattern(ValidationPattern.TEXT_PATTERN, params.get(USER_NAME_PARAM))){
-            result.addMessage(KEY2);
+            result.addError(KEY2);
         }
 
         if(!checkWithPattern(ValidationPattern.TEXT_PATTERN, params.get(USER_SURNAME_PARAM))){
-            result.addMessage(KEY3);
+            result.addError(KEY3);
         }
 
         if(!checkWithPattern(ValidationPattern.EMAIL_PATTERN, params.get(USER_EMAIL_PARAM))){
-            result.addMessage(KEY4);
+            result.addError(KEY4);
         }
 
         if(!checkWithPattern(ValidationPattern.NUMBER_PATTERN, params.get(USER_CAREER_START_YEAR_PARAM))){
-            result.addMessage(KEY5);
+            result.addError(KEY5);
         }
 
         if(!passwordCheck(params.get(USER_PASSWORD_PARAM))){
-            result.addMessage(KEY6);
+            result.addError(KEY6);
         }
 
         try {
             if(!loginCheck(params.get(USER_LOGIN_PARAM))){
-                result.addMessage(KEY7);
+                result.addError(KEY7);
             }
         } catch (DaoException e) {
             log.error("Exception during login check");
@@ -90,14 +89,12 @@ public class RegistrationValidation implements Validator {
 
     private ValidationResult getValidationResult(Map<String,String> params){
         String lang = params.get(LOCAL_PARAM);
-        ValidationResult result;
 
         if(lang == null){
-            result = new ValidationResult();
+            return new ValidationResult();
         }else {
-            result = new ValidationResult(lang);
+           return new ValidationResult(lang);
         }
-        return result;
     }
 }
 

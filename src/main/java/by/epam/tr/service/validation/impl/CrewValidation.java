@@ -24,25 +24,25 @@ public class CrewValidation implements Validator {
         CrewDao crewDAO = DaoFactory.getInstance().getCrewDAO();
         
         if(!emptyValueCheck(params)){
-            result.addMessage(KEY1);
+            result.addError(KEY1);
             return result;
         }
 
         String crewName = params.get(CREW_NAME_PARAM);
         if(!checkWithPattern(ValidationPattern.CREW_NAME_PATTERN, crewName)){
-            result.addMessage(KEY2);
+            result.addError(KEY2);
         }
 
         try {
             if(crewDAO.doesCrewNameExist(crewName)){
-                result.addMessage(KEY3);
+                result.addError(KEY3);
             }
         } catch (DaoException e) {
             log.error("Error during crew name existence checking");
         }
 
         if(!areSameMembersInCrew(params)){
-            result.addMessage(KEY4);
+            result.addError(KEY4);
         }
         return result;
     }

@@ -4,18 +4,18 @@
         <Console name="Console" target="SYSTEM_OUT">
             <PatternLayout pattern="[%highlight{%-5level}]%d{yyyy-MM-dd HH:mm:ss} %c{1} - %m%n"/>
         </Console>
-<!--        <RollingFile name="LogFile" fileName="C:\Users\Andrey\Desktop\application.log" filePattern="C:\Users\Andrey\Desktop\application_%d{yyyy-MM-dd}.log">-->
-<!--            <PatternLayout pattern="[%highlight{%-5level}]%d{yyyy-MM-dd HH:mm:ss} %c{1} - %m%n" />-->
-<!--            <Policies>-->
-<!--                <OnStartupTriggeringPolicy />-->
-<!--                <TimeBasedTriggeringPolicy interval="1" modulate="true" />-->
-<!--            </Policies>-->
-<!--        </RollingFile>-->
+        <RollingFile name="LogFile" fileName="C:\Users\Andrey\IdeaProjects\JWD_Task3\src\main\resources\logs\airportLogs.log" filePattern="C:\Users\Andrey\IdeaProjects\JWD_Task3\src\main\resources\logs\airportLogs_%i.log">
+            <PatternLayout pattern="%-5level %d{yyyy-MM-dd HH:mm:ss} %c{1} - %m%n" />
+            <Policies>
+                <SizeBasedTriggeringPolicy size="10MB" />
+            </Policies>
+            <DefaultRolloverStrategy max="5" />
+        </RollingFile>
     </Appenders>
     <Loggers>
         <Root level="INFO">
             <AppenderRef ref="Console"/>
-<!--            <AppenderRef ref="LogFile"/>-->
+            <AppenderRef ref="LogFile"/>
         </Root>
     </Loggers>
 </Configuration>

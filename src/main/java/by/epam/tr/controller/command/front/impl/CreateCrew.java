@@ -16,7 +16,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.util.List;
 import java.util.Map;
 
 @Log4j2
@@ -28,29 +27,20 @@ public class CreateCrew implements Command {
     public void execute(HttpServletRequest request, HttpServletResponse response) {
         CrewService crewService = ServiceFactory.getInstance().getCrewService();
         HttpSession session = request.getSession(true);
+        String crewName = request.getParameter(RequestParameterName.CREW_NAME);
+
+        Map<String, String> validationMap = toCrewMap(request);
         Validator validator = ValidationFactory.getInstance().getCrewValidation();
-        String crewName;
-        String commander;
-        String [] pilots;
-        String [] stewards;
-        Map<String, String> crewForValidation;
+        ValidationResult validationResult = validator.validate(validationMap);
 
-
-        crewName = request.getParameter(RequestParameterName.CREW_NAME);
-        commander = request.getParameter(RequestParameterName.PILOT1);
-        pilots = request.getParameterValues(RequestParameterName.PILOT);
-        stewards =  request.getParameterValues(RequestParameterName.STEWARD);
-
-        crewForValidation = toCrewValidationMap(request);
-        ValidationResult validationResult = validator.validate(crewForValidation);
         try {
             boolean operationResult = false;
 
             if(validationResult.isEmpty()){
-                Map<String, User> crew = toCrewMembersMap(stewards, commander, pilots);
+                Map<String, User> crew = toCrewMembersMap(request);
                 operationResult = crewService.createCrew(crewName, crew);
             }else {
-                session.setAttribute(RequestParameterName.RESULT_INFO, validationResult.getResultsList());
+                session.setAttribute(RequestParameterName.RESULT_INFO, validationResult.getErrorsList());
             }
 
             if(operationResult){

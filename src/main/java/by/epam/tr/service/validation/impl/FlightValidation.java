@@ -22,6 +22,7 @@ public class FlightValidation implements Validator {
     private final static String FLIGHT_DESTINATION_AIRPORT_PARAM = "destination_airport";
     private final static String FLIGHT_USER_PARAM = "user";
     private final static String FLIGHT_NUMBER_PARAM = "flight_number";
+    private final static String LOCAL_PARAM = "local";
     private final static String KEY1= "local.validation.edit.1";
     private final static String KEY2= "local.validation.edit.2";
     private final static String KEY3= "local.validation.edit.3";
@@ -31,12 +32,12 @@ public class FlightValidation implements Validator {
 
     @Override
     public ValidationResult validate(Map<String, String> params) {
-        ValidationResult result = new ValidationResult();
+        ValidationResult result = getValidationResult(params);
 
         params.remove(FLIGHT_USER_PARAM);
 
         if(!emptyValueCheck(params)){
-            result.addMessage(KEY1);
+            result.addError(KEY1);
             return result;
         }
 
@@ -46,33 +47,33 @@ public class FlightValidation implements Validator {
         String destinationTime = params.get(FLIGHT_DESTINATION_TIME_PARAM);
 
         if(!timeFormatCheck(departureTime, destinationTime)){
-            result.addMessage(KEY2);
+            result.addError(KEY2);
         }
 
         if(!dateFormatCheck(departureDate, destinationDate)){
-            result.addMessage(KEY3);
+            result.addError(KEY3);
             return result;
         }
 
         if(!dateRangeCheck(departureDate, destinationDate)){
-            result.addMessage(KEY3);
+            result.addError(KEY3);
         }
 
         if(!areDatesValid(departureDate, destinationDate, departureTime, destinationTime)){
-            result.addMessage(KEY4);
+            result.addError(KEY4);
         }
 
         if(params.get(FLIGHT_DEPARTURE_AIRPORT_PARAM).equals(params.get(FLIGHT_DESTINATION_AIRPORT_PARAM))){
-            result.addMessage(KEY5);
+            result.addError(KEY5);
         }
 
         try {
             if(!flightNumberCheck(params.get(FLIGHT_NUMBER_PARAM), departureDate)){
-                result.addMessage(KEY6);
+                result.addError(KEY6);
             }
 
             if(!flightNumberCheck(params.get(FLIGHT_NUMBER_PARAM), destinationDate)){
-                result.addMessage(KEY6);
+                result.addError(KEY6);
             }
         } catch (DaoException e) {
             log.error("Exception during flight number checking", e);
@@ -137,4 +138,15 @@ public class FlightValidation implements Validator {
         return LocalDateTime.of(localDate, localTime);
     }
 
+    private ValidationResult getValidationResult(Map<String,String> params){//todo вынести
+        String lang = params.get(LOCAL_PARAM);
+        ValidationResult result;
+
+        if(lang == null){
+            result = new ValidationResult();
+        }else {
+            result = new ValidationResult(lang);
+        }
+        return result;
+    }
 }

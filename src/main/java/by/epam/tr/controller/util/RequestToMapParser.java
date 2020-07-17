@@ -21,13 +21,13 @@ public class RequestToMapParser {
             key = keys.nextElement();
             params.put(key, request.getParameter(key));
         }
-        addLanguageToMap(request, params);
+        addLanguageValueToMap(request, params);
 
         return params;
     }
 
 
-    public static Map<String, String> toCrewValidationMap(ServletRequest request){
+    public static Map<String, String> toCrewMap(ServletRequest request){
         Map<String, String> params =  new HashMap<>();
         Enumeration<String> keys = request.getParameterNames();
 
@@ -45,7 +45,7 @@ public class RequestToMapParser {
                 params.put(key, request.getParameter(key));
             }
         }
-        addLanguageToMap(request, params);
+        addLanguageValueToMap(request, params);
 
         return params;
     }
@@ -58,15 +58,16 @@ public class RequestToMapParser {
         }
     }
 
-    public static Map<String, User> toCrewMembersMap(String [] stewards, String commander, String [] pilots){
+    public static Map<String, User> toCrewMembersMap(ServletRequest request){
         Map<String, User> users = new HashMap<>();
-        User firstPilot;
+        String commander = request.getParameter(RequestParameterName.PILOT1);
+        String [] pilots = request.getParameterValues(RequestParameterName.PILOT);
+        String [] stewards =  request.getParameterValues(RequestParameterName.STEWARD);
 
+        User firstPilot = User.builder().name(userName(commander)).surname(userSurname(commander)).build();
+        users.put(RequestParameterName.PILOT1, firstPilot);
         putUserToMap(stewards, users);
         putUserToMap(pilots, users);
-
-        firstPilot = User.builder().name(userName(commander)).surname(userSurname(commander)).build();
-        users.put(RequestParameterName.PILOT1, firstPilot);
 
         return users;
     }
@@ -82,7 +83,7 @@ public class RequestToMapParser {
         }
     }
 
-    private static void addLanguageToMap(ServletRequest request, Map<String, String> params){
+    private static void addLanguageValueToMap(ServletRequest request, Map<String, String> params){
         HttpServletRequest httpServletRequest = (HttpServletRequest) request;
         String lang = (String) httpServletRequest.getSession().getAttribute(RequestParameterName.LOCAL);
 

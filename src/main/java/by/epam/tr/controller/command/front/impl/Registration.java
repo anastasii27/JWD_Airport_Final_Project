@@ -56,7 +56,7 @@ public class Registration implements Command{
 
                 operationResult = service.signUpUser(user);
             }else {
-                session.setAttribute(RequestParameterName.RESULT_INFO, validationResult.getResultsList());
+                session.setAttribute(RequestParameterName.RESULT_INFO, validationResult.getErrorsList());
             }
 
             if(operationResult){

@@ -9,6 +9,7 @@ public class EditFlightValidation extends FlightValidation implements Validator 
     private final static String FLIGHT_DEPARTURE_TIME_PARAM = "departure_time";
     private final static String FLIGHT_DESTINATION_DATE_PARAM = "destination_date";
     private final static String FLIGHT_DESTINATION_TIME_PARAM = "destination_time";
+    private final static String LOCAL_PARAM = "local";
     private final static String KEY1= "local.validation.edit.1";
     private final static String KEY2= "local.validation.edit.2";
     private final static String KEY3= "local.validation.edit.3";
@@ -16,12 +17,12 @@ public class EditFlightValidation extends FlightValidation implements Validator 
 
     @Override
     public  ValidationResult validate(Map<String, String> params) {
-        ValidationResult result = new ValidationResult();
+        ValidationResult result = getValidationResult(params);
 
         params.remove("crews");
 
         if(!emptyValueCheck(params)){
-            result.addMessage(KEY1);
+            result.addError(KEY1);
             return result;
         }
 
@@ -31,20 +32,32 @@ public class EditFlightValidation extends FlightValidation implements Validator 
         String destinationTime = params.get(FLIGHT_DESTINATION_TIME_PARAM);
 
         if(!timeFormatCheck(departureTime, destinationTime)){
-            result.addMessage(KEY2);
+            result.addError(KEY2);
         }
 
         if(!dateFormatCheck(departureDate, destinationDate)){
-            result.addMessage(KEY3);
+            result.addError(KEY3);
             return result;
         }
 
         if(!dateRangeCheck(departureDate, destinationDate)){
-            result.addMessage(KEY3);
+            result.addError(KEY3);
         }
 
         if(!areDatesValid(departureDate, destinationDate, departureTime, destinationTime)){
-            result.addMessage(KEY4);
+            result.addError(KEY4);
+        }
+        return result;
+    }
+
+    private ValidationResult getValidationResult(Map<String,String> params){
+        String lang = params.get(LOCAL_PARAM);
+        ValidationResult result;
+
+        if(lang == null){
+            result = new ValidationResult();
+        }else {
+            result = new ValidationResult(lang);
         }
         return result;
     }

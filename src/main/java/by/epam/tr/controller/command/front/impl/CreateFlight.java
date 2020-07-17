@@ -90,9 +90,9 @@ public class CreateFlight implements Command {
         ValidationResult result = validator.validate(params);
 
         if(!result.isEmpty()){
-            request.getSession().setAttribute(RequestParameterName.RESULT_INFO, result.getResultsList());
+            request.getSession().setAttribute(RequestParameterName.RESULT_INFO, result.getErrorsList());
             response.sendRedirect(JSPPageName.RESULT_PAGE);
         }
-        return result.getResultsList();
+        return result.getErrorsList();
     }
 }

@@ -21,15 +21,15 @@ public class ValidationResult {
         bundle = ResourceBundle.getBundle(FILE_PATH, new Locale(this.language));
     }
 
-    public void addMessage(String key){
+    public void addError(String key){
         results.add(bundle.getString(key));
-    }
-
-    public List<String> getResultsList(){
-        return results;
     }
 
     public boolean isEmpty(){
         return results.isEmpty();
+    }
+
+    public List<String> getErrorsList(){
+        return results;
     }
 }
