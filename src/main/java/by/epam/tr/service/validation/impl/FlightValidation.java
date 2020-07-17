@@ -4,18 +4,17 @@ import by.epam.tr.dao.DaoException;
 import by.epam.tr.dao.DaoFactory;
 import by.epam.tr.dao.FlightDao;
 import by.epam.tr.service.validation.ValidationPattern;
+import by.epam.tr.service.validation.ValidationResult;
 import by.epam.tr.service.validation.Validator;
 import lombok.extern.log4j.Log4j2;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 @Log4j2
 public class FlightValidation implements Validator {
-    private final static String FLIGHT_DEPARTURE_DATE_PARAM = "departure_date";//todo public?
+    private final static String FLIGHT_DEPARTURE_DATE_PARAM = "departure_date";
     private final static String FLIGHT_DEPARTURE_TIME_PARAM = "departure_time";
     private final static String FLIGHT_DEPARTURE_AIRPORT_PARAM = "departure_airport";
     private final static String FLIGHT_DESTINATION_DATE_PARAM = "destination_date";
@@ -23,16 +22,22 @@ public class FlightValidation implements Validator {
     private final static String FLIGHT_DESTINATION_AIRPORT_PARAM = "destination_airport";
     private final static String FLIGHT_USER_PARAM = "user";
     private final static String FLIGHT_NUMBER_PARAM = "flight_number";
+    private final static String KEY1= "local.validation.edit.1";
+    private final static String KEY2= "local.validation.edit.2";
+    private final static String KEY3= "local.validation.edit.3";
+    private final static String KEY4= "local.validation.edit.4";
+    private final static String KEY5= "local.validation.flight.1";
+    private final static String KEY6= "local.validation.flight.2";
 
     @Override
-    public List<String> validate(Map<String, String> params) {
-        List<String> validationResult= new ArrayList<>();
+    public ValidationResult validate(Map<String, String> params) {
+        ValidationResult result = new ValidationResult();
 
         params.remove(FLIGHT_USER_PARAM);
 
         if(!emptyValueCheck(params)){
-            validationResult.add("You didn`t enter some values");
-            return validationResult;
+            result.addMessage(KEY1);
+            return result;
         }
 
         String departureDate = params.get(FLIGHT_DEPARTURE_DATE_PARAM);
@@ -41,38 +46,38 @@ public class FlightValidation implements Validator {
         String destinationTime = params.get(FLIGHT_DESTINATION_TIME_PARAM);
 
         if(!timeFormatCheck(departureTime, destinationTime)){
-            validationResult.add("Illegal time");
+            result.addMessage(KEY2);
         }
 
         if(!dateFormatCheck(departureDate, destinationDate)){
-            validationResult.add("Illegal date");
-            return validationResult;
+            result.addMessage(KEY3);
+            return result;
         }
 
         if(!dateRangeCheck(departureDate, destinationDate)){
-            validationResult.add("Illegal date range");
+            result.addMessage(KEY3);
         }
 
         if(!areDatesValid(departureDate, destinationDate, departureTime, destinationTime)){
-            validationResult.add("Departure date is earlier than destination one");
+            result.addMessage(KEY4);
         }
 
         if(params.get(FLIGHT_DEPARTURE_AIRPORT_PARAM).equals(params.get(FLIGHT_DESTINATION_AIRPORT_PARAM))){
-            validationResult.add("Equal airports");
+            result.addMessage(KEY5);
         }
 
         try {
             if(!flightNumberCheck(params.get(FLIGHT_NUMBER_PARAM), departureDate)){
-                validationResult.add("Illegal flight number");
+                result.addMessage(KEY6);
             }
 
             if(!flightNumberCheck(params.get(FLIGHT_NUMBER_PARAM), destinationDate)){
-                validationResult.add("Illegal flight number");
+                result.addMessage(KEY6);
             }
         } catch (DaoException e) {
             log.error("Exception during flight number checking", e);
         }
-        return validationResult;
+        return result;
     }
 
     public boolean timeFormatCheck(String...timeArr){

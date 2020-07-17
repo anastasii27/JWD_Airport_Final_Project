@@ -66,6 +66,7 @@ public class CrewMemberServiceImpl implements CrewMemberService {
 
     private void putMembersToMap(String crewName, Multimap<String, User> crewsWithMembers) throws DaoException {
         List<User> crewMembers = findAllCrewMembers(crewName);
+
         for (User user: crewMembers){
             crewsWithMembers.put(crewName, user);
         }

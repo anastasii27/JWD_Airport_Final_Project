@@ -3,6 +3,7 @@ package by.epam.tr.controller.util;
 import by.epam.tr.bean.User;
 import by.epam.tr.controller.constant_parameter.RequestParameterName;
 import javax.servlet.ServletRequest;
+import javax.servlet.http.HttpServletRequest;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
@@ -20,6 +21,8 @@ public class RequestToMapParser {
             key = keys.nextElement();
             params.put(key, request.getParameter(key));
         }
+        addLanguageToMap(request, params);
+
         return params;
     }
 
@@ -42,6 +45,8 @@ public class RequestToMapParser {
                 params.put(key, request.getParameter(key));
             }
         }
+        addLanguageToMap(request, params);
+
         return params;
     }
 
@@ -75,5 +80,12 @@ public class RequestToMapParser {
                 users.put(RequestParameterName.USER+count++,user);
             }
         }
+    }
+
+    private static void addLanguageToMap(ServletRequest request, Map<String, String> params){
+        HttpServletRequest httpServletRequest = (HttpServletRequest) request;
+        String lang = (String) httpServletRequest.getSession().getAttribute(RequestParameterName.LOCAL);
+
+        params.put(RequestParameterName.LOCAL, lang);
     }
 }

@@ -5,16 +5,15 @@ import java.util.ResourceBundle;
 
 public class ResponseMessageManager {
     private final static String FILE_PATH = "localization/local";
-    private String language = "ru";
+    private String language;
+    private  ResourceBundle bundle;
 
     public ResponseMessageManager(String language) {
-        if(language != null){
-            this.language = language;
-        }
+        this.language = language;
+        bundle = ResourceBundle.getBundle(FILE_PATH, new Locale(this.language));
     }
 
     public String getValue(String key) {
-        ResourceBundle bundle = ResourceBundle.getBundle(FILE_PATH, new Locale(language));
         return bundle.getString(key);
     }
 }

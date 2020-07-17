@@ -26,8 +26,8 @@
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
         <script src="${pageContext.request.contextPath}/design/js/ajax-request.js" charset="UTF-8"></script>
         <script src="${pageContext.request.contextPath}/design/js/full-js.js" charset="UTF-8"></script>
-        <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.2/dist/jquery.validate.min.js"></script>
-        <script src="${pageContext.request.contextPath}/design/js/validation.js" charset="UTF-8"></script>
+<%--        <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.2/dist/jquery.validate.min.js"></script>--%>
+<%--        <script src="${pageContext.request.contextPath}/design/js/validation.js" charset="UTF-8"></script>--%>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/js/bootstrap-select.min.js"></script>
 
         <script>

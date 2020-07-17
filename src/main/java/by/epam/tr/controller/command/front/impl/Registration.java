@@ -10,6 +10,7 @@ import by.epam.tr.service.ServiceException;
 import by.epam.tr.service.ServiceFactory;
 import by.epam.tr.service.UserService;
 import by.epam.tr.service.validation.ValidationFactory;
+import by.epam.tr.service.validation.ValidationResult;
 import by.epam.tr.service.validation.Validator;
 import lombok.extern.log4j.Log4j2;
 import org.mindrot.jbcrypt.BCrypt;
@@ -17,7 +18,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.util.List;
 import java.util.Map;
 
 @Log4j2
@@ -41,11 +41,11 @@ public class Registration implements Command{
         String careerStartYear = request.getParameter(RequestParameterName.CAREER_START_YEAR);
 
         Map<String, String> params = RequestToMapParser.toRequestParamsMap(request);
-        List<String> validationResults = validator.validate(params);
+        ValidationResult validationResult = validator.validate(params);
 
         try {
-            boolean result = false;
-            if(validationResults.size()==0){
+            boolean operationResult = false;
+            if(validationResult.isEmpty()){
                 User user =  User.builder().role(role)
                                             .login(login)
                                             .password(hashPassword(password))
@@ -54,12 +54,12 @@ public class Registration implements Command{
                                             .email(email)
                                             .careerStartYear(careerStartYear).build();
 
-                result = service.signUpUser(user);
+                operationResult = service.signUpUser(user);
             }else {
-                session.setAttribute(RequestParameterName.RESULT_INFO, validationResults);
+                session.setAttribute(RequestParameterName.RESULT_INFO, validationResult.getResultsList());
             }
 
-            if(result){
+            if(operationResult){
                 String language = String.valueOf(session.getAttribute(RequestParameterName.LOCAL));
                 ResponseMessageManager resourceManager = new ResponseMessageManager(language);
 

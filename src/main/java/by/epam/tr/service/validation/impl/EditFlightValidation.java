@@ -1,8 +1,7 @@
 package by.epam.tr.service.validation.impl;
 
+import by.epam.tr.service.validation.ValidationResult;
 import by.epam.tr.service.validation.Validator;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 public class EditFlightValidation extends FlightValidation implements Validator {
@@ -10,16 +9,20 @@ public class EditFlightValidation extends FlightValidation implements Validator 
     private final static String FLIGHT_DEPARTURE_TIME_PARAM = "departure_time";
     private final static String FLIGHT_DESTINATION_DATE_PARAM = "destination_date";
     private final static String FLIGHT_DESTINATION_TIME_PARAM = "destination_time";
+    private final static String KEY1= "local.validation.edit.1";
+    private final static String KEY2= "local.validation.edit.2";
+    private final static String KEY3= "local.validation.edit.3";
+    private final static String KEY4= "local.validation.edit.4";
 
     @Override
-    public List<String> validate(Map<String, String> params) {
-        List<String> validationResult= new ArrayList<>();
+    public  ValidationResult validate(Map<String, String> params) {
+        ValidationResult result = new ValidationResult();
 
         params.remove("crews");
 
         if(!emptyValueCheck(params)){
-            validationResult.add("You didn`t enter some values");
-            return validationResult;
+            result.addMessage(KEY1);
+            return result;
         }
 
         String departureDate = params.get(FLIGHT_DEPARTURE_DATE_PARAM);
@@ -28,22 +31,21 @@ public class EditFlightValidation extends FlightValidation implements Validator 
         String destinationTime = params.get(FLIGHT_DESTINATION_TIME_PARAM);
 
         if(!timeFormatCheck(departureTime, destinationTime)){
-            validationResult.add("Illegal time");
+            result.addMessage(KEY2);
         }
 
         if(!dateFormatCheck(departureDate, destinationDate)){
-            validationResult.add("Illegal date");
-            return validationResult;
+            result.addMessage(KEY3);
+            return result;
         }
 
         if(!dateRangeCheck(departureDate, destinationDate)){
-            validationResult.add("Illegal date range");
+            result.addMessage(KEY3);
         }
 
         if(!areDatesValid(departureDate, destinationDate, departureTime, destinationTime)){
-            validationResult.add("Departure date is earlier than destination one");
+            result.addMessage(KEY4);
         }
-
-        return validationResult;
+        return result;
     }
 }

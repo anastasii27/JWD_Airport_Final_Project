@@ -49,19 +49,20 @@
         <p>${start_label}: <c:out value= "${sessionScope.user.careerStartYear}" /></p>
 
         <c:if test = "${sessionScope.user.role eq 'pilot' || sessionScope.user.role eq 'steward'}">
-            <h3>${near_flight_label}</h3>
-            <table class ="table" id="nearest_flight" border="2">
-                <tr><th>${flight_label}</th><th>${date_label}</th><th>${dest_label}</th><th>${dep_time_label}</th></tr>
-                    <c:forEach items="${flight}" var="flight_item">
-                        <tr>
-                            <td>${flight_item.flightNumber}</td>
-                            <td>${flight_item.departureDate}</td>
-                            <td>${flight_item.destinationCity}</td>
-                            <td>${flight_item.departureTime}</td>
-                        </tr>
-                    </c:forEach>
-            </table>
-    <%--        <c:set var = "url" scope = "session" value = "${pageContext.request.contextPath}/airport?action=show_user_page"/>--%>
+            <c:if test = "${requestScope.result eq null}">
+                <h3>${near_flight_label}</h3>
+                <table class ="table" id="nearest_flight" border="2">
+                    <tr><th>${flight_label}</th><th>${date_label}</th><th>${dest_label}</th><th>${dep_time_label}</th></tr>
+                        <c:forEach items="${flight}" var="flight_item">
+                            <tr>
+                                <td>${flight_item.flightNumber}</td>
+                                <td>${flight_item.departureDate}</td>
+                                <td>${flight_item.destinationCity}</td>
+                                <td>${flight_item.departureTime}</td>
+                            </tr>
+                        </c:forEach>
+                </table>
+            </c:if>
         </c:if>
     </body>
 </html>

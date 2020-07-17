@@ -17,7 +17,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.Set;
 
 @Log4j2
-public class ChooseCrewForFlight implements Command {//todo result on jsp
+public class ChooseCrewForFlight implements Command {
     private final static String ANSWER = "local.message.choose_crews.1";
 
     @Override
@@ -27,21 +27,28 @@ public class ChooseCrewForFlight implements Command {//todo result on jsp
         Flight flight = (Flight)request.getSession().getAttribute(RequestParameterName.FLIGHT);
 
         try {
+            Multimap<String, User> freeCrewsWithMembers = null;
+
             if(flight !=  null) {
                 Set<String> freeCrews = crewService.findFreeCrewsForFlight(flight);
-                Multimap<String, User> freeCrewsWithMembers = crewMemberService.allMembersOfCrews(freeCrews);
+                freeCrewsWithMembers = crewMemberService.allMembersOfCrews(freeCrews);
 
-                request.setAttribute(RequestParameterName.CREW, freeCrews);
-                request.setAttribute(RequestParameterName.CREW_MEMBERS, freeCrewsWithMembers.asMap());
-                forwardTo(request, response, JSPPageName.FREE_CREWS_FOR_FLIGHT);
-            }else {
+                if(freeCrewsWithMembers.size() != 0 ) {
+                    request.setAttribute(RequestParameterName.CREW, freeCrews);
+                    request.setAttribute(RequestParameterName.CREW_MEMBERS, freeCrewsWithMembers.asMap());
+                }
+            }
+
+            if(flight == null || freeCrewsWithMembers == null || freeCrewsWithMembers.size()== 0){
                 String language = String.valueOf(request.getSession().getAttribute(RequestParameterName.LOCAL));
                 ResponseMessageManager resourceManager = new ResponseMessageManager(language);
 
                 request.setAttribute(RequestParameterName.RESULT_INFO, resourceManager.getValue(ANSWER));
             }
+
+            forwardTo(request, response, JSPPageName.FREE_CREWS_FOR_FLIGHT);
         } catch (ServiceException e) {
-            log.error("Cannot execute command for free flight searching", e);
+            log.error("Cannot execute command for free crew searching", e);
         }
     }
 }

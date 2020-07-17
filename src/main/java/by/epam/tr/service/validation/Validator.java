@@ -1,11 +1,10 @@
 package by.epam.tr.service.validation;
 
-import java.util.List;
 import java.util.Map;
 
 public interface Validator {
 
-    List<String> validate(Map<String, String> params);
+    ValidationResult validate(Map<String, String> params);
 
     default boolean checkWithPattern(String pattern,String value) {
         return value.trim().matches(pattern);

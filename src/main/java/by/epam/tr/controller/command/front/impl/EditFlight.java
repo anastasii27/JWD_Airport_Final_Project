@@ -9,6 +9,7 @@ import by.epam.tr.service.FlightService;
 import by.epam.tr.service.ServiceException;
 import by.epam.tr.service.ServiceFactory;
 import by.epam.tr.service.validation.ValidationFactory;
+import by.epam.tr.service.validation.ValidationResult;
 import by.epam.tr.service.validation.Validator;
 import lombok.extern.log4j.Log4j2;
 import static by.epam.tr.controller.util.RequestParametersExtractor.*;
@@ -74,12 +75,12 @@ public class EditFlight implements Command {
         Validator validator = ValidationFactory.getInstance().getEditFlightValidation();
 
         Map<String, String> params = RequestToMapParser.toRequestParamsMap(request);
-        List<String>  validationResults = validator.validate(params);
+        ValidationResult result = validator.validate(params);
 
-        if(validationResults.size() != 0){
-            request.getSession().setAttribute(RequestParameterName.RESULT_INFO, validationResults);
+        if(!result.isEmpty()){
+            request.getSession().setAttribute(RequestParameterName.RESULT_INFO, result.getResultsList());
             response.sendRedirect(JSPPageName.RESULT_PAGE);
         }
-        return validationResults;
+        return result.getResultsList();
     }
 }

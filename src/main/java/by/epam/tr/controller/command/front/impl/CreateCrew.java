@@ -9,6 +9,7 @@ import by.epam.tr.service.CrewService;
 import by.epam.tr.service.ServiceException;
 import by.epam.tr.service.ServiceFactory;
 import by.epam.tr.service.validation.ValidationFactory;
+import by.epam.tr.service.validation.ValidationResult;
 import by.epam.tr.service.validation.Validator;
 import lombok.extern.log4j.Log4j2;
 import javax.servlet.http.HttpServletRequest;
@@ -33,7 +34,7 @@ public class CreateCrew implements Command {
         String [] pilots;
         String [] stewards;
         Map<String, String> crewForValidation;
-        List<String> validationResults;
+
 
         crewName = request.getParameter(RequestParameterName.CREW_NAME);
         commander = request.getParameter(RequestParameterName.PILOT1);
@@ -41,15 +42,15 @@ public class CreateCrew implements Command {
         stewards =  request.getParameterValues(RequestParameterName.STEWARD);
 
         crewForValidation = toCrewValidationMap(request);
-        validationResults = validator.validate(crewForValidation);
+        ValidationResult validationResult = validator.validate(crewForValidation);
         try {
             boolean operationResult = false;
 
-            if(validationResults.size()==0){
+            if(validationResult.isEmpty()){
                 Map<String, User> crew = toCrewMembersMap(stewards, commander, pilots);
                 operationResult = crewService.createCrew(crewName, crew);
             }else {
-                session.setAttribute(RequestParameterName.RESULT_INFO, validationResults);
+                session.setAttribute(RequestParameterName.RESULT_INFO, validationResult.getResultsList());
             }
 
             if(operationResult){
