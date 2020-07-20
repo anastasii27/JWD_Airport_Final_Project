@@ -4,9 +4,6 @@
 <%@ page isELIgnored ="false" %>
 <html>
     <head>
-
-        <title>${sessionScope.user.name} ${sessionScope.user.surname}</title>
-
         <fmt:setLocale value="${sessionScope.local}" />
         <fmt:setBundle basename="localization.local" var="loc" />
         <fmt:message bundle="${loc}" key="local.button.name.ru" var="ru_button" />
@@ -20,6 +17,9 @@
         <fmt:message bundle="${loc}" key="local.label.dep_time" var="dep_time_label" />
         <fmt:message bundle="${loc}" key="local.label.flight_info.date" var="date_label" />
         <fmt:message bundle="${loc}" key="local.label.nearest_flight" var="near_flight_label" />
+        <fmt:message bundle="${loc}" key="local.label.crew.edit_btn" var="edit_btn" />
+
+        <title>${sessionScope.user.name} ${sessionScope.user.surname}</title>
 
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
@@ -36,12 +36,15 @@
                 });
             });
         </script>
-
     </head>
     <body>
 
         <jsp:include page="parts/header.jsp"/>
 
+        <button type="button" class="btn btn-info"
+                onclick="document.location.href= '${pageContext.request.contextPath}/airport?action=show_user_editing_page'">
+            ${edit_btn}
+        </button>
         <p>${name_label}: <c:out value= "${sessionScope.user.name}" /></p>
         <p>${surname_label}: <c:out value= "${sessionScope.user.surname}" /></p>
         <p>Email: <c:out value= "${sessionScope.user.email}" /></p>

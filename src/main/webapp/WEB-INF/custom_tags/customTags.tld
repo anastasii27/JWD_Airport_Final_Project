@@ -8,7 +8,7 @@
     <uri>/WEB-INF/custom_tags/customTags</uri>
     <tag>
         <name>date-range</name>
-        <tag-class>by.epam.tr.presentation.DateRangeTag</tag-class>
+        <tag-class>by.epam.airport_system.presentation.DateRangeTag</tag-class>
         <body-content>empty</body-content>
         <attribute>
             <name>startDate</name>

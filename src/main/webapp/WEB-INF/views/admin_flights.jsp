@@ -12,6 +12,8 @@
         <fmt:message bundle="${loc}" key="local.button.search.show" var="show_button" />
         <fmt:message bundle="${loc}" key="local.button.create_flight.create" var="create_button" />
         <fmt:message bundle="${loc}" key="local.label.admin_menu" var="title_label" />
+        <jsp:useBean id="now" class="java.util.Date"/>
+        <fmt:formatDate type="time" value="${now}" pattern="yyyy-MM-dd" var="today"/>
 
         <title>${title_label}</title>
 
@@ -35,7 +37,7 @@
         <script>
             $(document).ready(function () {
                 $('.lang').on('click', function (){
-                    $('.lang').append('<input impl="hidden" name="url" value="${pageContext.request.contextPath}/airport?action=show_flight_management_page&departure_date=2020-07-12"/>').hide();//todo date
+                    $('.lang').append('<input impl="hidden" name="url" value="${pageContext.request.contextPath}/airport?action=show_flight_management_page&departure_date=${today}"/>').hide();
                 });
             });
         </script>
