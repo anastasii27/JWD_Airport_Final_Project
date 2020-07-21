@@ -62,20 +62,9 @@
                 </c:if>
                 <c:if test="${sessionScope.user ne null}">
                     <c:set var = "role" scope = "session" value = "${user.role}"/>
-                    <c:choose>
-                        <c:when test = "${role eq 'pilot' || role eq 'steward' || role eq 'dispatcher'}">
-                            <button type="button" class="btn-lg back" onclick="document.location.href= '${pageContext.request.contextPath}/airport?action=show_user_page'">
-                                    ${user.name} ${user.surname}
-                            </button>
-                        </c:when>
-                        <c:when test = "${role eq 'admin'}">
-                            <jsp:useBean id="now" class="java.util.Date"/>
-                            <fmt:formatDate type="time" value="${now}" pattern="yyyy-MM-dd" var="today"/>
-                            <button type="button" class="btn-lg back" onclick="document.location.href= '${pageContext.request.contextPath}/airport?action=show_flight_management_page&departure_date=${today}'">
-                                    ${user.name} ${user.surname}
-                            </button>
-                        </c:when>
-                    </c:choose>
+                    <button type="button" class="btn-lg back" onclick="document.location.href= '${pageContext.request.contextPath}/airport?action=show_user_page'">
+                            ${user.name} ${user.surname}
+                    </button>
                 </c:if>
             </div>
         </nav>

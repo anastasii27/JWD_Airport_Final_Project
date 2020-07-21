@@ -14,4 +14,6 @@ public interface UserDao {
     List<String> rolesList() throws DaoException;
     List<User> userByRoleList(String role) throws DaoException;
     int editUser(User user) throws DaoException;
+    int changeLogin(String login, User user) throws DaoException;
+    int changePassword(String password, User user) throws DaoException;
 }

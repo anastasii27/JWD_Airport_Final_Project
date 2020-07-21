@@ -22,7 +22,9 @@ public enum CommandName {
     EDIT_FLIGHT("authorized"),
     SHOW_FLIGHT_TIMETABLE_PAGE("common"),
     EDIT_USER("authorized"),
-    SHOW_USER_EDITING_PAGE("authorized");
+    SHOW_USER_EDITING_PAGE("authorized"),
+    CHANGE_LOGIN("authorized"),
+    CHANGE_PASSWORD("authorized");
 
     private final String accessType;
 

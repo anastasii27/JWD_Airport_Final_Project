@@ -32,6 +32,8 @@ public final class CommandProvider {
         commands.put(CommandName.SHOW_FLIGHT_TIMETABLE_PAGE, new FlightTimetablePage());
         commands.put(CommandName.EDIT_USER, new EditUser());
         commands.put(CommandName.SHOW_USER_EDITING_PAGE, new UserEditingPage());
+        commands.put(CommandName.CHANGE_LOGIN, new ChangeLogin());
+        commands.put(CommandName.CHANGE_PASSWORD, new ChangePassword());
     }
 
     public Command getCommand(String name){

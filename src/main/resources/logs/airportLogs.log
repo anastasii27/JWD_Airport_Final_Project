@@ -99,3 +99,58 @@ Caused by: java.sql.SQLException: No value specified for parameter 6
 	at by.epam.airport_system.dao.impl.UserDaoImpl.editUser(UserDaoImpl.java:250) ~[classes/:?]
 	at by.epam.airport_system.service.impl.UserServiceImpl.editUser(UserServiceImpl.java:76) ~[classes/:?]
 	... 32 more
+ERROR 2020-07-21 11:22:32 SignIn - Cannot execute command for signing in
+by.epam.airport_system.service.ServiceException: Exception during signing in!
+	at by.epam.airport_system.service.impl.UserServiceImpl.getUserByLogin(UserServiceImpl.java:22) ~[classes/:?]
+	at by.epam.airport_system.controller.command.front.impl.SignIn.execute(SignIn.java:34) [classes/:?]
+	at by.epam.airport_system.controller.FrontController.doPost(FrontController.java:19) [classes/:?]
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:660) [servlet-api.jar:?]
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:741) [servlet-api.jar:?]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:231) [catalina.jar:9.0.19]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166) [catalina.jar:9.0.19]
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:53) [tomcat-websocket.jar:9.0.19]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193) [catalina.jar:9.0.19]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166) [catalina.jar:9.0.19]
+	at by.epam.airport_system.controller.filter.ParametersFormatFilter.doFilter(ParametersFormatFilter.java:18) [classes/:?]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193) [catalina.jar:9.0.19]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166) [catalina.jar:9.0.19]
+	at by.epam.airport_system.controller.filter.EncodingFilter.doFilter(EncodingFilter.java:18) [classes/:?]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193) [catalina.jar:9.0.19]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166) [catalina.jar:9.0.19]
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:200) [catalina.jar:9.0.19]
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:96) [catalina.jar:9.0.19]
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:490) [catalina.jar:9.0.19]
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:139) [catalina.jar:9.0.19]
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:92) [catalina.jar:9.0.19]
+	at org.apache.catalina.valves.AbstractAccessLogValve.invoke(AbstractAccessLogValve.java:678) [catalina.jar:9.0.19]
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:74) [catalina.jar:9.0.19]
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:343) [catalina.jar:9.0.19]
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:408) [tomcat-coyote.jar:9.0.19]
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:66) [tomcat-coyote.jar:9.0.19]
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:836) [tomcat-coyote.jar:9.0.19]
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1747) [tomcat-coyote.jar:9.0.19]
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:49) [tomcat-coyote.jar:9.0.19]
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149) [?:1.8.0_181]
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624) [?:1.8.0_181]
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61) [tomcat-util.jar:9.0.19]
+	at java.lang.Thread.run(Thread.java:748) [?:1.8.0_181]
+Caused by: by.epam.airport_system.dao.DaoException: Exception during signing in!
+	at by.epam.airport_system.dao.impl.UserDaoImpl.getUserByLogin(UserDaoImpl.java:108) ~[classes/:?]
+	at by.epam.airport_system.service.impl.UserServiceImpl.getUserByLogin(UserServiceImpl.java:20) ~[classes/:?]
+	... 32 more
+Caused by: java.sql.SQLIntegrityConstraintViolationException: Column 'id' in field list is ambiguous
+	at com.mysql.cj.jdbc.exceptions.SQLError.createSQLException(SQLError.java:117) ~[mysql-connector-java-8.0.13.jar:8.0.13]
+	at com.mysql.cj.jdbc.exceptions.SQLError.createSQLException(SQLError.java:97) ~[mysql-connector-java-8.0.13.jar:8.0.13]
+	at com.mysql.cj.jdbc.exceptions.SQLExceptionsMapping.translateException(SQLExceptionsMapping.java:122) ~[mysql-connector-java-8.0.13.jar:8.0.13]
+	at com.mysql.cj.jdbc.ClientPreparedStatement.executeInternal(ClientPreparedStatement.java:974) ~[mysql-connector-java-8.0.13.jar:8.0.13]
+	at com.mysql.cj.jdbc.ClientPreparedStatement.executeQuery(ClientPreparedStatement.java:1024) ~[mysql-connector-java-8.0.13.jar:8.0.13]
+	at by.epam.airport_system.dao.impl.UserDaoImpl.getUserByLogin(UserDaoImpl.java:95) ~[classes/:?]
+	at by.epam.airport_system.service.impl.UserServiceImpl.getUserByLogin(UserServiceImpl.java:20) ~[classes/:?]
+	... 32 more
+INFO  2020-07-21 14:49:29 SmtpMailSender - Message has been send to rodnovanastya@gmail.com
+INFO  2020-07-21 15:03:50 SmtpMailSender - Message has been send to rodnovanastya@gmail.com
+INFO  2020-07-21 15:04:07 SmtpMailSender - Message has been send to rodnovanastya@gmail.com
+INFO  2020-07-21 15:04:50 SmtpMailSender - Message has been send to rodnovanastya@gmail.com
+INFO  2020-07-21 15:05:18 SmtpMailSender - Message has been send to rodnovanastya@gmail.com
+INFO  2020-07-21 15:20:50 SmtpMailSender - Message has been send to rodnovanastya@gmail.com
+INFO  2020-07-21 15:21:01 SmtpMailSender - Message has been send to rodnovanastya@gmail.com

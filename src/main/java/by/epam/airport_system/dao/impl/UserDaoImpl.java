@@ -5,6 +5,8 @@ import by.epam.airport_system.dao.DaoException;
 import by.epam.airport_system.dao.UserDao;
 import by.epam.airport_system.dao.connectionpool.ConnectionPool;
 import by.epam.airport_system.dao.connectionpool.ConnectionPoolException;
+import org.mindrot.jbcrypt.BCrypt;
+
 import java.sql.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -12,10 +14,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UserDaoImpl implements UserDao, CloseOperation {
+    private final static int LOG_ROUNDS = 12;
     private final static String INSERT_USER =  "INSERT INTO airport.users (`role-id`, login, `password`, `name`, surname, email, `career-start-year`)" +
             "VALUES((SELECT id FROM airport.roles WHERE title = ?),?,?,?,?,?,?);";
 
-    private final static String USER_BY_LOGIN = "SELECT login, title  AS `role`, `password`, `name`, surname, email, `career-start-year` " +
+    private final static String USER_BY_LOGIN = "SELECT users.id, login, title  AS `role`, `password`, `name`, surname, email, `career-start-year` " +
             "FROM users JOIN roles ON users.`role-id` = roles.id WHERE login = ?;";
 
     private final static String CHECK_USER_EXISTENCE_1 = "SELECT `name` FROM users WHERE login = ?;";
@@ -41,6 +44,13 @@ public class UserDaoImpl implements UserDao, CloseOperation {
             "email = ?, `career-start-year` = ?\n" +
             "WHERE login = ?";
 
+    private final static String CHANGE_LOGIN = "UPDATE airport.users  \n" +
+            "SET login = ? \n" +
+            "WHERE id = ?";
+
+    private final static String CHANGE_PASSWORD = "UPDATE airport.users  \n" +
+            "SET `password` = ? \n" +
+            "WHERE id = ?";
 
     @Override
     public boolean signUpUser(User user) throws DaoException {
@@ -55,7 +65,7 @@ public class UserDaoImpl implements UserDao, CloseOperation {
 
             ps.setString(1,user.getRole());
             ps.setString(2,user.getLogin());
-            ps.setString(3,user.getPassword());
+            ps.setString(3,hashPassword(user.getPassword()));
             ps.setString(4,user.getName());
             ps.setString(5,user.getSurname());
             ps.setString(6,user.getEmail());
@@ -89,7 +99,8 @@ public class UserDaoImpl implements UserDao, CloseOperation {
             if(!rs.next()){
                 return null;
             }
-            user = User.builder().login(rs.getString("login"))
+            user = User.builder().id(rs.getInt("id"))
+                                .login(rs.getString("login"))
                                 .role(rs.getString("role"))
                                 .password(rs.getString("password"))
                                 .name(rs.getString("name"))
@@ -253,5 +264,55 @@ public class UserDaoImpl implements UserDao, CloseOperation {
         }finally {
             closeAll(rs, ps, pool, connection);
         }
+    }
+
+    @Override
+    public int changeLogin(String login, User user) throws DaoException {
+        ConnectionPool pool = ConnectionPool.getInstance();
+        Connection connection = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        try {
+            connection = pool.takeConnection();
+            ps =  connection.prepareStatement(CHANGE_LOGIN);
+
+            ps.setString(1, login);
+            ps.setInt(2, user.getId());
+
+            return ps.executeUpdate();
+        }catch (ConnectionPoolException | SQLException e) {
+            throw new DaoException("Exception during login changing!", e);
+        }finally {
+            closeAll(rs, ps, pool, connection);
+        }
+    }
+
+    @Override
+    public int changePassword(String password, User user) throws DaoException {
+        ConnectionPool pool = ConnectionPool.getInstance();
+        Connection connection = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        try {
+            pool.poolInitialization();
+            connection = pool.takeConnection();
+            ps =  connection.prepareStatement(CHANGE_PASSWORD);
+
+            ps.setString(1, hashPassword(password));
+            ps.setInt(2, user.getId());
+
+            return ps.executeUpdate();
+        }catch (ConnectionPoolException | SQLException e) {
+            throw new DaoException("Exception during password changing", e);
+        }finally {
+            closeAll(rs, ps, pool, connection);
+        }
+    }
+
+    private String hashPassword(String password) {
+        String salt = BCrypt.gensalt(LOG_ROUNDS);
+        return BCrypt.hashpw(password, salt);
     }
 }

@@ -39,6 +39,7 @@ public class EditUser implements Command {
         String email = request.getParameter(RequestParameterName.EMAIL);
         String careerStartYear = request.getParameter(RequestParameterName.CAREER_START_YEAR);
         String login = request.getParameter(RequestParameterName.LOGIN);
+        String id = request.getParameter(RequestParameterName.ID);
 
         Map<String, String> params = RequestToMapParser.toRequestParamsMap(request);
         ValidationResult validationResult = validator.validate(params);
@@ -49,7 +50,8 @@ public class EditUser implements Command {
             if(!validationResult.isEmpty()){
                 session.setAttribute(RequestParameterName.RESULT_INFO, validationResult.getErrorsList());
             }else {
-                User user = User.builder().login(login)
+                User user = User.builder().id(Integer.parseInt(id))
+                            .login(login)
                             .name(name)
                             .surname(surname)
                             .email(email)

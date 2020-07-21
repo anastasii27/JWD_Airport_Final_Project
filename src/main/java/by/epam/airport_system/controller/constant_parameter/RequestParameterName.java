@@ -48,4 +48,9 @@ public final class RequestParameterName {
     public static final String PREVIOUS_PAGE = "previous_page_url";
     public static final String LOCAL = "local";
     public static final String URL = "url";
+    public static final String OLD_PASSWORD = "old_password";
+    public static final String NEW_PASSWORD= "new_password";
+    public static final String CONFIRMED_PASSWORD = "confirm_password";
+    public static final String OLD_LOGIN = "old_login";
+    public static final String NEW_LOGIN = "new_login";
 }

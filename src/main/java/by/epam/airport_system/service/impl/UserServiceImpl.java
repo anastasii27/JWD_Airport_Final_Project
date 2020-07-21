@@ -6,12 +6,17 @@ import by.epam.airport_system.dao.DaoFactory;
 import by.epam.airport_system.dao.UserDao;
 import by.epam.airport_system.service.ServiceException;
 import by.epam.airport_system.service.UserService;
+import by.epam.airport_system.service.mailing.MailMessages;
+import by.epam.airport_system.service.mailing.SmtpMailSender;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
 
 public class UserServiceImpl implements UserService {
     private final static String USER_ROLE = "dispatcher";
+    private static final String LOGIN_PATTERN ="[\\w]{4,15}";
+    private final static int MAX_LOGIN_LEN = 15;
+    private final static int MIN_LOGIN_LEN = 6;
     private UserDao dao = DaoFactory.getInstance().getUserDAO();
 
     @Override
@@ -76,6 +81,42 @@ public class UserServiceImpl implements UserService {
             return dao.editUser(user) != 0;
         } catch (DaoException e) {
             throw new ServiceException("Exception during user editing", e);
+        }
+    }
+
+    @Override
+    public boolean changeLogin(String login, User user) throws ServiceException {
+        SmtpMailSender mailSender = SmtpMailSender.getInstance();
+        try {
+            if(!login.matches(LOGIN_PATTERN)){
+                return false;
+            }
+
+            if(dao.changeLogin(login, user) != 0){
+                mailSender.sendMail(user, MailMessages.LOGIN_CHANGE);
+                return true;
+            }
+            return false;
+        } catch (DaoException e) {
+            throw new ServiceException("Exception during login changing", e);
+        }
+    }
+
+    @Override
+    public boolean changePassword(String password, User user) throws ServiceException {
+        SmtpMailSender mailSender = SmtpMailSender.getInstance();
+        try {
+            if (!(password.length() >= MIN_LOGIN_LEN && password.length() <= MAX_LOGIN_LEN)) {
+                return false;
+            }
+
+            if(dao.changePassword(password, user) != 0){
+                mailSender.sendMail(user, MailMessages.PASSWORD_CHANGE);
+                return true;
+            }
+            return false;
+        } catch (DaoException e) {
+            throw new ServiceException("Exception during password changing", e);
         }
     }
 }

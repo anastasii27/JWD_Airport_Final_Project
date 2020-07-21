@@ -12,5 +12,7 @@ public interface UserService {
     List<String> rolesList() throws ServiceException;
     List<User> userByRoleList(String role) throws ServiceException;
     boolean editUser(User user) throws ServiceException;
+    boolean changeLogin(String login, User user)  throws ServiceException;
+    boolean changePassword(String newPassword, User user)  throws ServiceException;
 }
 

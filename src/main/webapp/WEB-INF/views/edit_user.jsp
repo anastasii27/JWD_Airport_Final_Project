@@ -43,7 +43,7 @@
         <jsp:include page="parts/header.jsp"/>
         <form action="airport" id="edit_user" method="post">
             <input type="hidden" name="action" value="edit_user"/>
-            <input type="hidden" name="user_password" value="notrealpassword"/>
+            <input type="hidden" name="id" value="${sessionScope.user.id}"/>
             <input type="hidden" name="login" value="${sessionScope.user.login}"/>
             <label for="inputName">${name_label}:</label>
             <input type="text" name="user_name" class="form-control" id="inputName" value="${sessionScope.user.name}"/>

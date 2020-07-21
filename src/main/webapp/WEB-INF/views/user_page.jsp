@@ -18,6 +18,8 @@
         <fmt:message bundle="${loc}" key="local.label.flight_info.date" var="date_label" />
         <fmt:message bundle="${loc}" key="local.label.nearest_flight" var="near_flight_label" />
         <fmt:message bundle="${loc}" key="local.label.crew.edit_btn" var="edit_btn" />
+        <fmt:message bundle="${loc}" key="local.label.password" var="password_label" />
+        <fmt:message bundle="${loc}" key="local.label.login" var="login_label" />
 
         <title>${sessionScope.user.name} ${sessionScope.user.surname}</title>
 
@@ -50,6 +52,8 @@
         <p>Email: <c:out value= "${sessionScope.user.email}" /></p>
         <p>${role_label}: <c:out value= "${sessionScope.user.role}" /></p>
         <p>${start_label}: <c:out value= "${sessionScope.user.careerStartYear}" /></p>
+        <p>${password_label}: <a href="#" data-toggle="modal" data-target="#password_change_modal">Сменить пароль</a></p>
+        <p>${login_label}: <a href="#" data-toggle="modal" data-target="#login_change_modal">Сменить логин</a></p>
 
         <c:if test = "${sessionScope.user.role eq 'pilot' || sessionScope.user.role eq 'steward'}">
             <c:if test = "${requestScope.result eq null}">
@@ -67,5 +71,7 @@
                 </table>
             </c:if>
         </c:if>
+        <jsp:include page="parts/change_password_modal.jsp"/>
+        <jsp:include page="parts/change_login_modal.jsp"/>
     </body>
 </html>

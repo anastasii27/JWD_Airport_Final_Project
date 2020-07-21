@@ -13,7 +13,6 @@ import by.epam.airport_system.service.validation.ValidationFactory;
 import by.epam.airport_system.service.validation.ValidationResult;
 import by.epam.airport_system.service.validation.Validator;
 import lombok.extern.log4j.Log4j2;
-import org.mindrot.jbcrypt.BCrypt;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -26,7 +25,6 @@ public class Registration implements Command{
     private final static String KEY1= "local.message.sign_up.success";
     private final static String KEY2= "local.message.sign_up.fail";
     private final static String CURRENT_PAGE_PATH = "/airport?action=show_register_page";
-    private final static int LOG_ROUNDS = 12;
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) {
@@ -51,7 +49,7 @@ public class Registration implements Command{
             }else{
                 User user =  User.builder().role(role)
                             .login(login)
-                            .password(hashPassword(password))
+                            .password(password)
                             .name(name)
                             .surname(surname)
                             .email(email)
@@ -68,11 +66,6 @@ public class Registration implements Command{
             log.error("Cannot execute command for registration", e);
             errorPage(response);
         }
-    }
-
-    private String hashPassword(String password) {
-        String salt = BCrypt.gensalt(LOG_ROUNDS);
-        return BCrypt.hashpw(password, salt);
     }
 
     private String getResultMessage(boolean key, String language){
