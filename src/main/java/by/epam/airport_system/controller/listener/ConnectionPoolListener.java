@@ -27,7 +27,7 @@ public class ConnectionPoolListener implements ServletContextListener {
         ConnectionPool pool = ConnectionPool.getInstance();
 
         try {
-            pool.closeAllConnections();
+            pool.close();
         } catch (ConnectionPoolException e) {
             log.error("Connection pool cannot be closed", e);
         }

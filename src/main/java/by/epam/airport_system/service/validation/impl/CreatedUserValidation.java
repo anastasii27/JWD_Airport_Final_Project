@@ -3,6 +3,8 @@ package by.epam.airport_system.service.validation.impl;
 import by.epam.airport_system.dao.DaoException;
 import by.epam.airport_system.dao.DaoFactory;
 import by.epam.airport_system.dao.UserDao;
+import by.epam.airport_system.dao.connectionpool.ConnectionPool;
+import by.epam.airport_system.dao.connectionpool.ConnectionPoolException;
 import by.epam.airport_system.service.validation.UserValidator;
 import by.epam.airport_system.service.validation.ValidationPattern;
 import by.epam.airport_system.service.validation.ValidationResult;
@@ -64,7 +66,7 @@ public class CreatedUserValidation extends UserValidator {
     private boolean loginCheck(String login) throws DaoException {
         UserDao userDAO = DaoFactory.getInstance().getUserDAO();
 
-        if(userDAO.doesUserExist(login)){
+        if(userDAO.getUserByLogin(login)!= null){
             return false;
         }
 

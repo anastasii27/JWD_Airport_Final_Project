@@ -8,7 +8,6 @@ import java.util.List;
 public interface UserDao {
     boolean signUpUser(User user) throws DaoException;
     User getUserByLogin(String login) throws DaoException;
-    boolean doesUserExist(String login) throws DaoException;
     List<User> busyDepartureDispatchers(LocalDate date, LocalTime time, String airportName) throws DaoException;
     List<User> busyArrivalDispatchers(LocalDate date, LocalTime time, String airportName) throws DaoException;
     List<String> rolesList() throws DaoException;

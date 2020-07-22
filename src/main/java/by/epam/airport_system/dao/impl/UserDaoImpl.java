@@ -6,7 +6,6 @@ import by.epam.airport_system.dao.UserDao;
 import by.epam.airport_system.dao.connectionpool.ConnectionPool;
 import by.epam.airport_system.dao.connectionpool.ConnectionPoolException;
 import org.mindrot.jbcrypt.BCrypt;
-
 import java.sql.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -20,8 +19,6 @@ public class UserDaoImpl implements UserDao, CloseOperation {
 
     private final static String USER_BY_LOGIN = "SELECT users.id, login, title  AS `role`, `password`, `name`, surname, email, `career-start-year` " +
             "FROM users JOIN roles ON users.`role-id` = roles.id WHERE login = ?;";
-
-    private final static String CHECK_USER_EXISTENCE_1 = "SELECT `name` FROM users WHERE login = ?;";
 
     private final static String BUSY_DEPARTURE_DISPATCHERS = "SELECT `name`, surname FROM airport.flights\n" +
             "JOIN users ON `dispatcher-id` = users.id\n" +
@@ -113,28 +110,6 @@ public class UserDaoImpl implements UserDao, CloseOperation {
             closeAll(rs, ps, pool, connection);
         }
         return user;
-    }
-
-    @Override
-    public boolean doesUserExist(String login) throws DaoException {
-        ConnectionPool pool = ConnectionPool.getInstance();
-        Connection connection = null;
-        PreparedStatement ps = null;
-        ResultSet rs = null;
-
-        try {
-            connection = pool.takeConnection();
-            ps =  connection.prepareStatement(CHECK_USER_EXISTENCE_1);
-
-            ps.setString(1, login);
-            rs = ps.executeQuery();
-
-            return rs.next();
-        } catch (ConnectionPoolException | SQLException e) {
-            throw new DaoException("Exception during user existence operation!", e);
-        }finally {
-            closeAll(rs, ps, pool, connection);
-        }
     }
 
     @Override

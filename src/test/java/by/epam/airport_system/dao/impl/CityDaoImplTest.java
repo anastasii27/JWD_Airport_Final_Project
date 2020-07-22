@@ -1,13 +1,14 @@
 package by.epam.airport_system.dao.impl;
 
-import org.junit.jupiter.api.Test;
+import by.epam.airport_system.dao.H2DataBaseCreation;
+import org.junit.Test;
 
-class CityDaoImplTest {
+public class CityDaoImplTest extends H2DataBaseCreation{
     @Test
-    void cityWithAirportList() {
+    public void cityWithAirportList() {
     }
 
     @Test
-    void cityWithAirportList1() {
+    public void cityWithAirportList1() {
     }
 }

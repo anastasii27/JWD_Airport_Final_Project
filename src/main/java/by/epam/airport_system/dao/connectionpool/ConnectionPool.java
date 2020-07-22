@@ -3,11 +3,13 @@ package by.epam.airport_system.dao.connectionpool;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.ResourceBundle;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 
 public class ConnectionPool {
     private static ConnectionPool instance;
+    private final static String FILE_NAME = "db";
     private String driver;
     private String user;
     private String password;
@@ -16,13 +18,14 @@ public class ConnectionPool {
     private BlockingQueue<Connection> availableConnection;
     private BlockingQueue<Connection> usedConnection;
 
-    private ConnectionPool() {
-        ResourceManager resourceManager = ResourceManager.getInstance();
-        this.driver = resourceManager.getValue(DBConnectionParameter.DRIVER.getKey());
-        this.user = resourceManager.getValue(DBConnectionParameter.USER.getKey());
-        this.password = resourceManager.getValue(DBConnectionParameter.PASSWORD.getKey());
-        this.url = resourceManager.getValue(DBConnectionParameter.URL.getKey());
-        this.poolSize = Integer.parseInt(resourceManager.getValue(DBConnectionParameter.POOL_SIZE.getKey()));
+    private ConnectionPool(){
+        ResourceBundle bundle = ResourceBundle.getBundle(FILE_NAME);
+
+        driver = bundle.getString(DBConnectionParameter.DRIVER.getKey());
+        user = bundle.getString(DBConnectionParameter.USER.getKey());
+        password = bundle.getString(DBConnectionParameter.PASSWORD.getKey());
+        url = bundle.getString(DBConnectionParameter.URL.getKey());
+        poolSize = Integer.parseInt(bundle.getString(DBConnectionParameter.POOL_SIZE.getKey()));
     }
 
     public static ConnectionPool getInstance() {
@@ -68,17 +71,17 @@ public class ConnectionPool {
         availableConnection.add(connection);
     }
 
-    public void closeAllConnections() throws ConnectionPoolException {
+    public void close() throws ConnectionPoolException {
         try {
-            closeConnectionsInPool(availableConnection);
-            closeConnectionsInPool(usedConnection);
+            closeEachConnection(availableConnection);
+            closeEachConnection(usedConnection);
 
         } catch (SQLException e) {
             throw new ConnectionPoolException("Exception during connection closing operation!", e);
         }
     }
 
-    private void closeConnectionsInPool(BlockingQueue <Connection> queue) throws SQLException {
+    private void closeEachConnection(BlockingQueue <Connection> queue) throws SQLException {
         Connection connection;
 
         while ((connection = queue.poll()) != null) {

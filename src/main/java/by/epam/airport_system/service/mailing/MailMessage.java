@@ -1,8 +1,8 @@
 package by.epam.airport_system.service.mailing;
 
-public final class MailMessages {//todo change messages
+public final class MailMessage {//todo change messages
 
-    private MailMessages(){
+    private MailMessage(){
     }
 
     public static final String PASSWORD_CHANGE = "password changed";

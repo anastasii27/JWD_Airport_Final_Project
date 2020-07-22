@@ -6,7 +6,7 @@ import by.epam.airport_system.dao.DaoFactory;
 import by.epam.airport_system.dao.UserDao;
 import by.epam.airport_system.service.ServiceException;
 import by.epam.airport_system.service.UserService;
-import by.epam.airport_system.service.mailing.MailMessages;
+import by.epam.airport_system.service.mailing.MailMessage;
 import by.epam.airport_system.service.mailing.SmtpMailSender;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -93,7 +93,7 @@ public class UserServiceImpl implements UserService {
             }
 
             if(dao.changeLogin(login, user) != 0){
-                mailSender.sendMail(user, MailMessages.LOGIN_CHANGE);
+                mailSender.sendMail(user, MailMessage.LOGIN_CHANGE);
                 return true;
             }
             return false;
@@ -111,7 +111,7 @@ public class UserServiceImpl implements UserService {
             }
 
             if(dao.changePassword(password, user) != 0){
-                mailSender.sendMail(user, MailMessages.PASSWORD_CHANGE);
+                mailSender.sendMail(user, MailMessage.PASSWORD_CHANGE);
                 return true;
             }
             return false;
