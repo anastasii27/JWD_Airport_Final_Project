@@ -11,21 +11,30 @@
         <fmt:message bundle="${loc}" key="local.button.change" var="change_btn"/>
 
         <title>Change login</title>
+
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/design/css/change-login-modal.css"/>
+
     </head>
     <body>
         <div class="modal fade" id="login_change_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+            <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="exampleModalLongTitle">${title_label}</h5>
                     </div>
                     <div class="modal-body">
-                        <form action="airport" method="post" id="edit_flight">
+                        <form action="airport" method="post" id="edit_login">
                             <input type="hidden" name="action" value="change_login" />
                             <input type="hidden" name="old_login" value="${sessionScope.user.login}" />
-                            <label for="new_login">${login_label}</label>
-                            <input type="text" id="new_login" name="new_login"/>
-                            <input type="submit" class="btn btn-primary" value="${change_btn}"/>
+                            <div class="row inputs">
+                                <div class="form-group row">
+                                    <label for="new_login">${login_label}</label>
+                                    <input type="text" id="new_login" name="new_login"/>
+                                </div>
+                                <div id="change_login_btn">
+                                    <input type="submit" class="btn btn-primary" value="${change_btn}"/>
+                                </div>
+                            </div>
                         </form>
                     </div>
                 </div>

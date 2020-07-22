@@ -13,25 +13,35 @@
         <fmt:message bundle="${loc}" key="local.button.change" var="change_btn"/>
 
         <title>Change password</title>
+
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/design/css/change-password-modal.css"/>
     </head>
     <body>
         <div class="modal fade" id="password_change_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+            <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="exampleModalLongTitle">${title_label}</h5>
                     </div>
                     <div class="modal-body">
-                        <form action="airport" method="post" id="edit_flight">
+                        <form action="airport" method="post" id="edit_password">
                             <input type="hidden" name="action" value="change_password" />
                             <input type="hidden" name="login" value="${sessionScope.user.login}" />
-                            <label for="old_pass">${old_pas_label}</label>
-                            <input type="password" id="old_pass" name="old_password"/>
-                            <label for="new_pass">${new_pas_label}</label>
-                            <input type="password" id="new_pass" name="new_password"/>
-                            <label for="confirm_pass">${confirm_label}</label>
-                            <input type="password" id="confirm_pass" name="confirm_password"/>
-                            <input type="submit" class="btn btn-primary" value="${change_btn}"/>
+                            <div class="form-group row">
+                                <label for="old_pass">${old_pas_label}</label>
+                                <input type="password" id="old_pass" name="old_password"/>
+                            </div>
+                            <div class="form-group row">
+                                <label for="new_pass">${new_pas_label}</label>
+                                <input type="password" id="new_pass" name="new_password"/>
+                            </div>
+                            <div class="form-group row">
+                                <label for="confirm_pass">${confirm_label}</label>
+                                <input type="password" id="confirm_pass" name="confirm_password"/>
+                            </div>
+                            <div id="change_btn">
+                                <input type="submit" class="btn btn-primary" value="${change_btn}"/>
+                            </div>
                         </form>
                     </div>
                 </div>
