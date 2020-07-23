@@ -110,7 +110,18 @@ $(document).ready(function ($) {
             login:{
                 required_value: true,
                 login_len_check: [4,15],
-                no_sign_pattern_check: true
+                no_sign_pattern_check: true,
+                remote:{
+                    url: '/JWD_Task3_war/ajax',
+                    type: 'GET',
+                    data:{
+                        command: 'check_login_existence',
+                        login: function() {
+                            return $( "#inputLogin" ).val();
+                        }
+                    },
+                    async:true
+                }
             },
             user_password:{
                 required_value: true,
@@ -123,8 +134,19 @@ $(document).ready(function ($) {
             }
         },
 
-        errorPlacement: function(error, element){
+        messages:{
+            login:{
+                remote:function () {
+                    if(lang==="ru"){
+                        return "\u0422\u0430\u043a\u043e\u0439\u0020\u043f\u043e\u043b\u044c\u0437\u043e\u0432\u0430\u0442\u0435\u043b\u044c\u0020\u0443\u0436\u0435\u0020\u0441\u0443\u0449\u0435\u0441\u0442\u0432\u0443\u0435\u0442\u0021";
+                    }else{
+                        return "This user is already exist!";
+                    }
+                }
+            }
+        },
 
+        errorPlacement: function(error, element){
             let id = element.attr("id");
 
             if(id === 'inputPassword1' || id === 'inputStart'|| id  === "inputRole"){
@@ -301,7 +323,6 @@ $(document).ready(function ($) {
                 $('#flight_number').after(error);
             }
         }
-
     });
 
     $('#edit_flight').validate({
@@ -413,6 +434,77 @@ $(document).ready(function ($) {
         }
     });
 
+    $('#edit_login').validate({
+        rules:{
+            new_login:{
+                required: true,
+                login_len_check: true,
+                no_sign_pattern_check:true,
+                remote:{
+                    url: '/JWD_Task3_war/ajax',
+                    type: 'GET',
+                    data:{
+                        command: 'check_login_existence',
+                        login: function() {
+                            return $( "#new_login" ).val();
+                        }
+                    },
+                    async:true
+                }
+            }
+        },
+        messages:{
+            new_login:{
+                required: null,
+                remote:function () {
+                    if(lang==="ru"){
+                        return "\u0422\u0430\u043a\u043e\u0439\u0020\u043f\u043e\u043b\u044c\u0437\u043e\u0432\u0430\u0442\u0435\u043b\u044c\u0020\u0443\u0436\u0435\u0020\u0441\u0443\u0449\u0435\u0441\u0442\u0432\u0443\u0435\u0442\u0021";
+                    }else{
+                        return "This user is already exist!";
+                    }
+                }
+            }
+        },
+
+        errorPlacement: function(error, element){
+            $('#edit_login').append(error);
+        }
+    });
+
+    $('#edit_password').validate({
+        rules:{
+            old_password:{
+                required: true
+            },
+            new_password:{
+                required: true,
+                password_len_check: true,
+                no_sign_pattern_check:true
+            },
+            confirm_password:{
+                required: true,
+                password_len_check: true,
+                no_sign_pattern_check:true,
+                equal_passwords_on_creation_check:true
+            }
+        },
+        messages:{
+            old_password:{
+                required: null
+            },
+            new_password:{
+                required: null
+            },
+            confirm_password:{
+                required: null
+            }
+        },
+
+        errorPlacement: function(error, element){
+            $(element).after(error);
+        }
+    });
+
     $.validator.addMethod('required_value', function(value) {
         return value.length !== 0;
     }, function ( ) {
@@ -498,9 +590,19 @@ $(document).ready(function ($) {
     }, null);
 
     $.validator.addMethod('equal_passwords_check', function(value) {
-        return value== $('#inputPassword1').val();
+        return value === $('#inputPassword1').val();
     }, function () {
-        if(lang=='en'){
+        if(lang==='en'){
+            return "Those password don`t match.Try again";
+        }else{
+            return "\u041f\u0430\u0440\u043e\u043b\u0438\u0020\u043d\u0435\u0020\u0441\u043e\u0432\u043f\u0430\u0434\u0430\u044e\u0442\u002e\u0020\u041f\u043e\u043f\u0440\u043e\u0431\u0443\u0439\u0442\u0435\u0020\u0441\u043d\u043e\u0432\u0430";
+        }
+    });
+
+    $.validator.addMethod('equal_passwords_on_creation_check', function(value) {
+        return value=== $('#new_pass').val();
+    }, function () {
+        if(lang === 'en'){
             return "Those password don`t match.Try again";
         }else{
             return "\u041f\u0430\u0440\u043e\u043b\u0438\u0020\u043d\u0435\u0020\u0441\u043e\u0432\u043f\u0430\u0434\u0430\u044e\u0442\u002e\u0020\u041f\u043e\u043f\u0440\u043e\u0431\u0443\u0439\u0442\u0435\u0020\u0441\u043d\u043e\u0432\u0430";

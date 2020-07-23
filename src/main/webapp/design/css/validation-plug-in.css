@@ -2,8 +2,10 @@
 #my_flights_form input.error, #my_flights_form select.error
 #create_crew input.error, #create_crew select.error,
 #create_flight input.error, #create_flight select.error,
-#edit_flight input.error, #edit_flight select.error
-#flight_search_form select.error{
+#edit_flight input.error, #edit_flight select.error,
+#flight_search_form select.error,
+#edit_login input.error,
+#edit_password input.error{
     background: #a6c5ff;
     border: 1px solid #0f1970;
     border-radius: 5px;

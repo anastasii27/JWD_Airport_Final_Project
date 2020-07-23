@@ -28,7 +28,7 @@
                             <input type="hidden" name="old_login" value="${sessionScope.user.login}" />
                             <div class="row inputs">
                                 <div class="form-group row">
-                                    <label for="new_login">${login_label}</label>
+                                    <label for="new_login" id="login_label">${login_label}</label>
                                     <input type="text" id="new_login" name="new_login"/>
                                 </div>
                                 <div id="change_login_btn">

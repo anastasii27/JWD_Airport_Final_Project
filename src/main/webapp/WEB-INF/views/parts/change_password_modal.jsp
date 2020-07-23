@@ -28,15 +28,15 @@
                             <input type="hidden" name="action" value="change_password" />
                             <input type="hidden" name="login" value="${sessionScope.user.login}" />
                             <div class="form-group row">
-                                <label for="old_pass">${old_pas_label}</label>
+                                <label for="old_pass" class="labels">${old_pas_label}</label>
                                 <input type="password" id="old_pass" name="old_password"/>
                             </div>
                             <div class="form-group row">
-                                <label for="new_pass">${new_pas_label}</label>
+                                <label for="new_pass" class="labels">${new_pas_label}</label>
                                 <input type="password" id="new_pass" name="new_password"/>
                             </div>
                             <div class="form-group row">
-                                <label for="confirm_pass">${confirm_label}</label>
+                                <label for="confirm_pass" class="labels">${confirm_label}</label>
                                 <input type="password" id="confirm_pass" name="confirm_password"/>
                             </div>
                             <div id="change_btn">
