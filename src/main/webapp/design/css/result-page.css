@@ -1,0 +1,32 @@
+body{
+    background: url('../img/result_plane.jpg') left bottom no-repeat;
+    margin-right: 200px;
+    background-size: 1000px 300px;
+}
+.window{
+    opacity: .7;
+    background-color:#5596b97d;
+    position: absolute;
+    left: 50%;
+    top: 30%;
+    transform: translate(-50%, -50%);
+    border: solid 2px #6c757d52;
+    border-radius:7px;
+    width:40vw;
+    height:30vh;
+}
+#result{
+    margin-top:7vh;
+    margin-right:auto;
+    margin-left:auto;
+    width:30vw;
+    color: black;
+    text-align: center;
+    font-size: 23px;
+}
+#back_button{
+    position:absolute;
+    left: 50%;
+    top: 75%;
+    transform: translate(-50%, -50%);
+}

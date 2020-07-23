@@ -25,6 +25,7 @@
         <title>${sessionScope.user.name} ${sessionScope.user.surname}</title>
 
         <link rel="stylesheet" href="${pageContext.request.contextPath}/design/css/validation-plug-in.css"/>
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/design/css/user-page.css"/>
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
         <script src="${pageContext.request.contextPath}/design/js/jquery-ui.min.js" charset="UTF-8"></script>
@@ -46,32 +47,37 @@
     <body lang="${lang}">
         <jsp:include page="parts/header.jsp"/>
 
-        <button type="button" class="btn btn-info"
-                onclick="document.location.href= '${pageContext.request.contextPath}/airport?action=show_user_editing_page'">
-            ${edit_btn}
-        </button>
-        <p>${name_label}: <c:out value= "${sessionScope.user.name}" /></p>
-        <p>${surname_label}: <c:out value= "${sessionScope.user.surname}" /></p>
-        <p>Email: <c:out value= "${sessionScope.user.email}" /></p>
-        <p>${role_label}: <c:out value= "${sessionScope.user.role}" /></p>
-        <p>${start_label}: <c:out value= "${sessionScope.user.careerStartYear}" /></p>
-        <p>${password_label}: <a href="#" data-toggle="modal" data-target="#password_change_modal">Сменить пароль</a></p>
-        <p>${login_label}: <a href="#" data-toggle="modal" data-target="#login_change_modal">Сменить логин</a></p>
-
+        <div id="edit_user_btn">
+            <button type="button" class="btn btn-info"
+                    onclick="document.location.href= '${pageContext.request.contextPath}/airport?action=show_user_editing_page'">
+                ${edit_btn}
+            </button>
+        </div>
+        <div id="personal_info">
+            <p>${name_label}: <c:out value= "${sessionScope.user.name}" /></p>
+            <p>${surname_label}: <c:out value= "${sessionScope.user.surname}" /></p>
+            <p>Email: <c:out value= "${sessionScope.user.email}" /></p>
+            <p>${role_label}: <c:out value= "${sessionScope.user.role}" /></p>
+            <p>${start_label}: <c:out value= "${sessionScope.user.careerStartYear}" /></p>
+            <p>${password_label}: <a href="#" data-toggle="modal" data-target="#password_change_modal">Сменить пароль</a></p>
+            <p>${login_label}: <a href="#" data-toggle="modal" data-target="#login_change_modal">Сменить логин</a></p>
+        </div>
         <c:if test = "${sessionScope.user.role eq 'pilot' || sessionScope.user.role eq 'steward'}">
             <c:if test = "${requestScope.result eq null}">
-                <h3>${near_flight_label}</h3>
-                <table class ="table" id="nearest_flight" border="2">
-                    <tr><th>${flight_label}</th><th>${date_label}</th><th>${dest_label}</th><th>${dep_time_label}</th></tr>
-                        <c:forEach items="${flight}" var="flight_item">
-                            <tr>
-                                <td>${flight_item.flightNumber}</td>
-                                <td>${flight_item.departureDate}</td>
-                                <td>${flight_item.destinationCity}</td>
-                                <td>${flight_item.departureTime}</td>
-                            </tr>
-                        </c:forEach>
-                </table>
+                <div id="user_table">
+                    <h3>${near_flight_label}</h3>
+                    <table class ="table" id="nearest_flight" border="2">
+                        <tr><th>${flight_label}</th><th>${date_label}</th><th>${dest_label}</th><th>${dep_time_label}</th></tr>
+                            <c:forEach items="${flight}" var="flight_item">
+                                <tr>
+                                    <td>${flight_item.flightNumber}</td>
+                                    <td>${flight_item.departureDate}</td>
+                                    <td>${flight_item.destinationCity}</td>
+                                    <td>${flight_item.departureTime}</td>
+                                </tr>
+                            </c:forEach>
+                    </table>
+                </div>
             </c:if>
         </c:if>
         <jsp:include page="parts/change_password_modal.jsp"/>

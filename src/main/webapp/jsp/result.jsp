@@ -22,9 +22,11 @@
             <div id="result">
                 <c:out value= "${result}" />
             </div>
-            <button type="button" class="btn btn-info" id="back_btn" onclick="document.location.href= '${sessionScope.previous_page_url}'">
-                ${back_btn}
-            </button>
+            <div id="back_button">
+                <button type="button" class="btn btn-info" id="back_btn" onclick="document.location.href= '${sessionScope.previous_page_url}'">
+                    ${back_btn}
+                </button>
+            </div>
         </div>
     </body>
 </html>

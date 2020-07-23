@@ -1,0 +1,11 @@
+#personal_info{
+    background-color: #d6e5f17a;
+    width:60vw;
+    border: solid 0.5px #6c757d52;
+    margin-left:auto;
+    margin-right:auto;
+    margin-top:3vh;
+}
+p{
+    padding-left:2vw;
+}
