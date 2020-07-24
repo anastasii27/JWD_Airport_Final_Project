@@ -14,6 +14,7 @@
         <fmt:message bundle="${loc}" key="local.label.crew.create_btn" var="create_label" />
         <fmt:message bundle="${loc}" key="local.label.menu_user_crew" var="crews_label" />
         <fmt:message bundle="${loc}" key="local.label.crew.edit_btn" var="edit_label" />
+        <fmt:message bundle="${loc}" key="local.js.lang" var="lang" />
 
         <title>${crews_label}</title>
 
@@ -35,7 +36,7 @@
         </script>
 
     </head>
-    <body>
+    <body lang="${lang}">
         <jsp:include page="parts/header.jsp"/>
         <div class="row col-12">
             <div class="col-md-4">

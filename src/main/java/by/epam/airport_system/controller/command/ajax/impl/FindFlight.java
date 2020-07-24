@@ -15,7 +15,7 @@ import java.io.IOException;
 import java.util.List;
 
 @Log4j2
-public class FindFlight implements Command {
+public class FindFlight implements Command {//todo null check
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) {

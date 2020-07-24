@@ -55,7 +55,7 @@ public class CrewServiceImpl implements CrewService {
         try {
             return dao.allCrews();
         } catch (DaoException e) {
-            throw new ServiceException("Exception during main pilot searching", e);
+            throw new ServiceException("Exception during all crews getting", e);
         }
     }
 

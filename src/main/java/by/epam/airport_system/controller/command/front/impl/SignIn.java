@@ -29,18 +29,20 @@ public class SignIn implements Command {
 
         try {
             User user = userService.getUserByLogin(login);
+            String url;
 
             if(user != null && BCrypt.checkpw(password, user.getPassword())){
                 session.setAttribute(RequestParameterName.USER, user);
-                response.sendRedirect(request.getContextPath() + USER_PATH);
+                url = request.getContextPath() + USER_PATH;
             }else {
                 String language = String.valueOf(session.getAttribute(RequestParameterName.LOCAL));
                 ResponseMessageManager responseManager = new ResponseMessageManager(language);
 
-                request.setAttribute(RequestParameterName.RESULT_INFO, responseManager.getValue(ANSWER));
+                session.setAttribute(RequestParameterName.RESULT_INFO, responseManager.getValue(ANSWER));
                 session.setAttribute(RequestParameterName.PREVIOUS_PAGE, request.getContextPath()+ CURRENT_PAGE_PATH);
-                forwardTo(request,response, JSPPageName.RESULT_PAGE);
+                url = JSPPageName.RESULT_PAGE;
             }
+            response.sendRedirect(url);
         } catch (ServiceException | IOException e) {
             log.error("Cannot execute command for signing in", e);
             errorPage(response);

@@ -1,0 +1,43 @@
+#edit_form{
+    width:50vw;
+    margin-top:2vh;
+    margin-left:auto;
+    margin-right:auto;
+    background-color: #ececec;
+    border: solid 0.5px #6c757d52;
+    border-radius:15px;
+    padding-left:8vw;
+    opacity: .8;
+    color:black;
+    height:69vh;
+}
+.form-group{
+    width:35vw;
+}
+input [type="text"]{
+    border: solid 0.5px #1465ad52;
+}
+#change_btn{
+    margin-top:4vh;
+    margin-left:28vw;
+}
+form{
+    margin-top:2vh;
+}
+#title{
+    margin-top:4vh;
+    margin-left:25vw;
+}
+#back_btn{
+    position:absolute;
+}
+#back_btn button{
+    background-color:transparent;
+    color:#174144;
+    border: solid 1px transparent;
+    border-radius:0px;
+}
+#back_btn> button:hover{
+    border: solid 1px #a1bbbd;
+    outline: none;
+}

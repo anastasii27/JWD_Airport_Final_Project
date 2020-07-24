@@ -200,7 +200,7 @@ public class CrewDaoImpl implements CrewDao, CloseOperation {
     }
 
     private int deleteCrewWithMembers(String crewName, Connection connection) throws SQLException {
-        try( PreparedStatement deleteWithMembers = connection.prepareStatement(DELETE_CREW_WITH_MEMBERS)){
+        try(PreparedStatement deleteWithMembers = connection.prepareStatement(DELETE_CREW_WITH_MEMBERS)){
             deleteWithMembers.setString(1, crewName);
             return deleteWithMembers.executeUpdate();
         }

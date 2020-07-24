@@ -380,16 +380,14 @@ $(document).ready(function ($) {
     $('#flight_search_form').validate({
         rules:{
             dep_city: 'required',
-            dest_ciy: 'required'
+            dest_city: 'required'
         },
-
         messages:{
             dep_city: null,
-            dest_ciy: null
+            dest_city: null
         },
 
         submitHandler: function(form) {
-
             let departureAirport = $('select[name="dep_city"]').val();
             let destinationAirport = $('select[name="dest_city"]').val();
 
@@ -400,7 +398,6 @@ $(document).ready(function ($) {
                 data: {command: 'find_flight',departure_airport: departureAirport, destination_airport: destinationAirport},
 
                 success: function (data) {
-
                     let tableLine = '';
                     let count =0;
 
@@ -502,6 +499,30 @@ $(document).ready(function ($) {
 
         errorPlacement: function(error, element){
             $(element).after(error);
+        }
+    });
+    $('#edit_user').validate({
+        rules:{
+            user_name: {
+                required_value: true,
+                user_name_surname_check: true
+            },
+            surname: {
+                required_value: true,
+                user_name_surname_check: true
+            },
+            email:{
+                required_value: true,
+                email_check: true
+            },
+            career_start_year:{
+                required_value: true,
+                number_check: true
+            }
+        },
+        errorPlacement:function (error, element) {
+            let id = element.attr("id");
+            $('label[for="'+ id +'"]').append(error);
         }
     });
 

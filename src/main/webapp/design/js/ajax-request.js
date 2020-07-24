@@ -15,6 +15,7 @@ $(document).ready(function ($) {
     $('.crews li').on('click', function () {
         $('.choose_crew_members ').hide();
         crewName = getCrewName($(this).text());
+
         showCrewAjax(crewName);
     });
 
@@ -388,6 +389,34 @@ $(document).ready(function ($) {
     });
 });
 
+function findMainPilot(crewName) {
+    let lang = $('body').attr('lang');
+    let commander;
+
+    if(lang === 'ru'){
+        commander  = '\u0020\u0428\u0442\u0443\u0440\u043c\u0430\u043d';
+    }else {
+        commander = ' Commander';
+    }
+
+        $.ajax({
+            type: "GET",
+            url: "/JWD_Task3_war/ajax",
+            dataType: 'json',
+            data: {command: 'find_main_pilot',crew_name: crewName},
+
+            success: function (data) {
+                $('#pilots_list li').each(function(){
+                    if($(this).text().includes(data.name + ' ' + data.surname)){
+                        $(this).replaceWith('<li class="list-group-item">'+ data.name + ' ' + data.surname +  commander  +
+                            ' <button type="button" class="close delete_user_btn">&times;</button></li>');
+                    }
+                });
+            }
+        });
+
+}
+
 function freePlanesAjax(selector) {
     let emptyOption = '<option selected>' + ' ' + '</option>';
 
@@ -483,7 +512,6 @@ function freeDispatchersAjax(airport) {
 }
 
 function showCrewAjax(crewName) {
-
     $.ajax({
         type: "GET",
         url: "/JWD_Task3_war/ajax",
@@ -492,6 +520,7 @@ function showCrewAjax(crewName) {
 
         success: function (data) {
             createMembersTable(data);
+            findMainPilot(crewName);
         },
         error: function (data) {
             $('.crew_members ').hide();
@@ -508,11 +537,11 @@ function createMembersTable(data) {
 
     $.each(data, function (user, userInfo) {
         if(userInfo.role === "pilot"){
-            pilots += '<li class="list-group-item">'+ userInfo.name + ' ' + userInfo.surname + ' <button type="button" class="close delete_user_btn">&times;</li>';
+            pilots += '<li class="list-group-item">'+ userInfo.name + ' ' + userInfo.surname + ' <button type="button" class="close delete_user_btn">&times;</button></li>';
             pilotCount++;
         }
         if(userInfo.role === "steward"){
-            stewardesses += '<li class="list-group-item">'+ userInfo.name + ' ' + userInfo.surname + ' <button type="button" class="close delete_user_btn">&times;</li>';
+            stewardesses += '<li class="list-group-item">'+ userInfo.name + ' ' + userInfo.surname + ' <button type="button" class="close delete_user_btn">&times;</button></li>';
             stewardCount++;
         }
     });
