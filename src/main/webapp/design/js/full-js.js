@@ -104,10 +104,12 @@ $(document).ready(function ($) {
 
     //choose crew
     $('#crew_table').on('click','tr', function () {
-        $('tr').css('background', '');
-        $('tr').removeClass('clicked');
-        $(this).css('background', 'red');
-        $(this).addClass('clicked');
+        if($(this).hasClass("values")) {
+            $('tr').css('background', '');
+            $('tr').removeClass('clicked');
+            $(this).css('background', '#007bff26');
+            $(this).addClass('clicked');
+        }
     });
 
     //admin flights

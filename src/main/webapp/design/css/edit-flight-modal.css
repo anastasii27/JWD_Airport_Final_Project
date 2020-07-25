@@ -1,0 +1,40 @@
+#edit_flight input,
+#edit_flight select{
+    width:10vw;
+    border: solid 2px #6c757d52;
+    border-radius:7px;
+    height:5vh;
+}
+#edit_flight input[name="departure_date"]{
+    margin-top:0;
+    margin-left:0;
+}
+#departure label,
+#arrival label{
+    width:7vw;
+}
+#edit_dep_country,
+#edit_dest_country{
+    margin-left:1px;
+}
+#edit_flight_number label,
+#edit_crew_div label{
+    width:5vw;
+}
+#edit_flight_number{
+    padding-top:1vh;
+}
+#edit_plane_div{
+    margin-left:3vw;
+}
+#edit_plane_div label{
+    width:10vw;
+}
+#edit_status_div label{
+    width:5vw;
+    margin-left:4vw;
+}
+#edit_flight_number,
+#edit_crew_div{
+    margin-left:1vw;
+}

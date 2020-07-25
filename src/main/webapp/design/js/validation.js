@@ -215,7 +215,7 @@ $(document).ready(function ($) {
         rules:{
             flight_number:{
                 required: true,
-                flight_number_pattern_check: true,
+                flight_number_pattern_check: true
             },
             planes: 'required',
             departure_date:{
@@ -274,6 +274,7 @@ $(document).ready(function ($) {
                 not_equal_airports_check: true
             }
         },
+
         messages:{
             flight_number:{
                 required: null,
@@ -319,8 +320,18 @@ $(document).ready(function ($) {
         errorPlacement: function(error, element){
             let id = element.attr("id");
 
-            if(id === 'dest_flights_piker' || id === 'dep_flights_piker' ){
-                $('#flight_number').after(error);
+            if(id === 'dest_flights_piker'){
+                if(!$('#dep_flights_piker-error').length){
+                    $('#for_error').append(error);
+                }
+            }else if(id === 'dep_flights_piker' ){
+                if(!$('#dest_flights_piker-error').length){
+                    $('#for_error').append(error);
+                }
+            } else if(id === 'flight_number'){
+                $('#for_error').append(error);
+            } else{
+                $('#for_error2').append(error);
             }
         }
     });
@@ -374,6 +385,9 @@ $(document).ready(function ($) {
             destination_airport:{
                 required: null,
             }
+        },
+        errorPlacement:function (error, element) {
+            $('#for_error_edit').append(error);
         }
     });
 
@@ -501,6 +515,7 @@ $(document).ready(function ($) {
             $(element).after(error);
         }
     });
+
     $('#edit_user').validate({
         rules:{
             user_name: {
@@ -637,7 +652,6 @@ $(document).ready(function ($) {
     });
 
     $.validator.addMethod('legal_date_check', function(value) {
-
         let enteredDate = new Date(value);
 
         return enteredDate >= getMinDate(11) ;
@@ -720,6 +734,7 @@ $(document).ready(function ($) {
         }
     }, function () {
         if(lang=='en'){
+            alert("en")
             return "You entered same airports!";
         }else{
             return "\u0412\u044b\u0020\u0443\u043a\u0430\u0437\u0430\u043b\u0438\u0020\u043e\u0434\u0438\u043d\u0430\u043a\u043e\u0432\u044b\u0435\u0020\u0430\u044d\u0440\u043e\u043f\u043e\u0440\u0442\u044b\u0021";
@@ -727,8 +742,7 @@ $(document).ready(function ($) {
     });
 
     $.validator.addMethod('flight_number_pattern_check', function(value) {
-        console.log(value)
-        return value.match(new RegExp("^" + "[A-Z]{2} \\d{4}" + "$"));
+        return value.match(new RegExp("^[A-Z]{2} [0-9]{4}$"));
     }, function () {
         if(lang=='en'){
             return "Illegal flight number format!";

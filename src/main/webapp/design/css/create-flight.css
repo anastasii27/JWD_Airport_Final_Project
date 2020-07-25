@@ -1,0 +1,71 @@
+body{
+    background-color:#b0e6e621 !important;
+}
+#title{
+    margin-top:4vh;
+    margin-left:12vw;
+}
+#create_flight{
+    margin-left:auto;
+    margin-right:auto;
+    width:90vw;
+}
+h3{
+    margin-left:19vw;
+}
+#departure, #arrival{
+    margin-top:3vh;
+}
+#departure .form-group,
+#arrival .form-group{
+    margin-left:7vw;
+    width:30vw;
+}
+.form-group{
+    height:7vh;
+}
+#create_flight input,
+#create_flight select{
+    width:15vw;
+    height:5vh;
+    border: solid 2px #b9c7d4;
+    border-radius:7px;
+}
+#departure label,
+#arrival label{
+    width:7vw;
+    font-weight: 500;
+}
+#common_info{
+    margin-left:5vw;
+    padding-top:3vh;
+}
+#common_info label{
+    width:5vw;
+    margin-left:2vw;
+    font-weight: 500;
+}
+#common_info label[for="planes"]{
+    width:9vw;
+}
+#common_info label[for="flight_number"]{
+    width:4vw;
+}
+#cont_btn{
+    position:absolute;
+    top:65vh;
+    left:85vw;
+}
+#cont_btn input{
+    width:7vw;
+}
+#for_error, #for_error2{
+    margin-left:7vw;
+}
+
+
+
+
+
+
+

@@ -18,6 +18,9 @@
         <fmt:message bundle="${loc}" key="local.label.title.flight_info" var="flight_info_label" />
 
         <title>Flight information modal</title>
+
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/design/css/info-modal.css"/>
+
     </head>
     <body>
         <div class="modal fade" id="flight_info_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
@@ -28,7 +31,7 @@
                         <h5 class="modal-title" id="exampleModalLongTitle">${flight_info_label}</h5>
                     </div>
                     <div class="modal-body">
-                        <div class="row">
+                        <div class="row common">
                             <div class="row" id="info_flight_number">
                                 <label>${flight_label}</label>
 
@@ -40,7 +43,7 @@
                         </div>
                         <div class="row">
                             <div class = "info_departure col-md-6">
-                                <label>${departures_label}</label>
+                                <label class="main_label">${departures_label}</label>
                                 <div class="row" id="info_dep_date">
                                     <label>${date_label}</label>
                                 </div>
@@ -58,7 +61,7 @@
                                 </div>
                             </div>
                             <div class = "info_arrival col-md-6">
-                                <label>${arrivals_label}</label>
+                                <label class="main_label">${arrivals_label}</label>
                                 <div class="row" id="info_dest_date">
                                     <label>${date_label}</label>
                                 </div>

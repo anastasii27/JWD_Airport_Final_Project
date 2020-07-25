@@ -1,0 +1,17 @@
+#no_crews_mes p{
+    font-size:14pt;
+    padding-left:43vw;
+    padding-top:7vw;
+}
+#choose_crew_btn{
+    position:absolute;
+    top:88vh;
+    left:85vw;
+}
+#choose_crew input{
+    width:7vw;
+}
+.values:hover {
+    background: #007bff26;
+    border: solid 2px #1d2124;
+}

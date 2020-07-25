@@ -20,6 +20,9 @@
         <fmt:message bundle="${loc}" key="local.button.edit_flight" var="edit_btn" />
 
         <title>Edit flight modal</title>
+
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/design/css/edit-flight-modal.css"/>
+
     </head>
     <body>
         <div class="modal fade" id="flight_edit_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
@@ -33,23 +36,25 @@
                             <input type="hidden" name="action" value="edit_flight" />
                             <input type="hidden" name="id" id="flight_id"/>
                             <div class="row">
-                                <div class="form-group" id="edit_flight_number">
+                                <div class="form-group row" id="edit_flight_number">
                                     <label>${flight_label}</label>
 
                                 </div>
-                                <div class="form-group">
+                                <div class="form-group" id="edit_plane_div">
                                     <label for="edit_planes">${plane_label}</label>
                                     <select name= "planes" id="edit_planes">
 
                                     </select>
                                 </div>
-                                <div class="form-group">
+                            </div>
+                            <div class="row">
+                                <div class="form-group" id="edit_crew_div">
                                     <label for="edit_crew">${crew_label}</label>
                                     <select name= "crews" id="edit_crew">
 
                                     </select>
                                 </div>
-                                <div class="form-group">
+                                <div class="form-group" id="edit_status_div">
                                     <label for="edit_status">${status_label}</label>
                                     <select name= "status" id="edit_status">
                                         <option>Scheduled</option>
@@ -62,7 +67,9 @@
                             </div>
                             <div class="row">
                                 <div id="departure" class="col-md-5">
-                                    <h3>${departures_label}</h3>
+                                    <div class="main_label_edit">
+                                        <h3>${departures_label}</h3>
+                                    </div>
                                     <div class="form-group">
                                         <label for="edit_dep_flights_piker">${date_label}</label>
                                         <input type="text" name="departure_date" id= "edit_dep_flights_piker" class="datepicker-here admin_picker"
@@ -84,7 +91,9 @@
                                     </div>
                                 </div>
                                 <div id="arrival" class="col-md-5">
-                                    <h3>${arrivals_label}</h3>
+                                    <div class="main_label_edit">
+                                        <h3>${arrivals_label}</h3>
+                                    </div>
                                     <div class="form-group">
                                         <label for="edit_dest_flights_piker">${date_label}</label>
                                         <input type='text' name="destination_date" id= "edit_dest_flights_piker" class="datepicker-here admin_picker"
@@ -106,7 +115,10 @@
                                     </div>
                                 </div>
                             </div>
-                            <input type="submit" class="btn btn-primary" value="${edit_btn}"/>
+                            <div class="row" id="edit_flight_btn">
+                                <input type="submit" class="btn btn-primary" value="${edit_btn}"/>
+                                <div id="for_error_edit"></div>
+                            </div>
                         </form>
                     </div>
                 </div>

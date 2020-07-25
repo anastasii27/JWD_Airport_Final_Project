@@ -18,6 +18,7 @@
         <title>${choose_label}</title>
 
         <link rel="stylesheet" href="${pageContext.request.contextPath}/design/css/validation-plug-in.css"/>
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/design/css/choose-crew.css"/>
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
         <script src="${pageContext.request.contextPath}/design/js/jquery-ui.min.js" charset="UTF-8"></script>
@@ -47,7 +48,7 @@
                 <th>${crews_label}</th><th>${crew_memb_label}</th>
             </tr>
             <c:forEach items="${requestScope.crew_members}" var="entry">
-                <tr>
+                <tr class="values">
                     <td class="crew_name">${entry.key}</td>
                     <td>
                         <p><b>${pilot_label}:</b>
@@ -70,7 +71,9 @@
         </table>
         </c:if>
         <c:if test = "${result ne null}">
-            <c:out value="${result}"/>
+            <div class="no_crews_mes">
+                <p><c:out value="${result}"/></p>
+            </div>
         </c:if>
         <div id="choose_crew_btn">
             <button type="button" class="btn btn-info">

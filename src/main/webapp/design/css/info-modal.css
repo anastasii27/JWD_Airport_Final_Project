@@ -1,0 +1,25 @@
+.info_departure label,
+.info_arrival label{
+    width: 8vw;
+    font-weight: 500;
+}
+
+.info_departure, .info_arrival{
+    padding-left:4vw;
+}
+.main_label{
+    margin-left:4vw;
+}
+.common{
+    margin-left:3vw
+}
+.common label{
+    font-weight: 500;
+}
+#info_plane_model label{
+    width:10vw;
+    margin-left:5vw;
+}
+#info_flight_number label{
+    width:5vw;
+}
