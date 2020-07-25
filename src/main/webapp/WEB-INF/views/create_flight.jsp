@@ -21,6 +21,7 @@
         <fmt:message bundle="${loc}" key="local.label.create_flight.create" var="title"/>
         <fmt:message bundle="${loc}" key="local.label.create_flight" var="create_title"/>
         <fmt:message bundle="${loc}" key="local.js.lang" var="lang" />
+        <fmt:message bundle="${loc}" key="local.message.info.flight_number" var="info_label" />
 
         <title>${title}</title>
 
@@ -57,7 +58,7 @@
                 <div id="common_info" class="row">
                     <div class="form-group">
                         <input type="hidden" name="action" value="create_flight" />
-                        <label for="flight_number">${flight_label}</label>
+                        <label for="flight_number" class="required">${flight_label}</label>
                         <input type="text" id="flight_number" name="flight_number"/>
                     </div>
                     <div class="form-group">
@@ -68,27 +69,28 @@
                         </select>
                     </div>
                     <div class="form-group">
-                        <label for="planes">${plane_label}</label>
+                        <label for="planes" class="required">${plane_label}</label>
                         <select name= "planes" id="planes">
 
                         </select>
                     </div>
                 </div>
+                <div id="info">${info_label}</div>
                 <div id="for_error"></div>
                 <div class="row">
                     <div id="departure" class="col-md-6">
                         <h3>${departures_label}</h3>
                         <div class="form-group">
-                            <label for="dep_flights_piker">${date_label}</label>
+                            <label for="dep_flights_piker" class="required">${date_label}</label>
                             <input type='text' name="departure_date" id= "dep_flights_piker" class="datepicker-here admin_picker"
                                    data-language="${lang}" value = "${requestScope.departure_date}"/>
                         </div>
                         <div class="form-group">
-                            <label for="dep_time">${time_label}</label>
+                            <label for="dep_time" class="required">${time_label}</label>
                             <input type='time' name="departure_time" id= "dep_time"/>
                         </div>
                         <div class="form-group">
-                            <label for="dep_country">${country_label}</label>
+                            <label for="dep_country" class="required">${country_label}</label>
                             <select name= "departure_country" id="dep_country">
                                 <option selected></option>
                                 <c:forEach var="country" items="${country_list}">
@@ -97,7 +99,7 @@
                             </select>
                         </div>
                         <div class="form-group">
-                            <label for="dep_airport">${airport_label}</label>
+                            <label for="dep_airport" class="required">${airport_label}</label>
                             <select name= "departure_airport" id="dep_airport">
                                 <option selected></option>
 
@@ -107,16 +109,16 @@
                     <div id="arrival" class="col-md-6">
                         <h3>${arrivals_label}</h3>
                         <div class="form-group">
-                            <label for="dest_flights_piker">${date_label}</label>
+                            <label for="dest_flights_piker" class="required">${date_label}</label>
                             <input type='text' name="destination_date" id= "dest_flights_piker" class="datepicker-here admin_picker"
                                    data-language="${lang}" value = "${requestScope.departure_date}"/>
                         </div>
                         <div class="form-group">
-                            <label for="dest_time">${time_label}</label>
+                            <label for="dest_time" class="required">${time_label}</label>
                             <input type='time' name="destination_time" id= "dest_time"/>
                         </div>
                         <div class="form-group">
-                            <label for="dest_country">${country_label}</label>
+                            <label for="dest_country" class="required">${country_label}</label>
                             <select name= "destination_country" id="dest_country">
                                 <option selected></option>
                                 <c:forEach var="country" items="${country_list}">
@@ -125,7 +127,7 @@
                             </select>
                         </div>
                         <div class="form-group">
-                            <label for="dest_airport">${airport_label}</label>
+                            <label for="dest_airport" class="required">${airport_label}</label>
                             <select name= "destination_airport" id="dest_airport">
                                 <option selected></option>
 

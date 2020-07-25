@@ -43,7 +43,9 @@
             </c:if>
         </div>
         <c:if test = "${result ne null}">
-            <c:out value="${result}"/>
+            <div style="width: 26vw; margin-top:3vh; margin-left: auto; margin-right: auto;">
+                <h3>${result}</h3>
+            </div>
         </c:if>
     </body>
 </html>

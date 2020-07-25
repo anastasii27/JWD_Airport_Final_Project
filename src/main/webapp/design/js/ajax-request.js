@@ -249,7 +249,6 @@ $(document).ready(function ($) {
     $('#choose_crew_btn').on('click', function () {
         let crewName = $('.clicked td').eq(0).text();
 
-        console.log(crewName);
         $.ajax({
             type: "GET",
             url: "/JWD_Task3_war/ajax",

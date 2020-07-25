@@ -12,6 +12,7 @@
         <fmt:message bundle="${loc}" key="local.button.search.show" var="show_button" />
         <fmt:message bundle="${loc}" key="local.button.create_flight.create" var="create_button" />
         <fmt:message bundle="${loc}" key="local.label.admin_menu" var="title_label" />
+        <fmt:message bundle="${loc}" key="local.message.error.flight_delete" var="delete_info" />
         <jsp:useBean id="now" class="java.util.Date"/>
         <fmt:formatDate type="time" value="${now}" pattern="yyyy-MM-dd" var="today"/>
 
@@ -43,9 +44,9 @@
         </script>
 
     </head>
-    <body>
+    <body lang="${lang}">
         <jsp:include page="parts/header.jsp"/>
-        <div id = "no_delete_mes" aria-hidden="true" style="background-color: red"> No delete</div>
+        <div id = "no_delete_mes" aria-hidden="true" style="background: #007bff26">${delete_info}</div>
         <div class="col-md-5 form">
             <form action="airport" method="get" id="my_flights_form">
                 <input type="hidden" name="action" value="show_flight_management_page"/>

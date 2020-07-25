@@ -6,6 +6,7 @@
     <head>
         <fmt:setLocale value="${sessionScope.local}" />
         <fmt:setBundle basename="localization.local" var="loc" />
+        <fmt:message bundle="${loc}" key="local.js.lang" var="lang" />
         <fmt:message bundle="${loc}" key="local.label.edit_flight" var="edit_label"/>
         <fmt:message bundle="${loc}" key="local.label.flight" var="flight_label" />
         <fmt:message bundle="${loc}" key="local.label.plane" var="plane_label" />
@@ -35,7 +36,7 @@
                         <form action="airport" method="post" id="edit_flight">
                             <input type="hidden" name="action" value="edit_flight" />
                             <input type="hidden" name="id" id="flight_id"/>
-                            <div class="row">
+                            <div class="row common_edit">
                                 <div class="form-group row" id="edit_flight_number">
                                     <label>${flight_label}</label>
 
@@ -47,7 +48,7 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="row">
+                            <div class="row common_edit">
                                 <div class="form-group" id="edit_crew_div">
                                     <label for="edit_crew">${crew_label}</label>
                                     <select name= "crews" id="edit_crew">
@@ -70,7 +71,7 @@
                                     <div class="main_label_edit">
                                         <h3>${departures_label}</h3>
                                     </div>
-                                    <div class="form-group">
+                                    <div class="form-group" id="dep">
                                         <label for="edit_dep_flights_piker">${date_label}</label>
                                         <input type="text" name="departure_date" id= "edit_dep_flights_piker" class="datepicker-here admin_picker"
                                                data-language="${lang}"/>
@@ -94,7 +95,7 @@
                                     <div class="main_label_edit">
                                         <h3>${arrivals_label}</h3>
                                     </div>
-                                    <div class="form-group">
+                                    <div class="form-group" id="dest">
                                         <label for="edit_dest_flights_piker">${date_label}</label>
                                         <input type='text' name="destination_date" id= "edit_dest_flights_piker" class="datepicker-here admin_picker"
                                                data-language="${lang}"/>
@@ -116,8 +117,10 @@
                                 </div>
                             </div>
                             <div class="row" id="edit_flight_btn">
-                                <input type="submit" class="btn btn-primary" value="${edit_btn}"/>
                                 <div id="for_error_edit"></div>
+                                <div id="button">
+                                    <input type="submit" class="btn btn-primary" value="${edit_btn}"/>
+                                </div>
                             </div>
                         </form>
                     </div>

@@ -12,6 +12,7 @@
 #departure label,
 #arrival label{
     width:7vw;
+    font-weight: 500;
 }
 #edit_dep_country,
 #edit_dest_country{
@@ -20,6 +21,7 @@
 #edit_flight_number label,
 #edit_crew_div label{
     width:5vw;
+    font-weight:500;
 }
 #edit_flight_number{
     padding-top:1vh;
@@ -29,12 +31,39 @@
 }
 #edit_plane_div label{
     width:10vw;
+    font-weight: 500;
+    margin-left:3.5vw;
 }
 #edit_status_div label{
     width:5vw;
     margin-left:4vw;
+    font-weight: 500;
 }
 #edit_flight_number,
 #edit_crew_div{
     margin-left:1vw;
+}
+#button input{
+    width:7vw;
+}
+#button{
+    position:absolute;
+    top:55vh;
+    left:36vw;
+}
+#edit_flight_btn,
+#departure{
+    margin-left:4vw;;
+}
+.common_edit{
+    margin-left:3vw;
+}
+.main_label_edit{
+    margin-left:5vw;
+}
+#dep, #dest{
+    margin-top:3vh;
+}
+#edit_flight_btn{
+    height:7vh;
 }

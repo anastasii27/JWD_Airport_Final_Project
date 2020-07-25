@@ -14,6 +14,8 @@
         <fmt:message bundle="${loc}" key="local.label.create_flight.create" var="create_label"/>
         <fmt:message bundle="${loc}" key="local.label.crew.pilot" var="pilot_label"/>
         <fmt:message bundle="${loc}" key="local.label.crew.steward" var="steward_label"/>
+        <fmt:message bundle="${loc}" key="local.message.error.choose_crew" var="error_choose_label" />
+        <fmt:message bundle="${loc}" key="local.message.choose_crew" var="choose_label" />
 
         <title>${choose_label}</title>
 
@@ -40,35 +42,36 @@
     </head>
     <body>
         <jsp:include page="parts/header.jsp"/>
-        <div id = "no_choose_mes" aria-hidden="true" style="background-color: red"> No choose</div>
+        <div id = "no_choose_mes" aria-hidden="true">${error_choose_label}</div>
         <c:set var = "result" value = "${requestScope.result}"/>
         <c:if test = "${result eq null}">
-        <table class ="table" id="crew_table" border="2">
-            <tr>
-                <th>${crews_label}</th><th>${crew_memb_label}</th>
-            </tr>
-            <c:forEach items="${requestScope.crew_members}" var="entry">
-                <tr class="values">
-                    <td class="crew_name">${entry.key}</td>
-                    <td>
-                        <p><b>${pilot_label}:</b>
-                            <c:forEach items="${entry.value}" var="user">
-                                <c:if test = "${user.role eq 'pilot'}">
-                                     ${user.name} ${user.surname}
-                                </c:if>
-                            </c:forEach>
-                        </p>
-                        <p><b>${steward_label}:</b>
-                            <c:forEach items="${entry.value}" var="user">
-                                <c:if test = "${user.role eq 'steward'}">
-                                    ${user.name} ${user.surname}
-                                </c:if>
-                            </c:forEach>
-                        </p>
-                    </td>
+            <h2>${choose_label}</h2>
+            <table class ="table" id="crew_table" border="2">
+                <tr>
+                    <th>${crews_label}</th><th>${crew_memb_label}</th>
                 </tr>
-            </c:forEach>
-        </table>
+                <c:forEach items="${requestScope.crew_members}" var="entry">
+                    <tr class="values">
+                        <td class="crew_name">${entry.key}</td>
+                        <td>
+                            <p><b>${pilot_label}:</b>
+                                <c:forEach items="${entry.value}" var="user">
+                                    <c:if test = "${user.role eq 'pilot'}">
+                                         ${user.name} ${user.surname}
+                                    </c:if>
+                                </c:forEach>
+                            </p>
+                            <p><b>${steward_label}:</b>
+                                <c:forEach items="${entry.value}" var="user">
+                                    <c:if test = "${user.role eq 'steward'}">
+                                        ${user.name} ${user.surname}
+                                    </c:if>
+                                </c:forEach>
+                            </p>
+                        </td>
+                    </tr>
+                </c:forEach>
+            </table>
         </c:if>
         <c:if test = "${result ne null}">
             <div class="no_crews_mes">

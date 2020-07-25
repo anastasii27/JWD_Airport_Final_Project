@@ -238,12 +238,10 @@ $(document).ready(function ($) {
             },
             departure_time:{
                 required:true,
-                same_date_time_check: true
             },
             departure_country: 'required',
             departure_airport:{
                 required: true,
-                not_equal_airports_check: true
             },
 
             destination_date:{
@@ -345,11 +343,9 @@ $(document).ready(function ($) {
             },
             departure_time:{
                 required:true,
-                same_date_time_check_for_edit: true
             },
             departure_airport:{
                 required: true,
-                not_equal_airports_check: true
             },
 
             destination_date:{
