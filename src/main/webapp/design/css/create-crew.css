@@ -1,0 +1,74 @@
+#title{
+    margin-top:7vh;
+    margin-left:30vw;
+}
+#create_crew_form{
+    width:40vw;
+    height:45vh;
+    background:aliceblue;
+    margin-left:auto;
+    margin-right:auto;
+    border: solid 0.5px #6c757d52;
+
+}
+#create_crew .form-group{
+    margin-top:2vh;
+    margin-left:3vw
+}
+#create_crew label{
+    width: 20vw;
+    font-weight:500;
+}
+#cont_btn{
+    position:absolute;
+    top:60vh;
+    left:59.5vw;
+}
+form{
+    padding-top:2vh;
+}
+#create_crew .form-group input,
+#create_crew .form-group select{
+    width:12vw;
+    height:5vh;
+    border: solid 2px #6c757d52;
+    border-radius:7px;
+}
+.bootstrap-select {
+    max-width: 12vw;
+}
+.bootstrap-select .btn {
+    background-color: white;
+    color: white;
+    padding: 12px 12px;
+    border: solid 2px #6c757d52;
+    border-radius:7px;
+}
+.bootstrap-select .dropdown-menu {
+    margin: 15px 0 0;
+}
+#create_crew input.error, #create_crew select.error{
+    border: solid 2px black;
+}
+#for_error{
+    margin-left:3vw;
+}
+#for_error label{
+    font-weight:normal;
+    color:#5e5e9e;
+}
+label.required:after {
+    color: #0f1970;
+    content: " *";
+}
+#back_btn button{
+    position:absolute;
+    background-color:transparent;
+    color:#a1bbbd;
+    border: solid 1px transparent;
+    border-radius:0px;
+}
+#back_btn> button:hover{
+    border: solid 1px #a1bbbd;
+    outline: none;
+}

@@ -14,11 +14,13 @@
         <fmt:message bundle="${loc}" key="local.label.crew.stewards" var="stewards_label" />
         <fmt:message bundle="${loc}" key="local.label.crew.crt" var="create_btn" />
         <fmt:message bundle="${loc}" key="local.label.crew.creation" var="creation_label" />
+        <fmt:message bundle="${loc}" key="local.button.create" var="create_btn" />
+        <fmt:message bundle="${loc}" key="local.label.crew.create_btn" var="create_title" />
+        <fmt:message bundle="${loc}" key="local.back_button" var="back_btn"/>
 
         <title>${creation_label}</title>
 
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/css/bootstrap-select.css"/>
-        <link rel="stylesheet" href="${pageContext.request.contextPath}/design/css/validation-plug-in.css"/>
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/design/css/create-crew.css"/>
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
         <script src="${pageContext.request.contextPath}/design/js/jquery-ui.min.js" charset="UTF-8"></script>
@@ -28,6 +30,7 @@
         <script src="${pageContext.request.contextPath}/design/js/full-js.js" charset="UTF-8"></script>
         <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.2/dist/jquery.validate.min.js"></script>
         <script src="${pageContext.request.contextPath}/design/js/validation.js" charset="UTF-8"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/css/bootstrap-select.css" />
         <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/js/bootstrap-select.min.js"></script>
 
         <script>
@@ -45,39 +48,52 @@
     </head>
     <body  lang="${lang}" >
         <jsp:include page="parts/header.jsp"/>
-        <form action="airport" method="post" id="create_crew">
-            <div class="form-group">
+        <div id="back_btn">
+            <button type="button" class="btn-lg btn-info" onclick="document.location.href= '${pageContext.request.contextPath}/airport?action=show_crew_page'">
+                ${back_btn}
+            </button>
+        </div>
+        <div id="title"><h2>${create_title}</h2></div>
+        <div id="create_crew_form">
+            <form action="airport" method="post" id="create_crew">
                 <input type="hidden" name="action" value="create_crew" />
-                <label for="crew_name">${create_label}</label>
-                <input type="text" id="crew_name" name="crew_name"/>
-            </div>
-            <div class="form-group">
-                <label for="first_pilot">${commander_label}</label>
-                <select name= "first_pilot" id="first_pilot">
-                <option selected></option>
-                <c:forEach var="pilot" items="${pilots_list}">
-                    <option>${pilot.name} ${pilot.surname} </option>
-                </c:forEach>
-                 </select>
-            </div>
-            <div class="form-group">
-                <label for="pilot">${add_pilots_label}</label>
-                <select name= "pilot" id="pilot" class="selectpicker" multiple>
+                <div class="form-group row">
+                    <label for="crew_name" class="required">${create_label}</label>
+                    <input type="text" id="crew_name" name="crew_name"/>
+                </div>
+                <div class="form-group row">
+                    <label for="first_pilot" class="required">${commander_label}</label>
+                    <select name= "first_pilot" id="first_pilot">
+                    <option selected></option>
                     <c:forEach var="pilot" items="${pilots_list}">
-                        <option>${pilot.name} ${pilot.surname}</option>
+                        <option>${pilot.name} ${pilot.surname} </option>
                     </c:forEach>
-                </select>
-            </div>
-            <div class="form-group">
-                <label for="steward">${stewards_label}</label>
-                <select name= "steward" id="steward" class="selectpicker" multiple>
-                    <c:forEach var="steward" items="${stewards_list}">
-                        <option>${steward.name} ${steward.surname} </option>
-                    </c:forEach>
-                </select>
-            </div>
-                <input type="submit" class="btn btn-primary" value="ДАЛЕЕ"/>
-        </form>
+                     </select>
+                </div>
+                <div class="form-group row">
+                    <label for="pilot" class="required">${add_pilots_label}</label>
+                    <select name= "pilot" id="pilot" class="selectpicker" multiple
+                            title="" data-width="12vw" data-size="5">
+                        <c:forEach var="pilot" items="${pilots_list}">
+                            <option>${pilot.name} ${pilot.surname}</option>
+                        </c:forEach>
+                    </select>
+                </div>
+                <div class="form-group row">
+                    <label for="steward" class="required">${stewards_label}</label>
+                    <select name= "steward" id="steward" class="selectpicker custom-select form-control" multiple
+                            title="" data-width="12vw" data-size="5">
+                        <c:forEach var="steward" items="${stewards_list}">
+                            <option>${steward.name} ${steward.surname} </option>
+                        </c:forEach>
+                    </select>
+                </div>
+                <div id="for_error"></div>
+                <div id="cont_btn">
+                    <input type="submit" class="btn btn-primary" value="${create_btn}"/>
+                </div>
+            </form>
+        </div>
     </body>
 </html>
 

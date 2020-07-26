@@ -35,8 +35,6 @@ $(document).ready(function ($) {
                     if(data===true){
                         $(liToDelete).remove();
                         $('.crew_members ').hide();
-                    }else {
-                        //todo mes
                     }
                 },
                 error: function (data) {
@@ -390,30 +388,20 @@ $(document).ready(function ($) {
 });
 
 function findMainPilot(crewName) {
-    let lang = $('body').attr('lang');
-    let commander;
+    $.ajax({
+        type: "GET",
+        url: "/JWD_Task3_war/ajax",
+        dataType: 'json',
+        data: {command: 'find_main_pilot',crew_name: crewName},
 
-    if(lang === 'ru'){
-        commander  = '\u0020\u0428\u0442\u0443\u0440\u043c\u0430\u043d';
-    }else {
-        commander = ' Commander';
-    }
-
-        $.ajax({
-            type: "GET",
-            url: "/JWD_Task3_war/ajax",
-            dataType: 'json',
-            data: {command: 'find_main_pilot',crew_name: crewName},
-
-            success: function (data) {
-                $('#pilots_list li').each(function(){
-                    if($(this).text().includes(data.name + ' ' + data.surname)){
-                        $(this).replaceWith('<li class="list-group-item">'+ data.name + ' ' + data.surname +  commander  +
-                            ' <button type="button" class="close delete_user_btn">&times;</button></li>');
-                    }
-                });
-            }
-        });
+        success: function (data) {
+            $('#pilots_list li').each(function(){
+                if($(this).text().includes(data.name + ' ' + data.surname)){
+                    $(this).css("border", "solid 0.5px #a6c5ff");
+                }
+            });
+        }
+    });
 
 }
 
@@ -519,8 +507,7 @@ function showCrewAjax(crewName) {
         data: {command: 'show_crew_members',crew_name: crewName},
 
         success: function (data) {
-            createMembersTable(data);
-            findMainPilot(crewName);
+            createMembersTable(data, crewName);
         },
         error: function (data) {
             $('.crew_members ').hide();
@@ -529,7 +516,7 @@ function showCrewAjax(crewName) {
     });
 }
 
-function createMembersTable(data) {
+function createMembersTable(data, crewName) {
     let pilots = '';
     let stewardesses ='';
     let pilotCount = 0;
@@ -546,22 +533,16 @@ function createMembersTable(data) {
         }
     });
 
-    // if(stewardCount===0 && pilotCount==0) {
-    //     $('.crew_members').hide();
-    //     $('#crews_error').show();
-    // }else {
-        $('.crew_members').show();
-        $('#crews_error').hide();
-        $('#pilots_list').empty().append(pilots);
-        $('#steward_list').empty().append(stewardesses);
-        if($('#edit_crew_btn').hasClass('clicked')){
-            $('.close').show();
-            $('#add_crew_btn').show();
-        }else {
-            $('.close').hide();
-            $('#add_crew_btn').hide();
-        }
-    //}
+    $('.crew_members').show();
+    $('#crews_error').hide();
+    $('#pilots_list').empty().append(pilots);
+    $('#steward_list').empty().append(stewardesses);
+    findMainPilot(crewName);
+    if($('#edit_crew_btn').hasClass('clicked')){
+        $('.close, #add_crew_btn').show();
+    }else {
+        $('.close, #add_crew_btn').hide();
+    }
 }
 
 function createAirportSelectAjax(country, airportSelect) {

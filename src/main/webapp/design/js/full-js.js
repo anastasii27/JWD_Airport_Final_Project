@@ -1,5 +1,7 @@
 $(document).ready(function ($) {
 
+    let lang = $('body').attr('lang');
+
     $('#my_flights_piker').datepicker({
         dateFormat: 'yyyy-mm-dd',
         firstDay: 1,
@@ -54,12 +56,21 @@ $(document).ready(function ($) {
             $(this).addClass('clicked');
             $('.close, .add_crew_btn ').show();
             $('#create_crew_btn').hide();
-            $("span", this).text("Save");
+            if(lang === 'ru'){
+                $("span", this).text("\u0421\u043e\u0445\u0440\u0430\u043d\u0438\u0442\u044c");
+            }else {
+                $("span", this).text("Save");
+            }
+
         } else {
             $(this).removeClass('clicked');
             $('.close, .add_crew_btn, .choose_crew_members').hide();
             $('#create_crew_btn').show();
-            $("span", this).text("Edit");//todo локализация кнопок
+            if(lang === 'ru'){
+                $("span", this).text("\u0420\u0435\u0434\u0430\u043a\u0442\u0438\u0440\u043e\u0432\u0430\u0442\u044c\u0020\u044d\u043a\u0438\u043f\u0430\u0436");
+            }else {
+                $("span", this).text("Edit crew");
+            }
         }
     });
 
@@ -75,8 +86,8 @@ $(document).ready(function ($) {
         $('.crew_members').show();
 
     });
-    //flight info
 
+    //flight info
     $("#flight_info_modal").on("hidden.bs.modal", function () {
         $('p').remove()
     });

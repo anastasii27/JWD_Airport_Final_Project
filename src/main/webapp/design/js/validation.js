@@ -206,8 +206,13 @@ $(document).ready(function ($) {
                  }
             },
             first_pilot: null,
-            pilot: null,
+            pilot: {
+                required:null
+            },
             steward: null
+        },
+        errorPlacement: function(error, element){
+            $('#for_error').append(error);
         }
     });
 
@@ -664,13 +669,23 @@ $(document).ready(function ($) {
     $.validator.addMethod('crew_name_pattern', function(value) {
         return value.match(new RegExp("^" + "[A-Z]{1}\\d{1,3}" + "$"));
     }, function () {
-        return'';
+        if(lang==='en'){
+            return "Illegal name format!";
+        }else{
+            return "\u041d\u0435\u043f\u0440\u0430\u0432\u0438\u043b\u044c\u043d\u044b\u0439\u0020\u0444\u043e\u0440\u043c\u0430\u0442\u0020\u0438\u043c\u0435\u043d\u0438\u0021";
+        }
     });
 
-    $.validator.addMethod('not_equal_pilots_check', function(value) {//todo redo
-        return value !== $('#first_pilot').val();
+    $.validator.addMethod('not_equal_pilots_check', function(value) {
+        let main_pilot = $('#first_pilot').val();
+
+        return value.indexOf(main_pilot) === -1;
     }, function () {
-        return'';
+        if(lang==='en'){
+            return "Duplicated pilots!";
+        }else{
+            return "\u041f\u0438\u043b\u043e\u0442\u044b\u0020\u0434\u0443\u0431\u043b\u0438\u0440\u0443\u044e\u0442\u0441\u044f\u0021";
+        }
     });
 
     $.validator.addMethod('same_date_time_check', function(value) {

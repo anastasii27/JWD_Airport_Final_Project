@@ -13,7 +13,9 @@
         <fmt:message bundle="${loc}" key="local.label.crew.steward" var="steward_label" />
         <fmt:message bundle="${loc}" key="local.label.crew.create_btn" var="create_label" />
         <fmt:message bundle="${loc}" key="local.label.menu_user_crew" var="crews_label" />
-        <fmt:message bundle="${loc}" key="local.label.crew.edit_btn" var="edit_label" />
+        <fmt:message bundle="${loc}" key="local.label.crew.edit_crew" var="edit_label" />
+        <fmt:message bundle="${loc}" key="local.button.add" var="add_btn"/>
+        <fmt:message bundle="${loc}" key="local.button.save" var="save_btn"/>
         <fmt:message bundle="${loc}" key="local.js.lang" var="lang" />
 
         <title>${crews_label}</title>
@@ -38,24 +40,30 @@
     </head>
     <body lang="${lang}">
         <jsp:include page="parts/header.jsp"/>
+        <%--Crews list--%>
         <div class="row col-12">
-            <div class="col-md-4">
+            <div id="title">
                 <h2>${crew_name_label}</h2>
+            </div>
+            <div class="col-md-4" id="crews">
                 <c:forEach items="${requestScope.crew}" var="crew_item">
                     <ul class="list-group crews">
                         <li class="list-group-item" value="${crew_item}">${crew_item} <button type="button" class="close delete_crew_btn" >&times;</button></li>
+
                     </ul>
                 </c:forEach>
             </div>
             <div id="crews_error">
-                ${data_label}
+                <h2>${data_label}</h2>
             </div>
+
+            <%--Crew members list--%>
             <div class="container choose_crew_members col-md-6">
                 <div class="row ml-auto  mr-auto">
                     <div class="col-md-5 p-0">
                         <h2>${pilot_label}</h2>
                         <div class="users_select" id="pilots_select">
-                            <select size=8 name= "pilots" id="pilots" multiple>
+                            <select size=10 name= "pilots" id="pilots" multiple>
                                 <c:forEach var="pilot" items="${pilots_list}">
                                     <option>${pilot.name} ${pilot.surname} </option>
                                 </c:forEach>
@@ -67,12 +75,12 @@
                             <h2>${steward_label}</h2>
                             <div class="add_crew_btn" id="confirm_add">
                                 <button type="button" class="btn btn-info ">
-                                    <span>&plus;</span>
+                                    <span>${save_btn}</span>
                                 </button>
                             </div>
                         </div>
                         <div class="users_select" id="stewards_select" >
-                            <select size=8 name= "stewards" id="stewards" multiple>
+                            <select size=10 name="stewards" id="stewards" multiple>
                                 <c:forEach var="steward" items="${stewards_list}">
                                     <option>${steward.name} ${steward.surname} </option>
                                 </c:forEach>
@@ -82,6 +90,7 @@
                 </div>
             </div>
 
+            <%--Members for adding--%>
             <div class="container crew_members col-md-6">
                 <div class="row ml-auto  mr-auto">
                     <div class="col-md-5 p-0">
@@ -95,7 +104,7 @@
                             <h2>${steward_label}</h2>
                             <div class="add_crew_btn" id="add_user">
                                 <button type="button" class="btn btn-info">
-                                    <span>&plus;</span>
+                                    <span>${add_btn}</span>
                                 </button>
                             </div>
                         </div>
@@ -107,6 +116,7 @@
             </div>
         </div>
 
+        <%--Buttons--%>
         <div id="create_crew_btn">
             <form>
                 <input type="button" class="btn btn-primary"  value="${create_label}" onClick='location.href="${pageContext.request.contextPath}/airport?action=show_create_crew_page"'>

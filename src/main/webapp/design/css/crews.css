@@ -1,3 +1,7 @@
+#title{
+    position:absolute;
+    left:2vw;
+}
 #create_crew_btn{
     position: absolute;
     right: 8vw;
@@ -23,4 +27,29 @@ select[name ="stewards"]{
 }
 option{
     height:6vh;
+}
+#crews{
+    margin-top:6vh;
+    height:63vh;
+    overflow: scroll;
+    overflow-x: hidden;
+    flex: 1 0;
+}
+::-webkit-scrollbar {
+    width: 0px;
+}
+#steward_list, #pilots_list{
+    height:63vh;
+    overflow: scroll;
+    overflow-x: hidden;
+    flex: 1 0;
+}
+.add_crew_btn{
+    margin-left: 3vw;
+    margin-top:2px;
+}
+#crews_error{
+    position:absolute;
+    top:20vh;
+    left:50vw;
 }

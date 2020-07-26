@@ -1,0 +1,29 @@
+#date_range{
+    margin-top:2vh;
+    padding-left:43vw;
+    font-weight:500;
+    font-size:14pt;
+}
+td{
+    text-align: center;
+    border-bottom: 2px solid #6c757d52;
+}
+th{
+    text-align: center;
+    background-color:#d6e5f17a;
+}
+table{
+    border: 2px solid white;
+}
+#disp_table{
+    width:80vw;
+    margin-left:auto;
+    margin-right:auto;
+    margin-top:4vh;
+}
+#info{
+    text-align: center;
+    margin-top:12vh;
+    font-weight:600;
+    font-size:19pt;
+}

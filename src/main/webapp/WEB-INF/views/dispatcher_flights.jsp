@@ -19,7 +19,7 @@
 
         <title>${my_flights_label}</title>
 
-        <link rel="stylesheet" href="${pageContext.request.contextPath}/design/css/crews.css">
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/design/css/dispatcher-flights.css">
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
         <script src="${pageContext.request.contextPath}/design/js/jquery-ui.min.js" charset="UTF-8"></script>
@@ -42,30 +42,36 @@
 
         <jsp:useBean id="now" class="java.util.Date" />
         <fmt:formatDate var="today" value="${now}" pattern="yyyy-MM-dd"/>
-        <ct:date-range startDate="${today}" rangeLength="1"/>
+        <div id="date_range">
+            <ct:date-range startDate="${today}" rangeLength="1"/>
+        </div>
 
         <c:set var = "result" value = "${requestScope.result}"/>
         <c:if test = "${result eq null}">
-            <table class ="table" border="2">
-                <tr>
-                    <th>${flight_label}</th><th>${time_label}</th>
-                    <th colspan="2">${arrivals_label}/${departures_label}</th>
-                    <th>${plane_label}</th><th>${status_label}</th>
-                </tr>
-                <c:forEach items="${requestScope.flight}" var="flight_item">
+            <div id="disp_table">
+                <table class ="table" border="2">
                     <tr>
-                        <td>${flight_item.flightNumber}</td>
-                        <td>${flight_item.departureTime}</td>
-                        <td>${flight_item.departureCity}(${flight_item.departureAirportShortName})</td>
-                        <td>${flight_item.destinationCity}(${flight_item.destinationAirportShortName})</td>
-                        <td>${flight_item.planeModel}</td>
-                        <td>${flight_item.status}</td>
+                        <th>${flight_label}</th><th>${time_label}</th>
+                        <th colspan="2">${arrivals_label}/${departures_label}</th>
+                        <th>${plane_label}</th><th>${status_label}</th>
                     </tr>
-                </c:forEach>
-            </table>
+                    <c:forEach items="${requestScope.flight}" var="flight_item">
+                        <tr>
+                            <td>${flight_item.flightNumber}</td>
+                            <td>${flight_item.departureTime}</td>
+                            <td>${flight_item.departureCity}(${flight_item.departureAirportShortName})</td>
+                            <td>${flight_item.destinationCity}(${flight_item.destinationAirportShortName})</td>
+                            <td>${flight_item.planeModel}</td>
+                            <td>${flight_item.status}</td>
+                        </tr>
+                    </c:forEach>
+                </table>
+            </div>
         </c:if>
         <c:if test = "${result ne null}">
-            <c:out value="${result}"/>
+            <div id="info">
+                <c:out value="${result}"/>
+            </div>
         </c:if>
     </body>
 </html>
