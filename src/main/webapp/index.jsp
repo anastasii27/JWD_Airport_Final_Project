@@ -8,6 +8,8 @@
         <fmt:setLocale value="${sessionScope.local}" />
         <fmt:setBundle basename="localization.local" var="loc" />
         <fmt:message bundle="${loc}" key="local.label.title.main" var="main_label" />
+        <fmt:message bundle="${loc}" key="local.message.welcome" var="welc_mes" />
+        <fmt:message bundle="${loc}" key="local.message.travel" var="tr_mes" />
 
         <title>${main_label}</title>
 
@@ -30,18 +32,7 @@
     </head>
     <body>
         <jsp:include page="jsp/parts/header.jsp"/>
-        <div id="carousel" class="carousel slide" data-ride="carousel" data-interval="5000">
-            <div class="carousel-inner">
-                <div class="carousel-item img-fluid active">
-                    <img class="d-block w-100" src="design/img/carousel0.jpg" alt="Первый слайд">
-                </div>
-                <div class="carousel-item img-fluid">
-                    <img class="d-block w-100" src="design/img/carousel1.jpg" alt="Второй слайд">
-                </div>
-                <div class="carousel-item img-fluid">
-                    <img class="d-block w-100" src="design/img/carousel2.jpg" alt="Третий слайд">
-                </div>
-            </div>
-        </div>
+        <div id="welcome">${welc_mes}<br/>${tr_mes}</div>
+        <jsp:include page="jsp/parts/footer.jsp"/>
     </body>
 </html>

@@ -127,6 +127,7 @@
                 <span class="edit">${edit_label}</span>
             </button>
         </div>
+        <jsp:include page="../../jsp/parts/footer.jsp"/>
     </body>
 </html>
 

@@ -1,11 +1,26 @@
-#personal_info{
-    background-color: #d6e5f17a;
-    width:60vw;
-    border: solid 0.5px #6c757d52;
-    margin-left:auto;
-    margin-right:auto;
-    margin-top:3vh;
+body{
+    background: url('../img/plane_user.jpg') left bottom no-repeat;
+    margin-right: 200px;
+    background-size: 550px 350px;
 }
-p{
-    padding-left:2vw;
+#personal_info{
+    font-size:15pt;
+    padding-left:41vw;
+    margin-top:5vh;
+    letter-spacing:1px;
+}
+#edit_user_btn{
+    position:absolute;
+    left:63vw;
+    top:16vh;
+}
+#edit_user_btn button{
+    background-color:transparent;
+    color:#1d2124;
+    border: solid 1px transparent;
+    border-radius:0px;
+}
+#edit_user_btn > button:hover{
+    border: solid 1px #a1bbbd;
+    outline: none;
 }

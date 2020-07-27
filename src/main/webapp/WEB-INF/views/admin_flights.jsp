@@ -67,5 +67,6 @@
         </div>
         <jsp:include page="parts/edit_flight_modal.jsp"/>
         <jsp:include page="parts/flight_info_modal.jsp"/>
+        <jsp:include page="../../jsp/parts/footer.jsp"/>
     </body>
 </html>

@@ -73,5 +73,6 @@
                 <c:out value="${result}"/>
             </div>
         </c:if>
+        <jsp:include page="../../jsp/parts/footer.jsp"/>
     </body>
 </html>

@@ -5,12 +5,12 @@
 #create_crew_btn{
     position: absolute;
     right: 8vw;
-    top: 85vh;
+    top: 82vh;
 }
 #edit_crew_btn{
     position: absolute;
     left: 8vw;
-    top: 85vh;
+    top: 82vh;
 }
 .crew_members{
     width: 40vw;

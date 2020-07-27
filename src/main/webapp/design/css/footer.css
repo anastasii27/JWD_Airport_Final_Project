@@ -1,0 +1,27 @@
+.footer{
+    position:absolute;
+    width:100vw;
+    height:9.4vh;
+    background:#bdc8d2b0;
+    color:#000000;
+    margin-left:0vw;
+    top:90.45vh;
+    opacity:0.7;
+}
+#socials{
+    margin-left:30vw;
+    padding-top:2vh;
+}
+#contact{
+    margin-left:35vw;
+}
+.footer img{
+    width:30px;
+}
+#inst, #fb, #vk{
+    margin-left:3vw;
+}
+#copyright{
+    padding-top:3vh;
+    padding-left:2vw;
+}

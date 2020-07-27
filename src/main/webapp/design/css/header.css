@@ -1,6 +1,6 @@
 .navbar{
     height: 12vh;
-    background: #0f1970;
+    background: #0f2044;
 }
 .nav-link{
     color: beige ;
@@ -16,7 +16,7 @@
 }
 .btn-md {
     color: beige;
-    background: #0f1970;
+    background: #0f2044;
     border: solid 1px beige;
     outline: none;
 }
@@ -40,5 +40,6 @@
     outline: none !important;
     box-shadow:none;
 }
-
-
+img{
+    width:110px;
+}

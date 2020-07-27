@@ -9,7 +9,7 @@
     padding-left:8vw;
     opacity: .8;
     color:black;
-    height:69vh;
+    height:67vh;
 }
 .form-group{
     width:35vw;
@@ -18,14 +18,14 @@ input [type="text"]{
     border: solid 0.5px #1465ad52;
 }
 #change_btn{
-    margin-top:4vh;
+    margin-top:3vh;
     margin-left:28vw;
 }
 form{
     margin-top:2vh;
 }
 #title{
-    margin-top:4vh;
+    margin-top:2vh;
     margin-left:25vw;
 }
 #back_btn{

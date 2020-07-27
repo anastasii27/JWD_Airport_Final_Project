@@ -1,3 +1,12 @@
-.carousel .img-fluid{
-    height:65vh;
-} 
+body{
+    background-image: url('../img/index_back.jpg');
+    background-size: 100vw 100vh;
+    background-repeat:  no-repeat;
+}
+#welcome{
+    text-align:center;
+    font-size:23pt;
+    color:darkblue;
+    font-weight:100;
+    margin-top:12vh;
+}

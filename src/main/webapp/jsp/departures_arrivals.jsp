@@ -95,5 +95,6 @@
         <div id="no_flights">
             <h3>${no_flights_mes}</h3>
         </div>
+        <jsp:include page="../jsp/parts/footer.jsp"/>
     </body>
 </html>

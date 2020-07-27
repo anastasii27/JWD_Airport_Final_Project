@@ -21,6 +21,8 @@
         <fmt:message bundle="${loc}" key="local.label.password" var="password_label" />
         <fmt:message bundle="${loc}" key="local.label.login" var="login_label" />
         <fmt:message bundle="${loc}" key="local.js.lang" var="lang" />
+        <fmt:message bundle="${loc}" key="local.label.change_login" var="change_login_label" />
+        <fmt:message bundle="${loc}" key="local.label.change_password" var="change_pas_label" />
 
         <title>${sessionScope.user.name} ${sessionScope.user.surname}</title>
 
@@ -59,28 +61,11 @@
             <p>Email: <c:out value= "${sessionScope.user.email}" /></p>
             <p>${role_label}: <c:out value= "${sessionScope.user.role}" /></p>
             <p>${start_label}: <c:out value= "${sessionScope.user.careerStartYear}" /></p>
-            <p>${password_label}: <a href="#" data-toggle="modal" data-target="#password_change_modal">Сменить пароль</a></p>
-            <p>${login_label}: <a href="#" data-toggle="modal" data-target="#login_change_modal">Сменить логин</a></p>
+            <p>${password_label}: <a href="#" data-toggle="modal" data-target="#password_change_modal">${change_pas_label}</a></p>
+            <p>${login_label}: <a href="#" data-toggle="modal" data-target="#login_change_modal">${change_login_label}</a></p>
         </div>
-        <c:if test = "${sessionScope.user.role eq 'pilot' || sessionScope.user.role eq 'steward'}">
-            <c:if test = "${requestScope.result eq null}">
-                <div id="user_table">
-                    <h3>${near_flight_label}</h3>
-                    <table class ="table" id="nearest_flight" border="2">
-                        <tr><th>${flight_label}</th><th>${date_label}</th><th>${dest_label}</th><th>${dep_time_label}</th></tr>
-                            <c:forEach items="${flight}" var="flight_item">
-                                <tr>
-                                    <td>${flight_item.flightNumber}</td>
-                                    <td>${flight_item.departureDate}</td>
-                                    <td>${flight_item.destinationCity}</td>
-                                    <td>${flight_item.departureTime}</td>
-                                </tr>
-                            </c:forEach>
-                    </table>
-                </div>
-            </c:if>
-        </c:if>
         <jsp:include page="parts/change_password_modal.jsp"/>
         <jsp:include page="parts/change_login_modal.jsp"/>
+        <jsp:include page="../../jsp/parts/footer.jsp"/>
     </body>
 </html>
