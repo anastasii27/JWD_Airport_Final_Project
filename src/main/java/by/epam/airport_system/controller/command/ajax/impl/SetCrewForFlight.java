@@ -19,9 +19,8 @@ public class SetCrewForFlight implements Command {
     public void execute(HttpServletRequest request, HttpServletResponse response) {
         CrewService crewService = ServiceFactory.getInstance().getCrewService();
         Flight flight = (Flight)request.getSession().getAttribute(RequestParameterName.FLIGHT);
-        String crewName;
 
-        crewName = request.getParameter(RequestParameterName.CREW_NAME);
+        String crewName = request.getParameter(RequestParameterName.CREW_NAME);
         try {
             if(flight!= null){
                 boolean operationResult = crewService.setCrewForFlight(crewName, flight.getFlightNumber());

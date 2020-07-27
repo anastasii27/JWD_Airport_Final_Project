@@ -17,11 +17,9 @@ public class DeleteFlight implements Command {
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) {
         FlightService flightService = ServiceFactory.getInstance().getFlightService();
-        String flightNumber;
-        String departureDate;
 
-        flightNumber = request.getParameter(RequestParameterName.FLIGHT_NUMBER);
-        departureDate = request.getParameter(RequestParameterName.DEPARTURE_DATE);
+        String flightNumber = request.getParameter(RequestParameterName.FLIGHT_NUMBER);
+        String departureDate = request.getParameter(RequestParameterName.DEPARTURE_DATE);
         try{
             boolean operationResult = flightService.deleteFlight(flightNumber, LocalDate.parse(departureDate));
 

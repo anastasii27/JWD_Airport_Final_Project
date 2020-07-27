@@ -15,18 +15,16 @@ import java.io.IOException;
 import java.time.LocalDate;
 
 @Log4j2
-public class FlightInformation implements Command {//todo продумать если нет инфы
+public class FlightInformation implements Command {
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) {
         FlightService flightService = ServiceFactory.getInstance().getFlightService();
         CrewService crewService = ServiceFactory.getInstance().getCrewService();
-        String flightNumber;
-        String departureDate;
         String flightGson = "";
 
-        flightNumber = request.getParameter(RequestParameterName.FLIGHT_NUMBER);
-        departureDate = request.getParameter(RequestParameterName.DEPARTURE_DATE);
+        String flightNumber = request.getParameter(RequestParameterName.FLIGHT_NUMBER);
+        String departureDate = request.getParameter(RequestParameterName.DEPARTURE_DATE);
         try {
             Flight flight = flightService.flightInfo(flightNumber, LocalDate.parse(departureDate));
 

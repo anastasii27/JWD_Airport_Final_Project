@@ -23,7 +23,6 @@ public class FreePlane implements Command {
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) {
         PlaneService planeService = ServiceFactory.getInstance().getPlaneService();
-        List<Plane> planes;
 
         String departureCityWithAirport = request.getParameter(RequestParameterName.DEPARTURE_AIRPORT);
         String departureDate = request.getParameter(RequestParameterName.DEPARTURE_DATE);
@@ -39,7 +38,7 @@ public class FreePlane implements Command {
                                         .destinationDate(LocalDate.parse(destinationDate))
                                         .destinationTime(LocalTime.parse(destinationTime)).build();
         try {
-            planes = planeService.freePlanesForFlight(flight);
+            List<Plane> planes = planeService.freePlanesForFlight(flight);
 
             String planesGson = GsonConverter.convertToGson(planes);
             response.getWriter().write(planesGson);

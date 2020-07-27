@@ -2,9 +2,11 @@ package by.epam.airport_system.controller.command.ajax;
 
 import by.epam.airport_system.controller.command.Command;
 import by.epam.airport_system.controller.command.ajax.impl.*;
+import lombok.extern.log4j.Log4j2;
 import java.util.HashMap;
 import java.util.Map;
 
+@Log4j2
 public final class AjaxCommandProvider {
     private static final AjaxCommandProvider instance =  new AjaxCommandProvider();
     private  final Map<AjaxCommandName, Command> commands = new HashMap<>();
@@ -37,7 +39,7 @@ public final class AjaxCommandProvider {
             commandName = AjaxCommandName.valueOf(name.toUpperCase());
             command = commands.get(commandName);
         }catch (IllegalArgumentException e){
-            //command = commands.get(AjaxCommandName.NO_SUCH_COMMAND);
+            log.error("No such ajax command", e);
         }
         return command;
     }

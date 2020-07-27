@@ -73,7 +73,7 @@
                 <div class="form-group row">
                     <label for="pilot" class="required">${add_pilots_label}</label>
                     <select name= "pilot" id="pilot" class="selectpicker" multiple
-                            title="" data-width="12vw" data-size="5">
+                            title="" data-width="12vw" data-size="5" data-selected-text-format="values">
                         <c:forEach var="pilot" items="${pilots_list}">
                             <option>${pilot.name} ${pilot.surname}</option>
                         </c:forEach>
@@ -82,7 +82,7 @@
                 <div class="form-group row">
                     <label for="steward" class="required">${stewards_label}</label>
                     <select name= "steward" id="steward" class="selectpicker custom-select form-control" multiple
-                            title="" data-width="12vw" data-size="5">
+                            title="" data-width="12vw" data-size="5" data-selected-text-format="values">
                         <c:forEach var="steward" items="${stewards_list}">
                             <option>${steward.name} ${steward.surname} </option>
                         </c:forEach>

@@ -22,18 +22,18 @@ $(document).ready(function ($) {
     //crew editing
     $('.delete_crew_btn').on('click', function () {
         let resultConfirm = confirm("Are you really want to delete?");
+        let crewNameForDelete = getCrewName($(this).parent().text());
 
         if(resultConfirm===true){
-            let liToDelete =  $(this).parent();
+            $(this).parent().remove();
             $.ajax({
                 type: "POST",
                 url: "/JWD_Task3_war/ajax",
                 dataType:'json',
-                data: {command: 'delete_crew',crew_name: crewName},
+                data: {command: 'delete_crew',crew_name: crewNameForDelete},
 
                 success: function (data) {
                     if(data===true){
-                        $(liToDelete).remove();
                         $('.crew_members ').hide();
                     }
                 },
@@ -174,6 +174,9 @@ $(document).ready(function ($) {
                 $('#info_dest_airport').append('<p>' + destinationAirport + '<p>');
 
                 $('#flight_info_modal').modal('show');
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                window.location = "http://localhost:8080/JWD_Task3_war/error.jsp";
             }
         });
     });
@@ -382,12 +385,15 @@ $(document).ready(function ($) {
                     addAirportsToSelectAjax(data.destinationCountry, data.destinationAirportShortName, '#edit_dest_airport');
                     addPlanesToSelectAjax(data);
                     addFreeCrewsToSelectAjax(data);
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                window.location = "http://localhost:8080/JWD_Task3_war/error.jsp";
             }
         });
     });
 });
 
-function findMainPilot(crewName) {
+function findMainPilotAjax(crewName) {
     $.ajax({
         type: "GET",
         url: "/JWD_Task3_war/ajax",
@@ -400,6 +406,9 @@ function findMainPilot(crewName) {
                     $(this).css("border", "solid 0.5px #a6c5ff");
                 }
             });
+        },
+        error: function (xhr, ajaxOptions, thrownError) {
+            window.location = "http://localhost:8080/JWD_Task3_war/error.jsp";
         }
     });
 
@@ -434,6 +443,9 @@ function freePlanesAjax(selector) {
 
                 $(selector).append(emptyOption);
                 $(selector).append(option);
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                window.location = "http://localhost:8080/JWD_Task3_war/error.jsp";
             }
         });
     }
@@ -466,6 +478,9 @@ function freeCrewsAjax() {
                     option += '<option>' + crewInfo + '</option>';
                 });
                 $('#edit_crew').append(option);
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                window.location = "http://localhost:8080/JWD_Task3_war/error.jsp";
             }
         });
     }
@@ -494,6 +509,9 @@ function freeDispatchersAjax(airport) {
 
                 $('#dispatcher').append(emptyOption);
                 $('#dispatcher').append(option);
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                window.location = "http://localhost:8080/JWD_Task3_war/error.jsp";
             }
         });
     }
@@ -537,7 +555,7 @@ function createMembersTable(data, crewName) {
     $('#crews_error').hide();
     $('#pilots_list').empty().append(pilots);
     $('#steward_list').empty().append(stewardesses);
-    findMainPilot(crewName);
+    findMainPilotAjax(crewName);
     if($('#edit_crew_btn').hasClass('clicked')){
         $('.close, #add_crew_btn').show();
     }else {
@@ -564,6 +582,9 @@ function createAirportSelectAjax(country, airportSelect) {
 
             $(airportSelect).append(emptyOption);
             $(airportSelect).append(option);
+        },
+        error: function (xhr, ajaxOptions, thrownError) {
+            window.location = "http://localhost:8080/JWD_Task3_war/error.jsp";
         }
     });
 }
@@ -585,6 +606,9 @@ function addAirportsToSelectAjax(country, airportShortName, selector){
             });
 
             $(selector).append(option);
+        },
+        error: function (xhr, ajaxOptions, thrownError) {
+            window.location = "http://localhost:8080/JWD_Task3_war/error.jsp";
         }
     });
 }
@@ -617,6 +641,9 @@ function addPlanesToSelectAjax(data) {
                 });
 
                 $('#edit_planes').append(option);
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                window.location = "http://localhost:8080/JWD_Task3_war/error.jsp";
             }
         });
     }
@@ -651,6 +678,9 @@ function addFreeCrewsToSelectAjax(data) {
                 });
 
                 $('#edit_crew').append(option);
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                window.location = "http://localhost:8080/JWD_Task3_war/error.jsp";
             }
         });
     }

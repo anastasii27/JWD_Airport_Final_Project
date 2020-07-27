@@ -16,9 +16,8 @@ public class DeleteCrew implements Command {
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) {
         CrewService crewService = ServiceFactory.getInstance().getCrewService();
-        String crewName;
 
-        crewName = request.getParameter(RequestParameterName.CREW_NAME);
+        String crewName = request.getParameter(RequestParameterName.CREW_NAME);
         try {
             boolean operationResult = crewService.deleteCrew(crewName);
 

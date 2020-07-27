@@ -17,11 +17,9 @@ public class FlightNumberExistence implements Command {
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) {
         FlightService flightService = ServiceFactory.getInstance().getFlightService();
-        String flightNumber;
-        String date;
 
-        flightNumber = request.getParameter(RequestParameterName.FLIGHT_NUMBER);
-        date = request.getParameter(RequestParameterName.DATE);
+        String flightNumber = request.getParameter(RequestParameterName.FLIGHT_NUMBER);
+        String date = request.getParameter(RequestParameterName.DATE);
 
         try {
             boolean operationResult = flightService.doesFlightNumberExist(flightNumber, LocalDate.parse(date));

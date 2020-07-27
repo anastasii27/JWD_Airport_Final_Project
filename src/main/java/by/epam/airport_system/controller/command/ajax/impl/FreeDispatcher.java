@@ -22,15 +22,11 @@ public class FreeDispatcher implements Command {
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) {
         UserService userService = ServiceFactory.getInstance().getUserService();
-        String cityWithAirport;
-        String airportName;
-        LocalDate date;
-        LocalTime time;
 
-        cityWithAirport = request.getParameter(RequestParameterName.CITY_WITH_AIRPORT);
-        airportName = RequestParametersExtractor.airportName(cityWithAirport);
-        date = LocalDate.parse(request.getParameter(RequestParameterName.DATE));
-        time = LocalTime.parse(request.getParameter(RequestParameterName.TIME));
+        String cityWithAirport = request.getParameter(RequestParameterName.CITY_WITH_AIRPORT);
+        String airportName = RequestParametersExtractor.airportName(cityWithAirport);
+        LocalDate date = LocalDate.parse(request.getParameter(RequestParameterName.DATE));
+        LocalTime time = LocalTime.parse(request.getParameter(RequestParameterName.TIME));
         try {
             List<User> freeDispatchers = userService.freeDispatchers(date, time, airportName);
 

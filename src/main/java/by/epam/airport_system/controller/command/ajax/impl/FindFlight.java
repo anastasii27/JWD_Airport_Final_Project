@@ -15,18 +15,18 @@ import java.io.IOException;
 import java.util.List;
 
 @Log4j2
-public class FindFlight implements Command {//todo null check
+public class FindFlight implements Command {
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) {
         FlightService flightService = ServiceFactory.getInstance().getFlightService();
+
         String departureCityWithAirport = request.getParameter(RequestParameterName.DEPARTURE_AIRPORT);
         String destinationCityWithAirport = request.getParameter(RequestParameterName.DESTINATION_AIRPORT);
 
+        String departureAirport = airportName(departureCityWithAirport);
+        String destinationAirport = airportName(destinationCityWithAirport);
         try {
-            String departureAirport = airportName(departureCityWithAirport);
-            String destinationAirport = airportName(destinationCityWithAirport);
-
             List<Flight> flights = flightService.findFlight(departureAirport, destinationAirport);
             String flightsGson = GsonConverter.convertToGson(flights);
 

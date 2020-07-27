@@ -34,6 +34,5 @@ public class CheckLoginExistence implements Command {
         } catch (IOException e) {
             log.error("Cannot write response", e);
         }
-
     }
 }

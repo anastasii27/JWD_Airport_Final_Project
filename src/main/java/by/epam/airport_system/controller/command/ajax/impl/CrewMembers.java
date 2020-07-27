@@ -18,18 +18,15 @@ public class CrewMembers implements Command {
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) {
         CrewMemberService crewMemberService = ServiceFactory.getInstance().getCrewMemberService();
-        List crewList;
-        String crewName;
-        String crewGson;
 
-        crewName = request.getParameter(RequestParameterName.CREW_NAME);
+        String crewName = request.getParameter(RequestParameterName.CREW_NAME);
         try {
-            crewList = crewMemberService.crewMembers(crewName);
-            crewGson = GsonConverter.convertToGson(crewList);
+            List crewList = crewMemberService.crewMembers(crewName);
+            String crewGson = GsonConverter.convertToGson(crewList);
 
             response.getWriter().write(crewGson);
         } catch (ServiceException e) {
-            log.error("Cannot execute ajax command for crew creation", e);
+            log.error("Cannot execute ajax command for crew members getting", e);
         } catch (IOException e) {
             log.error("Cannot write json to response", e);
         }
