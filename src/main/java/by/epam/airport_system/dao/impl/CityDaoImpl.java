@@ -13,11 +13,11 @@ import java.util.List;
 
 public class CityDaoImpl implements CityDao, CloseOperation {
     private static final String CITY_WITH_AIRPORT = "SELECT cities.`name`,`name-abbreviation` FROM airport.airports\n" +
-            "JOIN cities ON cities.id = airports.`city-id`;";
+            "JOIN airport.cities ON cities.id = airports.`city-id`;";
 
     private static final String CITY_WITH_AIRPORT_BY_COUNTRY = "SELECT cities.`name`,`name-abbreviation` FROM airport.airports\n" +
-            "JOIN cities ON cities.id = airports.`city-id`\n" +
-            "JOIN countries ON cities.`country-id` = countries.id\n" +
+            "JOIN airport.cities ON cities.id = airports.`city-id`\n" +
+            "JOIN airport.countries ON cities.`country-id` = countries.id\n" +
             "WHERE countries.`name` = ?;";
 
     @Override

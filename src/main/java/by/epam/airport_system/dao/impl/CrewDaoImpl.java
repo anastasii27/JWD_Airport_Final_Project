@@ -14,45 +14,45 @@ import java.util.Map;
 
 @Log4j2
 public class CrewDaoImpl implements CrewDao, CloseOperation {
-    private final static String CREATE_CREW = "INSERT INTO `flight-teams`(`date-of-creating`, `short-name`)\n" +
+    private final static String CREATE_CREW = "INSERT INTO airport.`flight-teams`(`date-of-creating`, `short-name`)\n" +
             "VALUES (current_date(), ?);";
 
     private final static String ADD_MEMBER = "INSERT INTO airport.`flight-teams-m2m-users`(`flight-team-id`, `user-id`) VALUES (\n" +
-            "(SELECT id FROM `flight-teams` WHERE `short-name` =?),\n" +
-            "(SELECT id FROM users WHERE `name`=? AND surname =?));";
+            "(SELECT id FROM airport.`flight-teams` WHERE `short-name` =?),\n" +
+            "(SELECT id FROM airport.users WHERE `name`=? AND surname =?));";
 
     private final static String SET_MAIN_PILOT = "UPDATE airport.`flight-teams` \n" +
-            "SET `main-pilot-id` = (SELECT id FROM users WHERE `name` = ? AND `surname` = ?)\n" +
+            "SET `main-pilot-id` = (SELECT id FROM airport.users WHERE `name` = ? AND `surname` = ?)\n" +
             "WHERE `short-name` = ?; ";
 
-    private final static String CHECK_CREW_NAME_EXISTENCE = "SELECT `date-of-creating` FROM `flight-teams` WHERE `short-name`=?;";
+    private final static String CHECK_CREW_NAME_EXISTENCE = "SELECT `date-of-creating` FROM airport.`flight-teams` WHERE `short-name`=?;";
 
     private final static String DELETE_CREW_WITH_MEMBERS = "DELETE FROM airport.`flight-teams-m2m-users` WHERE `flight-team-id` =" +
-            "(SELECT id FROM `flight-teams` WHERE `short-name` = ?)";
+            "(SELECT id FROM airport.`flight-teams` WHERE `short-name` = ?)";
 
     private final static String DELETE_CREW = "DELETE FROM airport.`flight-teams` WHERE `short-name` = ?";
 
     private final static String DELETE_CREW_FROM_FLIGHT = "UPDATE airport.flights\n" +
-            "SET `flight-team-id` =  null WHERE `flight-team-id` = (SELECT id FROM `flight-teams` " +
+            "SET `flight-team-id` =  null WHERE `flight-team-id` = (SELECT id FROM airport.`flight-teams` " +
             "WHERE `short-name`= ?);";
 
     private final static String FIND_MAIN_PILOT = "SELECT `name`, surname FROM airport.`flight-teams`\n" +
-            "JOIN users ON `main-pilot-id`  = users.id\n" +
+            "JOIN airport.users ON `main-pilot-id`  = users.id\n" +
             "WHERE `short-name` = ?;";
 
     private final static String ALL_CREWS = "SELECT `short-name` FROM airport.`flight-teams`;";
 
-    private final static String SET_CREW_FOR_FLIGHT = "UPDATE flights SET  `flight-team-id` =" +
-            "(SELECT id FROM `flight-teams` WHERE `short-name` = ?)\n" +
+    private final static String SET_CREW_FOR_FLIGHT = "UPDATE airport.flights SET `flight-team-id` =" +
+            "(SELECT id FROM airport.`flight-teams` WHERE `short-name` = ?)\n" +
             "WHERE `flight-number` = ?";
 
-    private final static String FLIGHT_CREW = "SELECT  `short-name` FROM airport.flights\n" +
-            "JOIN `flight-teams` ON `flight-team-id` = `flight-teams`.id\n" +
+    private final static String FLIGHT_CREW = "SELECT `short-name` FROM airport.flights\n" +
+            "JOIN airport.`flight-teams` ON `flight-team-id` = `flight-teams`.id\n" +
             "WHERE `departure-date` = ? AND `flight-number` = ?;";
 
     private final static String TAKEN_ON_FLIGHTS_CREWS = "SELECT DISTINCT `short-name` \n" +
             "FROM airport.flights\n" +
-            "JOIN `flight-teams` ON `flight-team-id` = `flight-teams`.id;";
+            "JOIN airport.`flight-teams` ON `flight-team-id` = `flight-teams`.id;";
 
     @Override
     public boolean createCrew(String crewName, Map<String, User> users) throws DaoException {

@@ -112,3 +112,44 @@ CREATE TABLE IF NOT EXISTS `airport`.`flights` (
   FOREIGN KEY (`dispatcher-id`)REFERENCES `airport`.`users` (`id`)
   ON DELETE SET NULL);
 
+  INSERT INTO `airport`.`countries`
+  VALUES (1, 'Belarus');
+
+  INSERT INTO `airport`.`cities`
+  VALUES (1, 'Minsk', 1);
+
+  INSERT INTO `airport`.`airports`
+  VALUES (1, 'Minsk-1', 'MSQ1', 1),
+         (2, 'Minsk-2', 'MSQ2', 1);
+
+  INSERT INTO `airport`.`roles`
+  VALUES (1, 'steward'),(2, 'dispatcher'),(3, 'pilot'),(4, 'admin');
+
+  INSERT INTO `airport`.`users`
+  VALUES (1, 1, 'masha17', '12345', 'Мария', 'Аленская', 'alienskaya17@gmail.com', 2017),
+         (2, 2, 'anya333', '12345', 'Аня', 'Корытько', 'anni111@gmail.com',2003),
+         (3, 3, 'vladvlad', '12345', 'Владислав', 'Ясницкий', 'vlad-yas@gmail.com', 2005),
+         (4, 4, 'nastya1', '12345', 'Анастасия', 'Роднова', 'rodnovanastya@gmail.com', 2017);
+
+  INSERT INTO `airport`.`flight-teams`
+  VALUES (1, '2020-07-12', 'A1', 3),
+         (2, '2020-07-15', 'A2', 3),
+         (3, '2020-07-15', 'N1', null);
+
+  INSERT INTO `airport`.`flight-teams-m2m-users`
+  VALUES (1,1),
+         (1,3),
+         (2,1),
+         (2,3);
+
+  INSERT INTO `airport`.`plane-models`
+  VALUES (1,'Airbus 123'),
+         (2,'Airbus 828');
+
+  INSERT INTO `airport`.`planes`
+  VALUES (1,'A-2772',1),
+         (2,'A-8281',2);
+
+  INSERT INTO `airport`.`flights`
+  VALUES (1, 'KL 2112', 1, 1, 1, 2, '2020-07-26', '2020-07-26', '19:53:00', '20:53:00', 'Scheduled', 2),
+         (2, 'TR 1718', 2, null, 2, 1, '2020-07-26', '2020-07-26', '13:53:00', '17:53:00', 'Scheduled', 2);

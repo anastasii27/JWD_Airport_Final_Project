@@ -15,22 +15,22 @@ import java.util.List;
 
 @Log4j2
 public class CrewMemberDaoImpl implements CrewMemberDao, CloseOperation {
-    private final static String CREW_MEMBERS = "SELECT `name`, `surname`, email, title FROM `flight-teams-m2m-users`\n"+
-            "JOIN users ON `flight-teams-m2m-users`.`user-id` = users.id \n"+
-            "JOIN roles ON roles.id  = (SELECT `role-id` FROM users WHERE users.id = `flight-teams-m2m-users`.`user-id` )\n"+
-            "WHERE `flight-teams-m2m-users`.`flight-team-id` = (SELECT id FROM `flight-teams` WHERE `short-name` = ? );";
+    private final static String CREW_MEMBERS = "SELECT `name`, `surname`, email, title FROM airport.`flight-teams-m2m-users`\n"+
+            "JOIN airport.users ON `flight-teams-m2m-users`.`user-id` = users.id \n"+
+            "JOIN airport.roles ON roles.id  = (SELECT `role-id` FROM airport.users WHERE users.id = `flight-teams-m2m-users`.`user-id` )\n"+
+            "WHERE `flight-teams-m2m-users`.`flight-team-id` = (SELECT id FROM airport.`flight-teams` WHERE `short-name` = ? );";
 
     private final static String DELETE_CREW_MEMBER = "DELETE FROM airport.`flight-teams-m2m-users` WHERE `user-id` = " +
-            "(SELECT id FROM users WHERE `name`=? AND surname =?)\n" +
-            "AND `flight-team-id`= (SELECT id FROM `flight-teams` WHERE `short-name`=?);";
+            "(SELECT id FROM airport.users WHERE `name`=? AND surname =?)\n" +
+            "AND `flight-team-id`= (SELECT id FROM airport.`flight-teams` WHERE `short-name`=?);";
 
     private final static String ADD_MEMBER = "INSERT INTO airport.`flight-teams-m2m-users`(`flight-team-id`, `user-id`) VALUES (\n" +
-            "(SELECT id FROM `flight-teams` WHERE `short-name` =?),\n" +
-            "(SELECT id FROM users WHERE `name`=? AND surname =?));";
+            "(SELECT id FROM airport.`flight-teams` WHERE `short-name` =?),\n" +
+            "(SELECT id FROM airport.users WHERE `name`=? AND surname =?));";
 
     private final static String CHECK_CREW_MEMBER_EXISTENCE = "SELECT * FROM airport.`flight-teams-m2m-users` WHERE `user-id` = " +
-            "(SELECT id FROM users WHERE `name` = ? AND surname = ?) AND `flight-team-id` = (SELECT id " +
-            "FROM `flight-teams` WHERE `short-name` = ?);";
+            "(SELECT id FROM airport.users WHERE `name` = ? AND surname = ?) AND `flight-team-id` = (SELECT id " +
+            "FROM airport.`flight-teams` WHERE `short-name` = ?);";
     private int changedRowsAmount;
 
     @Override
