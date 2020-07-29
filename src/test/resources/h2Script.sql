@@ -152,4 +152,4 @@ CREATE TABLE IF NOT EXISTS `airport`.`flights` (
 
   INSERT INTO `airport`.`flights`
   VALUES (1, 'KL 2112', 1, 1, 1, 2, '2020-07-26', '2020-07-26', '19:53:00', '20:53:00', 'Scheduled', 2),
-         (2, 'TR 1718', 2, null, 2, 1, '2020-07-26', '2020-07-26', '13:53:00', '17:53:00', 'Scheduled', 2);
+         (2, 'TR 1718', 2, null, 2, 1, '2020-07-27', '2020-07-27', '13:53:00', '17:53:00', 'Scheduled', 2);

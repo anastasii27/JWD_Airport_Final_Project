@@ -16,44 +16,45 @@ public class FlightDaoImpl implements FlightDao, CloseOperation {
     private final static String AIRPORT_DEPARTURE = "SELECT `flight-number`, `departure-date` AS `date`, `departure-time` AS `time`," +
             "a1.`name` AS `airport`,\n" +
             "cities.`name` AS `city`, a1.`name-abbreviation` AS `airport-short-name`, title, `status`\n" +
-            "FROM flights\n" +
-            "JOIN airports AS a1 ON  a1.id = flights.`destination-airport-id`\n" +
-            "JOIN cities ON cities.id = (SELECT `city-id` FROM airports WHERE airports.`name` = a1.`name`)\n" +
-            "JOIN `plane-models` ON `plane-models`.id = (SELECT `model-id` FROM planes WHERE planes.id = `plane-id`)\n" +
-            "JOIN airports AS a2 ON a2.id = flights.`departure-airport-id`\n" +
+            "FROM airport.flights\n" +
+            "JOIN airport.airports AS a1 ON  a1.id = flights.`destination-airport-id`\n" +
+            "JOIN airport.cities ON cities.id = (SELECT `city-id` FROM airport.airports WHERE airports.`name` = a1.`name`)\n" +
+            "JOIN airport.`plane-models` ON `plane-models`.id = (SELECT `model-id` FROM airport.planes WHERE planes.id = `plane-id`)\n" +
+            "JOIN airport.airports AS a2 ON a2.id = flights.`departure-airport-id`\n" +
             "WHERE `departure-date` = ? AND a2.`name-abbreviation` = ?;";
 
     private final static String AIRPORT_ARRIVAL = "SELECT `flight-number`, `departure-date` AS `date`, `destination-time` AS `time`," +
             "a2.`name` AS `airport`," +
             "cities.`name` AS `city`, a2.`name-abbreviation` AS `airport-short-name`, title, `status`\n" +
-            "FROM flights\n" +
-            "JOIN airports AS a2 ON a2.id = flights.`departure-airport-id`\n" +
-            "JOIN cities ON cities.id = (SELECT `city-id` FROM airports WHERE airports.`name` = a2.`name`)\n" +
-            "JOIN airports AS a1 ON  a1.id = flights.`destination-airport-id`\n" +
-            "JOIN `plane-models` ON `plane-models`.id = (SELECT `model-id` FROM planes WHERE planes.id = `plane-id`)\n" +
+            "FROM airport.flights\n" +
+            "JOIN airport.airports AS a2 ON a2.id = flights.`departure-airport-id`\n" +
+            "JOIN airport.cities ON cities.id = (SELECT `city-id` FROM airport.airports WHERE airports.`name` = a2.`name`)\n" +
+            "JOIN airport.airports AS a1 ON  a1.id = flights.`destination-airport-id`\n" +
+            "JOIN airport.`plane-models` ON `plane-models`.id = (SELECT `model-id` FROM airport.planes WHERE planes.id = `plane-id`)\n" +
             "WHERE `destination-date` = ? AND a1.`name-abbreviation` = ?;";
 
-    private final static String FLIGHT_INFO =   "SELECT flights.id AS `id`, `flight-number`, `number` AS `plane-number`, title AS 'plane-model', `status`,`destination-date`, `destination-time`, a2.`name` AS `departure-airport`," +
+    private final static String FLIGHT_INFO =   "SELECT flights.id AS `id`, `flight-number`, `number` AS `plane-number`, title AS `plane-model`," +
+            "`status`,`destination-date`, `destination-time`, a2.`name` AS `departure-airport`," +
             "c2.`name` AS `departure-city`, cnt2.`name` AS `departure-country`,  a2.`name-abbreviation` AS `dep-airport-short-name`, \n" +
             "`departure-date`, `departure-time`, a1.`name` AS `destination-airport`, c1.`name` AS `destination-city` , " +
             "cnt1.`name` AS `destination-country`, a1.`name-abbreviation` AS `dest-airport-short-name`\n" +
-            "FROM flights\n" +
-            "JOIN `planes` ON  planes.id = `plane-id`\n" +
-            "JOIN `plane-models` ON `plane-models`.id = (SELECT `model-id` FROM planes WHERE planes.id = `plane-id`)\n"+
-            "JOIN airports AS a1 ON  a1.id = flights.`destination-airport-id`\n" +
-            "JOIN cities AS c1 ON c1.id = (SELECT `city-id` FROM airports WHERE airports.`name` = a1.`name`)\n" +
-            "JOIN countries AS cnt1 ON cnt1.id = c1.`country-id`\n" +
-            "JOIN airports AS a2 ON a2.id = flights.`departure-airport-id`\n" +
-            "JOIN cities AS c2 ON c2.id = (SELECT `city-id` FROM airports WHERE airports.`name` = a2.`name`)\n" +
-            "JOIN countries AS cnt2 ON cnt2.id = c2.`country-id`\n" +
+            "FROM airport.flights\n" +
+            "JOIN airport.`planes` ON  planes.id = `plane-id`\n" +
+            "JOIN airport.`plane-models` ON `plane-models`.id = (SELECT `model-id` FROM airport.planes WHERE planes.id = `plane-id`)\n"+
+            "JOIN airport.airports AS a1 ON  a1.id = flights.`destination-airport-id`\n" +
+            "JOIN airport.cities AS c1 ON c1.id = (SELECT `city-id` FROM airport.airports WHERE airports.`name` = a1.`name`)\n" +
+            "JOIN airport.countries AS cnt1 ON cnt1.id = c1.`country-id`\n" +
+            "JOIN airport.airports AS a2 ON a2.id = flights.`departure-airport-id`\n" +
+            "JOIN airport.cities AS c2 ON c2.id = (SELECT `city-id` FROM airport.airports WHERE airports.`name` = a2.`name`)\n" +
+            "JOIN airport.countries AS cnt2 ON cnt2.id = c2.`country-id`\n" +
             "WHERE `flight-number` = ? AND `departure-date` = ?;\n";
 
     private final static String CREATE_FLIGHT = "INSERT INTO airport.flights (`flight-number`, `plane-id`, `departure-airport-id`," +
             " `destination-airport-id`, `departure-date`,\n" +
             " `destination-date`, `departure-time`, `destination-time`, `status`, `dispatcher-id`) \n" +
-            " VALUES (?, (SELECT id FROM planes WHERE `number` = ?),\n" +
-            "(SELECT id FROM airports WHERE `name-abbreviation` = ?), (SELECT id FROM airports WHERE `name-abbreviation` = ?), ?, ?,\n" +
-            "?, ?, ?, (SELECT id FROM users WHERE `name` = ? AND surname = ?));";
+            " VALUES (?, (SELECT id FROM airport.planes WHERE `number` = ?),\n" +
+            "(SELECT id FROM airport.airports WHERE `name-abbreviation` = ?), (SELECT id FROM airport.airports WHERE `name-abbreviation` = ?), ?, ?,\n" +
+            "?, ?, ?, (SELECT id FROM airport.users WHERE `name` = ? AND surname = ?));";
 
     private final static String DOES_FLIGHT_NUMBER_EXIST = "SELECT `destination-date` FROM airport.flights " +
             "WHERE `flight-number` = ? AND `departure-date` = ? " +
@@ -63,21 +64,21 @@ public class FlightDaoImpl implements FlightDao, CloseOperation {
             "`departure-date`, `departure-time`, `destination-date`, `destination-time`, \n" +
             "c1.`name` AS `destination-city` , a1.`name-abbreviation` AS `dest-airport-short-name`,\n" +
             "c2.`name` AS `departure-city`, a2.`name-abbreviation` AS `dep-airport-short-name`, `status`\n" +
-            "FROM flights\n" +
-            "JOIN `plane-models` ON `plane-models`.id = (SELECT `model-id` FROM planes WHERE planes.id = `plane-id`)\n" +
-            "JOIN airports AS a1 ON  a1.id = flights.`destination-airport-id`\n" +
-            "JOIN cities AS c1 ON  c1.id = (SELECT `city-id` FROM airports WHERE airports.`name` = a1.`name`)\n" +
-            "JOIN airports AS a2 ON a2.id = flights.`departure-airport-id`\n" +
-            "JOIN cities AS c2 ON  c2.id = (SELECT `city-id` FROM airports WHERE airports.`name` = a2.`name`)" +
+            "FROM airport.flights\n" +
+            "JOIN airport.`plane-models` ON `plane-models`.id = (SELECT `model-id` FROM airport.planes WHERE planes.id = `plane-id`)\n" +
+            "JOIN airport.airports AS a1 ON  a1.id = flights.`destination-airport-id`\n" +
+            "JOIN airport.cities AS c1 ON  c1.id = (SELECT `city-id` FROM airport.airports WHERE airports.`name` = a1.`name`)\n" +
+            "JOIN airport.airports AS a2 ON a2.id = flights.`departure-airport-id`\n" +
+            "JOIN airport.cities AS c2 ON  c2.id = (SELECT `city-id` FROM airport.airports WHERE airports.`name` = a2.`name`)" +
             "WHERE `departure-date` = ?;";
 
-    private final static String DELETE_FLIGHT = "DELETE FROM flights WHERE `flight-number` = ? AND `departure-date` = ?";
+    private final static String DELETE_FLIGHT = "DELETE FROM airport.flights WHERE `flight-number` = ? AND `departure-date` = ?";
 
-    private final static String EDIT_FLIGHT = "UPDATE flights " +
-            "SET `plane-id` = (SELECT id FROM planes WHERE `number` = ?),\n" +
-            "`flight-team-id` = (SELECT id FROM `flight-teams` WHERE `short-name` = ?),\n" +
-            "`departure-airport-id` = (SELECT id FROM airports WHERE `name-abbreviation` = ?),\n" +
-            "`destination-airport-id` = (SELECT id FROM airports WHERE `name-abbreviation` = ?),\n" +
+    private final static String EDIT_FLIGHT = "UPDATE airport.flights " +
+            "SET `plane-id` = (SELECT id FROM airport.planes WHERE `number` = ?),\n" +
+            "`flight-team-id` = (SELECT id FROM airport.`flight-teams` WHERE `short-name` = ?),\n" +
+            "`departure-airport-id` = (SELECT id FROM airport.airports WHERE `name-abbreviation` = ?),\n" +
+            "`destination-airport-id` = (SELECT id FROM airport.airports WHERE `name-abbreviation` = ?),\n" +
             "`departure-date` = ?, `destination-date` = ?, `departure-time` = ?,\n" +
             "`status` = ?, `destination-time` = ?\n" +
             "WHERE  id = ?";
@@ -85,9 +86,9 @@ public class FlightDaoImpl implements FlightDao, CloseOperation {
     private final static String FIND_FLIGHT = "SELECT `flight-number`, `departure-time`, `destination-time`," +
             "`departure-date`, title AS `plane-model`\n" +
             "FROM airport.flights\n" +
-            "JOIN `plane-models` ON `plane-models`.id = (SELECT `model-id` FROM planes WHERE id = `plane-id`)\n" +
-            "WHERE `departure-airport-id` = (SELECT id FROM airports WHERE `name-abbreviation` = ?)\n" +
-            "AND `destination-airport-id` = (SELECT id FROM airports WHERE `name-abbreviation` = ?)\n" +
+            "JOIN airport.`plane-models` ON `plane-models`.id = (SELECT `model-id` FROM airport.planes WHERE id = `plane-id`)\n" +
+            "WHERE `departure-airport-id` = (SELECT id FROM airport.airports WHERE `name-abbreviation` = ?)\n" +
+            "AND `destination-airport-id` = (SELECT id FROM airport.airports WHERE `name-abbreviation` = ?)\n" +
             "AND `departure-date` BETWEEN adddate(current_date(), INTERVAL 1 day) AND ?";
 
     @Override
