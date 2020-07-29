@@ -1,6 +1,8 @@
 package by.epam.airport_system.controller.command;
 
 import by.epam.airport_system.controller.constant_parameter.JSPPageName;
+import lombok.extern.log4j.Log4j2;
+
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -14,7 +16,7 @@ public interface Command {
         try {
             response.sendRedirect(JSPPageName.ERROR_PAGE);
         } catch (IOException e) {
-           //
+           //todo
         }
     }
 

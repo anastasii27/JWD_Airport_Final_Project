@@ -3,8 +3,9 @@ package by.epam.airport_system.controller.command.front.impl;
 import by.epam.airport_system.bean.Flight;
 import by.epam.airport_system.controller.command.Command;
 import by.epam.airport_system.controller.constant_parameter.JSPPageName;
-import by.epam.airport_system.controller.constant_parameter.RequestParameterName;
+import by.epam.airport_system.controller.constant_parameter.ParameterName;
 import by.epam.airport_system.controller.util.RequestToMapParser;
+import by.epam.airport_system.controller.util.ResponseMessageManager;
 import by.epam.airport_system.service.FlightService;
 import by.epam.airport_system.service.ServiceException;
 import by.epam.airport_system.service.ServiceFactory;
@@ -24,6 +25,7 @@ import java.util.Map;
 @Log4j2
 public class EditFlight implements Command {
     private final static String TO_ADMIN_MAIN_PAGE = "/airport?action=show_flight_management_page&departure_date=";
+    private final static String ANSWER = "local.message.edit_flight.fail";
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) {
@@ -33,16 +35,16 @@ public class EditFlight implements Command {
             List<String> validationResults = initialValidation(request, response);
 
             if(validationResults.size() == 0) {
-                String flightId = request.getParameter(RequestParameterName.ID);
-                String plane = request.getParameter(RequestParameterName.PLANE);
-                String crew = request.getParameter(RequestParameterName.CREWS);
-                String status = request.getParameter(RequestParameterName.STATUS);
-                String departureDate = request.getParameter(RequestParameterName.DEPARTURE_DATE);
-                String destinationDate = request.getParameter(RequestParameterName.DESTINATION_DATE);
-                String departureTime = request.getParameter(RequestParameterName.DEPARTURE_TIME);
-                String destinationTime = request.getParameter(RequestParameterName.DESTINATION_TIME);
-                String departureAirport = request.getParameter(RequestParameterName.DEPARTURE_AIRPORT);
-                String destinationAirport = request.getParameter(RequestParameterName.DESTINATION_AIRPORT);
+                String flightId = request.getParameter(ParameterName.ID);
+                String plane = request.getParameter(ParameterName.PLANE);
+                String crew = request.getParameter(ParameterName.CREWS);
+                String status = request.getParameter(ParameterName.STATUS);
+                String departureDate = request.getParameter(ParameterName.DEPARTURE_DATE);
+                String destinationDate = request.getParameter(ParameterName.DESTINATION_DATE);
+                String departureTime = request.getParameter(ParameterName.DEPARTURE_TIME);
+                String destinationTime = request.getParameter(ParameterName.DESTINATION_TIME);
+                String departureAirport = request.getParameter(ParameterName.DEPARTURE_AIRPORT);
+                String destinationAirport = request.getParameter(ParameterName.DESTINATION_AIRPORT);
 
                 Flight flight = Flight.builder().id(Integer.parseInt(flightId))
                                                 .planeNumber(planeNumber(plane))
@@ -57,12 +59,17 @@ public class EditFlight implements Command {
 
                 boolean operationResult = flightService.editFlight(flight);
 
+                String path;
                 if (operationResult) {
-                    response.sendRedirect(request.getContextPath()+ TO_ADMIN_MAIN_PAGE + LocalDate.now());
+                    path = request.getContextPath()+ TO_ADMIN_MAIN_PAGE + LocalDate.now();
                 } else {
-                    request.getSession().setAttribute(RequestParameterName.RESULT_INFO,"No");
-                    response.sendRedirect(JSPPageName.RESULT_PAGE);
+                    String language = String.valueOf(request.getSession().getAttribute(ParameterName.LOCAL));
+                    ResponseMessageManager responseManager = new ResponseMessageManager(language);
+
+                    request.getSession().setAttribute(ParameterName.RESULT_INFO,responseManager.getValue(ANSWER));
+                    path = JSPPageName.RESULT_PAGE;
                 }
+                response.sendRedirect(path);
             }
         } catch (ServiceException | IOException e) {
             log.error("Cannot execute command for flight editing", e);
@@ -78,7 +85,7 @@ public class EditFlight implements Command {
         ValidationResult result = validator.validate(params);
 
         if(!result.isEmpty()){
-            request.getSession().setAttribute(RequestParameterName.RESULT_INFO, result.getErrorsList());
+            request.getSession().setAttribute(ParameterName.RESULT_INFO, result.getErrorsList());
             response.sendRedirect(JSPPageName.RESULT_PAGE);
         }
         return result.getErrorsList();

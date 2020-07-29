@@ -4,7 +4,7 @@ import by.epam.airport_system.bean.Flight;
 import by.epam.airport_system.bean.User;
 import by.epam.airport_system.controller.command.Command;
 import by.epam.airport_system.controller.constant_parameter.JSPPageName;
-import by.epam.airport_system.controller.constant_parameter.RequestParameterName;
+import by.epam.airport_system.controller.constant_parameter.ParameterName;
 import by.epam.airport_system.controller.util.ResponseMessageManager;
 import by.epam.airport_system.service.ServiceException;
 import by.epam.airport_system.service.ServiceFactory;
@@ -21,7 +21,7 @@ public class DispatcherFlights implements Command {
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) {
         UserFlightsService userFlightsService = ServiceFactory.getInstance().getUserFlightsService();
-        User user  = (User) request.getSession().getAttribute(RequestParameterName.USER);
+        User user  = (User) request.getSession().getAttribute(ParameterName.USER);
         String surname = "";
         String email = "";
 
@@ -30,18 +30,17 @@ public class DispatcherFlights implements Command {
             email = user.getEmail();
         }
 
-        List<Flight> flights;
         try {
-            flights = userFlightsService.dispatcherFlights(surname, email);
+            List<Flight> flights = userFlightsService.dispatcherFlights(surname, email);
 
             if(flights.size()!= 0){
                 flights.sort(Flight.SORT_BY_TIME_AND_DATE);
-                request.setAttribute(RequestParameterName.FLIGHT, flights);
+                request.setAttribute(ParameterName.FLIGHT, flights);
             }else {
-                String language = String.valueOf(request.getSession().getAttribute(RequestParameterName.LOCAL));
-                ResponseMessageManager resourceManager = new ResponseMessageManager(language);
+                String language = String.valueOf(request.getSession().getAttribute(ParameterName.LOCAL));
+                ResponseMessageManager responseManager = new ResponseMessageManager(language);
 
-                request.setAttribute(RequestParameterName.RESULT_INFO, resourceManager.getValue(ANSWER));
+                request.setAttribute(ParameterName.RESULT_INFO, responseManager.getValue(ANSWER));
             }
 
             forwardTo(request,response, JSPPageName.DISPATCHER_FLIGHTS_PAGE);

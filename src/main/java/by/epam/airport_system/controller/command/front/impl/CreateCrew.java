@@ -2,7 +2,7 @@ package by.epam.airport_system.controller.command.front.impl;
 
 import by.epam.airport_system.bean.User;
 import by.epam.airport_system.controller.command.Command;
-import by.epam.airport_system.controller.constant_parameter.RequestParameterName;
+import by.epam.airport_system.controller.constant_parameter.ParameterName;
 import static by.epam.airport_system.controller.util.RequestToMapParser.*;
 import by.epam.airport_system.controller.util.ResponseMessageManager;
 import by.epam.airport_system.service.CrewService;
@@ -27,7 +27,7 @@ public class CreateCrew implements Command {
     public void execute(HttpServletRequest request, HttpServletResponse response) {
         CrewService crewService = ServiceFactory.getInstance().getCrewService();
         HttpSession session = request.getSession(true);
-        String crewName = request.getParameter(RequestParameterName.CREW_NAME);
+        String crewName = request.getParameter(ParameterName.CREW_NAME);
 
         Map<String, String> validationMap = toCrewMap(request);
         Validator validator = ValidationFactory.getInstance().getCrewValidation();
@@ -40,14 +40,14 @@ public class CreateCrew implements Command {
                 Map<String, User> crew = toCrewMembersMap(request);
                 operationResult = crewService.createCrew(crewName, crew);
             }else {
-                session.setAttribute(RequestParameterName.RESULT_INFO, validationResult.getErrorsList());
+                session.setAttribute(ParameterName.RESULT_INFO, validationResult.getErrorsList());
             }
 
             if(operationResult){
-                String language = String.valueOf(session.getAttribute(RequestParameterName.LOCAL));
+                String language = String.valueOf(session.getAttribute(ParameterName.LOCAL));
                 ResponseMessageManager resourceManager = new ResponseMessageManager(language);
 
-                session.setAttribute(RequestParameterName.RESULT_INFO, resourceManager.getValue(ANSWER));
+                session.setAttribute(ParameterName.RESULT_INFO, resourceManager.getValue(ANSWER));
             }
 
             response.sendRedirect(request.getContextPath()+ PATH);

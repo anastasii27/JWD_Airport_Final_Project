@@ -1,7 +1,7 @@
 package by.epam.airport_system.controller.command.ajax.impl;
 
 import by.epam.airport_system.controller.command.Command;
-import by.epam.airport_system.controller.constant_parameter.RequestParameterName;
+import by.epam.airport_system.controller.constant_parameter.ParameterName;
 import by.epam.airport_system.controller.util.GsonConverter;
 import by.epam.airport_system.service.CityService;
 import by.epam.airport_system.service.ServiceException;
@@ -21,7 +21,7 @@ public class CountryAirport implements Command {
         String country;
         List<String> countries;
 
-        country = request.getParameter(RequestParameterName.COUNTRY);
+        country = request.getParameter(ParameterName.COUNTRY);
         try {
             countries = cityService.cityWithAirportList(country);
 

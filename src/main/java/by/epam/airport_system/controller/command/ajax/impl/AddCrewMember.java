@@ -3,7 +3,7 @@ package by.epam.airport_system.controller.command.ajax.impl;
 import by.epam.airport_system.bean.User;
 import by.epam.airport_system.controller.command.Command;
 import static by.epam.airport_system.controller.util.RequestParametersExtractor.*;
-import by.epam.airport_system.controller.constant_parameter.RequestParameterName;
+import by.epam.airport_system.controller.constant_parameter.ParameterName;
 import by.epam.airport_system.service.CrewMemberService;
 import by.epam.airport_system.service.ServiceException;
 import by.epam.airport_system.service.ServiceFactory;
@@ -23,8 +23,8 @@ public class AddCrewMember implements Command {
         String crewMembers;
         List<User> membersList;
 
-        crewName = request.getParameter(RequestParameterName.CREW_NAME);
-        crewMembers = request.getParameter(RequestParameterName.USER);
+        crewName = request.getParameter(ParameterName.CREW_NAME);
+        crewMembers = request.getParameter(ParameterName.USER);
 
         membersList = usersListFromFullNamesString(crewMembers);//TODO УБРАТЬ
         try {

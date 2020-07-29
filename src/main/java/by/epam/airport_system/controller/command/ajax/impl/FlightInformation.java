@@ -2,7 +2,7 @@ package by.epam.airport_system.controller.command.ajax.impl;
 
 import by.epam.airport_system.bean.Flight;
 import by.epam.airport_system.controller.command.Command;
-import by.epam.airport_system.controller.constant_parameter.RequestParameterName;
+import by.epam.airport_system.controller.constant_parameter.ParameterName;
 import by.epam.airport_system.controller.util.GsonConverter;
 import by.epam.airport_system.service.CrewService;
 import by.epam.airport_system.service.FlightService;
@@ -23,8 +23,8 @@ public class FlightInformation implements Command {
         CrewService crewService = ServiceFactory.getInstance().getCrewService();
         String flightGson = "";
 
-        String flightNumber = request.getParameter(RequestParameterName.FLIGHT_NUMBER);
-        String departureDate = request.getParameter(RequestParameterName.DEPARTURE_DATE);
+        String flightNumber = request.getParameter(ParameterName.FLIGHT_NUMBER);
+        String departureDate = request.getParameter(ParameterName.DEPARTURE_DATE);
         try {
             Flight flight = flightService.flightInfo(flightNumber, LocalDate.parse(departureDate));
 

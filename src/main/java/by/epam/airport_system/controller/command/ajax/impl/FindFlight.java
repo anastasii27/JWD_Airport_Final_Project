@@ -2,7 +2,7 @@ package by.epam.airport_system.controller.command.ajax.impl;
 
 import by.epam.airport_system.bean.Flight;
 import by.epam.airport_system.controller.command.Command;
-import by.epam.airport_system.controller.constant_parameter.RequestParameterName;
+import by.epam.airport_system.controller.constant_parameter.ParameterName;
 import by.epam.airport_system.controller.util.GsonConverter;
 import by.epam.airport_system.service.FlightService;
 import by.epam.airport_system.service.ServiceException;
@@ -21,8 +21,8 @@ public class FindFlight implements Command {
     public void execute(HttpServletRequest request, HttpServletResponse response) {
         FlightService flightService = ServiceFactory.getInstance().getFlightService();
 
-        String departureCityWithAirport = request.getParameter(RequestParameterName.DEPARTURE_AIRPORT);
-        String destinationCityWithAirport = request.getParameter(RequestParameterName.DESTINATION_AIRPORT);
+        String departureCityWithAirport = request.getParameter(ParameterName.DEPARTURE_AIRPORT);
+        String destinationCityWithAirport = request.getParameter(ParameterName.DESTINATION_AIRPORT);
 
         String departureAirport = airportName(departureCityWithAirport);
         String destinationAirport = airportName(destinationCityWithAirport);

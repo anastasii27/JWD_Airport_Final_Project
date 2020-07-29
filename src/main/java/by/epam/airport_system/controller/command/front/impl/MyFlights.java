@@ -3,7 +3,7 @@ package by.epam.airport_system.controller.command.front.impl;
 import by.epam.airport_system.bean.Flight;
 import by.epam.airport_system.controller.command.Command;
 import by.epam.airport_system.controller.constant_parameter.JSPPageName;
-import by.epam.airport_system.controller.constant_parameter.RequestParameterName;
+import by.epam.airport_system.controller.constant_parameter.ParameterName;
 import by.epam.airport_system.controller.util.RequestToMapParser;
 import by.epam.airport_system.controller.util.ResponseMessageManager;
 import by.epam.airport_system.service.ServiceException;
@@ -22,24 +22,22 @@ public class MyFlights implements Command {
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) {
         UserFlightsService userFlightsService = ServiceFactory.getInstance().getUserFlightsService();
-        String departureDate;
-        List<Flight> flights;
 
-        departureDate = request.getParameter(RequestParameterName.DEPARTURE_DATE);
+        String departureDate = request.getParameter(ParameterName.DEPARTURE_DATE);
         try {
             Map<String, String> params = RequestToMapParser.toRequestParamsMap(request);
-            flights = userFlightsService.userFlights(params);
+            List<Flight> flights = userFlightsService.userFlights(params);
 
             if(flights.size()!= 0){
                 flights.sort(Flight.SORT_BY_TIME_AND_DATE);
-                request.setAttribute(RequestParameterName.FLIGHT, flights);
+                request.setAttribute(ParameterName.FLIGHT, flights);
             }else {
-                String language = String.valueOf(request.getSession().getAttribute(RequestParameterName.LOCAL));
+                String language = String.valueOf(request.getSession().getAttribute(ParameterName.LOCAL));
                 ResponseMessageManager resourceManager = new ResponseMessageManager(language);
 
-                request.setAttribute(RequestParameterName.RESULT_INFO, resourceManager.getValue(ANSWER));
+                request.setAttribute(ParameterName.RESULT_INFO, resourceManager.getValue(ANSWER));
             }
-            request.setAttribute(RequestParameterName.DEPARTURE_DATE, departureDate);
+            request.setAttribute(ParameterName.DEPARTURE_DATE, departureDate);
 
             forwardTo(request,response, JSPPageName.MY_FLIGHTS_PAGE);
         } catch (ServiceException e) {

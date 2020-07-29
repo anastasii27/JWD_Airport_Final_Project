@@ -1,7 +1,7 @@
 package by.epam.airport_system.controller.command.ajax.impl;
 
 import by.epam.airport_system.controller.command.Command;
-import by.epam.airport_system.controller.constant_parameter.RequestParameterName;
+import by.epam.airport_system.controller.constant_parameter.ParameterName;
 import by.epam.airport_system.service.CrewService;
 import by.epam.airport_system.service.ServiceException;
 import by.epam.airport_system.service.ServiceFactory;
@@ -17,7 +17,7 @@ public class DeleteCrew implements Command {
     public void execute(HttpServletRequest request, HttpServletResponse response) {
         CrewService crewService = ServiceFactory.getInstance().getCrewService();
 
-        String crewName = request.getParameter(RequestParameterName.CREW_NAME);
+        String crewName = request.getParameter(ParameterName.CREW_NAME);
         try {
             boolean operationResult = crewService.deleteCrew(crewName);
 

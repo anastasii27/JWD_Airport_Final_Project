@@ -3,7 +3,7 @@ package by.epam.airport_system.controller.command.ajax.impl;
 import by.epam.airport_system.bean.Flight;
 import by.epam.airport_system.bean.Plane;
 import by.epam.airport_system.controller.command.Command;
-import by.epam.airport_system.controller.constant_parameter.RequestParameterName;
+import by.epam.airport_system.controller.constant_parameter.ParameterName;
 import by.epam.airport_system.controller.util.GsonConverter;
 import by.epam.airport_system.controller.util.RequestParametersExtractor;
 import by.epam.airport_system.service.PlaneService;
@@ -24,13 +24,13 @@ public class FreePlane implements Command {
     public void execute(HttpServletRequest request, HttpServletResponse response) {
         PlaneService planeService = ServiceFactory.getInstance().getPlaneService();
 
-        String departureCityWithAirport = request.getParameter(RequestParameterName.DEPARTURE_AIRPORT);
-        String departureDate = request.getParameter(RequestParameterName.DEPARTURE_DATE);
+        String departureCityWithAirport = request.getParameter(ParameterName.DEPARTURE_AIRPORT);
+        String departureDate = request.getParameter(ParameterName.DEPARTURE_DATE);
         String departureAirport = RequestParametersExtractor.airportName(departureCityWithAirport);
-        String destinationCityWithAirport = request.getParameter(RequestParameterName.DESTINATION_AIRPORT);
+        String destinationCityWithAirport = request.getParameter(ParameterName.DESTINATION_AIRPORT);
         String destinationAirport = RequestParametersExtractor.airportName(destinationCityWithAirport);
-        String destinationTime = request.getParameter(RequestParameterName.DESTINATION_TIME);
-        String destinationDate = request.getParameter(RequestParameterName.DESTINATION_DATE);
+        String destinationTime = request.getParameter(ParameterName.DESTINATION_TIME);
+        String destinationDate = request.getParameter(ParameterName.DESTINATION_DATE);
 
         Flight flight = Flight.builder().departureAirportShortName(departureAirport)
                                         .departureDate(LocalDate.parse(departureDate))

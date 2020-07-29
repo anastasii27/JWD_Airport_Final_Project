@@ -2,7 +2,7 @@ package by.epam.airport_system.controller.command.ajax.impl;
 
 import by.epam.airport_system.bean.Flight;
 import by.epam.airport_system.controller.command.Command;
-import by.epam.airport_system.controller.constant_parameter.RequestParameterName;
+import by.epam.airport_system.controller.constant_parameter.ParameterName;
 import by.epam.airport_system.controller.util.GsonConverter;
 import by.epam.airport_system.controller.util.RequestParametersExtractor;
 import by.epam.airport_system.service.FlightService;
@@ -22,9 +22,9 @@ public class AirportFlight implements Command {
     public void execute(HttpServletRequest request, HttpServletResponse response) {
         FlightService flightService = ServiceFactory.getInstance().getFlightService();
 
-        String flightType = request.getParameter(RequestParameterName.FLIGHT_TYPE);
-        String departureDate = request.getParameter(RequestParameterName.DEPARTURE_DATE);
-        String cityWithAirport = request.getParameter(RequestParameterName.CITY);
+        String flightType = request.getParameter(ParameterName.FLIGHT_TYPE);
+        String departureDate = request.getParameter(ParameterName.DEPARTURE_DATE);
+        String cityWithAirport = request.getParameter(ParameterName.CITY);
         String airportShortName = RequestParametersExtractor.airportName(cityWithAirport);
 
         try {

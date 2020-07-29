@@ -3,7 +3,7 @@ package by.epam.airport_system.controller.command.front.impl;
 import by.epam.airport_system.bean.User;
 import by.epam.airport_system.controller.command.Command;
 import by.epam.airport_system.controller.constant_parameter.JSPPageName;
-import by.epam.airport_system.controller.constant_parameter.RequestParameterName;
+import by.epam.airport_system.controller.constant_parameter.ParameterName;
 import by.epam.airport_system.controller.util.ResponseMessageManager;
 import by.epam.airport_system.service.ServiceException;
 import by.epam.airport_system.service.ServiceFactory;
@@ -29,33 +29,33 @@ public class ChangeLogin implements Command {
         UserService userService = ServiceFactory.getInstance().getUserService();
         HttpSession session = request.getSession(true);
 
-        String newLogin = request.getParameter(RequestParameterName.NEW_LOGIN);
-        String oldLogin = request.getParameter(RequestParameterName.OLD_LOGIN);
+        String newLogin = request.getParameter(ParameterName.NEW_LOGIN);
+        String oldLogin = request.getParameter(ParameterName.OLD_LOGIN);
 
         try {
             boolean operationResult = false;
             User user = null;
 
-            String language = String.valueOf(session.getAttribute(RequestParameterName.LOCAL));
+            String language = String.valueOf(session.getAttribute(ParameterName.LOCAL));
             ResponseMessageManager responseManager = new ResponseMessageManager(language);
 
             if(newLogin.equals(oldLogin)){
-                session.setAttribute(RequestParameterName.RESULT_INFO, responseManager.getValue(KEY1));
+                session.setAttribute(ParameterName.RESULT_INFO, responseManager.getValue(KEY1));
             } else if(userService.getUserByLogin(newLogin) != null){
-                session.setAttribute(RequestParameterName.RESULT_INFO, responseManager.getValue(KEY2));
+                session.setAttribute(ParameterName.RESULT_INFO, responseManager.getValue(KEY2));
             }else{
                 user = userService.getUserByLogin(oldLogin);
                 operationResult = userService.changeLogin(newLogin, user);
 
-                session.setAttribute(RequestParameterName.RESULT_INFO,getResultMessage(operationResult, responseManager));
+                session.setAttribute(ParameterName.RESULT_INFO,getResultMessage(operationResult, responseManager));
             }
 
             if(operationResult && user != null){
                 user.setLogin(newLogin);
-                session.setAttribute(RequestParameterName.USER, user);
+                session.setAttribute(ParameterName.USER, user);
             }
 
-            session.setAttribute(RequestParameterName.PREVIOUS_PAGE, request.getContextPath() + USER_PAGE_PATH);
+            session.setAttribute(ParameterName.PREVIOUS_PAGE, request.getContextPath() + USER_PAGE_PATH);
             response.sendRedirect(JSPPageName.RESULT_PAGE);
         } catch (ServiceException | IOException e) {
             log.error("Cannot execute command for password changing", e);

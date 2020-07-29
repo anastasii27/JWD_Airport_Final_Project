@@ -3,7 +3,7 @@ package by.epam.airport_system.controller.command.front.impl;
 import by.epam.airport_system.bean.User;
 import by.epam.airport_system.controller.command.Command;
 import by.epam.airport_system.controller.constant_parameter.JSPPageName;
-import by.epam.airport_system.controller.constant_parameter.RequestParameterName;
+import by.epam.airport_system.controller.constant_parameter.ParameterName;
 import by.epam.airport_system.controller.util.ResponseMessageManager;
 import by.epam.airport_system.service.ServiceException;
 import by.epam.airport_system.service.ServiceFactory;
@@ -30,28 +30,28 @@ public class ChangePassword implements Command {
         UserService userService = ServiceFactory.getInstance().getUserService();
         HttpSession session = request.getSession(true);
 
-        String oldPassword = request.getParameter(RequestParameterName.OLD_PASSWORD);
-        String newPassword = request.getParameter(RequestParameterName.NEW_PASSWORD);
-        String confirmedPassword = request.getParameter(RequestParameterName.CONFIRMED_PASSWORD);
-        String login = request.getParameter(RequestParameterName.LOGIN);
+        String oldPassword = request.getParameter(ParameterName.OLD_PASSWORD);
+        String newPassword = request.getParameter(ParameterName.NEW_PASSWORD);
+        String confirmedPassword = request.getParameter(ParameterName.CONFIRMED_PASSWORD);
+        String login = request.getParameter(ParameterName.LOGIN);
 
         try {
             User user = userService.getUserByLogin(login);
 
-            String language = String.valueOf(session.getAttribute(RequestParameterName.LOCAL));
+            String language = String.valueOf(session.getAttribute(ParameterName.LOCAL));
             ResponseMessageManager responseManager = new ResponseMessageManager(language);
 
             if(!BCrypt.checkpw(oldPassword, user.getPassword())){
-                session.setAttribute(RequestParameterName.RESULT_INFO, responseManager.getValue(KEY1));
+                session.setAttribute(ParameterName.RESULT_INFO, responseManager.getValue(KEY1));
             }else if(!newPassword.equals(confirmedPassword)){
-                session.setAttribute(RequestParameterName.RESULT_INFO, responseManager.getValue(KEY2));
+                session.setAttribute(ParameterName.RESULT_INFO, responseManager.getValue(KEY2));
             }else {
                 boolean operationResult = userService.changePassword(newPassword,user);
 
-                session.setAttribute(RequestParameterName.RESULT_INFO,getResultMessage(operationResult, responseManager));
+                session.setAttribute(ParameterName.RESULT_INFO,getResultMessage(operationResult, responseManager));
             }
 
-            session.setAttribute(RequestParameterName.PREVIOUS_PAGE, request.getContextPath() + USER_PAGE_PATH);
+            session.setAttribute(ParameterName.PREVIOUS_PAGE, request.getContextPath() + USER_PAGE_PATH);
             response.sendRedirect(JSPPageName.RESULT_PAGE);
         } catch (ServiceException | IOException e) {
             log.error("Cannot execute command for password changing", e);

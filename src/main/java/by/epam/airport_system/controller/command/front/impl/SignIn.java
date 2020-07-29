@@ -2,7 +2,7 @@ package by.epam.airport_system.controller.command.front.impl;
 
 import by.epam.airport_system.bean.User;
 import by.epam.airport_system.controller.constant_parameter.JSPPageName;
-import by.epam.airport_system.controller.constant_parameter.RequestParameterName;
+import by.epam.airport_system.controller.constant_parameter.ParameterName;
 import by.epam.airport_system.controller.command.Command;
 import by.epam.airport_system.controller.util.ResponseMessageManager;
 import by.epam.airport_system.service.*;
@@ -24,22 +24,22 @@ public class SignIn implements Command {
         UserService userService = ServiceFactory.getInstance().getUserService();
         HttpSession session = request.getSession(true);
 
-        String login = request.getParameter(RequestParameterName.LOGIN);
-        String password = request.getParameter(RequestParameterName.PASSWORD);
+        String login = request.getParameter(ParameterName.LOGIN);
+        String password = request.getParameter(ParameterName.PASSWORD);
 
         try {
             User user = userService.getUserByLogin(login);
             String url;
 
             if(user != null && BCrypt.checkpw(password, user.getPassword())){
-                session.setAttribute(RequestParameterName.USER, user);
+                session.setAttribute(ParameterName.USER, user);
                 url = request.getContextPath() + USER_PATH;
             }else {
-                String language = String.valueOf(session.getAttribute(RequestParameterName.LOCAL));
+                String language = String.valueOf(session.getAttribute(ParameterName.LOCAL));
                 ResponseMessageManager responseManager = new ResponseMessageManager(language);
 
-                session.setAttribute(RequestParameterName.RESULT_INFO, responseManager.getValue(ANSWER));
-                session.setAttribute(RequestParameterName.PREVIOUS_PAGE, request.getContextPath()+ CURRENT_PAGE_PATH);
+                session.setAttribute(ParameterName.RESULT_INFO, responseManager.getValue(ANSWER));
+                session.setAttribute(ParameterName.PREVIOUS_PAGE, request.getContextPath()+ CURRENT_PAGE_PATH);
                 url = JSPPageName.RESULT_PAGE;
             }
             response.sendRedirect(url);

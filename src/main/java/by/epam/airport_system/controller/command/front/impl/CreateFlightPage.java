@@ -2,7 +2,7 @@ package by.epam.airport_system.controller.command.front.impl;
 
 import by.epam.airport_system.controller.command.Command;
 import by.epam.airport_system.controller.constant_parameter.JSPPageName;
-import by.epam.airport_system.controller.constant_parameter.RequestParameterName;
+import by.epam.airport_system.controller.constant_parameter.ParameterName;
 import by.epam.airport_system.service.CountryService;
 import by.epam.airport_system.service.ServiceException;
 import by.epam.airport_system.service.ServiceFactory;
@@ -20,13 +20,12 @@ public class CreateFlightPage implements Command {
     public void execute(HttpServletRequest request, HttpServletResponse response) {
         CountryService countryService = ServiceFactory.getInstance().getCountryService();
         HttpSession session = request.getSession(true);
-        List<String> countries;
 
         try {
-            countries = countryService.countriesList();
+            List<String> countries = countryService.countriesList();
 
-            request.setAttribute(RequestParameterName.COUNTRIES, countries);
-            session.setAttribute(RequestParameterName.PREVIOUS_PAGE, request.getContextPath()+ CURRENT_PAGE_PATH);
+            request.setAttribute(ParameterName.COUNTRIES, countries);
+            session.setAttribute(ParameterName.PREVIOUS_PAGE, request.getContextPath()+ CURRENT_PAGE_PATH);
 
             forwardTo(request,response, JSPPageName.CREATE_FLIGHT_PAGE);
         } catch (ServiceException e) {

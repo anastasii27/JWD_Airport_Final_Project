@@ -3,7 +3,7 @@ package by.epam.airport_system.controller.command.front.impl;
 import by.epam.airport_system.bean.User;
 import by.epam.airport_system.controller.command.Command;
 import by.epam.airport_system.controller.constant_parameter.JSPPageName;
-import by.epam.airport_system.controller.constant_parameter.RequestParameterName;
+import by.epam.airport_system.controller.constant_parameter.ParameterName;
 import by.epam.airport_system.controller.util.RequestToMapParser;
 import by.epam.airport_system.controller.util.ResponseMessageManager;
 import by.epam.airport_system.service.ServiceException;
@@ -33,22 +33,22 @@ public class EditUser implements Command {
         HttpSession session = request.getSession(true);
         Validator validator = ValidationFactory.getInstance().getEditedUserValidation();
 
-        String name = request.getParameter(RequestParameterName.NAME);
-        String surname = request.getParameter(RequestParameterName.SURNAME);
-        String role = request.getParameter(RequestParameterName.ROLE);
-        String email = request.getParameter(RequestParameterName.EMAIL);
-        String careerStartYear = request.getParameter(RequestParameterName.CAREER_START_YEAR);
-        String login = request.getParameter(RequestParameterName.LOGIN);
-        String id = request.getParameter(RequestParameterName.ID);
+        String name = request.getParameter(ParameterName.NAME);
+        String surname = request.getParameter(ParameterName.SURNAME);
+        String role = request.getParameter(ParameterName.ROLE);
+        String email = request.getParameter(ParameterName.EMAIL);
+        String careerStartYear = request.getParameter(ParameterName.CAREER_START_YEAR);
+        String login = request.getParameter(ParameterName.LOGIN);
+        String id = request.getParameter(ParameterName.ID);
 
         Map<String, String> params = RequestToMapParser.toRequestParamsMap(request);
         ValidationResult validationResult = validator.validate(params);
 
         try {
-            session.setAttribute(RequestParameterName.PREVIOUS_PAGE, request.getContextPath() + CURRENT_PAGE_PATH);
+            session.setAttribute(ParameterName.PREVIOUS_PAGE, request.getContextPath() + CURRENT_PAGE_PATH);
 
             if(!validationResult.isEmpty()){
-                session.setAttribute(RequestParameterName.RESULT_INFO, validationResult.getErrorsList());
+                session.setAttribute(ParameterName.RESULT_INFO, validationResult.getErrorsList());
             }else {
                 User user = User.builder().id(Integer.parseInt(id))
                             .login(login)
@@ -59,12 +59,12 @@ public class EditUser implements Command {
                             .careerStartYear(careerStartYear).build();
 
                 boolean operationResult = service.editUser(user);
-                String language = String.valueOf(session.getAttribute(RequestParameterName.LOCAL));
-                session.setAttribute(RequestParameterName.RESULT_INFO, getResultMessage(operationResult, language));
+                String language = String.valueOf(session.getAttribute(ParameterName.LOCAL));
+                session.setAttribute(ParameterName.RESULT_INFO, getResultMessage(operationResult, language));
 
                 if(operationResult) {
-                    session.setAttribute(RequestParameterName.USER, user);
-                    session.setAttribute(RequestParameterName.PREVIOUS_PAGE, request.getContextPath() + USER_PAGE_PATH);
+                    session.setAttribute(ParameterName.USER, user);
+                    session.setAttribute(ParameterName.PREVIOUS_PAGE, request.getContextPath() + USER_PAGE_PATH);
                 }
             }
 

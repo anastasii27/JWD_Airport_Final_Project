@@ -2,7 +2,7 @@ package by.epam.airport_system.controller.command.front.impl;
 
 import by.epam.airport_system.controller.constant_parameter.JSPPageName;
 import by.epam.airport_system.controller.command.Command;
-import by.epam.airport_system.controller.constant_parameter.RequestParameterName;
+import by.epam.airport_system.controller.constant_parameter.ParameterName;
 import lombok.extern.log4j.Log4j2;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -16,8 +16,8 @@ public class SignOut implements Command{
     public void execute(HttpServletRequest request, HttpServletResponse response) {
         HttpSession session = request.getSession(false);
 
-        session.removeAttribute(RequestParameterName.USER);
-        session.removeAttribute(RequestParameterName.RESULT_INFO);
+        session.removeAttribute(ParameterName.USER);
+        session.removeAttribute(ParameterName.RESULT_INFO);
         try {
             response.sendRedirect(JSPPageName.START_PAGE);
         } catch (IOException e) {

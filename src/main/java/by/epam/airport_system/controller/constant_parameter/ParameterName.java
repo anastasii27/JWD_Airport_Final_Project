@@ -1,8 +1,8 @@
 package by.epam.airport_system.controller.constant_parameter;
 
-public final class RequestParameterName {
+public final class ParameterName {
 
-    private RequestParameterName(){}
+    private ParameterName(){}
 
     public static final String ACTION = "action";
     public static final String COMMAND = "command";

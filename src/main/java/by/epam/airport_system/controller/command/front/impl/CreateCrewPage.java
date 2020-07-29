@@ -3,7 +3,7 @@ package by.epam.airport_system.controller.command.front.impl;
 import by.epam.airport_system.bean.User;
 import by.epam.airport_system.controller.command.Command;
 import by.epam.airport_system.controller.constant_parameter.JSPPageName;
-import by.epam.airport_system.controller.constant_parameter.RequestParameterName;
+import by.epam.airport_system.controller.constant_parameter.ParameterName;
 import by.epam.airport_system.service.ServiceException;
 import by.epam.airport_system.service.ServiceFactory;
 import by.epam.airport_system.service.UserService;
@@ -23,17 +23,15 @@ public class CreateCrewPage implements Command {
     public void execute(HttpServletRequest request, HttpServletResponse response) {
         UserService userService = ServiceFactory.getInstance().getUserService();
         HttpSession session = request.getSession(true);
-        List<User> pilots;
-        List<User> stewards;
 
         try {
-            pilots = userService.userByRoleList(PILOT);
-            stewards = userService.userByRoleList(STEWARD);
+            List<User> pilots = userService.userByRoleList(PILOT);
+            List<User> stewards = userService.userByRoleList(STEWARD);
 
-            request.setAttribute(RequestParameterName.PILOTS, pilots);
-            request.setAttribute(RequestParameterName.STEWARDS, stewards);
+            request.setAttribute(ParameterName.PILOTS, pilots);
+            request.setAttribute(ParameterName.STEWARDS, stewards);
 
-            session.setAttribute(RequestParameterName.PREVIOUS_PAGE, request.getContextPath()+ CURRENT_PAGE_PATH);
+            session.setAttribute(ParameterName.PREVIOUS_PAGE, request.getContextPath()+ CURRENT_PAGE_PATH);
 
             forwardTo(request, response, JSPPageName.CREATE_CREW_PAGE);
         } catch (ServiceException e) {

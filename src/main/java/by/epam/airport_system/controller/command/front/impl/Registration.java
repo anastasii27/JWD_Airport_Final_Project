@@ -2,7 +2,7 @@ package by.epam.airport_system.controller.command.front.impl;
 
 import by.epam.airport_system.bean.User;
 import by.epam.airport_system.controller.constant_parameter.JSPPageName;
-import by.epam.airport_system.controller.constant_parameter.RequestParameterName;
+import by.epam.airport_system.controller.constant_parameter.ParameterName;
 import by.epam.airport_system.controller.command.Command;
 import by.epam.airport_system.controller.util.RequestToMapParser;
 import by.epam.airport_system.controller.util.ResponseMessageManager;
@@ -32,20 +32,20 @@ public class Registration implements Command{
         HttpSession session = request.getSession(true);
         Validator validator = ValidationFactory.getInstance().getCreatedUserValidation();
 
-        String role = request.getParameter(RequestParameterName.ROLE);
-        String login = request.getParameter(RequestParameterName.LOGIN);
-        String password = request.getParameter(RequestParameterName.PASSWORD);
-        String name = request.getParameter(RequestParameterName.NAME);
-        String surname = request.getParameter(RequestParameterName.SURNAME);
-        String email = request.getParameter(RequestParameterName.EMAIL);
-        String careerStartYear = request.getParameter(RequestParameterName.CAREER_START_YEAR);
+        String role = request.getParameter(ParameterName.ROLE);
+        String login = request.getParameter(ParameterName.LOGIN);
+        String password = request.getParameter(ParameterName.PASSWORD);
+        String name = request.getParameter(ParameterName.NAME);
+        String surname = request.getParameter(ParameterName.SURNAME);
+        String email = request.getParameter(ParameterName.EMAIL);
+        String careerStartYear = request.getParameter(ParameterName.CAREER_START_YEAR);
 
         Map<String, String> params = RequestToMapParser.toRequestParamsMap(request);
         ValidationResult validationResult = validator.validate(params);
 
         try {
             if(!validationResult.isEmpty()){
-                session.setAttribute(RequestParameterName.RESULT_INFO, validationResult.getErrorsList());
+                session.setAttribute(ParameterName.RESULT_INFO, validationResult.getErrorsList());
             }else{
                 User user =  User.builder().role(role)
                             .login(login)
@@ -56,11 +56,11 @@ public class Registration implements Command{
                             .careerStartYear(careerStartYear).build();
 
                 boolean operationResult = service.signUpUser(user);
-                String language = String.valueOf(session.getAttribute(RequestParameterName.LOCAL));
-                session.setAttribute(RequestParameterName.RESULT_INFO, getResultMessage(operationResult, language));
+                String language = String.valueOf(session.getAttribute(ParameterName.LOCAL));
+                session.setAttribute(ParameterName.RESULT_INFO, getResultMessage(operationResult, language));
             }
 
-            session.setAttribute(RequestParameterName.PREVIOUS_PAGE, request.getContextPath()+ CURRENT_PAGE_PATH);
+            session.setAttribute(ParameterName.PREVIOUS_PAGE, request.getContextPath()+ CURRENT_PAGE_PATH);
             response.sendRedirect(JSPPageName.RESULT_PAGE);
         } catch (ServiceException| IOException e) {
             log.error("Cannot execute command for registration", e);

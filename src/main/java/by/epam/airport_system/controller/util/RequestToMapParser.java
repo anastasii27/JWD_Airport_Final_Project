@@ -1,7 +1,7 @@
 package by.epam.airport_system.controller.util;
 
 import by.epam.airport_system.bean.User;
-import by.epam.airport_system.controller.constant_parameter.RequestParameterName;
+import by.epam.airport_system.controller.constant_parameter.ParameterName;
 import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Enumeration;
@@ -33,15 +33,15 @@ public class RequestToMapParser {
 
         while (keys.hasMoreElements()){
             key = keys.nextElement();
-            if(key.equals(RequestParameterName.STEWARD)){
+            if(key.equals(ParameterName.STEWARD)){
                putMemberToMap(request.getParameterValues(key), params);
             }
 
-            if(key.equals(RequestParameterName.PILOT)){
+            if(key.equals(ParameterName.PILOT)){
                 putMemberToMap(request.getParameterValues(key), params);
             }
 
-            if(key.equals(RequestParameterName.PILOT1) || key.equals(RequestParameterName.CREW_NAME)){
+            if(key.equals(ParameterName.PILOT1) || key.equals(ParameterName.CREW_NAME)){
                 params.put(key, request.getParameter(key));
             }
         }
@@ -53,19 +53,19 @@ public class RequestToMapParser {
     private static void putMemberToMap(String [] crewMembers, Map<String, String> users){
         for (String member: crewMembers) {
             if (member.length()!= 0) {
-                users.put(RequestParameterName.USER+count++, member);
+                users.put(ParameterName.USER+count++, member);
             }
         }
     }
 
     public static Map<String, User> toCrewMembersMap(ServletRequest request){
         Map<String, User> users = new HashMap<>();
-        String commander = request.getParameter(RequestParameterName.PILOT1);
-        String [] pilots = request.getParameterValues(RequestParameterName.PILOT);
-        String [] stewards =  request.getParameterValues(RequestParameterName.STEWARD);
+        String commander = request.getParameter(ParameterName.PILOT1);
+        String [] pilots = request.getParameterValues(ParameterName.PILOT);
+        String [] stewards =  request.getParameterValues(ParameterName.STEWARD);
 
         User firstPilot = User.builder().name(userName(commander)).surname(userSurname(commander)).build();
-        users.put(RequestParameterName.PILOT1, firstPilot);
+        users.put(ParameterName.PILOT1, firstPilot);
         putUserToMap(stewards, users);
         putUserToMap(pilots, users);
 
@@ -78,15 +78,15 @@ public class RequestToMapParser {
         for (String member: crewMembers) {
             if (member.length() != 0) {
                 user = User.builder().name(userName(member)).surname(userSurname(member)).build();
-                users.put(RequestParameterName.USER+count++,user);
+                users.put(ParameterName.USER+count++,user);
             }
         }
     }
 
     private static void addLanguageValueToMap(ServletRequest request, Map<String, String> params){
         HttpServletRequest httpServletRequest = (HttpServletRequest) request;
-        String lang = (String) httpServletRequest.getSession().getAttribute(RequestParameterName.LOCAL);
+        String lang = (String) httpServletRequest.getSession().getAttribute(ParameterName.LOCAL);
 
-        params.put(RequestParameterName.LOCAL, lang);
+        params.put(ParameterName.LOCAL, lang);
     }
 }

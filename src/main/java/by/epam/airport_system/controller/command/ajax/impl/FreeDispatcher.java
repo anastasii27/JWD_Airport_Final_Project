@@ -2,7 +2,7 @@ package by.epam.airport_system.controller.command.ajax.impl;
 
 import by.epam.airport_system.bean.User;
 import by.epam.airport_system.controller.command.Command;
-import by.epam.airport_system.controller.constant_parameter.RequestParameterName;
+import by.epam.airport_system.controller.constant_parameter.ParameterName;
 import by.epam.airport_system.controller.util.GsonConverter;
 import by.epam.airport_system.controller.util.RequestParametersExtractor;
 import by.epam.airport_system.service.ServiceException;
@@ -23,10 +23,10 @@ public class FreeDispatcher implements Command {
     public void execute(HttpServletRequest request, HttpServletResponse response) {
         UserService userService = ServiceFactory.getInstance().getUserService();
 
-        String cityWithAirport = request.getParameter(RequestParameterName.CITY_WITH_AIRPORT);
+        String cityWithAirport = request.getParameter(ParameterName.CITY_WITH_AIRPORT);
         String airportName = RequestParametersExtractor.airportName(cityWithAirport);
-        LocalDate date = LocalDate.parse(request.getParameter(RequestParameterName.DATE));
-        LocalTime time = LocalTime.parse(request.getParameter(RequestParameterName.TIME));
+        LocalDate date = LocalDate.parse(request.getParameter(ParameterName.DATE));
+        LocalTime time = LocalTime.parse(request.getParameter(ParameterName.TIME));
         try {
             List<User> freeDispatchers = userService.freeDispatchers(date, time, airportName);
 

@@ -2,7 +2,7 @@ package by.epam.airport_system.controller.command.ajax.impl;
 
 import by.epam.airport_system.controller.command.Command;
 import by.epam.airport_system.controller.util.GsonConverter;
-import by.epam.airport_system.controller.constant_parameter.RequestParameterName;
+import by.epam.airport_system.controller.constant_parameter.ParameterName;
 import by.epam.airport_system.service.CrewMemberService;
 import by.epam.airport_system.service.ServiceException;
 import by.epam.airport_system.service.ServiceFactory;
@@ -19,7 +19,7 @@ public class CrewMembers implements Command {
     public void execute(HttpServletRequest request, HttpServletResponse response) {
         CrewMemberService crewMemberService = ServiceFactory.getInstance().getCrewMemberService();
 
-        String crewName = request.getParameter(RequestParameterName.CREW_NAME);
+        String crewName = request.getParameter(ParameterName.CREW_NAME);
         try {
             List crewList = crewMemberService.crewMembers(crewName);
             String crewGson = GsonConverter.convertToGson(crewList);

@@ -2,7 +2,7 @@ package by.epam.airport_system.controller.command.ajax.impl;
 
 import by.epam.airport_system.bean.Flight;
 import by.epam.airport_system.controller.command.Command;
-import by.epam.airport_system.controller.constant_parameter.RequestParameterName;
+import by.epam.airport_system.controller.constant_parameter.ParameterName;
 import by.epam.airport_system.service.CrewService;
 import by.epam.airport_system.service.ServiceException;
 import by.epam.airport_system.service.ServiceFactory;
@@ -18,15 +18,15 @@ public class SetCrewForFlight implements Command {
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) {
         CrewService crewService = ServiceFactory.getInstance().getCrewService();
-        Flight flight = (Flight)request.getSession().getAttribute(RequestParameterName.FLIGHT);
+        Flight flight = (Flight)request.getSession().getAttribute(ParameterName.FLIGHT);
 
-        String crewName = request.getParameter(RequestParameterName.CREW_NAME);
+        String crewName = request.getParameter(ParameterName.CREW_NAME);
         try {
             if(flight!= null){
                 boolean operationResult = crewService.setCrewForFlight(crewName, flight.getFlightNumber());
 
                 response.getWriter().write(String.valueOf(operationResult));
-                request.getSession().removeAttribute(RequestParameterName.FLIGHT);
+                request.getSession().removeAttribute(ParameterName.FLIGHT);
             }else {
                 response.getWriter().write(OPERATION_FAIL);
             }

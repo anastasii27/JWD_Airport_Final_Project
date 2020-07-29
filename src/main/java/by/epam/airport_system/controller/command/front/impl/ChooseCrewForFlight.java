@@ -4,7 +4,7 @@ import by.epam.airport_system.bean.Flight;
 import by.epam.airport_system.bean.User;
 import by.epam.airport_system.controller.command.Command;
 import by.epam.airport_system.controller.constant_parameter.JSPPageName;
-import by.epam.airport_system.controller.constant_parameter.RequestParameterName;
+import by.epam.airport_system.controller.constant_parameter.ParameterName;
 import by.epam.airport_system.controller.util.ResponseMessageManager;
 import by.epam.airport_system.service.CrewMemberService;
 import by.epam.airport_system.service.CrewService;
@@ -24,7 +24,7 @@ public class ChooseCrewForFlight implements Command {
     public void execute(HttpServletRequest request, HttpServletResponse response) {
         CrewService crewService = ServiceFactory.getInstance().getCrewService();
         CrewMemberService crewMemberService = ServiceFactory.getInstance().getCrewMemberService();
-        Flight flight = (Flight)request.getSession().getAttribute(RequestParameterName.FLIGHT);
+        Flight flight = (Flight)request.getSession().getAttribute(ParameterName.FLIGHT);
 
         try {
             Multimap<String, User> freeCrewsWithMembers = null;
@@ -34,16 +34,16 @@ public class ChooseCrewForFlight implements Command {
                 freeCrewsWithMembers = crewMemberService.allMembersOfCrews(freeCrews);
 
                 if(freeCrewsWithMembers.size() != 0 ) {
-                    request.setAttribute(RequestParameterName.CREW, freeCrews);
-                    request.setAttribute(RequestParameterName.CREW_MEMBERS, freeCrewsWithMembers.asMap());
+                    request.setAttribute(ParameterName.CREW, freeCrews);
+                    request.setAttribute(ParameterName.CREW_MEMBERS, freeCrewsWithMembers.asMap());
                 }
             }
 
             if(flight == null || freeCrewsWithMembers == null || freeCrewsWithMembers.size()== 0){
-                String language = String.valueOf(request.getSession().getAttribute(RequestParameterName.LOCAL));
+                String language = String.valueOf(request.getSession().getAttribute(ParameterName.LOCAL));
                 ResponseMessageManager resourceManager = new ResponseMessageManager(language);
 
-                request.setAttribute(RequestParameterName.RESULT_INFO, resourceManager.getValue(ANSWER));
+                request.setAttribute(ParameterName.RESULT_INFO, resourceManager.getValue(ANSWER));
             }
 
             forwardTo(request, response, JSPPageName.FREE_CREWS_FOR_FLIGHT);

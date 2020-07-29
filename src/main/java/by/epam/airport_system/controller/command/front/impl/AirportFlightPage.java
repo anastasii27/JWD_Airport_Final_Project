@@ -2,7 +2,7 @@ package by.epam.airport_system.controller.command.front.impl;
 
 import by.epam.airport_system.controller.command.Command;
 import by.epam.airport_system.controller.constant_parameter.JSPPageName;
-import by.epam.airport_system.controller.constant_parameter.RequestParameterName;
+import by.epam.airport_system.controller.constant_parameter.ParameterName;
 import by.epam.airport_system.service.CityService;
 import by.epam.airport_system.service.ServiceException;
 import by.epam.airport_system.service.ServiceFactory;
@@ -17,14 +17,12 @@ public class AirportFlightPage implements Command {
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) {
         CityService cityService = ServiceFactory.getInstance().getCityService();
-        List<String> citiesWithAirports;
-        String from;
 
-        from = request.getParameter(RequestParameterName.FROM);
+        String from = request.getParameter(ParameterName.FROM);
         try {
-            citiesWithAirports = cityService.cityWithAirportList();
-            request.setAttribute(RequestParameterName.CITY_WITH_AIRPORT, citiesWithAirports);
-            request.setAttribute(RequestParameterName.FROM, from);
+            List<String>  citiesWithAirports = cityService.cityWithAirportList();
+            request.setAttribute(ParameterName.CITY_WITH_AIRPORT, citiesWithAirports);
+            request.setAttribute(ParameterName.FROM, from);
 
             forwardTo(request,response, JSPPageName.DEPARTURES_ARRIVALS_PAGE);
         } catch (ServiceException e) {

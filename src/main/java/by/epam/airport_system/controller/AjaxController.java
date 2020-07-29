@@ -2,7 +2,7 @@ package by.epam.airport_system.controller;
 
 import by.epam.airport_system.controller.command.Command;
 import by.epam.airport_system.controller.command.ajax.AjaxCommandProvider;
-import by.epam.airport_system.controller.constant_parameter.RequestParameterName;
+import by.epam.airport_system.controller.constant_parameter.ParameterName;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -15,7 +15,7 @@ public class AjaxController extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String commandName = req.getParameter(RequestParameterName.COMMAND);
+        String commandName = req.getParameter(ParameterName.COMMAND);
         Command command = AjaxCommandProvider.getInstance().getCommand(commandName);
 
         command.execute(req, resp);

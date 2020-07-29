@@ -2,7 +2,7 @@ package by.epam.airport_system.controller.command.front.impl;
 
 import by.epam.airport_system.controller.command.Command;
 import by.epam.airport_system.controller.constant_parameter.JSPPageName;
-import by.epam.airport_system.controller.constant_parameter.RequestParameterName;
+import by.epam.airport_system.controller.constant_parameter.ParameterName;
 import by.epam.airport_system.service.ServiceException;
 import by.epam.airport_system.service.ServiceFactory;
 import by.epam.airport_system.service.UserService;
@@ -17,11 +17,10 @@ public class RegisterPage implements Command {
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) {
         UserService userService = ServiceFactory.getInstance().getUserService();
-        List<String> roles;
 
         try {
-            roles = userService.rolesList();
-            request.setAttribute(RequestParameterName.ROLE, roles);
+            List<String> roles = userService.rolesList();
+            request.setAttribute(ParameterName.ROLE, roles);
 
             forwardTo(request,response,JSPPageName.REGISTER_PAGE);
         } catch (ServiceException e) {

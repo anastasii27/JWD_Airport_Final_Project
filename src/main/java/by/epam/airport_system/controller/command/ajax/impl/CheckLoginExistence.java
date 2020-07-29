@@ -2,7 +2,7 @@ package by.epam.airport_system.controller.command.ajax.impl;
 
 import by.epam.airport_system.bean.User;
 import by.epam.airport_system.controller.command.Command;
-import by.epam.airport_system.controller.constant_parameter.RequestParameterName;
+import by.epam.airport_system.controller.constant_parameter.ParameterName;
 import by.epam.airport_system.service.ServiceException;
 import by.epam.airport_system.service.ServiceFactory;
 import by.epam.airport_system.service.UserService;
@@ -19,7 +19,7 @@ public class CheckLoginExistence implements Command {
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) {
         UserService userService = ServiceFactory.getInstance().getUserService();
-        String login = request.getParameter(RequestParameterName.LOGIN);
+        String login = request.getParameter(ParameterName.LOGIN);
 
         try {
             User user = userService.getUserByLogin(login);
