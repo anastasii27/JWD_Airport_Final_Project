@@ -47,15 +47,15 @@ public class EditFlight implements Command {
                 String destinationAirport = request.getParameter(ParameterName.DESTINATION_AIRPORT);
 
                 Flight flight = Flight.builder().id(Integer.parseInt(flightId))
-                                                .planeNumber(planeNumber(plane))
+                                                .planeNumber(extractPlaneNumber(plane))
                                                 .crew(crew)
                                                 .status(status)
                                                 .departureDate(LocalDate.parse(departureDate))
                                                 .departureTime(LocalTime.parse(departureTime))
                                                 .destinationDate(LocalDate.parse(destinationDate))
                                                 .destinationTime(LocalTime.parse(destinationTime))
-                                                .departureAirportShortName(airportName(departureAirport))
-                                                .destinationAirportShortName(airportName(destinationAirport)).build();
+                                                .departureAirportShortName(extractAirportName(departureAirport))
+                                                .destinationAirportShortName(extractAirportName(destinationAirport)).build();
 
                 boolean operationResult = flightService.editFlight(flight);
 

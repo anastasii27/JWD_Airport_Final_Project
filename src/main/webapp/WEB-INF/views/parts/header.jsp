@@ -45,9 +45,6 @@
                             <li class="nav-item ">
                                 <a class="nav-link" href="${pageContext.request.contextPath}/airport?action=show_my_flights&departure_date=${depDate}&surname=${sessionScope.user.surname}&email=${sessionScope.user.email}">${my_fl_label}</a>
                             </li>
-                            <li class="nav-item ">
-                                <a class="nav-link" href="${pageContext.request.contextPath}/airport?action=show_departures_arrivals&from=user">${flights_label}</a>
-                            </li>
                         </c:when>
                         <c:when test = "${role eq 'dispatcher'}">
                             <li class="nav-item">
@@ -55,9 +52,6 @@
                             </li>
                             <li class="nav-item ">
                                 <a class="nav-link" href="${pageContext.request.contextPath}/airport?action=show_dispatcher_flights">${my_fl_label}</a>
-                            </li>
-                            <li class="nav-item ">
-                                <a class="nav-link" href="${pageContext.request.contextPath}/airport?action=show_departures_arrivals&from=user">${flights_label}</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="${pageContext.request.contextPath}/airport?action=show_crew_page">${crew_label}</a>

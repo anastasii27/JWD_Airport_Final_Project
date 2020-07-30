@@ -25,7 +25,7 @@ public class AirportFlight implements Command {
         String flightType = request.getParameter(ParameterName.FLIGHT_TYPE);
         String departureDate = request.getParameter(ParameterName.DEPARTURE_DATE);
         String cityWithAirport = request.getParameter(ParameterName.CITY);
-        String airportShortName = RequestParametersExtractor.airportName(cityWithAirport);
+        String airportShortName = RequestParametersExtractor.extractAirportName(cityWithAirport);
 
         try {
             List<Flight> flights = flightService.airportFlightsByDay(flightType, LocalDate.parse(departureDate), airportShortName);

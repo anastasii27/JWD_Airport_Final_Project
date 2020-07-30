@@ -18,11 +18,9 @@ public class AirportFlightPage implements Command {
     public void execute(HttpServletRequest request, HttpServletResponse response) {
         CityService cityService = ServiceFactory.getInstance().getCityService();
 
-        String from = request.getParameter(ParameterName.FROM);
         try {
             List<String>  citiesWithAirports = cityService.cityWithAirportList();
             request.setAttribute(ParameterName.CITY_WITH_AIRPORT, citiesWithAirports);
-            request.setAttribute(ParameterName.FROM, from);
 
             forwardTo(request,response, JSPPageName.DEPARTURES_ARRIVALS_PAGE);
         } catch (ServiceException e) {

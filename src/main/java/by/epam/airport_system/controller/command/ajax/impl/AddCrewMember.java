@@ -19,14 +19,12 @@ public class AddCrewMember implements Command {
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) {
         CrewMemberService crewMemberService = ServiceFactory.getInstance().getCrewMemberService();
-        String crewName;
-        String crewMembers;
-        List<User> membersList;
 
-        crewName = request.getParameter(ParameterName.CREW_NAME);
-        crewMembers = request.getParameter(ParameterName.USER);
+        String crewName = request.getParameter(ParameterName.CREW_NAME);
+        String crewMembers = request.getParameter(ParameterName.USER);
 
-        membersList = usersListFromFullNamesString(crewMembers);//TODO УБРАТЬ
+        List<User> membersList = usersList(crewMembers);
+
         try {
             boolean operationResult = crewMemberService.addCrewMember(crewName, membersList);
 

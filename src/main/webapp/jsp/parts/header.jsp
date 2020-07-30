@@ -33,7 +33,7 @@
                         <a class="nav-link" href="${pageContext.request.contextPath}">${main_label}</a>
                     </li>
                     <li class="nav-item ">
-                        <a class="nav-link" href="${pageContext.request.contextPath}/airport?action=show_departures_arrivals&from=main">${arr_dep_label}</a>
+                        <a class="nav-link" href="${pageContext.request.contextPath}/airport?action=show_departures_arrivals">${arr_dep_label}</a>
                     </li>
                     <li class="nav-item ">
                         <a class="nav-link" href="#">${about_label}</a>

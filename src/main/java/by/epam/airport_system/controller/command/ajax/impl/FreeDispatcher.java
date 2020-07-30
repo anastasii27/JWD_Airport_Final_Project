@@ -24,9 +24,10 @@ public class FreeDispatcher implements Command {
         UserService userService = ServiceFactory.getInstance().getUserService();
 
         String cityWithAirport = request.getParameter(ParameterName.CITY_WITH_AIRPORT);
-        String airportName = RequestParametersExtractor.airportName(cityWithAirport);
+        String airportName = RequestParametersExtractor.extractAirportName(cityWithAirport);
         LocalDate date = LocalDate.parse(request.getParameter(ParameterName.DATE));
         LocalTime time = LocalTime.parse(request.getParameter(ParameterName.TIME));
+
         try {
             List<User> freeDispatchers = userService.freeDispatchers(date, time, airportName);
 

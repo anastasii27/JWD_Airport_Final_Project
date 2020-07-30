@@ -18,6 +18,7 @@ public class CrewNameExistence implements Command {
         CrewService crewService = ServiceFactory.getInstance().getCrewService();
 
         String crewName = request.getParameter(ParameterName.CREW_NAME);
+
         try {
             boolean operationResult = crewService.doesCrewNameExist(crewName);
 

@@ -32,11 +32,12 @@ public class FreeCrew implements Command {
 
         Flight flight = Flight.builder().departureDate(LocalDate.parse(flightDepartureDate))
                                         .departureTime(LocalTime.parse(flightDepartureTime))
-                                        .departureAirportShortName(airportName(flightDepartureAirportName))
+                                        .departureAirportShortName(extractAirportName(flightDepartureAirportName))
                                         .destinationDate(LocalDate.parse(flightDestinationDate))
                                         .destinationTime(LocalTime.parse(flightDestinationTime))
-                                        .destinationAirportShortName(airportName(flightDestinationAirportName))
+                                        .destinationAirportShortName(extractAirportName(flightDestinationAirportName))
                                         .build();
+
         try {
             Set<String> freeCrews = crewService.findFreeCrewsForFlight(flight);
             request.setAttribute(ParameterName.CREW, freeCrews);

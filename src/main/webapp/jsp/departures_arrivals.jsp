@@ -37,28 +37,20 @@
         <script>
             $(document).ready(function () {
                 $('.lang').on('click', function (){
-                    $('.lang').append('<input impl="hidden" name="url" value="${pageContext.request.contextPath}/airport?action=show_departures_arrivals&from=${requestScope.from}"/>').hide();
+                    $('.lang').append('<input impl="hidden" name="url" value="${pageContext.request.contextPath}/airport?action=show_departures_arrivals"/>').hide();
                 });
             });
         </script>
 
     </head>
     <body>
-        <c:if test="${requestScope.from eq 'main'}">
-            <jsp:include page="parts/header.jsp"/>
-        </c:if>
-
-        <c:if test="${requestScope.from eq 'user'}">
-            <jsp:include page="../WEB-INF/views/parts/header.jsp"/>
-        </c:if>
+        <jsp:include page="parts/header.jsp"/>
 
         <div id="title">
             <h2>${arr_dep_label}</h2>
         </div>
         <div class="col-md-7 form">
             <form action="" method="get" id="arr_dep_form">
-                <input type="hidden" name="from" value="${requestScope.from}"/>
-
                 <div class="form-group row">
                     <label for="input_city" class="label">${airport_label}</label>
                     <select name= "city" id="input_city">

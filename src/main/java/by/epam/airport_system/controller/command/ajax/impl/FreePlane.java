@@ -26,9 +26,9 @@ public class FreePlane implements Command {
 
         String departureCityWithAirport = request.getParameter(ParameterName.DEPARTURE_AIRPORT);
         String departureDate = request.getParameter(ParameterName.DEPARTURE_DATE);
-        String departureAirport = RequestParametersExtractor.airportName(departureCityWithAirport);
+        String departureAirport = RequestParametersExtractor.extractAirportName(departureCityWithAirport);
         String destinationCityWithAirport = request.getParameter(ParameterName.DESTINATION_AIRPORT);
-        String destinationAirport = RequestParametersExtractor.airportName(destinationCityWithAirport);
+        String destinationAirport = RequestParametersExtractor.extractAirportName(destinationCityWithAirport);
         String destinationTime = request.getParameter(ParameterName.DESTINATION_TIME);
         String destinationDate = request.getParameter(ParameterName.DESTINATION_DATE);
 
@@ -37,6 +37,7 @@ public class FreePlane implements Command {
                                         .destinationAirportShortName(destinationAirport)
                                         .destinationDate(LocalDate.parse(destinationDate))
                                         .destinationTime(LocalTime.parse(destinationTime)).build();
+
         try {
             List<Plane> planes = planeService.freePlanesForFlight(flight);
 

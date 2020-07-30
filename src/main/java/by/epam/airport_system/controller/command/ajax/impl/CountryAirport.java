@@ -18,12 +18,11 @@ public class CountryAirport implements Command {
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) {
         CityService cityService = ServiceFactory.getInstance().getCityService();
-        String country;
-        List<String> countries;
 
-        country = request.getParameter(ParameterName.COUNTRY);
+        String country = request.getParameter(ParameterName.COUNTRY);
+
         try {
-            countries = cityService.cityWithAirportList(country);
+            List<String> countries = cityService.cityWithAirportList(country);
 
             String countriesGson = GsonConverter.convertToGson(countries);
             response.getWriter().write(countriesGson);

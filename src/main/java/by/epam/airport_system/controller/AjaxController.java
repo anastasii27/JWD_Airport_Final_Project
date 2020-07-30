@@ -15,14 +15,18 @@ public class AjaxController extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String commandName = req.getParameter(ParameterName.COMMAND);
-        Command command = AjaxCommandProvider.getInstance().getCommand(commandName);
-
-        command.execute(req, resp);
+        doProcess(req, resp);
     }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        doPost(req, resp);
+        doProcess(req, resp);
+    }
+
+    private void doProcess(HttpServletRequest req, HttpServletResponse resp)throws ServletException, IOException {
+        String commandName = req.getParameter(ParameterName.COMMAND);
+        Command command = AjaxCommandProvider.getInstance().getCommand(commandName);
+
+        command.execute(req, resp);
     }
 }

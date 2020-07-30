@@ -20,6 +20,7 @@ public class DeleteFlight implements Command {
 
         String flightNumber = request.getParameter(ParameterName.FLIGHT_NUMBER);
         String departureDate = request.getParameter(ParameterName.DEPARTURE_DATE);
+
         try{
             boolean operationResult = flightService.deleteFlight(flightNumber, LocalDate.parse(departureDate));
 

@@ -21,6 +21,7 @@ public class SetCrewForFlight implements Command {
         Flight flight = (Flight)request.getSession().getAttribute(ParameterName.FLIGHT);
 
         String crewName = request.getParameter(ParameterName.CREW_NAME);
+
         try {
             if(flight!= null){
                 boolean operationResult = crewService.setCrewForFlight(crewName, flight.getFlightNumber());

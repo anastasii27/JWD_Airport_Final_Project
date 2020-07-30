@@ -20,6 +20,7 @@ public class CrewMembers implements Command {
         CrewMemberService crewMemberService = ServiceFactory.getInstance().getCrewMemberService();
 
         String crewName = request.getParameter(ParameterName.CREW_NAME);
+
         try {
             List crewList = crewMemberService.crewMembers(crewName);
             String crewGson = GsonConverter.convertToGson(crewList);

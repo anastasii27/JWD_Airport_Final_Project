@@ -23,7 +23,7 @@ public class ParametersFormatFilter implements Filter {
 
     }
 
-    private class WrappedRequest extends HttpServletRequestWrapper{
+    public class WrappedRequest extends HttpServletRequestWrapper{
         private static final String DATE_PATTERN ="^(202[0-9])[-]([0]?[1-9]|[1][0-2])[-]([0]?[1-9]|[1|2][0-9]|[3][0|1])$";
         private static final String TIME_PATTERN ="^([2][0-3]|[0-1][0-9]|[1-9]):([0-5][0-9])$";
         private static final String DATE_PARAM ="date";

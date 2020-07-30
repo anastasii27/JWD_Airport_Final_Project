@@ -15,30 +15,30 @@ import java.util.List;
 public class PlaneDaoImpl implements PlaneDao, CloseOperation{
     private final static String PLANES_AT_AIRPORT = "SELECT `number`, title \n"+
             "FROM airport.flights\n"+
-            "JOIN planes ON `plane-id` = planes.id\n" +
-            "JOIN `plane-models` ON `plane-models`.id = (SELECT `model-id` FROM planes WHERE planes.id = `plane-id`)\n"+
+            "JOIN airport.planes ON `plane-id` = planes.id\n" +
+            "JOIN airport.`plane-models` ON `plane-models`.id = (SELECT `model-id` FROM airport.planes WHERE planes.id = `plane-id`)\n"+
             "WHERE `status` = 'Scheduled'\n"+
-            "AND `destination-airport-id` = (SELECT id FROM airports WHERE `name-abbreviation` = ?)\n"+
+            "AND `destination-airport-id` = (SELECT id FROM airport.airports WHERE `name-abbreviation` = ?)\n"+
             "AND `destination-date` < ?\n" +
             "GROUP BY `plane-id`;";
 
     private final static String TAKEN_ON_FLIGHT_PLANES_AT_AIRPORT = "SELECT `number`, title \n" +
             "FROM airport.flights\n" +
-            "JOIN planes ON `plane-id` = planes.id\n" +
-            "JOIN `plane-models` ON `plane-models`.id = (SELECT `model-id` FROM planes WHERE planes.id = `plane-id`)\n" +
+            "JOIN airport.planes ON `plane-id` = planes.id\n" +
+            "JOIN airport.`plane-models` ON `plane-models`.id = (SELECT `model-id` FROM airport.planes WHERE planes.id = `plane-id`)\n" +
             "WHERE `status` = 'Scheduled'\n" +
-            "AND `departure-airport-id` = (SELECT id FROM airports WHERE `name-abbreviation` = ?)\n" +
+            "AND `departure-airport-id` = (SELECT id FROM airport.airports WHERE `name-abbreviation` = ?)\n" +
             "AND `departure-date` < ?\n" +
             "GROUP BY `plane-id`;";
 
     private final static String ALL_PLANES_NUMBERS = "SELECT `number`, title FROM airport.planes\n" +
-            "JOIN `plane-models` ON `plane-models`.id = `model-id`";
+            "JOIN airport.`plane-models` ON `plane-models`.id = `model-id`";
 
     private final static String FIRST_PLANE_FLIGHT_AFTER_DATE = "SELECT `departure-date`, `departure-time`,\n" +
             "`name-abbreviation` AS `dep-airport-short-name`\n" +
             "FROM airport.flights\n" +
-            "JOIN airports ON `departure-airport-id` = airports.id\n" +
-            "WHERE `plane-id` = (SELECT id FROM planes WHERE `number` = ?)\n" +
+            "JOIN  airport.airports ON `departure-airport-id` = airports.id\n" +
+            "WHERE `plane-id` = (SELECT id FROM  airport.planes WHERE `number` = ?)\n" +
             "AND `departure-date` > ? \n" +
             "ORDER BY `departure-date`, `departure-time` LIMIT 1;";
 

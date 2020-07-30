@@ -49,20 +49,20 @@ public class CreateFlight implements Command {
                 String destinationCountry = request.getParameter(ParameterName.DESTINATION_COUNTRY);
                 String destinationCityWithAirport = request.getParameter(ParameterName.DESTINATION_AIRPORT);
 
-                User dispatcher = User.builder().name(userName(dispatcherFullName))
-                                                .surname(userSurname(dispatcherFullName)).build();
+                User dispatcher = User.builder().name(extractName(dispatcherFullName))
+                                                .surname(extractSurname(dispatcherFullName)).build();
 
                 Flight flight = Flight.builder().flightNumber(flightNumber)
                                                 .dispatcher(dispatcher)
-                                                .planeNumber(planeNumber(plane))
+                                                .planeNumber(extractPlaneNumber(plane))
                                                 .departureDate(departureDate)
                                                 .departureTime(departureTime)
                                                 .departureCountry(departureCountry)
-                                                .departureAirportShortName(airportName(departureCityWithAirport))
+                                                .departureAirportShortName(extractAirportName(departureCityWithAirport))
                                                 .destinationDate(destinationDate)
                                                 .destinationTime(destinationTime)
                                                 .destinationCountry(destinationCountry)
-                                                .destinationAirportShortName(airportName(destinationCityWithAirport)).build();
+                                                .destinationAirportShortName(extractAirportName(destinationCityWithAirport)).build();
 
                 FlightService flightService = ServiceFactory.getInstance().getFlightService();
                 boolean operationResult = flightService.createFlight(flight);
