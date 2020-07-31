@@ -1,5 +1,5 @@
 package by.epam.airport_system.bean;
 
 public enum Role {
-    ADMIN, DISPATCHER, PILOT, STEWARD
+    ADMIN, DISPATCHER, PILOT, STEWARD, NO_ROLE
 }
