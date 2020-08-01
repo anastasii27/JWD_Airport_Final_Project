@@ -14,6 +14,8 @@ import java.util.List;
 
 public class PlaneServiceImpl implements PlaneService {
     private final static String HOME_AIRPORT = "MSQ";
+    private final static int HOURS_BETWEEN_FLIGHT_FROM_ONE_AIRPORT = 4;
+    private final static int HOURS_BETWEEN_FLIGHT_FROM_DIFFERENT_AIRPORTS = 23;
     private PlaneDao dao = DaoFactory.getInstance().getPlaneDao();
 
     public List<Plane> freePlanesForFlight(Flight flight) throws ServiceException {
@@ -90,9 +92,9 @@ public class PlaneServiceImpl implements PlaneService {
         LocalDateTime nextFlightDate = LocalDateTime.of(planeNextFlight.getDepartureDate(), planeNextFlight.getDepartureTime());
 
         if(newPlaneFlight.getDestinationAirportShortName().equals(planeNextFlight.getDepartureAirportShortName())){
-            return newFlightDate.plusHours(4).isBefore(nextFlightDate);
+            return newFlightDate.plusHours(HOURS_BETWEEN_FLIGHT_FROM_ONE_AIRPORT).isBefore(nextFlightDate);
         }else {
-            return newFlightDate.plusHours(23).isBefore(nextFlightDate);
+            return newFlightDate.plusHours(HOURS_BETWEEN_FLIGHT_FROM_DIFFERENT_AIRPORTS).isBefore(nextFlightDate);
         }
     }
 }

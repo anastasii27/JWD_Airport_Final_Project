@@ -9,8 +9,7 @@ public interface UserService {
     User getUserByLogin(String login) throws ServiceException;
     boolean signUpUser(User user) throws ServiceException;
     List<User> freeDispatchers(LocalDate date, LocalTime time, String airportName) throws ServiceException;
-    List<String> rolesList() throws ServiceException;
-    List<User> userByRoleList(String role) throws ServiceException;
+    List<User> usersListByRole(String role) throws ServiceException;
     boolean editUser(User user) throws ServiceException;
     boolean changeLogin(String login, User user)  throws ServiceException;
     boolean changePassword(String newPassword, User user)  throws ServiceException;

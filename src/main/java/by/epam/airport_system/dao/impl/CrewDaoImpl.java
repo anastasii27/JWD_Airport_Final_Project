@@ -35,11 +35,7 @@ public class CrewDaoImpl implements CrewDao, CloseOperation {
     private final static String DELETE_CREW_FROM_FLIGHT = "UPDATE airport.flights\n" +
             "SET `flight-team-id` =  null WHERE `flight-team-id` = (SELECT id FROM airport.`flight-teams` " +
             "WHERE `short-name`= ?);";
-
-    private final static String FIND_MAIN_PILOT = "SELECT `name`, surname FROM airport.`flight-teams`\n" +
-            "JOIN airport.users ON `main-pilot-id`  = users.id\n" +
-            "WHERE `short-name` = ?;";
-
+    
     private final static String ALL_CREWS = "SELECT `short-name` FROM airport.`flight-teams`;";
 
     private final static String SET_CREW_FOR_FLIGHT = "UPDATE airport.flights SET `flight-team-id` =" +
@@ -207,33 +203,6 @@ public class CrewDaoImpl implements CrewDao, CloseOperation {
     }
 
     @Override
-    public User findMainPilot(String crewName) throws DaoException {
-        ConnectionPool pool = ConnectionPool.getInstance();
-        Connection  connection = null;
-        PreparedStatement ps = null;
-        ResultSet rs = null;
-        User user;
-
-        try{
-            connection = pool.takeConnection();
-
-            ps = connection.prepareStatement(FIND_MAIN_PILOT);
-            ps.setString(1, crewName);
-            rs = ps.executeQuery();
-
-            if (!rs.next()) {
-                return null;
-            }
-            user = User.builder().name(rs.getString("name")).surname(rs.getString("surname")).build();
-        } catch (ConnectionPoolException | SQLException e) {
-            throw new DaoException("Exception during main pilot searching!", e);
-        } finally {
-            closeAll(rs, ps, pool, connection);
-        }
-        return user;
-    }
-
-    @Override
     public List<String> allCrews() throws DaoException {
         ConnectionPool pool = ConnectionPool.getInstance();
         Connection connection = null;
@@ -307,7 +276,7 @@ public class CrewDaoImpl implements CrewDao, CloseOperation {
     }
 
     @Override
-    public List<String> takenOnFlightsCrews() throws DaoException {//todo  redo! same with allCrews()
+    public List<String> takenOnFlightsCrews() throws DaoException {//todo  redo! same with crewsList()
         ConnectionPool pool = ConnectionPool.getInstance();
         Connection connection = null;
         Statement st = null;

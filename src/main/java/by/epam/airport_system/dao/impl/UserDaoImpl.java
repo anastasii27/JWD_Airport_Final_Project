@@ -166,30 +166,6 @@ public class UserDaoImpl implements UserDao, CloseOperation {
     }
 
     @Override
-    public List<String> rolesList() throws DaoException {
-        ConnectionPool pool = ConnectionPool.getInstance();
-        Connection connection = null;
-        Statement st = null;
-        ResultSet rs = null;
-        List <String> roles = new ArrayList<>();
-
-        try {
-            connection = pool.takeConnection();
-            st = connection.createStatement();
-
-            rs = st.executeQuery(USERS_ROLES);
-            while (rs.next()) {
-                roles.add(rs.getString("title"));
-            }
-        } catch (ConnectionPoolException | SQLException e) {
-            throw new DaoException("Exception during creating roles list!", e);
-        }finally {
-            closeAll(rs, st, pool, connection);
-        }
-        return roles;
-    }
-
-    @Override
     public List<User> userByRoleList(String role) throws DaoException {
         ConnectionPool pool = ConnectionPool.getInstance();
         Connection connection = null;

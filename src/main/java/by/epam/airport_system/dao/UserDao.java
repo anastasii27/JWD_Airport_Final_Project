@@ -10,7 +10,6 @@ public interface UserDao {
     User getUserByLogin(String login) throws DaoException;
     List<User> busyDepartureDispatchers(LocalDate date, LocalTime time, String airportName) throws DaoException;
     List<User> busyArrivalDispatchers(LocalDate date, LocalTime time, String airportName) throws DaoException;
-    List<String> rolesList() throws DaoException;
     List<User> userByRoleList(String role) throws DaoException;
     int editUser(User user) throws DaoException;
     int changeLogin(String login, User user) throws DaoException;

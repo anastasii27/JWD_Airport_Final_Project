@@ -31,6 +31,11 @@ public class CrewMemberDaoImpl implements CrewMemberDao, CloseOperation {
     private final static String CHECK_CREW_MEMBER_EXISTENCE = "SELECT * FROM airport.`flight-teams-m2m-users` WHERE `user-id` = " +
             "(SELECT id FROM airport.users WHERE `name` = ? AND surname = ?) AND `flight-team-id` = (SELECT id " +
             "FROM airport.`flight-teams` WHERE `short-name` = ?);";
+
+    private final static String FIND_MAIN_PILOT = "SELECT `name`, surname FROM airport.`flight-teams`\n" +
+            "JOIN airport.users ON `main-pilot-id`  = users.id\n" +
+            "WHERE `short-name` = ?;";
+
     private int changedRowsAmount;
 
     @Override
@@ -199,5 +204,32 @@ public class CrewMemberDaoImpl implements CrewMemberDao, CloseOperation {
             closeAll(ps, pool, connection);
         }
         return operationResult;
+    }
+
+    @Override
+    public User findMainPilot(String crewName) throws DaoException {
+        ConnectionPool pool = ConnectionPool.getInstance();
+        Connection  connection = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        User user;
+
+        try{
+            connection = pool.takeConnection();
+
+            ps = connection.prepareStatement(FIND_MAIN_PILOT);
+            ps.setString(1, crewName);
+            rs = ps.executeQuery();
+
+            if (!rs.next()) {
+                return null;
+            }
+            user = User.builder().name(rs.getString("name")).surname(rs.getString("surname")).build();
+        } catch (ConnectionPoolException | SQLException e) {
+            throw new DaoException("Exception during main pilot searching!", e);
+        } finally {
+            closeAll(rs, ps, pool, connection);
+        }
+        return user;
     }
 }

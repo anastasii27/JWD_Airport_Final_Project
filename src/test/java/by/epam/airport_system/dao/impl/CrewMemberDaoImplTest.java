@@ -1,10 +1,7 @@
 package by.epam.airport_system.dao.impl;
 
 import by.epam.airport_system.bean.User;
-import by.epam.airport_system.dao.CrewMemberDao;
-import by.epam.airport_system.dao.DaoException;
-import by.epam.airport_system.dao.DaoFactory;
-import by.epam.airport_system.dao.H2DataBaseCreation;
+import by.epam.airport_system.dao.*;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -15,6 +12,7 @@ import java.util.List;
 public class CrewMemberDaoImplTest extends H2DataBaseCreation {
     private final static String ILLEGAL_CREW = "L9";
     private final static String EXISTING_CREW = "A1";
+    private final static String CREW_WITHOUT_MAIN_PILOT = "N1";
     private User steward;
     private User dispatcher;
     private User commander;
@@ -22,9 +20,7 @@ public class CrewMemberDaoImplTest extends H2DataBaseCreation {
     @Before
     public void setUp(){
         commander = User.builder().name( "Владислав")
-                .surname("Ясницкий")
-                .role("pilot")
-                .email("vlad-yas@gmail.com").build();
+                .surname("Ясницкий").build();
         steward = User.builder().name("Мария")
                 .surname("Аленская")
                 .role("steward")
@@ -35,6 +31,9 @@ public class CrewMemberDaoImplTest extends H2DataBaseCreation {
     @Test
     public void crewMembers_whenCrewNameExists_thenList() throws DaoException {
         CrewMemberDao crewMemberDao = DaoFactory.getInstance().getCrewMemberDAO();
+        commander.setRole("pilot");
+        commander.setEmail("vlad-yas@gmail.com");
+
         List<User> expected = new ArrayList<User>(){{
                 add(steward);
                 add(commander);
@@ -196,5 +195,37 @@ public class CrewMemberDaoImplTest extends H2DataBaseCreation {
         boolean actual = crewMemberDao.isUserInTheCrew(ILLEGAL_CREW, dispatcher);
 
         Assert.assertFalse(actual);
+    }
+
+    @Test
+    public void findMainPilot_whenCrewExists_thenUser() throws DaoException {
+        CrewMemberDao crewMemberDao = DaoFactory.getInstance().getCrewMemberDAO();
+        User actual = crewMemberDao.findMainPilot(EXISTING_CREW);
+
+        Assert.assertEquals(commander, actual);
+    }
+
+    @Test
+    public void findMainPilot_whenCrewDoesNotExist_thenNull() throws DaoException {
+        CrewMemberDao crewMemberDao = DaoFactory.getInstance().getCrewMemberDAO();
+        User actual = crewMemberDao.findMainPilot(ILLEGAL_CREW);
+
+        Assert.assertNull(actual);
+    }
+
+    @Test
+    public void findMainPilot_whenCrewDoesNotHasMainPilot_thenNull() throws DaoException {
+        CrewMemberDao crewMemberDao = DaoFactory.getInstance().getCrewMemberDAO();
+        User actual = crewMemberDao.findMainPilot(CREW_WITHOUT_MAIN_PILOT);
+
+        Assert.assertNull(actual);
+    }
+
+    @Test
+    public void findMainPilot_whenCrewIsNull_thenNull() throws DaoException {
+        CrewMemberDao crewMemberDao = DaoFactory.getInstance().getCrewMemberDAO();
+        User actual = crewMemberDao.findMainPilot(null);
+
+        Assert.assertNull(actual);
     }
 }

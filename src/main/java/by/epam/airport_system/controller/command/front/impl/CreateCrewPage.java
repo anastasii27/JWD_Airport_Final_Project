@@ -25,8 +25,8 @@ public class CreateCrewPage implements Command {
         HttpSession session = request.getSession(true);
 
         try {
-            List<User> pilots = userService.userByRoleList(PILOT);
-            List<User> stewards = userService.userByRoleList(STEWARD);
+            List<User> pilots = userService.usersListByRole(PILOT);
+            List<User> stewards = userService.usersListByRole(STEWARD);
 
             request.setAttribute(ParameterName.PILOTS, pilots);
             request.setAttribute(ParameterName.STEWARDS, stewards);

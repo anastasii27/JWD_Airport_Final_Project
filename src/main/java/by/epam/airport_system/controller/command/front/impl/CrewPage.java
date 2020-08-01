@@ -24,9 +24,9 @@ public class CrewPage implements Command {
         CrewService crewService = ServiceFactory.getInstance().getCrewService();
 
         try {
-            List<String> crews = crewService.allCrews();
-            List<User> pilots = userService.userByRoleList(PILOT);
-            List<User> stewards = userService.userByRoleList(STEWARD);
+            List<String> crews = crewService.crewsList();
+            List<User> pilots = userService.usersListByRole(PILOT);
+            List<User> stewards = userService.usersListByRole(STEWARD);
 
             request.setAttribute(ParameterName.CREW, crews);
             request.setAttribute(ParameterName.PILOTS, pilots);

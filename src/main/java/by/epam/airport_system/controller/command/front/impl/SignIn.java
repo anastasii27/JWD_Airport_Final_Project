@@ -32,6 +32,7 @@ public class SignIn implements Command {
             String url;
 
             if(user != null && BCrypt.checkpw(password, user.getPassword())){
+                user.setPassword(null);
                 session.setAttribute(ParameterName.USER, user);
                 url = request.getContextPath() + USER_PATH;
             }else {

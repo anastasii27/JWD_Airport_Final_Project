@@ -28,19 +28,27 @@ public class AuthorizationFilter implements Filter {
         if(action!=null) {
             Role [] roles = getActionPermittedRoles(action);
 
-            for (Role role: roles) {
-                String roleName = role.name().toLowerCase();
-
-                if(roleName.equals(NO_ROLE)) {
-                    break;
-                }
-                if (user == null || !roleName.equals(user.getRole())) {
-                    req.getRequestDispatcher(PATH_TO_REDIRECT).forward(req, resp);
-                }
+            if(!doTheseRolesApproachForAction(roles, user)){
+               req.getRequestDispatcher(PATH_TO_REDIRECT).forward(req, resp);
             }
         }
 
         filterChain.doFilter(req, resp);
+    }
+
+    private boolean doTheseRolesApproachForAction(Role [] roles, User user) {
+        for (Role role: roles) {
+            String roleName = role.name().toLowerCase();
+
+            if(roleName.equals(NO_ROLE)) {
+                return true;
+            }
+            if (user != null && roleName.equals(user.getRole())) {
+               return true;
+            }
+        }
+
+        return false;
     }
 
     private Role[] getActionPermittedRoles(String action){

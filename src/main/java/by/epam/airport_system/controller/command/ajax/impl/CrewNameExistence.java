@@ -20,7 +20,7 @@ public class CrewNameExistence implements Command {
         String crewName = request.getParameter(ParameterName.CREW_NAME);
 
         try {
-            boolean operationResult = crewService.doesCrewNameExist(crewName);
+            boolean operationResult = crewService.doesCrewExist(crewName);
 
             response.getWriter().write(String.valueOf(!operationResult));
         } catch (ServiceException e) {

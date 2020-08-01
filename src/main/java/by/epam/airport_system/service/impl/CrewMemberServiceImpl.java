@@ -17,7 +17,7 @@ public class CrewMemberServiceImpl implements CrewMemberService {
     @Override
     public List<User> crewMembers(String crewName) throws ServiceException {
         try {
-            return findAllCrewMembers(crewName);
+            return dao.crewMembers(crewName);
         } catch (DaoException e) {
             throw new ServiceException("Exception during crew members getting", e);
         }
@@ -25,15 +25,16 @@ public class CrewMemberServiceImpl implements CrewMemberService {
 
     @Override
     public boolean deleteCrewMember(String crewName, User user) throws ServiceException {
-        int changedRowsAmount = 0;
+        int operationResult = 0;
+
         try {
             if(user!= null && dao.isUserInTheCrew(crewName, user)){
-                changedRowsAmount = dao.deleteCrewMember(crewName, user);
+                operationResult = dao.deleteCrewMember(crewName, user);
             }
         } catch (DaoException e) {
             throw new ServiceException("Exception during crew member deleting", e);
         }
-        return changedRowsAmount !=0;
+        return operationResult !=0;
     }
 
     @Override
@@ -51,7 +52,7 @@ public class CrewMemberServiceImpl implements CrewMemberService {
     }
 
     @Override
-    public Multimap<String, User> allMembersOfCrews(Set<String> crews) throws ServiceException {
+    public Multimap<String, User> crewsMembers(Set<String> crews) throws ServiceException {
         Multimap<String, User> crewsWithMembers = ArrayListMultimap.create();
 
         try {
@@ -65,14 +66,19 @@ public class CrewMemberServiceImpl implements CrewMemberService {
     }
 
     private void putMembersToMap(String crewName, Multimap<String, User> crewsWithMembers) throws DaoException {
-        List<User> crewMembers = findAllCrewMembers(crewName);
+        List<User> crewMembers = dao.crewMembers(crewName);
 
         for (User user: crewMembers){
             crewsWithMembers.put(crewName, user);
         }
     }
 
-    private List<User> findAllCrewMembers(String crewName) throws DaoException {
-        return dao.crewMembers(crewName);
+    @Override
+    public User findCrewMainPilot(String crewName) throws ServiceException {
+        try {
+            return dao.findMainPilot(crewName);
+        } catch (DaoException e) {
+            throw new ServiceException("Exception during main pilot searching", e);
+        }
     }
 }

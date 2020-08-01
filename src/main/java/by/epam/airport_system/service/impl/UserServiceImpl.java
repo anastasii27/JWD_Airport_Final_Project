@@ -1,5 +1,6 @@
 package by.epam.airport_system.service.impl;
 
+import by.epam.airport_system.bean.Role;
 import by.epam.airport_system.bean.User;
 import by.epam.airport_system.dao.DaoException;
 import by.epam.airport_system.dao.DaoFactory;
@@ -13,7 +14,6 @@ import java.time.LocalTime;
 import java.util.List;
 
 public class UserServiceImpl implements UserService {
-    private final static String USER_ROLE = "dispatcher";
     private static final String LOGIN_PATTERN ="[\\w]{4,15}";
     private final static int MAX_LOGIN_LEN = 15;
     private final static int MIN_LOGIN_LEN = 6;
@@ -33,14 +33,16 @@ public class UserServiceImpl implements UserService {
         try {
            return dao.signUpUser(user);
         } catch (DaoException e) {
-            throw new ServiceException("Exception during registration!", e);
+            throw new ServiceException("Exception during signing up!", e);
         }
     }
 
     @Override
     public List<User> freeDispatchers(LocalDate date, LocalTime time, String airportName) throws ServiceException {
+        String role = Role.DISPATCHER.name().toLowerCase();
+
         try {
-            List<User> allDispatchers = userByRoleList(USER_ROLE);
+            List<User> allDispatchers = usersListByRole(role);
             List<User> busyArrivalDispatchers = dao.busyArrivalDispatchers(date, time, airportName);
             List<User> busyDepartureDispatchers = dao.busyDepartureDispatchers(date, time, airportName);
 
@@ -58,16 +60,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<String> rolesList() throws ServiceException {
-        try {
-            return dao.rolesList();
-        } catch (DaoException e) {
-            throw new ServiceException("Exception during roles list creation", e);
-        }
-    }
-
-    @Override
-    public List<User> userByRoleList(String role) throws ServiceException {
+    public List<User> usersListByRole(String role) throws ServiceException {
         try {
             return dao.userByRoleList(role);
         } catch (DaoException e) {
@@ -87,6 +80,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public boolean changeLogin(String login, User user) throws ServiceException {
         SmtpMailSender mailSender = SmtpMailSender.getInstance();
+
         try {
             if(!login.matches(LOGIN_PATTERN)){
                 return false;
@@ -105,6 +99,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public boolean changePassword(String password, User user) throws ServiceException {
         SmtpMailSender mailSender = SmtpMailSender.getInstance();
+
         try {
             if (!(password.length() >= MIN_LOGIN_LEN && password.length() <= MAX_LOGIN_LEN)) {
                 return false;

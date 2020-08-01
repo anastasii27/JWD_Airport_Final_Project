@@ -4,7 +4,7 @@ import by.epam.airport_system.bean.User;
 import by.epam.airport_system.controller.command.Command;
 import by.epam.airport_system.controller.constant_parameter.ParameterName;
 import by.epam.airport_system.controller.util.GsonConverter;
-import by.epam.airport_system.service.CrewService;
+import by.epam.airport_system.service.CrewMemberService;
 import by.epam.airport_system.service.ServiceException;
 import by.epam.airport_system.service.ServiceFactory;
 import lombok.extern.log4j.Log4j2;
@@ -17,12 +17,12 @@ public class CrewMainPilot implements Command {
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) {
-        CrewService crewService = ServiceFactory.getInstance().getCrewService();
+        CrewMemberService crewService = ServiceFactory.getInstance().getCrewMemberService();
         String crewName = request.getParameter(ParameterName.CREW_NAME);
         String commanderGson = " ";
 
         try {
-            User user = crewService.findMainPilot(crewName);
+            User user = crewService.findCrewMainPilot(crewName);
 
             if(user != null) {
                 commanderGson = GsonConverter.convertToGson(user);

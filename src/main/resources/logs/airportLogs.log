@@ -268,3 +268,4 @@ Caused by: java.net.SocketException: Software caused connection abort: recv fail
 	at java.sql.DriverManager.getConnection(Unknown Source) ~[?:1.8.0_181]
 	at by.epam.airport_system.dao.connectionpool.ConnectionPool.poolInitialization(ConnectionPool.java:45) ~[classes/:?]
 	... 42 more
+INFO  2020-08-01 15:57:04 SmtpMailSender - Message has been send to rodnovanastya@gmail.com

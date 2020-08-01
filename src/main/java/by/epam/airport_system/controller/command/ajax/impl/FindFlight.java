@@ -28,7 +28,7 @@ public class FindFlight implements Command {
         String destinationAirport = extractAirportName(destinationCityWithAirport);
 
         try {
-            List<Flight> flights = flightService.findFlight(departureAirport, destinationAirport);
+            List<Flight> flights = flightService.findFlights(departureAirport, destinationAirport);
             String flightsGson = GsonConverter.convertToGson(flights);
 
             response.getWriter().write(flightsGson);

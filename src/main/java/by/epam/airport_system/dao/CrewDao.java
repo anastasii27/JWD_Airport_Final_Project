@@ -9,7 +9,6 @@ public interface CrewDao {
     boolean createCrew(String crewName, Map<String, User> users) throws DaoException;
     boolean doesCrewNameExist(String crewName) throws DaoException;
     int deleteCrew(String crewName) throws DaoException;
-    User findMainPilot(String crewName) throws DaoException;
     List<String> allCrews() throws DaoException;
     int setCrewForFlight(String crewName, String flightNumber) throws DaoException;
     String flightCrew(Flight flight) throws DaoException;

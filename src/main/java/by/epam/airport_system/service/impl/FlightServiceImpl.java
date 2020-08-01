@@ -87,11 +87,11 @@ public class FlightServiceImpl implements FlightService {
     }
 
     @Override
-    public List<Flight> findFlight(String departureAirport, String destinationAirport) throws ServiceException {
+    public List<Flight> findFlights(String departureAirport, String destinationAirport) throws ServiceException {
         try {
             return dao.findFlight(departureAirport, destinationAirport, lastDayOfYear());
         } catch (DaoException e) {
-            throw new ServiceException("Exception during flight editing", e);
+            throw new ServiceException("Exception during flight searching", e);
         }
     }
 

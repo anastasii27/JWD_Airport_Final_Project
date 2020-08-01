@@ -31,7 +31,7 @@ public class ChooseCrewForFlight implements Command {
 
             if(flight !=  null) {
                 Set<String> freeCrews = crewService.findFreeCrewsForFlight(flight);
-                freeCrewsWithMembers = crewMemberService.allMembersOfCrews(freeCrews);
+                freeCrewsWithMembers = crewMemberService.crewsMembers(freeCrews);
 
                 if(freeCrewsWithMembers.size() != 0 ) {
                     request.setAttribute(ParameterName.CREW, freeCrews);

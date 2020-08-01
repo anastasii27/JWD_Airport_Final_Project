@@ -15,7 +15,6 @@ import java.util.*;
 public class CrewDaoImplTest extends H2DataBaseCreation {
     private final static String ILLEGAL_CREW = "L9";
     private final static String EXISTING_CREW = "A1";
-    private final static String CREW_WITHOUT_MAIN_PILOT = "N1";
     private final static String NEW_CREW = "A3";
     private final static String ILLEGAL_FLIGHT_NUMBER = "K 0000";
     private final static String EXISTING_FLIGHT_NUMBER = "KL 2112";
@@ -78,37 +77,6 @@ public class CrewDaoImplTest extends H2DataBaseCreation {
         Assert.assertEquals(expected, actual);
     }
 
-    @Test
-    public void findMainPilot_whenCrewExists_thenUser() throws DaoException {
-        CrewDao crewDao = DaoFactory.getInstance().getCrewDAO();
-        User actual = crewDao.findMainPilot(EXISTING_CREW);
-
-        Assert.assertEquals(commander, actual);
-    }
-
-    @Test
-    public void findMainPilot_whenCrewDoesNotExist_thenNull() throws DaoException {
-        CrewDao crewDao = DaoFactory.getInstance().getCrewDAO();
-        User actual = crewDao.findMainPilot(ILLEGAL_CREW);
-
-        Assert.assertNull(actual);
-    }
-
-    @Test
-    public void findMainPilot_whenCrewDoesNotHasMainPilot_thenNull() throws DaoException {
-        CrewDao crewDao = DaoFactory.getInstance().getCrewDAO();
-        User actual = crewDao.findMainPilot(CREW_WITHOUT_MAIN_PILOT);
-
-        Assert.assertNull(actual);
-    }
-
-    @Test
-    public void findMainPilot_whenCrewIsNull_thenNull() throws DaoException {
-        CrewDao crewDao = DaoFactory.getInstance().getCrewDAO();
-        User actual = crewDao.findMainPilot(null);
-
-        Assert.assertNull(actual);
-    }
     @Test
     public void allCrews() throws DaoException {
         CrewDao crewDao = DaoFactory.getInstance().getCrewDAO();

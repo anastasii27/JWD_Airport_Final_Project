@@ -8,11 +8,10 @@ import java.util.Set;
 
 public interface CrewService {
     boolean createCrew(String crewName, Map<String, User> users) throws ServiceException;
-    boolean doesCrewNameExist(String crewName) throws ServiceException;
+    boolean doesCrewExist(String crewName) throws ServiceException;
     boolean deleteCrew(String crewName) throws ServiceException;
-    User findMainPilot(String crewName) throws ServiceException;
-    List<String> allCrews() throws ServiceException;
+    List<String> crewsList() throws ServiceException;
     Set<String> findFreeCrewsForFlight(Flight flight) throws ServiceException;
-    boolean setCrewForFlight(String crewName, String flightNumber) throws ServiceException;
+    boolean setCrewForFlight(String crewName, String flightNumber) throws ServiceException;//todo date?
     String flightCrew(Flight flight)  throws ServiceException;
 }
