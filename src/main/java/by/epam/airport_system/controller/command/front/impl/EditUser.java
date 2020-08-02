@@ -24,14 +24,14 @@ import java.util.Map;
 public class EditUser implements Command {
     private final static String KEY1 = "local.user.edit_success";
     private final static String KEY2 = "local.user.edit_fail";
-    private final static String CURRENT_PAGE_PATH = "/airport?action=show_user_edited_page";
+    private final static String CURRENT_PAGE_PATH = "/airport?action=show_user_editing_page";
     private final static String USER_PAGE_PATH = "/airport?action=show_user_page";
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) {
         UserService service = ServiceFactory.getInstance().getUserService();
         HttpSession session = request.getSession(true);
-        Validator validator = ValidationFactory.getInstance().getEditedUserValidation();
+        Validator validator = ValidationFactory.getInstance().getUserValidation();
 
         String name = request.getParameter(ParameterName.NAME);
         String surname = request.getParameter(ParameterName.SURNAME);

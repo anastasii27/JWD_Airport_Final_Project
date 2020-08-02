@@ -10,7 +10,7 @@ import lombok.extern.log4j.Log4j2;
 import java.util.*;
 
 @Log4j2
-public class CrewValidation extends Validator {
+public class CrewValidationImpl extends Validator {
     private final static String CREW_NAME_PARAM = "crew_name";
     private final static String KEY1= "local.validation.crews.1";
     private final static String KEY2= "local.validation.crews.2";
@@ -19,7 +19,7 @@ public class CrewValidation extends Validator {
 
     @Override
     public ValidationResult validate(Map<String, String> params) {
-        ValidationResult result = getValidationResult(params);
+        ValidationResult result = ValidationResult.getValidationResult(params);
         CrewDao crewDAO = DaoFactory.getInstance().getCrewDAO();
         
         if(!emptyValueCheck(params)){
@@ -28,6 +28,7 @@ public class CrewValidation extends Validator {
         }
 
         String crewName = params.get(CREW_NAME_PARAM);
+
         if(!checkWithPattern(ValidationPattern.CREW_NAME_PATTERN, crewName)){
             result.addError(KEY2);
         }

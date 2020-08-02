@@ -1,12 +1,10 @@
 package by.epam.airport_system.service.validation;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
-import java.util.ResourceBundle;
+import java.util.*;
 
 public class ValidationResult {
     private final static String FILE_PATH = "localization/local";
+    private final static String LOCAL_PARAM = "local";
     private final static String DEFAULT_LANGUAGE = "ru";
     private List<String> results = new ArrayList<>();
     private String language;
@@ -31,5 +29,15 @@ public class ValidationResult {
 
     public List<String> getErrorsList(){
         return results;
+    }
+
+    public static ValidationResult getValidationResult(Map<String,String> params){
+        String lang = params.get(LOCAL_PARAM);
+
+        if(lang == null){
+            return new ValidationResult();
+        }else {
+            return new ValidationResult(lang);
+        }
     }
 }

@@ -14,7 +14,7 @@ public interface Command {
         try {
             response.sendRedirect(JSPPageName.ERROR_PAGE);
         } catch (IOException e) {
-           //todo
+           //todo logs
         }
     }
 

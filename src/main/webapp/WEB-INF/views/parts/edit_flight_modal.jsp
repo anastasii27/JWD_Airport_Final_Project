@@ -36,6 +36,7 @@
                         <form action="airport" method="post" id="edit_flight">
                             <input type="hidden" name="action" value="edit_flight" />
                             <input type="hidden" name="id" id="flight_id"/>
+
                             <div class="row common_edit">
                                 <div class="form-group row" id="edit_flight_number">
                                     <label>${flight_label}</label>

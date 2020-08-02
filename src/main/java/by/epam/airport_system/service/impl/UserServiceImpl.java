@@ -8,6 +8,7 @@ import by.epam.airport_system.dao.UserDao;
 import by.epam.airport_system.service.ServiceException;
 import by.epam.airport_system.service.UserService;
 import by.epam.airport_system.service.mailing.MailMessage;
+import by.epam.airport_system.service.mailing.MailSender;
 import by.epam.airport_system.service.mailing.SmtpMailSender;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -79,7 +80,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public boolean changeLogin(String login, User user) throws ServiceException {
-        SmtpMailSender mailSender = SmtpMailSender.getInstance();
+        MailSender mailSender = SmtpMailSender.getInstance();
 
         try {
             if(!login.matches(LOGIN_PATTERN)){
@@ -98,7 +99,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public boolean changePassword(String password, User user) throws ServiceException {
-        SmtpMailSender mailSender = SmtpMailSender.getInstance();
+        MailSender mailSender = SmtpMailSender.getInstance();
 
         try {
             if (!(password.length() >= MIN_LOGIN_LEN && password.length() <= MAX_LOGIN_LEN)) {

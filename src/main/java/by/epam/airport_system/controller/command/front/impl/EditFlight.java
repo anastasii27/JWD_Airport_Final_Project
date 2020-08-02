@@ -79,7 +79,7 @@ public class EditFlight implements Command {
     }
 
     private List<String> initialValidation(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        Validator validator = ValidationFactory.getInstance().getEditFlightValidation();
+        Validator validator = ValidationFactory.getInstance().getFlightValidation();
 
         Map<String, String> params = RequestToMapParser.toRequestParamsMap(request);
         ValidationResult result = validator.validate(params);

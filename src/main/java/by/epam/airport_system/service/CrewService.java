@@ -12,6 +12,6 @@ public interface CrewService {
     boolean deleteCrew(String crewName) throws ServiceException;
     List<String> crewsList() throws ServiceException;
     Set<String> findFreeCrewsForFlight(Flight flight) throws ServiceException;
-    boolean setCrewForFlight(String crewName, String flightNumber) throws ServiceException;//todo date?
+    boolean setCrewForFlight(String crewName, String flightNumber) throws ServiceException;//todo date
     String flightCrew(Flight flight)  throws ServiceException;
 }

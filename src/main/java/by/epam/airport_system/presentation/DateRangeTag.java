@@ -9,6 +9,8 @@ import java.time.LocalDate;
 public class DateRangeTag extends TagSupport {
     private final static String DATE_PATTERN ="^(202[0-9])[-]([0]?[1-9]|[1][0-2])[-]([0]?[1-9]|[1|2][0-9]|[3][0|1])$";
     private static final String NUMBER_PATTERN ="\\d+";
+    private static final String DASH = "  –  ";
+    private static final String EMPTY_STRING = " ";
     private String startDate;
     private String rangeLength;
 
@@ -29,9 +31,9 @@ public class DateRangeTag extends TagSupport {
                 LocalDate date = LocalDate.parse(startDate);
                 int range = Integer.parseInt(rangeLength);
 
-                out.print(date + "  –  " + date.plusDays(range));
+                out.print(date + DASH + date.plusDays(range));
             }else {
-                out.print(" ");
+                out.print(EMPTY_STRING);
             }
         } catch (IOException e) {
            throw new JspException(e);

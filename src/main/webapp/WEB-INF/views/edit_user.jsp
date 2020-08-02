@@ -60,6 +60,7 @@
                 <input type="hidden" name="action" value="edit_user"/>
                 <input type="hidden" name="id" value="${sessionScope.user.id}"/>
                 <input type="hidden" name="login" value="${sessionScope.user.login}"/>
+                <input type="hidden" name="user_password" value="notrealpas123"/>
 
                 <div class="form-group row">
                     <label for="inputName">${name_label}</label>

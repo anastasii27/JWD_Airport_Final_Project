@@ -30,7 +30,7 @@ public class Registration implements Command{
     public void execute(HttpServletRequest request, HttpServletResponse response) {
         UserService service = ServiceFactory.getInstance().getUserService();
         HttpSession session = request.getSession(true);
-        Validator validator = ValidationFactory.getInstance().getCreatedUserValidation();
+        Validator validator = ValidationFactory.getInstance().getUserValidation();
 
         String role = request.getParameter(ParameterName.ROLE);
         String login = request.getParameter(ParameterName.LOGIN);

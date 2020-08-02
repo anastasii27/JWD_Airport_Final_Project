@@ -10,7 +10,7 @@ import java.util.Properties;
 import java.util.ResourceBundle;
 
 @Log4j2
-public class SmtpMailSender {
+public class SmtpMailSender implements MailSender{
     private static SmtpMailSender instance;
     private final static String FROM = "blue.sky.airp@gmail.com";
     private final static String PASSWORD = "12345nastya";

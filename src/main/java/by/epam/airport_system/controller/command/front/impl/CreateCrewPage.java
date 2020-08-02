@@ -1,5 +1,6 @@
 package by.epam.airport_system.controller.command.front.impl;
 
+import by.epam.airport_system.bean.Role;
 import by.epam.airport_system.bean.User;
 import by.epam.airport_system.controller.command.Command;
 import by.epam.airport_system.controller.constant_parameter.JSPPageName;
@@ -15,8 +16,6 @@ import java.util.List;
 
 @Log4j2
 public class CreateCrewPage implements Command {
-    private static final String PILOT = "pilot";
-    private static final String STEWARD = "steward";
     private final static String CURRENT_PAGE_PATH = "/airport?action=show_create_crew_page";
 
     @Override
@@ -25,8 +24,8 @@ public class CreateCrewPage implements Command {
         HttpSession session = request.getSession(true);
 
         try {
-            List<User> pilots = userService.usersListByRole(PILOT);
-            List<User> stewards = userService.usersListByRole(STEWARD);
+            List<User> pilots = userService.usersListByRole(Role.PILOT.name().toLowerCase());
+            List<User> stewards = userService.usersListByRole(Role.STEWARD.name().toLowerCase());
 
             request.setAttribute(ParameterName.PILOTS, pilots);
             request.setAttribute(ParameterName.STEWARDS, stewards);
