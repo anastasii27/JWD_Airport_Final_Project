@@ -7,6 +7,8 @@ import by.epam.airport_system.service.CityService;
 import by.epam.airport_system.service.ServiceException;
 import by.epam.airport_system.service.ServiceFactory;
 import lombok.extern.log4j.Log4j2;
+
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -16,7 +18,7 @@ import java.util.List;
 public class FlightTimetablePage implements Command {
 
     @Override
-    public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         CityService cityService = ServiceFactory.getInstance().getCityService();
 
         try {

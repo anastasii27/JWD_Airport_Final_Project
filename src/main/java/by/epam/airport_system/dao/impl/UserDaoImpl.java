@@ -19,22 +19,22 @@ public class UserDaoImpl implements UserDao{
             "VALUES((SELECT id FROM airport.roles WHERE title = ?),?,?,?,?,?,?);";
 
     private final static String USER_BY_LOGIN = "SELECT users.id, login, title  AS `role`, `password`, `name`, surname, email, `career-start-year` " +
-            "FROM users JOIN roles ON users.`role-id` = roles.id WHERE login = ?;";
+            "FROM airport.users JOIN airport.roles ON users.`role-id` = roles.id WHERE login = ?;";
 
     private final static String BUSY_DEPARTURE_DISPATCHERS = "SELECT `name`, surname FROM airport.flights\n" +
-            "JOIN users ON `dispatcher-id` = users.id\n" +
+            "JOIN airport.users ON `dispatcher-id` = users.id\n" +
             "WHERE `departure-time` BETWEEN ? AND addtime(?, \"00:10:00\")\n" +
             "AND `departure-date` = ?\n" +
-            "AND `departure-airport-id` = (SELECT id FROM airports WHERE `name-abbreviation` = ?)";
+            "AND `departure-airport-id` = (SELECT id FROM airport.airports WHERE `name-abbreviation` = ?)";
 
     private final static String BUSY_ARRIVAL_DISPATCHERS = "SELECT `name`, surname FROM airport.flights\n" +
-            "JOIN users ON `dispatcher-id` = users.id\n" +
+            "JOIN airport.users ON `dispatcher-id` = users.id\n" +
             "WHERE `destination-time` BETWEEN ? AND addtime(?, \"00:10:00\")\n" +
             "AND `destination-date` = ?\n" +
-            "AND `destination-airport-id` = (SELECT id FROM airports WHERE `name-abbreviation` = ?)";
+            "AND `destination-airport-id` = (SELECT id FROM airport.airports WHERE `name-abbreviation` = ?)";
 
     private static final String USERS_BY_ROLE = "SELECT `name`, surname FROM airport.users WHERE `role-id`= (" +
-            "SELECT id  FROM roles WHERE title = ?);";
+            "SELECT id  FROM airport.roles WHERE title = ?);";
 
     private final static String EDIT_USER = "UPDATE airport.users\n" +
             "SET `name` = ?, surname = ?,\n" +

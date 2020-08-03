@@ -16,59 +16,59 @@ public class UserFlightsDaoImpl implements UserFlightsDao{
     private final static String USER_FLIGHTS_BY_DAY =   "SELECT `status`, title, `departure-date`, `departure-time`, `destination-date`, `destination-time`, \n" +
             "c1.`name` AS `destination-city` , a1.`name-abbreviation` AS `dest-airport-short-name`,\n" +
             "c2.`name` AS `departure-city`, a2.`name-abbreviation` AS `dep-airport-short-name`, `flight-number` \n" +
-            "FROM flights\n" +
-            "JOIN `plane-models` ON `plane-models`.id = (SELECT `model-id` FROM planes WHERE planes.id = `plane-id`)\n" +
-            "JOIN `flight-teams` ON  flights.`flight-team-id` = `flight-teams`.id\n" +
-            "JOIN `flight-teams-m2m-users` ON   `flight-teams-m2m-users`.`flight-team-id` = `flight-teams`.id \n" +
-            "JOIN airports AS a1 ON  a1.id = flights.`destination-airport-id`\n" +
-            "JOIN cities AS c1 ON  c1.id = (SELECT `city-id` FROM airports WHERE airports.`name` = a1.`name`)\n" +
-            "JOIN airports AS a2 ON a2.id = flights.`departure-airport-id`\n" +
-            "JOIN cities AS c2 ON  c2.id = (SELECT `city-id` FROM airports WHERE airports.`name` = a2.`name`)\n" +
+            "FROM airport.flights\n" +
+            "JOIN airport.`plane-models` ON `plane-models`.id = (SELECT `model-id` FROM airport.planes WHERE planes.id = `plane-id`)\n" +
+            "JOIN airport.`flight-teams` ON  flights.`flight-team-id` = `flight-teams`.id\n" +
+            "JOIN airport.`flight-teams-m2m-users` ON   `flight-teams-m2m-users`.`flight-team-id` = `flight-teams`.id \n" +
+            "JOIN airport.airports AS a1 ON  a1.id = flights.`destination-airport-id`\n" +
+            "JOIN airport.cities AS c1 ON  c1.id = (SELECT `city-id` FROM airport.airports WHERE airports.`name` = a1.`name`)\n" +
+            "JOIN airport.airports AS a2 ON a2.id = flights.`departure-airport-id`\n" +
+            "JOIN airport.cities AS c2 ON  c2.id = (SELECT `city-id` FROM airport.airports WHERE airports.`name` = a2.`name`)\n" +
             "WHERE `user-id` = ?  AND `departure-date` = ?;";
 
     private final static String DISPATCHER_ARRIVALS = "SELECT `status`, title, `destination-date` AS `date`, `destination-time` AS `time`, \n" +
             "c1.`name` AS `destination-city` , a1.`name-abbreviation` AS `dest-airport-short-name`,\n" +
             "c2.`name` AS `departure-city`, a2.`name-abbreviation` AS `dep-airport-short-name`, `flight-number` \n" +
-            "FROM flights\n" +
-            "JOIN `plane-models` ON `plane-models`.id = (SELECT `model-id` FROM planes WHERE planes.id = `plane-id`)\n" +
-            "JOIN airports AS a1 ON  a1.id = flights.`destination-airport-id` \n" +
-            "JOIN cities AS c1 ON c1.id = (SELECT  `city-id` FROM airports WHERE airports.`name` = a1.`name`)\n" +
-            "JOIN airports AS a2 ON a2.id = flights.`departure-airport-id` \n" +
-            "JOIN cities AS c2 ON c2.id = (SELECT  `city-id` FROM airports WHERE airports.`name` = a2.`name`)\n" +
-            "WHERE `dispatcher-id` = (SELECT id FROM users WHERE surname= ? AND email= ?)\n" +
+            "FROM airport.flights\n" +
+            "JOIN airport.`plane-models` ON `plane-models`.id = (SELECT `model-id` FROM airport.planes WHERE planes.id = `plane-id`)\n" +
+            "JOIN airport.airports AS a1 ON  a1.id = flights.`destination-airport-id` \n" +
+            "JOIN airport.cities AS c1 ON c1.id = (SELECT  `city-id` FROM airport.airports WHERE airports.`name` = a1.`name`)\n" +
+            "JOIN airport.airports AS a2 ON a2.id = flights.`departure-airport-id` \n" +
+            "JOIN airport.cities AS c2 ON c2.id = (SELECT  `city-id` FROM airport.airports WHERE airports.`name` = a2.`name`)\n" +
+            "WHERE `dispatcher-id` = (SELECT id FROM airport.users WHERE surname= ? AND email= ?)\n" +
             "AND `destination-date` BETWEEN current_date() AND date_add(current_date(),interval 1 day)\n" +
             "AND c1.`name`= 'Minsk';";
 
     private final static String DISPATCHER_DEPARTURES = "SELECT `status`, title, `departure-date` AS `date`, `departure-time` AS `time`, \n" +
             "c1.`name` AS `destination-city` , a1.`name-abbreviation` AS `dest-airport-short-name`,\n" +
             "c2.`name` AS `departure-city`, a2.`name-abbreviation` AS `dep-airport-short-name`, `flight-number` \n" +
-            "FROM flights\n" +
-            "JOIN `plane-models` ON `plane-models`.id = (SELECT `model-id` FROM planes WHERE planes.id = `plane-id`)\n" +
-            "JOIN airports AS a1 ON  a1.id = flights.`destination-airport-id` \n" +
-            "JOIN cities AS c1 ON c1.id = (SELECT  `city-id` FROM airports WHERE airports.`name` = a1.`name`)\n" +
-            "JOIN airports AS a2 ON a2.id = flights.`departure-airport-id` \n" +
-            "JOIN cities AS c2 ON c2.id = (SELECT  `city-id` FROM airports WHERE airports.`name` = a2.`name`)\n" +
-            "WHERE `dispatcher-id` = (SELECT id FROM users WHERE surname= ? AND email= ?)\n" +
+            "FROM airport.flights\n" +
+            "JOIN airport.`plane-models` ON `plane-models`.id = (SELECT `model-id` FROM airport.planes WHERE planes.id = `plane-id`)\n" +
+            "JOIN airport.airports AS a1 ON  a1.id = flights.`destination-airport-id` \n" +
+            "JOIN airport.cities AS c1 ON c1.id = (SELECT  `city-id` FROM airport.airports WHERE airports.`name` = a1.`name`)\n" +
+            "JOIN airport.airports AS a2 ON a2.id = flights.`departure-airport-id` \n" +
+            "JOIN airport.cities AS c2 ON c2.id = (SELECT  `city-id` FROM airport.airports WHERE airports.`name` = a2.`name`)\n" +
+            "WHERE `dispatcher-id` = (SELECT id FROM airport.users WHERE surname= ? AND email= ?)\n" +
             "AND `departure-date` BETWEEN current_date() AND date_add(current_date(), interval 1 day)\n" +
             "AND c2.`name`= 'Minsk';";
 
     private final static String LAST_USER_FLIGHT = "SELECT `name-abbreviation` AS `dest-airport-short-name`," +
             "`destination-time`, `destination-date`\n" +
-            "FROM flights\n" +
-            "JOIN airports ON airports.id = flights.`destination-airport-id`\n" +
-            "JOIN `flight-teams` ON  flights.`flight-team-id` = `flight-teams`.id\n" +
-            "JOIN `flight-teams-m2m-users` ON   `flight-teams-m2m-users`.`flight-team-id` = `flight-teams`.id \n" +
-            "WHERE `user-id` = (SELECT id FROM users WHERE surname = ?  AND email = ?)\n" +
+            "FROM airport.flights\n" +
+            "JOIN airport.airports ON airports.id = flights.`destination-airport-id`\n" +
+            "JOIN airport.`flight-teams` ON  flights.`flight-team-id` = `flight-teams`.id\n" +
+            "JOIN airport.`flight-teams-m2m-users` ON   `flight-teams-m2m-users`.`flight-team-id` = `flight-teams`.id \n" +
+            "WHERE `user-id` = (SELECT id FROM airport.users WHERE surname = ?  AND email = ?)\n" +
             "AND `destination-date` <= ? \n" +
             "ORDER BY `destination-date` DESC, `destination-time` DESC LIMIT 1";
 
     private final static String FIRST_USER_FLIGHT = "SELECT `name-abbreviation` AS `dep-airport-short-name`," +
             "`departure-time`, `departure-date`\n" +
-            "FROM flights\n" +
-            "JOIN airports ON  airports.id = flights.`departure-airport-id`\n" +
-            "JOIN `flight-teams` ON  flights.`flight-team-id` = `flight-teams`.id\n" +
-            "JOIN `flight-teams-m2m-users` ON  `flight-teams-m2m-users`.`flight-team-id` = `flight-teams`.id \n" +
-            "WHERE `user-id` = (SELECT id FROM users WHERE surname = ?  AND email = ?)\n" +
+            "FROM airport.flights\n" +
+            "JOIN airport.airports ON  airports.id = flights.`departure-airport-id`\n" +
+            "JOIN airport.`flight-teams` ON  flights.`flight-team-id` = `flight-teams`.id\n" +
+            "JOIN airport.`flight-teams-m2m-users` ON  `flight-teams-m2m-users`.`flight-team-id` = `flight-teams`.id \n" +
+            "WHERE `user-id` = (SELECT id FROM airport.users WHERE surname = ?  AND email = ?)\n" +
             "AND `departure-date` >= ?\n" +
             "ORDER BY `departure-date`, `departure-time` LIMIT 1";
 

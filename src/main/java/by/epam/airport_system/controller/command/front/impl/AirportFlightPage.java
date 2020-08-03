@@ -6,6 +6,8 @@ import by.epam.airport_system.controller.constant_parameter.ParameterName;
 import by.epam.airport_system.service.CityService;
 import by.epam.airport_system.service.ServiceException;
 import by.epam.airport_system.service.ServiceFactory;
+
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -16,7 +18,7 @@ import lombok.extern.log4j.Log4j2;
 public class AirportFlightPage implements Command {
 
     @Override
-    public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         CityService cityService = ServiceFactory.getInstance().getCityService();
 
         try {

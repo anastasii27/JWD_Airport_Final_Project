@@ -12,6 +12,8 @@ import by.epam.airport_system.service.ServiceException;
 import by.epam.airport_system.service.ServiceFactory;
 import com.google.common.collect.Multimap;
 import lombok.extern.log4j.Log4j2;
+
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -22,7 +24,7 @@ public class ChooseCrewForFlight implements Command {
     private final static String ANSWER = "local.message.choose_crews.1";
 
     @Override
-    public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         CrewService crewService = ServiceFactory.getInstance().getCrewService();
         CrewMemberService crewMemberService = ServiceFactory.getInstance().getCrewMemberService();
         Flight flight = (Flight)request.getSession().getAttribute(ParameterName.FLIGHT);

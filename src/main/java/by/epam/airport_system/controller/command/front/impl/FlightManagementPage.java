@@ -9,6 +9,8 @@ import by.epam.airport_system.service.FlightService;
 import by.epam.airport_system.service.ServiceException;
 import by.epam.airport_system.service.ServiceFactory;
 import lombok.extern.log4j.Log4j2;
+
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -22,7 +24,7 @@ public class FlightManagementPage implements Command {
     private final static String CURRENT_PAGE_PATH = "/airport?action=show_flight_management_page&departure_date=";
 
     @Override
-    public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         FlightService userFlightsService = ServiceFactory.getInstance().getFlightService();
         HttpSession session = request.getSession(true);
 

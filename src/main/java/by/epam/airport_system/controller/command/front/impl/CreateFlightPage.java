@@ -7,6 +7,8 @@ import by.epam.airport_system.service.CountryService;
 import by.epam.airport_system.service.ServiceException;
 import by.epam.airport_system.service.ServiceFactory;
 import lombok.extern.log4j.Log4j2;
+
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -18,7 +20,7 @@ public class CreateFlightPage implements Command {
     private final static String CURRENT_PAGE_PATH = "/airport?action=show_create_flight_page";
 
     @Override
-    public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         CountryService countryService = ServiceFactory.getInstance().getCountryService();
         HttpSession session = request.getSession(true);
 

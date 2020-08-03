@@ -10,6 +10,8 @@ import by.epam.airport_system.service.ServiceException;
 import by.epam.airport_system.service.ServiceFactory;
 import by.epam.airport_system.service.UserService;
 import lombok.extern.log4j.Log4j2;
+
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -19,7 +21,7 @@ import java.util.List;
 public class CrewPage implements Command {
 
     @Override
-    public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         UserService userService = ServiceFactory.getInstance().getUserService();
         CrewService crewService = ServiceFactory.getInstance().getCrewService();
 
