@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class UserDaoImplTest extends H2DataBaseCreation {
+public class UserDaoImplTest extends H2DataBaseCreation {//todo missed methods
     private static final String WRONG_LOGIN = "hiThere";
     private static final String PASSWORD = "8181881";
     private static final String ILLEGAL_ROLE = "teacher";
@@ -20,7 +20,7 @@ public class UserDaoImplTest extends H2DataBaseCreation {
     private User dispatcher;
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp(){
         user = User.builder().name("Nastya")
                 .surname("Rodnova")
                 .email("nastya1@gmail.com")
