@@ -6,7 +6,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 public interface PlaneDao {
-    List<Plane> arrivedToAirportPlane(String airportName, LocalDate date) throws DaoException;
+    List<Plane> arrivedToAirportPlanes(String airportName, LocalDate date) throws DaoException;
     List<Plane> takenOnFlightPlanes(String airportName, LocalDate date) throws DaoException;
     List<Plane> allPlanes() throws DaoException;
     Flight firstPlaneFlightAfterDate( String planeNumber, LocalDate date) throws DaoException;

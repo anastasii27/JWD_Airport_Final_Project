@@ -14,7 +14,7 @@ import java.io.IOException;
 public class CrewNameExistence implements Command {
 
     @Override
-    public void execute(HttpServletRequest request, HttpServletResponse response) {
+    public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException {
         CrewService crewService = ServiceFactory.getInstance().getCrewService();
 
         String crewName = request.getParameter(ParameterName.CREW_NAME);
@@ -25,8 +25,6 @@ public class CrewNameExistence implements Command {
             response.getWriter().write(String.valueOf(!operationResult));
         } catch (ServiceException e) {
             log.error("Cannot execute ajax command for crew name check", e);
-        } catch (IOException e) {
-            log.error("Cannot write response", e);
         }
     }
 }

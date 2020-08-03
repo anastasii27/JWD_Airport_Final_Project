@@ -20,7 +20,7 @@ import java.util.Set;
 public class FreeCrew implements Command {
 
     @Override
-    public void execute(HttpServletRequest request, HttpServletResponse response) {
+    public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException {
         CrewService crewService = ServiceFactory.getInstance().getCrewService();
 
         String flightDepartureDate = request.getParameter(ParameterName.DEPARTURE_DATE);
@@ -31,12 +31,11 @@ public class FreeCrew implements Command {
         String flightDestinationAirportName = request.getParameter(ParameterName.DESTINATION_AIRPORT);
 
         Flight flight = Flight.builder().departureDate(LocalDate.parse(flightDepartureDate))
-                                        .departureTime(LocalTime.parse(flightDepartureTime))
-                                        .departureAirportShortName(extractAirportName(flightDepartureAirportName))
-                                        .destinationDate(LocalDate.parse(flightDestinationDate))
-                                        .destinationTime(LocalTime.parse(flightDestinationTime))
-                                        .destinationAirportShortName(extractAirportName(flightDestinationAirportName))
-                                        .build();
+                        .departureTime(LocalTime.parse(flightDepartureTime))
+                        .departureAirportShortName(extractAirportName(flightDepartureAirportName))
+                        .destinationDate(LocalDate.parse(flightDestinationDate))
+                        .destinationTime(LocalTime.parse(flightDestinationTime))
+                        .destinationAirportShortName(extractAirportName(flightDestinationAirportName)).build();
 
         try {
             Set<String> freeCrews = crewService.findFreeCrewsForFlight(flight);
@@ -46,8 +45,6 @@ public class FreeCrew implements Command {
             response.getWriter().write(freeCrewsGson);
         } catch (ServiceException e) {
             log.error("Cannot execute ajax command for free crews searching", e);
-        } catch (IOException e) {
-            log.error("Cannot write json to response", e);
         }
     }
 }

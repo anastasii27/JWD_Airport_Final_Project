@@ -9,13 +9,14 @@ import by.epam.airport_system.service.ServiceFactory;
 import lombok.extern.log4j.Log4j2;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.List;
 
 @Log4j2
 public class FlightTimetablePage implements Command {
 
     @Override
-    public void execute(HttpServletRequest request, HttpServletResponse response) {
+    public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException {
         CityService cityService = ServiceFactory.getInstance().getCityService();
 
         try {
@@ -25,7 +26,7 @@ public class FlightTimetablePage implements Command {
             forwardTo(request, response, JSPPageName.FLIGHT_TIMETABLE_PAGE);
         } catch (ServiceException e) {
             log.error("Cannot execute command for flight timetable page", e);
-            errorPage(response);
+            response.sendRedirect(JSPPageName.ERROR_PAGE);
         }
     }
 }

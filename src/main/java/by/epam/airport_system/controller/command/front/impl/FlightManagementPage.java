@@ -12,6 +12,7 @@ import lombok.extern.log4j.Log4j2;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -21,7 +22,7 @@ public class FlightManagementPage implements Command {
     private final static String CURRENT_PAGE_PATH = "/airport?action=show_flight_management_page&departure_date=";
 
     @Override
-    public void execute(HttpServletRequest request, HttpServletResponse response) {
+    public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException {
         FlightService userFlightsService = ServiceFactory.getInstance().getFlightService();
         HttpSession session = request.getSession(true);
 
@@ -44,7 +45,7 @@ public class FlightManagementPage implements Command {
             forwardTo(request,response, JSPPageName.FLIGHT_MANAGEMENT_PAGE);
         } catch (ServiceException e) {
             log.error("Cannot execute command for admin flights", e);
-            errorPage(response);
+            response.sendRedirect(JSPPageName.ERROR_PAGE);
         }
     }
 }

@@ -30,7 +30,7 @@ public class CreateFlight implements Command {
     private static final String FREE_CREWS_PAGE_PATH = "/airport?action=free_crews_for_flight";
 
     @Override
-    public void execute(HttpServletRequest request, HttpServletResponse response) {
+    public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException {
         HttpSession session = request.getSession(true);
 
         try {
@@ -53,16 +53,16 @@ public class CreateFlight implements Command {
                                                 .surname(extractSurname(dispatcherFullName)).build();
 
                 Flight flight = Flight.builder().flightNumber(flightNumber)
-                                                .dispatcher(dispatcher)
-                                                .planeNumber(extractPlaneNumber(plane))
-                                                .departureDate(departureDate)
-                                                .departureTime(departureTime)
-                                                .departureCountry(departureCountry)
-                                                .departureAirportShortName(extractAirportName(departureCityWithAirport))
-                                                .destinationDate(destinationDate)
-                                                .destinationTime(destinationTime)
-                                                .destinationCountry(destinationCountry)
-                                                .destinationAirportShortName(extractAirportName(destinationCityWithAirport)).build();
+                                .dispatcher(dispatcher)
+                                .planeNumber(extractPlaneNumber(plane))
+                                .departureDate(departureDate)
+                                .departureTime(departureTime)
+                                .departureCountry(departureCountry)
+                                .departureAirportShortName(extractAirportName(departureCityWithAirport))
+                                .destinationDate(destinationDate)
+                                .destinationTime(destinationTime)
+                                .destinationCountry(destinationCountry)
+                                .destinationAirportShortName(extractAirportName(destinationCityWithAirport)).build();
 
                 FlightService flightService = ServiceFactory.getInstance().getFlightService();
                 boolean operationResult = flightService.createFlight(flight);
@@ -78,9 +78,9 @@ public class CreateFlight implements Command {
                     response.sendRedirect(JSPPageName.RESULT_PAGE);
                 }
             }
-        } catch(ServiceException | IOException e){
-                log.error("Cannot execute command for flight creating", e);
-                errorPage(response);
+        } catch(ServiceException e){
+            log.error("Cannot execute command for flight creating", e);
+            response.sendRedirect(JSPPageName.ERROR_PAGE);
         }
     }
 

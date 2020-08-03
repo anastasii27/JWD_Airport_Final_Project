@@ -4,7 +4,6 @@ import by.epam.airport_system.bean.Flight;
 import by.epam.airport_system.bean.User;
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Map;
 
 public interface UserFlightsDao{
     List<Flight> userFlights(int id, LocalDate date) throws DaoException;

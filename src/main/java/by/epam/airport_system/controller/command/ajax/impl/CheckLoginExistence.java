@@ -17,7 +17,7 @@ public class CheckLoginExistence implements Command {
     private final static String USER_DOES_NOT_EXIST = "true";
 
     @Override
-    public void execute(HttpServletRequest request, HttpServletResponse response) {
+    public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException {
         UserService userService = ServiceFactory.getInstance().getUserService();
         String login = request.getParameter(ParameterName.LOGIN);
 
@@ -31,8 +31,6 @@ public class CheckLoginExistence implements Command {
             }
         } catch (ServiceException e) {
             log.error("Cannot execute ajax command for login existence check", e);
-        } catch (IOException e) {
-            log.error("Cannot write response", e);
         }
     }
 }

@@ -271,3 +271,4 @@ Caused by: java.net.SocketException: Software caused connection abort: recv fail
 INFO  2020-08-01 15:57:04 SmtpMailSender - Message has been send to rodnovanastya@gmail.com
 INFO  2020-08-02 13:23:19 SmtpMailSender - Message has been send to rodnovanastya@gmail.com
 INFO  2020-08-02 13:23:27 SmtpMailSender - Message has been send to rodnovanastya@gmail.com
+INFO  2020-08-02 15:59:01 SmtpMailSender - Message has been send to anni111@gmail.com

@@ -16,7 +16,7 @@ import java.io.IOException;
 public class CrewMainPilot implements Command {
 
     @Override
-    public void execute(HttpServletRequest request, HttpServletResponse response) {
+    public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException {
         CrewMemberService crewService = ServiceFactory.getInstance().getCrewMemberService();
         String crewName = request.getParameter(ParameterName.CREW_NAME);
         String commanderGson = " ";
@@ -31,8 +31,6 @@ public class CrewMainPilot implements Command {
             response.getWriter().write(commanderGson);
         } catch (ServiceException e) {
             log.error("Cannot execute ajax command for crew main pilot searching", e);
-        } catch (IOException e) {
-            log.error("Cannot write response", e);
         }
     }
 }

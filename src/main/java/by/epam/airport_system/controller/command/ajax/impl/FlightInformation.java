@@ -36,10 +36,8 @@ public class FlightInformation implements Command {
             }
 
             response.getWriter().write(flightGson);
-        } catch (ServiceException e) {
+        } catch (ServiceException | IOException e) {
             log.error("Cannot execute ajax command for flight information getting", e);
-        } catch (IOException e) {
-            log.error("Cannot write json to response", e);
         }
     }
 }

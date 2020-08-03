@@ -13,16 +13,12 @@ import java.io.IOException;
 public class SignOut implements Command{
 
     @Override
-    public void execute(HttpServletRequest request, HttpServletResponse response) {
+    public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException {
         HttpSession session = request.getSession(false);
 
         session.removeAttribute(ParameterName.USER);
         session.removeAttribute(ParameterName.RESULT_INFO);
-        try {
-            response.sendRedirect(JSPPageName.START_PAGE);
-        } catch (IOException e) {
-            log.error("Cannot execute command for signing out", e);
-            errorPage(response);
-        }
+
+        response.sendRedirect(JSPPageName.START_PAGE);
     }
 }

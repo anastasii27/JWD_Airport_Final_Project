@@ -27,18 +27,10 @@ public class Registration implements Command{
     private final static String CURRENT_PAGE_PATH = "/airport?action=show_register_page";
 
     @Override
-    public void execute(HttpServletRequest request, HttpServletResponse response) {
+    public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException {
         UserService service = ServiceFactory.getInstance().getUserService();
         HttpSession session = request.getSession(true);
         Validator validator = ValidationFactory.getInstance().getUserValidation();
-
-        String role = request.getParameter(ParameterName.ROLE);
-        String login = request.getParameter(ParameterName.LOGIN);
-        String password = request.getParameter(ParameterName.PASSWORD);
-        String name = request.getParameter(ParameterName.NAME);
-        String surname = request.getParameter(ParameterName.SURNAME);
-        String email = request.getParameter(ParameterName.EMAIL);
-        String careerStartYear = request.getParameter(ParameterName.CAREER_START_YEAR);
 
         Map<String, String> params = RequestToMapParser.toRequestParamsMap(request);
         ValidationResult validationResult = validator.validate(params);
@@ -47,6 +39,14 @@ public class Registration implements Command{
             if(!validationResult.isEmpty()){
                 session.setAttribute(ParameterName.RESULT_INFO, validationResult.getErrorsList());
             }else{
+                String role = request.getParameter(ParameterName.ROLE);
+                String login = request.getParameter(ParameterName.LOGIN);
+                String password = request.getParameter(ParameterName.PASSWORD);
+                String name = request.getParameter(ParameterName.NAME);
+                String surname = request.getParameter(ParameterName.SURNAME);
+                String email = request.getParameter(ParameterName.EMAIL);
+                String careerStartYear = request.getParameter(ParameterName.CAREER_START_YEAR);
+
                 User user =  User.builder().role(role)
                             .login(login)
                             .password(password)
@@ -62,9 +62,9 @@ public class Registration implements Command{
 
             session.setAttribute(ParameterName.PREVIOUS_PAGE, request.getContextPath()+ CURRENT_PAGE_PATH);
             response.sendRedirect(JSPPageName.RESULT_PAGE);
-        } catch (ServiceException| IOException e) {
+        } catch (ServiceException e) {
             log.error("Cannot execute command for registration", e);
-            errorPage(response);
+            response.sendRedirect(JSPPageName.ERROR_PAGE);
         }
     }
 

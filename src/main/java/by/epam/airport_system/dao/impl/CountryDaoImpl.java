@@ -4,6 +4,7 @@ import by.epam.airport_system.dao.CountryDao;
 import by.epam.airport_system.dao.DaoException;
 import by.epam.airport_system.dao.connectionpool.ConnectionPool;
 import by.epam.airport_system.dao.connectionpool.ConnectionPoolException;
+import static by.epam.airport_system.dao.impl.DbParameterName.*;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -11,8 +12,8 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CountryDaoImpl implements CountryDao, CloseOperation {
-    private static final String COUNTRIES = "SELECT `name` FROM airport.countries;";
+public class CountryDaoImpl implements CountryDao{
+    private static final String SELECT_COUNTRIES = "SELECT `name` FROM airport.countries;";
 
     @Override
     public List<String> countriesList() throws DaoException {
@@ -26,14 +27,16 @@ public class CountryDaoImpl implements CountryDao, CloseOperation {
             connection = pool.takeConnection();
             st = connection.createStatement();
 
-            rs = st.executeQuery(COUNTRIES);
+            rs = st.executeQuery(SELECT_COUNTRIES);
             while (rs.next()) {
-                countries.add(rs.getString("name"));
+                countries.add(rs.getString(NAME));
             }
         } catch (ConnectionPoolException | SQLException e) {
             throw new DaoException("Exception during creating countries list!", e);
         } finally {
-            closeAll(rs, st, pool, connection);
+            if(pool != null) {
+               pool.closeConnection(rs, st, connection);
+            }
         }
         return countries;
     }

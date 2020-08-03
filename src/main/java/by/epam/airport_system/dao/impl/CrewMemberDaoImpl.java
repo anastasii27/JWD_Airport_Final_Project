@@ -5,6 +5,7 @@ import by.epam.airport_system.dao.CrewMemberDao;
 import by.epam.airport_system.dao.DaoException;
 import by.epam.airport_system.dao.connectionpool.ConnectionPool;
 import by.epam.airport_system.dao.connectionpool.ConnectionPoolException;
+import static by.epam.airport_system.dao.impl.DbParameterName.*;
 import lombok.extern.log4j.Log4j2;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -14,7 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Log4j2
-public class CrewMemberDaoImpl implements CrewMemberDao, CloseOperation {
+public class CrewMemberDaoImpl implements CrewMemberDao{
     private final static String CREW_MEMBERS = "SELECT `name`, `surname`, email, title FROM airport.`flight-teams-m2m-users`\n"+
             "JOIN airport.users ON `flight-teams-m2m-users`.`user-id` = users.id \n"+
             "JOIN airport.roles ON roles.id  = (SELECT `role-id` FROM airport.users WHERE users.id = `flight-teams-m2m-users`.`user-id` )\n"+
@@ -36,8 +37,6 @@ public class CrewMemberDaoImpl implements CrewMemberDao, CloseOperation {
             "JOIN airport.users ON `main-pilot-id`  = users.id\n" +
             "WHERE `short-name` = ?;";
 
-    private int changedRowsAmount;
-
     @Override
     public List<User> crewMembers(String crewName) throws DaoException {
         List<User> crew = new ArrayList<>();
@@ -52,13 +51,13 @@ public class CrewMemberDaoImpl implements CrewMemberDao, CloseOperation {
 
             ps =  connection.prepareStatement(CREW_MEMBERS);
             ps.setString(1, crewName);
-            rs = ps.executeQuery();
 
+            rs = ps.executeQuery();
             while (rs.next()) {
-                crew.add(User.builder().name(rs.getString("name"))
-                        .surname(rs.getString("surname"))
-                        .role(rs.getString("title"))
-                        .email(rs.getString("email")).build());
+                crew.add(User.builder().name(rs.getString(NAME))
+                        .surname(rs.getString(SURNAME))
+                        .role(rs.getString(TITLE))
+                        .email(rs.getString(EMAIL)).build());
             }
 
             connection.commit();
@@ -79,7 +78,9 @@ public class CrewMemberDaoImpl implements CrewMemberDao, CloseOperation {
             } catch (SQLException e) {
                 log.error("Exception while setting auto committing = true", e);
             }
-            closeAll(rs, ps, pool, connection);
+            if(pool != null) {
+                pool.closeConnection(rs, ps, connection);
+            }
         }
         return crew;
     }
@@ -89,6 +90,7 @@ public class CrewMemberDaoImpl implements CrewMemberDao, CloseOperation {
         ConnectionPool pool = ConnectionPool.getInstance();
         Connection  connection = null;
         PreparedStatement ps = null;
+        int changedRowsAmount;
 
         try {
             connection = pool.takeConnection();
@@ -118,7 +120,9 @@ public class CrewMemberDaoImpl implements CrewMemberDao, CloseOperation {
             } catch (SQLException e) {
                 log.error("Exception while setting auto committing = true", e);
             }
-            closeAll( ps, pool, connection);
+            if(pool != null) {
+                pool.closeConnection(ps, connection);
+            }
         }
         return changedRowsAmount;
     }
@@ -128,6 +132,7 @@ public class CrewMemberDaoImpl implements CrewMemberDao, CloseOperation {
         ConnectionPool pool = ConnectionPool.getInstance();
         Connection  connection = null;
         PreparedStatement ps = null;
+        int changedRowsAmount = 0;
 
         try {
             connection = pool.takeConnection();
@@ -159,7 +164,9 @@ public class CrewMemberDaoImpl implements CrewMemberDao, CloseOperation {
             } catch (SQLException e) {
                 log.error("Exception while setting auto committing = true", e);
             }
-            closeAll(ps, pool, connection);
+            if(pool != null) {
+                pool.closeConnection(ps, connection);
+            }
         }
         return changedRowsAmount;
     }
@@ -168,7 +175,7 @@ public class CrewMemberDaoImpl implements CrewMemberDao, CloseOperation {
     public boolean isUserInTheCrew(String crewName, User user) throws DaoException {
         ConnectionPool pool = ConnectionPool.getInstance();
         Connection connection = null;
-        ResultSet rs;
+        ResultSet rs = null;
         PreparedStatement  ps = null;
         boolean operationResult;
 
@@ -180,6 +187,7 @@ public class CrewMemberDaoImpl implements CrewMemberDao, CloseOperation {
             ps.setString(1, user.getName());
             ps.setString(2, user.getSurname());
             ps.setString(3, crewName);
+
             rs = ps.executeQuery();
             operationResult  = rs.next();
 
@@ -201,7 +209,9 @@ public class CrewMemberDaoImpl implements CrewMemberDao, CloseOperation {
             } catch (SQLException e) {
                 log.error("Exception while setting auto committing = true", e);
             }
-            closeAll(ps, pool, connection);
+            if(pool != null) {
+                pool.closeConnection(rs, ps, connection);
+            }
         }
         return operationResult;
     }
@@ -219,16 +229,19 @@ public class CrewMemberDaoImpl implements CrewMemberDao, CloseOperation {
 
             ps = connection.prepareStatement(FIND_MAIN_PILOT);
             ps.setString(1, crewName);
-            rs = ps.executeQuery();
 
+            rs = ps.executeQuery();
             if (!rs.next()) {
                 return null;
             }
-            user = User.builder().name(rs.getString("name")).surname(rs.getString("surname")).build();
+
+            user = User.builder().name(rs.getString(NAME)).surname(rs.getString(SURNAME)).build();
         } catch (ConnectionPoolException | SQLException e) {
             throw new DaoException("Exception during main pilot searching!", e);
         } finally {
-            closeAll(rs, ps, pool, connection);
+            if(pool != null) {
+                pool.closeConnection(rs, ps, connection);
+            }
         }
         return user;
     }

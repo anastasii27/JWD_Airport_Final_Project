@@ -6,12 +6,13 @@ import by.epam.airport_system.dao.DaoException;
 import by.epam.airport_system.dao.FlightDao;
 import by.epam.airport_system.dao.connectionpool.ConnectionPool;
 import by.epam.airport_system.dao.connectionpool.ConnectionPoolException;
+import static by.epam.airport_system.dao.impl.DbParameterName.*;
 import java.sql.*;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.util.*;
 
-public class FlightDaoImpl implements FlightDao, CloseOperation {
+public class FlightDaoImpl implements FlightDao{
     private final static String FLIGHT_CREATION_STATUS = "Scheduled";
     private final static String AIRPORT_DEPARTURE = "SELECT `flight-number`, `departure-date` AS `date`, `departure-time` AS `time`," +
             "a1.`name` AS `airport`,\n" +
@@ -135,13 +136,13 @@ public class FlightDaoImpl implements FlightDao, CloseOperation {
 
             rs = ps.executeQuery();
             while (rs.next()) {
-                flights.add( Flight.builder().status(rs.getString("status"))
-                        .planeModel(rs.getString("title"))
-                        .departureDate(rs.getDate("date").toLocalDate())
-                        .departureTime(rs.getTime("time").toLocalTime())
-                        .destinationCity(rs.getString("city"))
-                        .destinationAirportShortName(rs.getString("airport-short-name"))
-                        .flightNumber(rs.getString("flight-number")).build());
+                flights.add( Flight.builder().status(rs.getString(STATUS))
+                        .planeModel(rs.getString(TITLE))
+                        .departureDate(rs.getDate(DATE).toLocalDate())
+                        .departureTime(rs.getTime(TIME).toLocalTime())
+                        .destinationCity(rs.getString(CITY))
+                        .destinationAirportShortName(rs.getString(AIRPORT_SHORT_NAME))
+                        .flightNumber(rs.getString(FLIGHT_NUMBER)).build());
             }
         }
         return flights;
@@ -166,28 +167,29 @@ public class FlightDaoImpl implements FlightDao, CloseOperation {
             if(!rs.next()){
                 return null;
             }
-            flight = Flight.builder().id(rs.getInt("id"))
-                                    .flightNumber(rs.getString("flight-number"))
-                                    .status(rs.getString("status"))
-                                    .destinationDate(rs.getDate("destination-date").toLocalDate())
-                                    .destinationTime( rs.getTime("destination-time").toLocalTime())
-                                    .destinationAirport( rs.getString("destination-airport"))
-                                    .destinationCity(rs.getString("destination-city"))
-                                    .destinationCountry(rs.getString("destination-country"))
-                                    .destinationAirportShortName(rs.getString("dest-airport-short-name"))
-                                    .departureDate(rs.getDate("departure-date").toLocalDate())
-                                    .departureTime(rs.getTime("departure-time").toLocalTime())
-                                    .departureAirport( rs.getString("departure-airport"))
-                                    .departureCity( rs.getString("departure-city"))
-                                    .departureCountry(rs.getString("departure-country"))
-                                    .departureAirportShortName( rs.getString("dep-airport-short-name"))
-                                    .plane(new Plane(rs.getString("plane-model"), rs.getString("plane-number")))
-                                    .build();
+            flight = Flight.builder().id(rs.getInt(ID))
+                    .flightNumber(rs.getString(FLIGHT_NUMBER))
+                    .status(rs.getString(STATUS))
+                    .destinationDate(rs.getDate(DESTINATION_DATE).toLocalDate())
+                    .destinationTime( rs.getTime(DESTINATION_TIME).toLocalTime())
+                    .destinationAirport( rs.getString(DESTINATION_AIRPORT))
+                    .destinationCity(rs.getString(DESTINATION_CITY))
+                    .destinationCountry(rs.getString(DESTINATION_COUNTRY))
+                    .destinationAirportShortName(rs.getString(DEST_AIRPORT_SHORT_NAME))
+                    .departureDate(rs.getDate(DEPARTURE_DATE).toLocalDate())
+                    .departureTime(rs.getTime(DEPARTURE_TIME).toLocalTime())
+                    .departureAirport( rs.getString(DEPARTURE_AIRPORT))
+                    .departureCity( rs.getString(DEPARTURE_CITY))
+                    .departureCountry(rs.getString(DEPARTURE_COUNTRY))
+                    .departureAirportShortName( rs.getString(DEP_AIRPORT_SHORT_NAME))
+                    .plane(new Plane(rs.getString(PLANE_MODEL), rs.getString(PLANE_NUMBER))).build();
 
         } catch (ConnectionPoolException | SQLException e) {
             throw new DaoException("Exception during flight info selecting!", e);
         }finally{
-            closeAll(rs, ps, pool, connection);
+            if(pool != null) {
+                pool.closeConnection(rs, ps, connection);
+            }
         }
         return flight;
     }
@@ -218,7 +220,9 @@ public class FlightDaoImpl implements FlightDao, CloseOperation {
         } catch (ConnectionPoolException | SQLException e) {
             throw new DaoException("Exception during nearest flight selecting!", e);
         }finally{
-            closeAll(ps, pool, connection);
+            if(pool != null) {
+                pool.closeConnection(ps, connection);
+            }
         }
     }
 
@@ -243,7 +247,9 @@ public class FlightDaoImpl implements FlightDao, CloseOperation {
         }catch (ConnectionPoolException | SQLException e) {
             throw new DaoException("Exception during flight number existence checking!", e);
         }finally {
-            closeAll(rs, ps, pool, connection);
+            if(pool != null) {
+                pool.closeConnection(rs, ps, connection);
+            }
         }
     }
 
@@ -262,22 +268,24 @@ public class FlightDaoImpl implements FlightDao, CloseOperation {
 
             rs = ps.executeQuery();
             while (rs.next()){
-                flights.add( Flight.builder().status(rs.getString("status"))
-                        .planeModel(rs.getString("plane-model"))
-                        .departureDate(rs.getDate("departure-date").toLocalDate())
-                        .departureTime(rs.getTime("departure-time").toLocalTime())
-                        .destinationDate(rs.getDate("destination-date").toLocalDate())
-                        .destinationTime( rs.getTime("destination-time").toLocalTime())
-                        .destinationCity(rs.getString("destination-city"))
-                        .departureCity( rs.getString("departure-city"))
-                        .destinationAirportShortName(rs.getString("dest-airport-short-name"))
-                        .departureAirportShortName( rs.getString("dep-airport-short-name"))
-                        .flightNumber(rs.getString("flight-number")).build());
+                flights.add( Flight.builder().status(rs.getString(STATUS))
+                        .planeModel(rs.getString(PLANE_MODEL))
+                        .departureDate(rs.getDate(DEPARTURE_DATE).toLocalDate())
+                        .departureTime(rs.getTime(DEPARTURE_TIME).toLocalTime())
+                        .destinationDate(rs.getDate(DESTINATION_DATE).toLocalDate())
+                        .destinationTime( rs.getTime(DESTINATION_TIME).toLocalTime())
+                        .destinationCity(rs.getString(DESTINATION_CITY))
+                        .departureCity( rs.getString(DEPARTURE_CITY))
+                        .destinationAirportShortName(rs.getString(DEST_AIRPORT_SHORT_NAME))
+                        .departureAirportShortName( rs.getString(DEP_AIRPORT_SHORT_NAME))
+                        .flightNumber(rs.getString(FLIGHT_NUMBER)).build());
             }
         } catch (ConnectionPoolException | SQLException e) {
             throw new DaoException("Exception during flight selecting!", e);
         }finally{
-            closeAll(rs, ps, pool, connection);
+            if(pool != null) {
+                pool.closeConnection(rs, ps, connection);
+            }
         }
         return flights;
     }
@@ -299,7 +307,9 @@ public class FlightDaoImpl implements FlightDao, CloseOperation {
         } catch (ConnectionPoolException | SQLException e) {
             throw new DaoException("Exception during flight deleting!", e);
         }finally{
-            closeAll(ps, pool, connection);
+            if(pool != null) {
+                pool.closeConnection(ps, connection);
+            }
         }
     }
 
@@ -328,7 +338,9 @@ public class FlightDaoImpl implements FlightDao, CloseOperation {
         } catch (ConnectionPoolException | SQLException e) {
             throw new DaoException("Exception during flight editing!", e);
         }finally{
-            closeAll(ps, pool, connection);
+            if(pool != null) {
+                pool.closeConnection(ps, connection);
+            }
         }
     }
 
@@ -342,6 +354,7 @@ public class FlightDaoImpl implements FlightDao, CloseOperation {
 
         try {
             connection = pool.takeConnection();
+
             ps =  connection.prepareStatement(FIND_FLIGHT);
             ps.setString(1, departureAirport);
             ps.setString(2, destinationAirport);
@@ -349,16 +362,18 @@ public class FlightDaoImpl implements FlightDao, CloseOperation {
 
             rs = ps.executeQuery();
             while (rs.next()){
-                flights.add( Flight.builder().planeModel(rs.getString("plane-model"))
-                                            .departureDate(rs.getDate("departure-date").toLocalDate())
-                                            .destinationTime( rs.getTime("destination-time").toLocalTime())
-                                            .departureTime(rs.getTime("departure-time").toLocalTime())
-                                            .flightNumber(rs.getString("flight-number")).build());
+                flights.add( Flight.builder().planeModel(rs.getString(PLANE_MODEL))
+                            .departureDate(rs.getDate(DEPARTURE_DATE).toLocalDate())
+                            .destinationTime( rs.getTime(DESTINATION_TIME).toLocalTime())
+                            .departureTime(rs.getTime(DEPARTURE_TIME).toLocalTime())
+                            .flightNumber(rs.getString(FLIGHT_NUMBER)).build());
             }
         } catch (ConnectionPoolException | SQLException e) {
             throw new DaoException("Exception during flight selecting!", e);
         }finally{
-            closeAll(rs, ps, pool, connection);
+            if(pool != null) {
+                pool.closeConnection(rs, ps, connection);
+            }
         }
         return flights;
     }

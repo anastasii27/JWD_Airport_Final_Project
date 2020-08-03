@@ -20,7 +20,7 @@ public class SignIn implements Command {
     private final static String ANSWER = "local.message.sign_in.1";
 
     @Override
-    public void execute(HttpServletRequest request, HttpServletResponse response) {
+    public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException {
         UserService userService = ServiceFactory.getInstance().getUserService();
         HttpSession session = request.getSession(true);
 
@@ -44,9 +44,9 @@ public class SignIn implements Command {
                 url = JSPPageName.RESULT_PAGE;
             }
             response.sendRedirect(url);
-        } catch (ServiceException | IOException e) {
+        } catch (ServiceException e) {
             log.error("Cannot execute command for signing in", e);
-            errorPage(response);
+            response.sendRedirect(JSPPageName.ERROR_PAGE);
         }
     }
 }

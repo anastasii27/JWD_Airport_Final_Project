@@ -28,7 +28,7 @@ public class EditFlight implements Command {
     private final static String ANSWER = "local.message.edit_flight.fail";
 
     @Override
-    public void execute(HttpServletRequest request, HttpServletResponse response) {
+    public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException {
         FlightService flightService = ServiceFactory.getInstance().getFlightService();
 
         try {
@@ -47,15 +47,15 @@ public class EditFlight implements Command {
                 String destinationAirport = request.getParameter(ParameterName.DESTINATION_AIRPORT);
 
                 Flight flight = Flight.builder().id(Integer.parseInt(flightId))
-                                                .planeNumber(extractPlaneNumber(plane))
-                                                .crew(crew)
-                                                .status(status)
-                                                .departureDate(LocalDate.parse(departureDate))
-                                                .departureTime(LocalTime.parse(departureTime))
-                                                .destinationDate(LocalDate.parse(destinationDate))
-                                                .destinationTime(LocalTime.parse(destinationTime))
-                                                .departureAirportShortName(extractAirportName(departureAirport))
-                                                .destinationAirportShortName(extractAirportName(destinationAirport)).build();
+                                .planeNumber(extractPlaneNumber(plane))
+                                .crew(crew)
+                                .status(status)
+                                .departureDate(LocalDate.parse(departureDate))
+                                .departureTime(LocalTime.parse(departureTime))
+                                .destinationDate(LocalDate.parse(destinationDate))
+                                .destinationTime(LocalTime.parse(destinationTime))
+                                .departureAirportShortName(extractAirportName(departureAirport))
+                                .destinationAirportShortName(extractAirportName(destinationAirport)).build();
 
                 boolean operationResult = flightService.editFlight(flight);
 
@@ -71,9 +71,9 @@ public class EditFlight implements Command {
                 }
                 response.sendRedirect(path);
             }
-        } catch (ServiceException | IOException e) {
+        } catch (ServiceException e) {
             log.error("Cannot execute command for flight editing", e);
-            errorPage(response);
+            response.sendRedirect(JSPPageName.ERROR_PAGE);
         }
 
     }

@@ -12,6 +12,7 @@ import by.epam.airport_system.service.UserFlightsService;
 import lombok.extern.log4j.Log4j2;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -20,7 +21,7 @@ public class MyFlights implements Command {
     private static final String ANSWER = "local.message.disp_flights.1";
 
     @Override
-    public void execute(HttpServletRequest request, HttpServletResponse response) {
+    public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException {
         UserFlightsService userFlightsService = ServiceFactory.getInstance().getUserFlightsService();
         String departureDate = request.getParameter(ParameterName.DEPARTURE_DATE);
         int id = 0;
@@ -47,7 +48,7 @@ public class MyFlights implements Command {
             forwardTo(request,response, JSPPageName.MY_FLIGHTS_PAGE);
         } catch (ServiceException e) {
             log.error("Cannot execute command for user flights", e);
-            errorPage(response);
+            response.sendRedirect(JSPPageName.ERROR_PAGE);
         }
     }
 }

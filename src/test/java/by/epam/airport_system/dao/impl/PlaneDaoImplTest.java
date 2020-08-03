@@ -33,7 +33,7 @@ public class PlaneDaoImplTest extends H2DataBaseCreation {
     @Test
     public void arrivedToAirportPlane_whenAirportIsNull_thenEmptyList() throws DaoException {
         PlaneDao planeDao = DaoFactory.getInstance().getPlaneDao();
-        List<Plane> actual = planeDao.arrivedToAirportPlane(null, LocalDate.now());
+        List<Plane> actual = planeDao.arrivedToAirportPlanes(null, LocalDate.now());
 
         Assert.assertEquals(Collections.emptyList(), actual);
     }
@@ -41,13 +41,13 @@ public class PlaneDaoImplTest extends H2DataBaseCreation {
     @Test(expected = NullPointerException.class)
     public void arrivedToAirportPlane_whenDateIsNull_thenNullPointerException() throws DaoException {
         PlaneDao planeDao = DaoFactory.getInstance().getPlaneDao();
-        planeDao.arrivedToAirportPlane(EXISTING_AIRPORT_1, null);
+        planeDao.arrivedToAirportPlanes(EXISTING_AIRPORT_1, null);
     }
 
     @Test
     public void arrivedToAirportPlane_whenAirportDoesNotExist_thenEmptyList() throws DaoException {
         PlaneDao planeDao = DaoFactory.getInstance().getPlaneDao();
-        List<Plane> actual = planeDao.arrivedToAirportPlane(NOT_EXISTING_AIRPORT, date);
+        List<Plane> actual = planeDao.arrivedToAirportPlanes(NOT_EXISTING_AIRPORT, date);
 
         Assert.assertEquals(Collections.emptyList(), actual);
     }
@@ -55,7 +55,7 @@ public class PlaneDaoImplTest extends H2DataBaseCreation {
     @Test
     public void arrivedToAirportPlane_whenAirportExists_thenList() throws DaoException {
         PlaneDao planeDao = DaoFactory.getInstance().getPlaneDao();
-        List<Plane> actual = planeDao.arrivedToAirportPlane(EXISTING_AIRPORT_2,  date.plusDays(1));
+        List<Plane> actual = planeDao.arrivedToAirportPlanes(EXISTING_AIRPORT_2,  date.plusDays(1));
         List<Plane> expected = new ArrayList<Plane>(){{
             add(plane1);
         }};

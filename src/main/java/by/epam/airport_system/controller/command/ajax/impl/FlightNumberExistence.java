@@ -15,7 +15,7 @@ import java.time.LocalDate;
 public class FlightNumberExistence implements Command {
 
     @Override
-    public void execute(HttpServletRequest request, HttpServletResponse response) {
+    public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException {
         FlightService flightService = ServiceFactory.getInstance().getFlightService();
 
         String flightNumber = request.getParameter(ParameterName.FLIGHT_NUMBER);
@@ -27,8 +27,6 @@ public class FlightNumberExistence implements Command {
             response.getWriter().write(String.valueOf(!operationResult));
         } catch (ServiceException e) {
             log.error("Cannot execute ajax command for flight number existence determining", e);
-        } catch (IOException e) {
-            log.error("Cannot write response", e);
         }
     }
 }

@@ -4,6 +4,7 @@ import by.epam.airport_system.dao.CityDao;
 import by.epam.airport_system.dao.DaoException;
 import by.epam.airport_system.dao.connectionpool.ConnectionPool;
 import by.epam.airport_system.dao.connectionpool.ConnectionPoolException;
+import static by.epam.airport_system.dao.impl.DbParameterName.*;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -11,7 +12,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CityDaoImpl implements CityDao, CloseOperation {
+public class CityDaoImpl implements CityDao{
     private static final String CITY_WITH_AIRPORT = "SELECT cities.`name`,`name-abbreviation` FROM airport.airports\n" +
             "JOIN airport.cities ON cities.id = airports.`city-id`;";
 
@@ -19,6 +20,9 @@ public class CityDaoImpl implements CityDao, CloseOperation {
             "JOIN airport.cities ON cities.id = airports.`city-id`\n" +
             "JOIN airport.countries ON cities.`country-id` = countries.id\n" +
             "WHERE countries.`name` = ?;";
+
+    private static final String LEFT_BRACKET = "(";
+    private static final String RIGHT_BRACKET = ")";
 
     @Override
     public List<String> cityWithAirportList() throws DaoException {
@@ -36,7 +40,9 @@ public class CityDaoImpl implements CityDao, CloseOperation {
         } catch (SQLException e) {
             throw new DaoException("Exception during creating city with airports list!", e);
         }finally{
-            closeAll(ps, pool, connection);
+            if(pool != null) {
+                pool.closeConnection(ps, connection);
+            }
         }
     }
 
@@ -58,7 +64,9 @@ public class CityDaoImpl implements CityDao, CloseOperation {
         } catch (SQLException e) {
             throw new DaoException("Exception during creating city with airports list!", e);
         }finally{
-            closeAll(ps, pool, connection);
+            if(pool != null) {
+                pool.closeConnection(ps, connection);
+            }
         }
     }
 
@@ -68,7 +76,7 @@ public class CityDaoImpl implements CityDao, CloseOperation {
 
         rs = ps.executeQuery();
         while (rs.next()) {
-            citiesWithAirports.add(rs.getString("name")+"("+rs.getString("name-abbreviation")+")");
+            citiesWithAirports.add(rs.getString(NAME)+LEFT_BRACKET+rs.getString(NAME_ABBREVIATION)+RIGHT_BRACKET);
         }
 
         return citiesWithAirports;

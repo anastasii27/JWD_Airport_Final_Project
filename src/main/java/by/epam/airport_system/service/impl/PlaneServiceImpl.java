@@ -47,7 +47,7 @@ public class PlaneServiceImpl implements PlaneService {
     private List<Plane> freePlanesForTransborderAirport(Flight newFlight) throws DaoException {
         String airportName = newFlight.getDepartureAirportShortName();
         LocalDate date = newFlight.getDepartureDate();
-        List<Plane> planesInAirport = dao.arrivedToAirportPlane(airportName, date);
+        List<Plane> planesInAirport = dao.arrivedToAirportPlanes(airportName, date);
 
         removeTakenOnFlightPlanesFromList(planesInAirport, airportName, date);
         removeUnsuitablePlanesFromList(planesInAirport, newFlight);
@@ -56,7 +56,7 @@ public class PlaneServiceImpl implements PlaneService {
     }
 
     private void addArrivedToAirportPlanesToList(List<Plane> planes, String airportName, LocalDate date) throws DaoException {
-        List<Plane> planesInAirportNow = dao.arrivedToAirportPlane(airportName, date);
+        List<Plane> planesInAirportNow = dao.arrivedToAirportPlanes(airportName, date);
         planes.addAll(planesInAirportNow);
     }
 

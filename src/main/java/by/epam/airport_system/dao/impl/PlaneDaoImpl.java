@@ -6,13 +6,14 @@ import by.epam.airport_system.dao.DaoException;
 import by.epam.airport_system.dao.PlaneDao;
 import by.epam.airport_system.dao.connectionpool.ConnectionPool;
 import by.epam.airport_system.dao.connectionpool.ConnectionPoolException;
+import static by.epam.airport_system.dao.impl.DbParameterName.*;
 import java.sql.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PlaneDaoImpl implements PlaneDao, CloseOperation{
+public class PlaneDaoImpl implements PlaneDao{
     private final static String PLANES_AT_AIRPORT = "SELECT `number`, title \n"+
             "FROM airport.flights\n"+
             "JOIN airport.planes ON `plane-id` = planes.id\n" +
@@ -43,7 +44,7 @@ public class PlaneDaoImpl implements PlaneDao, CloseOperation{
             "ORDER BY `departure-date`, `departure-time` LIMIT 1;";
 
     @Override
-    public List<Plane> arrivedToAirportPlane(String airportName, LocalDate date) throws DaoException {
+    public List<Plane> arrivedToAirportPlanes(String airportName, LocalDate date) throws DaoException {
         ConnectionPool pool = ConnectionPool.getInstance();
         Connection connection = null;
 
@@ -88,7 +89,7 @@ public class PlaneDaoImpl implements PlaneDao, CloseOperation{
 
             rs = ps.executeQuery();
             while (rs.next()) {
-                planes.add(new Plane(rs.getString("title"),rs.getString("number")));
+                planes.add(new Plane(rs.getString(TITLE),rs.getString(NUMBER)));
             }
         }
         return planes;
@@ -98,7 +99,7 @@ public class PlaneDaoImpl implements PlaneDao, CloseOperation{
         ConnectionPool pool = ConnectionPool.getInstance();
         Connection connection = null;
         Statement st = null;
-        ResultSet rs;
+        ResultSet rs = null;
         List<Plane> planes = new ArrayList<>();
 
         try {
@@ -107,14 +108,17 @@ public class PlaneDaoImpl implements PlaneDao, CloseOperation{
 
             rs = st.executeQuery(ALL_PLANES_NUMBERS);
             while (rs.next()) {
-                planes.add(new Plane(rs.getString("title"),rs.getString("number")));
+                planes.add(new Plane(rs.getString(TITLE),rs.getString(NUMBER)));
             }
-            return planes;
+
         } catch (ConnectionPoolException | SQLException e) {
             throw new DaoException("Exception during getting planes on flight list!", e);
         }finally {
-            closeAll(st, pool, connection);
+            if(pool != null) {
+                pool.closeConnection(rs, st, connection);
+            }
         }
+        return planes;
     }
 
     @Override
@@ -136,16 +140,19 @@ public class PlaneDaoImpl implements PlaneDao, CloseOperation{
                 return null;
             }
 
-            Flight flight = Flight.builder().departureDate(LocalDate.parse(rs.getString("departure-date")))
-                                            .departureTime(LocalTime.parse(rs.getString("departure-time")))
-                                            .departureAirportShortName(rs.getString("dep-airport-short-name"))
-                                            .build();
+            Flight flight = Flight.builder().departureDate(LocalDate.parse(rs.getString(DEPARTURE_DATE)))
+                            .departureTime(LocalTime.parse(rs.getString(DEPARTURE_TIME)))
+                            .departureAirportShortName(rs.getString(DEP_AIRPORT_SHORT_NAME))
+                            .build();
 
             return flight;
         }catch (ConnectionPoolException | SQLException e) {
             throw new DaoException("Exception during searching first plane flight after date", e);
         }finally {
-            closeAll(rs, ps, pool, connection);
+            if(pool != null) {
+                pool.closeConnection(rs, ps, connection);
+            }
         }
+
     }
 }

@@ -63,7 +63,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<User> usersListByRole(String role) throws ServiceException {
         try {
-            return dao.userByRoleList(role);
+            return dao.usersListByRole(role);
         } catch (DaoException e) {
             throw new ServiceException("Exception during users by role list creation", e);
         }

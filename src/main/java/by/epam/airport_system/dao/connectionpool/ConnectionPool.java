@@ -1,13 +1,13 @@
 package by.epam.airport_system.dao.connectionpool;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
+import lombok.extern.log4j.Log4j2;
+import java.sql.*;
 import java.util.ResourceBundle;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 
-public class ConnectionPool {
+@Log4j2
+public class ConnectionPool{
     private static ConnectionPool instance;
     private final static String FILE_NAME = "db";
     private String driver;
@@ -48,7 +48,7 @@ public class ConnectionPool {
         } catch (SQLException e) {
             throw new ConnectionPoolException("Exception during pool creation!", e);
         } catch (ClassNotFoundException e) {
-            throw new ConnectionPoolException("Exception! there is no driver!", e);
+            throw new ConnectionPoolException("Exception! There is no driver!", e);
         } catch (InterruptedException e) {
             throw new ConnectionPoolException("Exception during putting element into the queue", e);
         }
@@ -75,10 +75,41 @@ public class ConnectionPool {
         try {
             closeEachConnection(availableConnection);
             closeEachConnection(usedConnection);
-
         } catch (SQLException e) {
             throw new ConnectionPoolException("Exception during connection closing operation!", e);
         }
+    }
+
+    public void closeConnection(Statement statement, Connection connection){
+        try {
+            if(statement != null) {
+                statement.close();
+            }
+        } catch (SQLException e) {
+            log.error("Exception during statement closing", e);
+        }
+
+        this.releaseConnection(connection);
+    }
+
+    public void closeConnection(ResultSet rs, Statement statement, Connection connection){
+        try {
+            if(rs != null) {
+                rs.close();
+            }
+        } catch (SQLException e) {
+            log.error("Exception during result set closing", e);
+        }
+
+        try {
+            if(statement != null) {
+                statement.close();
+            }
+        } catch (SQLException e) {
+            log.error("Exception during statement closing", e);
+        }
+
+        this.releaseConnection(connection);
     }
 
     private void closeEachConnection(BlockingQueue <Connection> queue) throws SQLException {

@@ -14,6 +14,7 @@ import com.google.common.collect.Multimap;
 import lombok.extern.log4j.Log4j2;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.Set;
 
 @Log4j2
@@ -21,7 +22,7 @@ public class ChooseCrewForFlight implements Command {
     private final static String ANSWER = "local.message.choose_crews.1";
 
     @Override
-    public void execute(HttpServletRequest request, HttpServletResponse response) {
+    public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException {
         CrewService crewService = ServiceFactory.getInstance().getCrewService();
         CrewMemberService crewMemberService = ServiceFactory.getInstance().getCrewMemberService();
         Flight flight = (Flight)request.getSession().getAttribute(ParameterName.FLIGHT);
@@ -49,6 +50,7 @@ public class ChooseCrewForFlight implements Command {
             forwardTo(request, response, JSPPageName.FREE_CREWS_FOR_FLIGHT);
         } catch (ServiceException e) {
             log.error("Cannot execute command for free crew searching", e);
+            response.sendRedirect(JSPPageName.ERROR_PAGE);
         }
     }
 }

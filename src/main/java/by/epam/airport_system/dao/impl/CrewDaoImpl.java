@@ -6,6 +6,7 @@ import by.epam.airport_system.dao.CrewDao;
 import by.epam.airport_system.dao.DaoException;
 import by.epam.airport_system.dao.connectionpool.ConnectionPool;
 import by.epam.airport_system.dao.connectionpool.ConnectionPoolException;
+import static by.epam.airport_system.dao.impl.DbParameterName.*;
 import lombok.extern.log4j.Log4j2;
 import java.sql.*;
 import java.util.ArrayList;
@@ -13,7 +14,7 @@ import java.util.List;
 import java.util.Map;
 
 @Log4j2
-public class CrewDaoImpl implements CrewDao, CloseOperation {
+public class CrewDaoImpl implements CrewDao{
     private final static String CREATE_CREW = "INSERT INTO airport.`flight-teams`(`date-of-creating`, `short-name`)\n" +
             "VALUES (current_date(), ?);";
 
@@ -62,7 +63,7 @@ public class CrewDaoImpl implements CrewDao, CloseOperation {
 
             createCrew(crewName, connection);
             addCrewUser(crewName, users, connection);
-            setMainPilot(crewName, users.get("first_pilot"), connection);
+            setMainPilot(crewName, users.get(FIRST_PILOT), connection);
 
             connection.commit();
             flag = true;
@@ -137,7 +138,9 @@ public class CrewDaoImpl implements CrewDao, CloseOperation {
         } catch (ConnectionPoolException | SQLException e) {
             throw new DaoException("Exception during crew existence checking!", e);
         } finally {
-            closeAll(rs, ps, pool, connection);
+            if(pool != null) {
+                pool.closeConnection(rs, ps, connection);
+            }
         }
         return true;
     }
@@ -182,23 +185,23 @@ public class CrewDaoImpl implements CrewDao, CloseOperation {
     }
 
     private int deleteCrew(String crewName, Connection connection) throws SQLException {
-        try (PreparedStatement deleteCrew = connection.prepareStatement(DELETE_CREW)) {
-            deleteCrew.setString(1, crewName);
-            return deleteCrew.executeUpdate();
+        try (PreparedStatement ps = connection.prepareStatement(DELETE_CREW)) {
+            ps.setString(1, crewName);
+            return ps.executeUpdate();
         }
     }
 
     private int deleteCrewFromFlight(String crewName, Connection connection) throws SQLException {
-        try(PreparedStatement deleteFromFlight = connection.prepareStatement(DELETE_CREW_FROM_FLIGHT)){
-            deleteFromFlight.setString(1, crewName);
-            return deleteFromFlight.executeUpdate();
+        try(PreparedStatement ps = connection.prepareStatement(DELETE_CREW_FROM_FLIGHT)){
+            ps.setString(1, crewName);
+            return ps.executeUpdate();
         }
     }
 
     private int deleteCrewWithMembers(String crewName, Connection connection) throws SQLException {
-        try(PreparedStatement deleteWithMembers = connection.prepareStatement(DELETE_CREW_WITH_MEMBERS)){
-            deleteWithMembers.setString(1, crewName);
-            return deleteWithMembers.executeUpdate();
+        try(PreparedStatement ps = connection.prepareStatement(DELETE_CREW_WITH_MEMBERS)){
+            ps.setString(1, crewName);
+            return ps.executeUpdate();
         }
     }
 
@@ -216,12 +219,14 @@ public class CrewDaoImpl implements CrewDao, CloseOperation {
 
             rs = st.executeQuery(ALL_CREWS);
             while (rs.next()) {
-                countries.add(rs.getString("short-name"));
+                countries.add(rs.getString(SHORT_NAME));
             }
         } catch (ConnectionPoolException | SQLException e) {
             throw new DaoException("Exception during all crews getting!", e);
         } finally {
-            closeAll(rs, st, pool, connection);
+            if(pool != null) {
+                pool.closeConnection(rs, st, connection);
+            }
         }
         return countries;
     }
@@ -231,7 +236,6 @@ public class CrewDaoImpl implements CrewDao, CloseOperation {
         ConnectionPool pool = ConnectionPool.getInstance();
         Connection connection = null;
         PreparedStatement ps = null;
-        ResultSet rs = null;
 
         try {
             connection = pool.takeConnection();
@@ -244,7 +248,9 @@ public class CrewDaoImpl implements CrewDao, CloseOperation {
         } catch (ConnectionPoolException | SQLException e) {
             throw new DaoException("Exception during flight crew setting!", e);
         } finally {
-            closeAll(rs, ps, pool, connection);
+            if(pool != null) {
+                pool.closeConnection(ps, connection);
+            }
         }
     }
 
@@ -263,20 +269,22 @@ public class CrewDaoImpl implements CrewDao, CloseOperation {
             ps.setString(2, flight.getFlightNumber());
 
             rs = ps.executeQuery();
-
             if (!rs.next()) {
                 return null;
             }
-            return rs.getString("short-name");
+
+            return rs.getString(SHORT_NAME);
         } catch (ConnectionPoolException | SQLException e) {
             throw new DaoException("Exception during flight crew searching!", e);
         } finally {
-            closeAll(rs, ps, pool, connection);
+            if(pool != null) {
+                pool.closeConnection(rs, ps, connection);
+            }
         }
     }
 
     @Override
-    public List<String> takenOnFlightsCrews() throws DaoException {//todo  redo! same with crewsList()
+    public List<String> takenOnFlightsCrews() throws DaoException {
         ConnectionPool pool = ConnectionPool.getInstance();
         Connection connection = null;
         Statement st = null;
@@ -289,12 +297,14 @@ public class CrewDaoImpl implements CrewDao, CloseOperation {
 
             rs = st.executeQuery(TAKEN_ON_FLIGHTS_CREWS);
             while (rs.next()) {
-                countries.add(rs.getString("short-name"));
+                countries.add(rs.getString(SHORT_NAME));
             }
         } catch (ConnectionPoolException | SQLException e) {
             throw new DaoException("Exception during taken on flights crews getting!", e);
         } finally {
-            closeAll(rs, st, pool, connection);
+            if(pool != null) {
+                pool.closeConnection(rs, st, connection);
+            }
         }
         return countries;
     }

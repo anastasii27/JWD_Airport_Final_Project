@@ -25,7 +25,7 @@ public class ChangeLogin implements Command {
     private final static String KEY4 = "local.message.login.not_changed";
 
     @Override
-    public void execute(HttpServletRequest request, HttpServletResponse response) {
+    public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException {
         UserService userService = ServiceFactory.getInstance().getUserService();
         HttpSession session = request.getSession(true);
 
@@ -57,9 +57,9 @@ public class ChangeLogin implements Command {
 
             session.setAttribute(ParameterName.PREVIOUS_PAGE, request.getContextPath() + USER_PAGE_PATH);
             response.sendRedirect(JSPPageName.RESULT_PAGE);
-        } catch (ServiceException | IOException e) {
+        } catch (ServiceException  e) {
             log.error("Cannot execute command for password changing", e);
-            errorPage(response);
+            response.sendRedirect(JSPPageName.ERROR_PAGE);;
         }
     }
 

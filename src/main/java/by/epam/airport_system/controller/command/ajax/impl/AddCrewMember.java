@@ -17,7 +17,7 @@ import java.util.List;
 public class AddCrewMember implements Command {
 
     @Override
-    public void execute(HttpServletRequest request, HttpServletResponse response) {
+    public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException {
         CrewMemberService crewMemberService = ServiceFactory.getInstance().getCrewMemberService();
 
         String crewName = request.getParameter(ParameterName.CREW_NAME);
@@ -27,12 +27,9 @@ public class AddCrewMember implements Command {
 
         try {
             boolean operationResult = crewMemberService.addCrewMember(crewName, membersList);
-
             response.getWriter().write(String.valueOf(operationResult));
         } catch (ServiceException e) {
             log.error("Cannot execute ajax command for crew member adding", e);
-        } catch (IOException e) {
-            log.error("Cannot write response", e);
         }
     }
 }

@@ -16,7 +16,7 @@ public class SetCrewForFlight implements Command {
     private static final String OPERATION_FAIL = "false";
 
     @Override
-    public void execute(HttpServletRequest request, HttpServletResponse response) {
+    public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException {
         CrewService crewService = ServiceFactory.getInstance().getCrewService();
         Flight flight = (Flight)request.getSession().getAttribute(ParameterName.FLIGHT);
 
@@ -33,8 +33,6 @@ public class SetCrewForFlight implements Command {
             }
         } catch (ServiceException e) {
             log.error("Cannot execute ajax command for crew to flight setting", e);
-        } catch (IOException e) {
-            log.error("Cannot write response", e);
         }
     }
 }

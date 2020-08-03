@@ -12,6 +12,7 @@ import lombok.extern.log4j.Log4j2;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.io.IOException;
 import java.util.List;
 
 @Log4j2
@@ -19,7 +20,7 @@ public class CreateCrewPage implements Command {
     private final static String CURRENT_PAGE_PATH = "/airport?action=show_create_crew_page";
 
     @Override
-    public void execute(HttpServletRequest request, HttpServletResponse response) {
+    public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException {
         UserService userService = ServiceFactory.getInstance().getUserService();
         HttpSession session = request.getSession(true);
 
@@ -35,7 +36,7 @@ public class CreateCrewPage implements Command {
             forwardTo(request, response, JSPPageName.CREATE_CREW_PAGE);
         } catch (ServiceException e) {
             log.error("Cannot execute command for creating crew page", e);
-            errorPage(response);
+            response.sendRedirect(JSPPageName.ERROR_PAGE);
         }
     }
 }

@@ -16,7 +16,7 @@ import java.util.List;
 public class CountryAirport implements Command {
 
     @Override
-    public void execute(HttpServletRequest request, HttpServletResponse response) {
+    public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException {
         CityService cityService = ServiceFactory.getInstance().getCityService();
 
         String country = request.getParameter(ParameterName.COUNTRY);
@@ -28,8 +28,6 @@ public class CountryAirport implements Command {
             response.getWriter().write(countriesGson);
         } catch (ServiceException e) {
             log.error("Cannot execute ajax command for country airport searching", e);
-        } catch (IOException e) {
-            log.error("Cannot write json to response", e);
         }
     }
 }

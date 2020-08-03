@@ -21,7 +21,7 @@ import java.util.List;
 public class FreePlane implements Command {
 
     @Override
-    public void execute(HttpServletRequest request, HttpServletResponse response) {
+    public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException {
         PlaneService planeService = ServiceFactory.getInstance().getPlaneService();
 
         String departureCityWithAirport = request.getParameter(ParameterName.DEPARTURE_AIRPORT);
@@ -33,10 +33,10 @@ public class FreePlane implements Command {
         String destinationDate = request.getParameter(ParameterName.DESTINATION_DATE);
 
         Flight flight = Flight.builder().departureAirportShortName(departureAirport)
-                                        .departureDate(LocalDate.parse(departureDate))
-                                        .destinationAirportShortName(destinationAirport)
-                                        .destinationDate(LocalDate.parse(destinationDate))
-                                        .destinationTime(LocalTime.parse(destinationTime)).build();
+                        .departureDate(LocalDate.parse(departureDate))
+                        .destinationAirportShortName(destinationAirport)
+                        .destinationDate(LocalDate.parse(destinationDate))
+                        .destinationTime(LocalTime.parse(destinationTime)).build();
 
         try {
             List<Plane> planes = planeService.freePlanesForFlight(flight);
@@ -45,8 +45,6 @@ public class FreePlane implements Command {
             response.getWriter().write(planesGson);
         } catch (ServiceException e) {
             log.error("Cannot execute ajax command for free planes searching", e);
-        } catch (IOException e) {
-            log.error("Cannot write json to response", e);
         }
     }
 }

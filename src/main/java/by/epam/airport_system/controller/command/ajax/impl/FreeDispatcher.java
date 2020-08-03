@@ -20,7 +20,7 @@ import java.util.List;
 public class FreeDispatcher implements Command {
 
     @Override
-    public void execute(HttpServletRequest request, HttpServletResponse response) {
+    public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException {
         UserService userService = ServiceFactory.getInstance().getUserService();
 
         String cityWithAirport = request.getParameter(ParameterName.CITY_WITH_AIRPORT);
@@ -35,8 +35,6 @@ public class FreeDispatcher implements Command {
             response.getWriter().write(freeDispatchersGson);
         } catch (ServiceException e) {
             log.error("Cannot execute ajax command for free dispatcher searching", e);
-        } catch (IOException e) {
-            log.error("Cannot write json to response", e);
         }
     }
 }

@@ -2,6 +2,7 @@ package by.epam.airport_system.controller.command.front.impl;
 
 import by.epam.airport_system.bean.User;
 import by.epam.airport_system.controller.command.Command;
+import by.epam.airport_system.controller.constant_parameter.JSPPageName;
 import by.epam.airport_system.controller.constant_parameter.ParameterName;
 import static by.epam.airport_system.controller.util.RequestParametersExtractor.extractName;
 import static by.epam.airport_system.controller.util.RequestParametersExtractor.extractSurname;
@@ -30,7 +31,7 @@ public class CreateCrew implements Command {
     private int count = 1;
 
     @Override
-    public void execute(HttpServletRequest request, HttpServletResponse response) {
+    public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException {
         CrewService crewService = ServiceFactory.getInstance().getCrewService();
         HttpSession session = request.getSession(true);
         String crewName = request.getParameter(ParameterName.CREW_NAME);
@@ -57,9 +58,9 @@ public class CreateCrew implements Command {
             }
 
             response.sendRedirect(request.getContextPath()+ PATH);
-        } catch (ServiceException | IOException e) {
+        } catch (ServiceException e) {
             log.error("Cannot execute command for crew creation", e);
-            errorPage(response);
+            response.sendRedirect(JSPPageName.ERROR_PAGE);
         }
     }
 

@@ -28,18 +28,10 @@ public class EditUser implements Command {
     private final static String USER_PAGE_PATH = "/airport?action=show_user_page";
 
     @Override
-    public void execute(HttpServletRequest request, HttpServletResponse response) {
+    public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException {
         UserService service = ServiceFactory.getInstance().getUserService();
         HttpSession session = request.getSession(true);
         Validator validator = ValidationFactory.getInstance().getUserValidation();
-
-        String name = request.getParameter(ParameterName.NAME);
-        String surname = request.getParameter(ParameterName.SURNAME);
-        String role = request.getParameter(ParameterName.ROLE);
-        String email = request.getParameter(ParameterName.EMAIL);
-        String careerStartYear = request.getParameter(ParameterName.CAREER_START_YEAR);
-        String login = request.getParameter(ParameterName.LOGIN);
-        String id = request.getParameter(ParameterName.ID);
 
         Map<String, String> params = RequestToMapParser.toRequestParamsMap(request);
         ValidationResult validationResult = validator.validate(params);
@@ -50,6 +42,14 @@ public class EditUser implements Command {
             if(!validationResult.isEmpty()){
                 session.setAttribute(ParameterName.RESULT_INFO, validationResult.getErrorsList());
             }else {
+                String name = request.getParameter(ParameterName.NAME);
+                String surname = request.getParameter(ParameterName.SURNAME);
+                String role = request.getParameter(ParameterName.ROLE);
+                String email = request.getParameter(ParameterName.EMAIL);
+                String careerStartYear = request.getParameter(ParameterName.CAREER_START_YEAR);
+                String login = request.getParameter(ParameterName.LOGIN);
+                String id = request.getParameter(ParameterName.ID);
+
                 User user = User.builder().id(Integer.parseInt(id))
                             .login(login)
                             .name(name)
@@ -69,9 +69,9 @@ public class EditUser implements Command {
             }
 
             response.sendRedirect(JSPPageName.RESULT_PAGE);
-        } catch (ServiceException | IOException e) {
+        } catch (ServiceException e) {
             log.error("Cannot execute command for user editing", e);
-            errorPage(response);
+            response.sendRedirect(JSPPageName.ERROR_PAGE);
         }
     }
 

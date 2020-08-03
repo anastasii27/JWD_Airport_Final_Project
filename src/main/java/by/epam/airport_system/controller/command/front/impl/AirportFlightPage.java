@@ -8,6 +8,7 @@ import by.epam.airport_system.service.ServiceException;
 import by.epam.airport_system.service.ServiceFactory;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.List;
 import lombok.extern.log4j.Log4j2;
 
@@ -15,7 +16,7 @@ import lombok.extern.log4j.Log4j2;
 public class AirportFlightPage implements Command {
 
     @Override
-    public void execute(HttpServletRequest request, HttpServletResponse response) {
+    public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException {
         CityService cityService = ServiceFactory.getInstance().getCityService();
 
         try {
@@ -25,7 +26,7 @@ public class AirportFlightPage implements Command {
             forwardTo(request,response, JSPPageName.DEPARTURES_ARRIVALS_PAGE);
         } catch (ServiceException e) {
             log.error("Cannot execute command for flights page", e);
-            errorPage(response);
+            response.sendRedirect(JSPPageName.ERROR_PAGE);
         }
     }
 }

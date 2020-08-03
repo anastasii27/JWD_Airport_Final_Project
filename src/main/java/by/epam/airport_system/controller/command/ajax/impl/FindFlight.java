@@ -18,7 +18,7 @@ import java.util.List;
 public class FindFlight implements Command {
 
     @Override
-    public void execute(HttpServletRequest request, HttpServletResponse response) {
+    public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException {
         FlightService flightService = ServiceFactory.getInstance().getFlightService();
 
         String departureCityWithAirport = request.getParameter(ParameterName.DEPARTURE_AIRPORT);
@@ -34,8 +34,6 @@ public class FindFlight implements Command {
             response.getWriter().write(flightsGson);
         } catch (ServiceException e) {
             log.error("Cannot execute ajax command for flight searching", e);
-        } catch (IOException e) {
-            log.error("Cannot write json to response", e);
         }
     }
 }
