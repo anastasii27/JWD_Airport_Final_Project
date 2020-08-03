@@ -200,7 +200,7 @@ function addZeroBeforeValue(value){
 }
 
 function setFlightStatus(status) {
-    $('#edit_status').each(function () {
+    $('#edit_status option').each(function (i, elem) {
         if($(this).text()=== status){
             $(this).prop('selected', true);
         }

@@ -10,6 +10,7 @@ let departureTime;
 $(document).ready(function ($) {
     const HOME_AIRPORT = 'Minsk(MSQ)';
     let crewName;
+    let lang = $('body').attr('lang');
 
     //crews list
     $('.crews li').on('click', function () {
@@ -21,8 +22,15 @@ $(document).ready(function ($) {
 
     //crew editing
     $('.delete_crew_btn').on('click', function () {
-        let resultConfirm = confirm("Are you really want to delete?");
         let crewNameForDelete = getCrewName($(this).parent().text());
+        let confirmText = '';
+        if(lang === 'ru'){
+            confirmText = '\u0412\u044b\u0020\u0434\u0435\u0439\u0441\u0442\u0432\u0438\u0442\u0435\u043b\u044c' +
+                '\u043d\u043e\u0020\u0445\u043e\u0442\u0438\u0442\u0435\u0020\u0443\u0434\u0430\u043b\u0438\u0442\u044c\u003f';
+        }else {
+            confirmText = 'Are you really want to delete?';
+        }
+        let resultConfirm = confirm(confirmText);
 
         if(resultConfirm===true){
             $(this).parent().remove();
@@ -47,7 +55,14 @@ $(document).ready(function ($) {
 
     $(document).on('click','.delete_user_btn', function () {
         let crewMember = getCrewMemberName($(this).parent().text());
-        let resultConfirm = confirm("Are you really want to delete?");
+        let confirmText = '';
+        if(lang === 'ru'){
+            confirmText = '\u0412\u044b\u0020\u0434\u0435\u0439\u0441\u0442\u0432\u0438\u0442\u0435\u043b\u044c' +
+                '\u043d\u043e\u0020\u0445\u043e\u0442\u0438\u0442\u0435\u0020\u0443\u0434\u0430\u043b\u0438\u0442\u044c\u003f';
+        }else {
+            confirmText = 'Are you really want to delete?';
+        }
+        let resultConfirm = confirm(confirmText);
 
         if(resultConfirm===true){
             $.ajax({
@@ -273,24 +288,34 @@ $(document).ready(function ($) {
         let flightNumber = $(this).parent().find('td').eq(0).text();
         let rowToDelete = $(this).parent();
         let departureDate = $('#btn').attr('dep_date');
+        let confirmText = '';
+        if(lang === 'ru'){
+            confirmText = '\u0412\u044b\u0020\u0434\u0435\u0439\u0441\u0442\u0432\u0438\u0442\u0435\u043b\u044c' +
+                '\u043d\u043e\u0020\u0445\u043e\u0442\u0438\u0442\u0435\u0020\u0443\u0434\u0430\u043b\u0438\u0442\u044c\u003f';
+        }else {
+            confirmText = 'Are you really want to delete?';
+        }
+        let resultConfirm = confirm(confirmText);
 
-        $.ajax({
-            type: "POST",
-            url: "/JWD_Task3_war/ajax",
-            dataType:'json',
-            data: {command: 'delete_flight', flight_number: flightNumber, departure_date:departureDate},
+        if(resultConfirm === true) {
+            $.ajax({
+                type: "POST",
+                url: "/JWD_Task3_war/ajax",
+                dataType: 'json',
+                data: {command: 'delete_flight', flight_number: flightNumber, departure_date: departureDate},
 
-            success: function (data) {
-                if(data === true){
-                    $(rowToDelete).remove();
-                }else {
+                success: function (data) {
+                    if (data === true) {
+                        $(rowToDelete).remove();
+                    } else {
+                        $('#no_delete_mes').fadeIn();
+                    }
+                },
+                error: function (data) {
                     $('#no_delete_mes').fadeIn();
                 }
-            },
-            error: function (data) {
-                $('#no_delete_mes').fadeIn();
-            }
-        });
+            });
+        }
     });
 
     //flight editing

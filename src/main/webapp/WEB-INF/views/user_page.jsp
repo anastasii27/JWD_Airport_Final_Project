@@ -23,6 +23,10 @@
         <fmt:message bundle="${loc}" key="local.js.lang" var="lang" />
         <fmt:message bundle="${loc}" key="local.label.change_login" var="change_login_label" />
         <fmt:message bundle="${loc}" key="local.label.change_password" var="change_pas_label" />
+        <fmt:message bundle="${loc}" key="local.message.role.pilot" var="pilot_label"/>
+        <fmt:message bundle="${loc}" key="local.message.role.steward" var="steward_label"/>
+        <fmt:message bundle="${loc}" key="local.message.role.dispatcher" var="disp_label"/>
+        <fmt:message bundle="${loc}" key="local.message.role.admin" var="admin_label"/>
 
         <title>${sessionScope.user.name} ${sessionScope.user.surname}</title>
 
@@ -59,7 +63,18 @@
             <p>${name_label}: <c:out value= "${sessionScope.user.name}" /></p>
             <p>${surname_label}: <c:out value= "${sessionScope.user.surname}" /></p>
             <p>Email: <c:out value= "${sessionScope.user.email}" /></p>
-            <p>${role_label}: <c:out value= "${sessionScope.user.role}" /></p>
+            <c:if test = "${sessionScope.user.role eq 'steward'}">
+                <p>${role_label}: <c:out value= "${steward_label}" /></p>
+            </c:if>
+            <c:if test = "${sessionScope.user.role eq 'pilot'}">
+                <p>${role_label}: <c:out value= "${pilot_label}" /></p>
+            </c:if>
+            <c:if test = "${sessionScope.user.role eq 'dispatcher'}">
+                <p>${role_label}: <c:out value= "${disp_label}" /></p>
+            </c:if>
+            <c:if test = "${sessionScope.user.role eq 'admin'}">
+                <p>${role_label}: <c:out value= "${admin_label}" /></p>
+            </c:if>
             <p>${start_label}: <c:out value= "${sessionScope.user.careerStartYear}" /></p>
             <p>${password_label}: <a href="#" data-toggle="modal" data-target="#password_change_modal">${change_pas_label}</a></p>
             <p>${login_label}: <a href="#" data-toggle="modal" data-target="#login_change_modal">${change_login_label}</a></p>

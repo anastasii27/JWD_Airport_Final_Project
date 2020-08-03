@@ -22,6 +22,9 @@
         <fmt:message bundle="${loc}" key="local.js.lang" var="lang" />
         <fmt:message bundle="${loc}" key="local.label.title.registration" var="register_label" />
         <fmt:message bundle="${loc}" key="local.back_button" var="back_btn"/>
+        <fmt:message bundle="${loc}" key="local.message.role.pilot" var="pilot_label"/>
+        <fmt:message bundle="${loc}" key="local.message.role.steward" var="steward_label"/>
+        <fmt:message bundle="${loc}" key="local.message.role.dispatcher" var="disp_label"/>
 
         <title>${register_label}</title>
 
@@ -87,7 +90,9 @@
                         <label for="inputRole">${role_label} </label>
                         <select  name= "user_role" id="inputRole" class="form-control">
                                 <option selected></option>
-                                <option>admin</option>
+                                <option value="pilot">${pilot_label}</option>
+                                <option value="steward">${steward_label}</option>
+                                <option value="dispatcher">${disp_label}</option>
                         </select>
                     </div>
                     <div class="form-group col-md-5">

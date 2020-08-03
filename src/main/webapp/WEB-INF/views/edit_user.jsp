@@ -21,6 +21,10 @@
         <fmt:message bundle="${loc}" key="local.label.login" var="login_label" />
         <fmt:message bundle="${loc}" key="local.label.edit_user" var="edit_label" />
         <fmt:message bundle="${loc}" key="local.back_button" var="back_btn"/>
+        <fmt:message bundle="${loc}" key="local.message.role.pilot" var="pilot_label"/>
+        <fmt:message bundle="${loc}" key="local.message.role.steward" var="steward_label"/>
+        <fmt:message bundle="${loc}" key="local.message.role.dispatcher" var="disp_label"/>
+        <fmt:message bundle="${loc}" key="local.message.role.admin" var="admin_label"/>
 
         <title>${sessionScope.user.name} ${sessionScope.user.surname}</title>
 
@@ -76,7 +80,19 @@
                 </div>
                 <div class="form-group row">
                     <label for="inputRole">${role_label}</label>
-                    <input type="text" name="user_role" class="form-control" id="inputRole" value="${sessionScope.user.role}" readonly/>
+                    <c:if test = "${sessionScope.user.role eq 'steward'}">
+                        <c:set var="role" value="${steward_label}" />
+                    </c:if>
+                    <c:if test = "${sessionScope.user.role eq 'pilot'}">
+                        <c:set var="role" value="${pilot_label}" />
+                    </c:if>
+                    <c:if test = "${sessionScope.user.role eq 'dispatcher'}">
+                        <c:set var="role" value="${disp_label}" />
+                    </c:if>
+                    <c:if test = "${sessionScope.user.role eq 'admin'}">
+                        <c:set var="role" value="${admin_label}" />
+                    </c:if>
+                    <input type="text" name="user_role" class="form-control" id="inputRole" value="${role}" readonly/>
                 </div>
                 <div class="form-group row">
                     <label for="inputCareerStartYear">${start_label}</label>

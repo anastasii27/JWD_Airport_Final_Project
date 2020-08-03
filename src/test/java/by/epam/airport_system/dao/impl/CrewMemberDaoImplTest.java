@@ -28,6 +28,7 @@ public class CrewMemberDaoImplTest extends H2DataBaseCreation {
         dispatcher = User.builder().name("Аня")
                 .surname("Корытько").build();
     }
+
     @Test
     public void crewMembers_whenCrewNameExists_thenList() throws DaoException {
         CrewMemberDao crewMemberDao = DaoFactory.getInstance().getCrewMemberDAO();
