@@ -33,8 +33,11 @@ public class CrewMemberDaoImpl implements CrewMemberDao{
             "(SELECT id FROM airport.users WHERE `name` = ? AND surname = ?) AND `flight-team-id` = (SELECT id " +
             "FROM airport.`flight-teams` WHERE `short-name` = ?);";
 
-    private final static String FIND_MAIN_PILOT = "SELECT `name`, surname FROM airport.`flight-teams`\n" +
+    private final static String FIND_MAIN_PILOT = "SELECT users.id, `name`, surname FROM airport.`flight-teams`\n" +
             "JOIN airport.users ON `main-pilot-id`  = users.id\n" +
+            "WHERE `short-name` = ?;";
+
+    private final static String DELETE_MAIN_PILOT = "UPDATE airport.`flight-teams` SET `main-pilot-id` = null\n" +
             "WHERE `short-name` = ?;";
 
     @Override
@@ -235,7 +238,7 @@ public class CrewMemberDaoImpl implements CrewMemberDao{
                 return null;
             }
 
-            user = User.builder().name(rs.getString(NAME)).surname(rs.getString(SURNAME)).build();
+            user = User.builder().id(rs.getInt(ID)).name(rs.getString(NAME)).surname(rs.getString(SURNAME)).build();
         } catch (ConnectionPoolException | SQLException e) {
             throw new DaoException("Exception during main pilot searching!", e);
         } finally {
@@ -244,5 +247,45 @@ public class CrewMemberDaoImpl implements CrewMemberDao{
             }
         }
         return user;
+    }
+
+    @Override
+    public int deleteCrewMainPilot(String crewName) throws DaoException {
+        ConnectionPool pool = ConnectionPool.getInstance();
+        Connection  connection = null;
+        PreparedStatement ps = null;
+        int changedRowsAmount;
+
+        try{
+            connection = pool.takeConnection();
+            connection.setAutoCommit(false);
+
+            ps = connection.prepareStatement(DELETE_MAIN_PILOT);
+            ps.setString(1, crewName);
+            changedRowsAmount = ps.executeUpdate();
+
+            connection.commit();
+        } catch (ConnectionPoolException | SQLException e) {
+            try {
+                if(connection != null){
+                    connection.rollback();
+                }
+            } catch (SQLException ex) {
+                log.error("Exception while executing rollback()", ex);
+            }
+            throw new DaoException("Exception during main pilot deleting!", e);
+        } finally {
+            try {
+                if(connection!=null){
+                    connection.setAutoCommit(true);
+                }
+            } catch (SQLException e) {
+                log.error("Exception while setting auto committing = true", e);
+            }
+            if(pool != null) {
+                pool.closeConnection(ps, connection);
+            }
+        }
+        return changedRowsAmount;
     }
 }

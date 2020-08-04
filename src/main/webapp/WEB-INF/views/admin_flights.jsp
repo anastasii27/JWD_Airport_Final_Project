@@ -46,7 +46,7 @@
     </head>
     <body lang="${lang}">
         <jsp:include page="parts/header.jsp"/>
-        <div id = "no_delete_mes" aria-hidden="true" style="background: #007bff26">${delete_info}</div>
+        <div id = "no_delete_mes" class="d-none" style="background: #007bff26">${delete_info}</div>
         <div class="col-md-5 form">
             <form action="airport" method="get" id="my_flights_form">
                 <input type="hidden" name="action" value="show_flight_management_page"/>

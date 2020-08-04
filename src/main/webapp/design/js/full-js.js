@@ -51,6 +51,7 @@ $(document).ready(function ($) {
 
     $('#edit_crew_btn').on('click', function () {
 
+        $('.choose_crew_members, #crews_error, .crew_members').removeClass("d-none");
         if(!$(this).hasClass('clicked')) {
 
             $(this).addClass('clicked');
@@ -84,7 +85,6 @@ $(document).ready(function ($) {
     $(document).on('click','#confirm_add', function () {
         $('.choose_crew_members').hide();
         $('.crew_members').show();
-
     });
 
     //flight info
@@ -93,6 +93,8 @@ $(document).ready(function ($) {
     });
 
     //create_flight
+    $("#create_flight #planes, #create_flight #dispatcher").prop("disabled", true);
+
     $('#dep_country').change(function () {
         let destinationCountry = $('#dest_country').val();
 
@@ -108,6 +110,8 @@ $(document).ready(function ($) {
             $('#dispatcher option').remove();
         }
     });
+
+
 
     $('#dep_airport').on('change', function () {
         $('#planes option').remove();

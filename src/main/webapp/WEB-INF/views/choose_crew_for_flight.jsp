@@ -42,7 +42,7 @@
     </head>
     <body>
         <jsp:include page="parts/header.jsp"/>
-        <div id = "no_choose_mes" aria-hidden="true">${error_choose_label}</div>
+        <div id = "no_choose_mes" class="d-none">${error_choose_label}</div>
         <c:set var = "result" value = "${requestScope.result}"/>
         <c:if test = "${result eq null}">
             <h2>${choose_label}</h2>

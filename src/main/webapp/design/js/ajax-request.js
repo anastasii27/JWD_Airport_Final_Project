@@ -14,6 +14,7 @@ $(document).ready(function ($) {
 
     //crews list
     $('.crews li').on('click', function () {
+        $('.choose_crew_members, #crews_error, .crew_members').removeClass("d-none");
         $('.choose_crew_members ').hide();
         crewName = getCrewName($(this).text());
 
@@ -275,10 +276,12 @@ $(document).ready(function ($) {
                 if(data === true){
                     $('#choose_crew_modal').modal('show')
                 }else {
+                    $("#no_choose_mes").removeClass("d-none");
                     $('#no_choose_mes').fadeIn();
                 }
             },
             error: function (data) {
+                $("#no_choose_mes").removeClass("d-none");
                 $('#no_choose_mes').fadeIn();
             }
         });
@@ -308,10 +311,12 @@ $(document).ready(function ($) {
                     if (data === true) {
                         $(rowToDelete).remove();
                     } else {
+                        $("#no_delete_mes").removeClass("d-none");
                         $('#no_delete_mes').fadeIn();
                     }
                 },
                 error: function (data) {
+                    $("#no_delete_mes").removeClass("d-none");
                     $('#no_delete_mes').fadeIn();
                 }
             });
@@ -426,13 +431,17 @@ function findMainPilotAjax(crewName) {
         data: {command: 'find_main_pilot',crew_name: crewName},
 
         success: function (data) {
-            $('#pilots_list li').each(function(){
-                if($(this).text().includes(data.name + ' ' + data.surname)){
-                    $(this).css("border", "solid 0.5px #a6c5ff");
-                }
-            });
+            if(data !== false) {
+                $('#pilots_list li').each(function () {
+                    if ($(this).text().includes(data.name + ' ' + data.surname)) {
+                        $(this).css("border", "solid 0.5px #a6c5ff");
+                    }
+                });
+            }
         },
         error: function (xhr, ajaxOptions, thrownError) {
+
+            console.log(thrownError);
             window.location = "http://localhost:8080/JWD_Task3_war/error.jsp";
         }
     });
@@ -444,6 +453,8 @@ function freePlanesAjax(selector) {
 
     if(departureDate !== undefined && departureAirport !== undefined && destinationDate !== undefined
         && destinationTime !== undefined && destinationAirport !==undefined) {
+
+        $("#create_flight #planes, #create_flight #dispatcher").prop("disabled", false);
         $(selector + ' option').remove();
 
         $.ajax({

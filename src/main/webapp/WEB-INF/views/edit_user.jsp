@@ -65,6 +65,7 @@
                 <input type="hidden" name="id" value="${sessionScope.user.id}"/>
                 <input type="hidden" name="login" value="${sessionScope.user.login}"/>
                 <input type="hidden" name="user_password" value="notrealpas123"/>
+                <input type="hidden" name="user_role" class="form-control" value="${sessionScope.user.role}" readonly/>
 
                 <div class="form-group row">
                     <label for="inputName">${name_label}</label>
@@ -92,8 +93,9 @@
                     <c:if test = "${sessionScope.user.role eq 'admin'}">
                         <c:set var="role" value="${admin_label}" />
                     </c:if>
-                    <input type="text" name="user_role" class="form-control" id="inputRole" value="${role}" readonly/>
+                    <input type="text" name="role" class="form-control" id="inputRole" value="${role}" readonly/>
                 </div>
+
                 <div class="form-group row">
                     <label for="inputCareerStartYear">${start_label}</label>
                     <input type="text" name="career_start_year" class="form-control" id="inputCareerStartYear" value="${sessionScope.user.careerStartYear}"/>

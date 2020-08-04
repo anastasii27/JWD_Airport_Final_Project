@@ -67,7 +67,7 @@
                 </div>
             </form>
         </div>
-        <div  class="col-md-7" id="search_table">
+        <div  class="col-md-7 d-none" id="search_table">
             <table class ="table" id="timetable" border="2">
                 <tr>
                     <th>${flight_label}</th><th>${dep_time_label}</th><th>${dest_time_label}</th>
@@ -76,7 +76,7 @@
 
             </table>
         </div>
-        <div id="no_flights">
+        <div id="no_flights" class="d-none">
             <h3>${no_flights_mes}</h3>
         </div>
         <jsp:include page="../jsp/parts/footer.jsp"/>

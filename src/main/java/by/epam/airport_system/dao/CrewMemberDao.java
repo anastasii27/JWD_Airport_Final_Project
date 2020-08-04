@@ -9,4 +9,5 @@ public interface CrewMemberDao {
     int addCrewMember(String crewName, List<User> crewMembers) throws DaoException;
     boolean isUserInTheCrew(String crewName, User user) throws DaoException;
     User findMainPilot(String crewName) throws DaoException;
+    int deleteCrewMainPilot(String crewName) throws DaoException;
 }

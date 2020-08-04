@@ -74,13 +74,16 @@ $(document).ready(function ($) {
                     });
 
                     if(count===0){
+                        $('#no_flights').removeClass("d-none");
                         $('#no_flights').show();
                     }
                     else {
+                        $('#arr_table, #dep_table').removeClass("d-none");
                         determineTableType(flightType, tableLine);
                     }
                 },
                 error: function (data) {
+                    $('#no_flights').removeClass("d-none");
                     $('#no_flights').show();
                 }
             });
@@ -432,14 +435,14 @@ $(document).ready(function ($) {
                     });
 
                     if(count===0){
-                        $('#no_flights').show();
+                        $('#no_flights').removeClass("d-none").show();
                     }else {
-                        $('#search_table').show();
+                        $('#search_table').removeClass("d-none").show();
                         $('#timetable').append(tableLine);
                     }
                 },
                 error: function (data) {
-                    $('#no_flights').show();
+                    $('#no_flights').removeClass("d-none").show();
                 }
             });
             return false;

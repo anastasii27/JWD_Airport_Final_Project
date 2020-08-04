@@ -3,7 +3,6 @@ package by.epam.airport_system.dao.impl;
 public final class DbParameterName {
 
     private DbParameterName(){
-
     }
 
     public static final String NAME = "name";

@@ -229,4 +229,40 @@ public class CrewMemberDaoImplTest extends H2DataBaseCreation {
 
         Assert.assertNull(actual);
     }
+
+    @Test
+    public void deleteCrewMainPilot_whenCrewNameIsNull_thenReturnZero() throws DaoException {
+        CrewMemberDao crewMemberDao = DaoFactory.getInstance().getCrewMemberDAO();
+        int expected = 0;
+        int actual = crewMemberDao.deleteCrewMainPilot(null);
+
+        Assert.assertEquals(expected, actual);
+    }
+
+    @Test
+    public void deleteCrewMainPilot_whenCrewDoesNotExist_thenReturnZero() throws DaoException {
+        CrewMemberDao crewMemberDao = DaoFactory.getInstance().getCrewMemberDAO();
+        int expected = 0;
+        int actual = crewMemberDao.deleteCrewMainPilot(ILLEGAL_CREW);
+
+        Assert.assertEquals(expected, actual);
+    }
+
+    @Test
+    public void deleteCrewMainPilot_whenCrewExistsAndHasMainPilot_thenReturnOne() throws DaoException {
+        CrewMemberDao crewMemberDao = DaoFactory.getInstance().getCrewMemberDAO();
+        int expected = 1;
+        int actual = crewMemberDao.deleteCrewMainPilot(EXISTING_CREW);
+
+        Assert.assertEquals(expected, actual);
+    }
+
+    @Test
+    public void deleteCrewMainPilot_whenCrewExistsAndHasNoMainPilot_thenReturnOne() throws DaoException {
+        CrewMemberDao crewMemberDao = DaoFactory.getInstance().getCrewMemberDAO();
+        int expected = 1;
+        int actual = crewMemberDao.deleteCrewMainPilot(CREW_WITHOUT_MAIN_PILOT);
+
+        Assert.assertEquals(expected, actual);
+    }
 }

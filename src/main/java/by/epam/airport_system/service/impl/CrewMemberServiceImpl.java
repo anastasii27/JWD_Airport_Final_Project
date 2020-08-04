@@ -25,16 +25,28 @@ public class CrewMemberServiceImpl implements CrewMemberService {
 
     @Override
     public boolean deleteCrewMember(String crewName, User user) throws ServiceException {
-        int operationResult = 0;
-
         try {
-            if(user!= null && dao.isUserInTheCrew(crewName, user)){
-                operationResult = dao.deleteCrewMember(crewName, user);
+            if(user == null || !dao.isUserInTheCrew(crewName, user)){
+                return false;
             }
+            if(isItMainPilot(user, crewName)){
+                dao.deleteCrewMainPilot(crewName);
+            }
+
+            return dao.deleteCrewMember(crewName, user) != 0;
         } catch (DaoException e) {
             throw new ServiceException("Exception during crew member deleting", e);
         }
-        return operationResult !=0;
+    }
+
+    private boolean isItMainPilot(User user, String crewName) throws ServiceException {
+        User mainPilot = findCrewMainPilot(crewName);
+        if(mainPilot == null){
+            return false;
+        }
+
+        return user.getName().equals(mainPilot.getName())
+                    && user.getSurname().equals(mainPilot.getSurname());
     }
 
     @Override

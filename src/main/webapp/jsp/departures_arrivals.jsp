@@ -78,13 +78,13 @@
                 </div>
             </form>
         </div>
-        <div class="arr_dep col-7" id="arr_table">
+        <div class="arr_dep col-7 d-none" id="arr_table">
             <jsp:include page="parts/arrivals_table.jsp"/>
         </div>
-        <div class="arr_dep col-7" id="dep_table">
+        <div class="arr_dep col-7 d-none" id="dep_table">
             <jsp:include page="parts/departures_table.jsp"/>
         </div>
-        <div id="no_flights">
+        <div id="no_flights" class="d-none">
             <h3>${no_flights_mes}</h3>
         </div>
         <jsp:include page="../jsp/parts/footer.jsp"/>

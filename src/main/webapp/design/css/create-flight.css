@@ -78,6 +78,10 @@ label.required:after {
     top:9vh;
     margin-left:11vw;
 }
+#planes:disabled,
+#dispatcher:disabled{
+    background-color: #dde7f1;
+}
 
 
 

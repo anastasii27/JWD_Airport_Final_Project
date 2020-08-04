@@ -53,12 +53,12 @@
                     </ul>
                 </c:forEach>
             </div>
-            <div id="crews_error">
+            <div id="crews_error" class="d-none">
                 <h2>${data_label}</h2>
             </div>
 
             <%--Crew members list--%>
-            <div class="container choose_crew_members col-md-6">
+            <div class="container choose_crew_members col-md-6 d-none">
                 <div class="row ml-auto  mr-auto">
                     <div class="col-md-5 p-0">
                         <h2>${pilot_label}</h2>
@@ -91,7 +91,7 @@
             </div>
 
             <%--Members for adding--%>
-            <div class="container crew_members col-md-6">
+            <div class="container crew_members col-md-6 d-none">
                 <div class="row ml-auto  mr-auto">
                     <div class="col-md-5 p-0">
                             <h2>${pilot_label}</h2>
