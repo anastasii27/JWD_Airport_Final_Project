@@ -5,4 +5,3 @@ BlueSky is a project for airport companies, which provides the following functio
 **3.Administrator** can create, edit and manage flights.<br/><br/>
 As for unregistered users, they can review  arrivals/departures, flights timetable and <br/>
 search for flights. The application supports Russian and English languages.<br/><br/>
-Here you can see the project in action: 
