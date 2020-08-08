@@ -12,6 +12,7 @@ import static by.epam.airport_system.controller.util.RequestParametersExtractor.
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Collections;
 import java.util.List;
 
 @Log4j2
@@ -29,6 +30,7 @@ public class FindFlight implements Command {
 
         try {
             List<Flight> flights = flightService.findFlights(departureAirport, destinationAirport);
+            Collections.sort(flights);
             String flightsGson = GsonConverter.convertToGson(flights);
 
             response.getWriter().write(flightsGson);

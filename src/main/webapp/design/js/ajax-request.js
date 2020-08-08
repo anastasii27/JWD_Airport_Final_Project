@@ -167,7 +167,7 @@ $(document).ready(function ($) {
             dataType:'json',
             data: {command: 'flight_info', flight_number: flightNumber, departure_date:depDate},
 
-            success: function (data) {//todo на пустоту проверка
+            success: function (data) {
                 departureAirport =  data.departureAirport + '(' + data.departureAirportShortName + ')';
                 departureDate = data.departureDate.year + '-' + addZeroBeforeValue(data.departureDate.month) + '-' + addZeroBeforeValue(data.departureDate.day);
                 departureTime = addZeroBeforeValue(data.departureTime.hour) + ":" + addZeroBeforeValue(data.departureTime.minute);
@@ -381,7 +381,7 @@ $(document).ready(function ($) {
             dataType:'json',
             data: {command: 'flight_info', flight_number: flightNumber, departure_date:depDate},
 
-            success: function (data) {//todo на пустоту проверка
+            success: function (data) {
                     let flightId = data.id;
                     let plane = data.plane.model + '  ' + data.plane.number;
                     departureAirport =  data.departureCity + '(' + data.departureAirportShortName + ')';

@@ -1,5 +1,6 @@
 package by.epam.airport_system.controller.command.front.impl;
 
+import by.epam.airport_system.bean.Flight;
 import by.epam.airport_system.controller.command.Command;
 import by.epam.airport_system.controller.constant_parameter.JSPPageName;
 import by.epam.airport_system.controller.constant_parameter.ParameterName;
@@ -12,6 +13,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Comparator;
 import java.util.List;
 
 @Log4j2

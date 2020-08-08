@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.time.LocalDate;
+import java.util.Collections;
 import java.util.List;
 
 @Log4j2
@@ -29,8 +30,9 @@ public class AirportFlight implements Command {
 
         try {
             List<Flight> flights = flightService.airportFlightsByDay(flightType, LocalDate.parse(departureDate), airportShortName);
-
+            Collections.sort(flights);
             String flightsGson = GsonConverter.convertToGson(flights);
+
             response.getWriter().write(flightsGson);
         } catch (ServiceException e) {
             log.error("Cannot execute ajax command for arrivals and departure table", e);

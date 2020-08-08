@@ -10,11 +10,11 @@ import by.epam.airport_system.service.ServiceException;
 import by.epam.airport_system.service.ServiceFactory;
 import by.epam.airport_system.service.UserFlightsService;
 import lombok.extern.log4j.Log4j2;
-
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Collections;
 import java.util.List;
 
 @Log4j2
@@ -37,7 +37,7 @@ public class DispatcherFlights implements Command {
             List<Flight> flights = userFlightsService.dispatcherFlights(surname, email);
 
             if(flights.size()!= 0){
-                flights.sort(Flight.SORT_BY_TIME_AND_DATE);
+                Collections.sort(flights);
                 request.setAttribute(ParameterName.FLIGHT, flights);
             }else {
                 String language = String.valueOf(request.getSession().getAttribute(ParameterName.LOCAL));

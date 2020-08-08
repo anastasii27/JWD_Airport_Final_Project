@@ -9,15 +9,15 @@ import java.util.Comparator;
 
 @Data
 @Builder
-public class Flight implements Serializable {
+public class Flight implements Serializable, Comparable<Flight> {
     private int id;
     private String status;
-    private String planeModel;//todo продумать
-    private String planeNumber;
     private LocalDate departureDate;
     private LocalTime departureTime;
     private LocalDate destinationDate;
     private LocalTime destinationTime;
+    private String planeModel;
+    private String planeNumber;
     private String destinationAirport;
     private String destinationCity;
     private String destinationCountry;
@@ -31,22 +31,12 @@ public class Flight implements Serializable {
     private User dispatcher;
     private Plane plane;
 
-    public static final Comparator<Flight> SORT_BY_TIME_AND_DATE = new Comparator<Flight>() {
-        @Override
-        public int compare(Flight flight1, Flight flight2) {
-            if(flight1.getDepartureDate().isAfter(flight2.getDepartureDate())){
-                return 1;
-            }
-            if(flight1.getDepartureDate().equals(flight2.getDepartureDate())){
-                if(flight1.getDepartureTime().isAfter(flight2.getDepartureTime())){
-                    return 1;
-                }
-                if (flight1.getDepartureTime().equals(flight2.getDepartureTime())){
-                    return 0;
-                }
-                return -1;
-            }
-            return -1;
-        }
-    };
+    @Override
+    public int compareTo(Flight other) {
+        return SORT_BY_TIME_AND_DATE.compare(this, other);
+    }
+
+    private static final Comparator<Flight> SORT_BY_TIME_AND_DATE = Comparator.comparing(Flight::getDepartureDate)
+            .thenComparing(Flight::getDepartureTime);
+
 }

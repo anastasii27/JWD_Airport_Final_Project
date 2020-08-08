@@ -28,7 +28,7 @@ public class AuthorizationFilter implements Filter {
         if(action!=null) {
             Role [] roles = getActionPermittedRoles(action);
 
-            if(!doTheseRolesApproachForAction(roles, user)){
+            if(!doRolesApproachForAction(roles, user)){
                req.getRequestDispatcher(PATH_TO_REDIRECT).forward(req, resp);
             }
         }
@@ -36,7 +36,7 @@ public class AuthorizationFilter implements Filter {
         filterChain.doFilter(req, resp);
     }
 
-    private boolean doTheseRolesApproachForAction(Role [] roles, User user) {
+    private boolean doRolesApproachForAction(Role [] roles, User user) {
         for (Role role: roles) {
             String roleName = role.name().toLowerCase();
 
