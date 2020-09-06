@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class UserFlightsDaoImplTest extends H2DataBaseCreation {//todo missed methods
+public class UserFlightsDaoImplTest extends H2DataBaseCreation {
     private Flight flight;
     private User steward;
     private User pilot;

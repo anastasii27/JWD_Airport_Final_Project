@@ -35,9 +35,6 @@
                     <li class="nav-item ">
                         <a class="nav-link" href="${pageContext.request.contextPath}/airport?action=show_departures_arrivals">${arr_dep_label}</a>
                     </li>
-                    <li class="nav-item ">
-                        <a class="nav-link" href="#">${about_label}</a>
-                    </li>
                     <li class="nav-item">
                         <a class="nav-link" href="${pageContext.request.contextPath}/airport?action=show_flight_timetable_page">${timetable_label}</a>
                     </li>

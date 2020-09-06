@@ -8,7 +8,7 @@ let destinationTime;
 let departureTime;
 
 $(document).ready(function ($) {
-    const HOME_AIRPORT = 'Minsk(MSQ)';
+    const HOME_AIRPORT = '\u041c\u0438\u043d\u0441\u043a(MSQ)';
     let crewName;
     let lang = $('body').attr('lang');
 
@@ -440,8 +440,6 @@ function findMainPilotAjax(crewName) {
             }
         },
         error: function (xhr, ajaxOptions, thrownError) {
-
-            console.log(thrownError);
             window.location = "http://localhost:8080/JWD_Task3_war/error.jsp";
         }
     });

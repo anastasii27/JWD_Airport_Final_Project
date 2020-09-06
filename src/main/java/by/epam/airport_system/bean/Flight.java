@@ -31,11 +31,11 @@ public class Flight implements Serializable, Comparable<Flight> {
     private User dispatcher;
     private Plane plane;
 
-    private static final Comparator<Flight> SORT_BY_TIME_AND_DATE = Comparator.comparing(Flight::getDepartureDate)
-            .thenComparing(Flight::getDepartureTime);
-
     @Override
     public int compareTo(Flight other) {
         return SORT_BY_TIME_AND_DATE.compare(this, other);
     }
+
+    private static final Comparator<Flight> SORT_BY_TIME_AND_DATE = Comparator.comparing(Flight::getDepartureDate)
+            .thenComparing(Flight::getDepartureTime);
 }
